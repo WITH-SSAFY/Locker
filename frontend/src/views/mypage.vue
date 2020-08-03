@@ -116,8 +116,8 @@
           :key="myPost.post_id"
           style="padding: 2% 8%;"
         >
-          <v-card @click="showMyDetail(myPost.pid)">
-            <v-card-title>{{ myPost.title }}</v-card-title>
+          <v-card>
+            <v-card-title class="title" @click="showMyDetail(myPost.pid)">{{ myPost.title }}</v-card-title>
             
             <v-card-actions>
                 <v-spacer></v-spacer>
@@ -208,7 +208,7 @@ export default {
 }
 </script>
 <style scoped>
-.v-card-title {
+.title {
   cursor: pointer;
 }
 </style>
