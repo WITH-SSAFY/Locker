@@ -120,14 +120,12 @@
             <v-card-title class="title" @click="showMyDetail(myPost.pid)">{{ myPost.title }}</v-card-title>
             
             <v-card-actions>
-                <v-spacer></v-spacer>
-                  <v-btn icon @click="like(index)">
-                    <v-icon :id="index">mdi-heart</v-icon>
-                  </v-btn>
-                  <v-btn icon><v-icon>mdi-bookmark</v-icon></v-btn>
-                  <v-btn icon><v-icon>mdi-share-variant</v-icon></v-btn>
-                  <v-btn @click="goEditDetail(myPost.pid)"><span>edit</span></v-btn>
-                  <v-btn @click="deleteDetail(myPost.pid)"><span>delete</span></v-btn>
+              <v-spacer></v-spacer>
+              <v-btn icon @click="like(index)">
+                <v-icon :id="index">mdi-heart</v-icon>
+              </v-btn>
+              <v-btn icon><v-icon>mdi-bookmark</v-icon></v-btn>
+              <v-btn icon><v-icon>mdi-share-variant</v-icon></v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -181,14 +179,6 @@ export default {
       showMyDetail (pid) {
         this.$store.dispatch('showMyDetail', pid);
         //this.$router.push({name: "readPost"});
-      },
-      goEditDetail (pid) {
-        this.$store.dispatch('goEditDetail', pid);
-        //this.$router.push({name: "editPost"});  
-      },
-      deleteDetail (pid) {
-        //console.log(pid)
-        this.$store.dispatch('deleteDetail', pid);
       },
        //좋아요 클릭시
       like(index){
