@@ -3,9 +3,10 @@ package com.locker.blog.repository.comment;
 import com.locker.blog.domain.comment.Comment;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
+@Repository
 public class CommentRepoImpl implements CommentRepo{
     @Autowired
     SqlSession sqlSession;
