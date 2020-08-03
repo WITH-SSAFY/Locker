@@ -99,6 +99,12 @@ const routes = [
     props: true,
     component: () => 
       import(/* webpackChunkName: "KakaoRegister" */ "../views/KakaoRegister.vue")
+  },
+  {
+    path: "/repository",
+    name: "repository",
+    component: () =>
+      import(/* webpackChunkName: "repository" */ "../views/repository.vue")
   }
 ];
 
