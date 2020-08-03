@@ -116,8 +116,8 @@
           :key="myPost.post_id"
           style="padding: 2% 8%;"
         >
-          <v-card>
-            <v-card-title v-text="myPost.title"></v-card-title>
+          <v-card @click="showMyDetail(myPost.pid)">
+            <v-card-title>{{ myPost.title }}</v-card-title>
             
             <v-card-actions>
                 <v-spacer></v-spacer>
@@ -126,7 +126,6 @@
                   </v-btn>
                   <v-btn icon><v-icon>mdi-bookmark</v-icon></v-btn>
                   <v-btn icon><v-icon>mdi-share-variant</v-icon></v-btn>
-                  <v-btn @click="showMyDetail(myPost.pid)"><span>view</span></v-btn>
                   <v-btn @click="goEditDetail(myPost.pid)"><span>edit</span></v-btn>
                   <v-btn @click="deleteDetail(myPost.pid)"><span>delete</span></v-btn>
             </v-card-actions>
@@ -164,7 +163,6 @@ export default {
           return [];
         }
     },
-        
     data() {
       return {
         tab: null,
@@ -209,3 +207,8 @@ export default {
     
 }
 </script>
+<style scoped>
+.v-card-title {
+  cursor: pointer;
+}
+</style>
