@@ -12,17 +12,22 @@
     <select id="selectAll" resultType="Comment">
         select *
         from comment
+        where pid=#{pid}
     </select>
 
     <update id="update" parameterType="Comment">
         update comment
         set replyText=#{replyText}, updatedAt=now()
-        where rid=#{rid} and replyId=#{replyId}
+        where pid=#{pid} and rid=#{rid} and replyId=#{replyId}
     </update>
 
     <delete id="delete" parameterType="Comment">
-        delete from comment where rid=#{rid} and replyId=#{replyId}
+        delete from comment where pid=#{pid} and rid=#{rid} and replyId=#{replyId}
     </delete>
 
-
+    <select id="getRid" resultType="Integer">
+        select count(*)
+        from comment
+        where pid=#{pid}
+    </select>
 </mapper>
