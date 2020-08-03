@@ -87,7 +87,7 @@
       return {
         content: "",
         editorOptions: {
-          hideModeSwitch: false//모드 설정(markdown, wysiwyg) 안보이게함
+          hideModeSwitch: true//모드 설정(markdown, wysiwyg) 안보이게함
         }
       };
     },
