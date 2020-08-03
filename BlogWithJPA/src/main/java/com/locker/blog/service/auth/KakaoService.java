@@ -2,7 +2,7 @@ package com.locker.blog.service.user;
 
 import com.google.gson.Gson;
 import com.locker.blog.advice.exception.CCommunicationException;
-import com.locker.blog.domain.social.RetKakaoAuth;
+import com.locker.blog.domain.social.RetAuth;
 import com.locker.blog.domain.user.KakaoProfile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,7 +49,7 @@ public class KakaoService {
         throw new CCommunicationException();
     }
 
-    public RetKakaoAuth getKakaoTokenInfo(String code) {
+    public RetAuth getKakaoTokenInfo(String code) {
         // Set header : Content-type: application/x-www-form-urlencoded
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -63,7 +63,7 @@ public class KakaoService {
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
         ResponseEntity<String> response = restTemplate.postForEntity(env.getProperty("spring.social.kakao.url.token"), request, String.class);
         if (response.getStatusCode() == HttpStatus.OK) {
-            return gson.fromJson(response.getBody(), RetKakaoAuth.class);
+            return gson.fromJson(response.getBody(), RetAuth.class);
         }
         return null;
     }
