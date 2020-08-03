@@ -11,8 +11,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'codemirror/lib/codemirror.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
-import 'swiper/swiper-bundle.css';
-
+// import 'swiper/swiper-bundle.css';
 
 Vue.use(VueFullPage);
 Vue.use(BootstrapVue);
