@@ -87,11 +87,18 @@ const routes = [
       import(/* webpackChunkName: "editPost" */ "../views/post/editPost.vue")
     
   },
+  // {
+  //   path: "/social/kakao/login",
+  //   beforeEnter: function(){
+  //     alert("hello!!!!!")
+  //   }
+  // }
   {
-    path: "/social/kakao/login",
-    beforeEnter: function(){
-      alert("hello!!!!!")
-    }
+    path: "/KakaoRegister",
+    name: "KakaoRegister",
+    props: true,
+    component: () => 
+      import(/* webpackChunkName: "KakaoRegister" */ "../views/KakaoRegister.vue")
   }
 ];
 
