@@ -1,0 +1,35 @@
+.post_title{
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.under-line {
+  height: 0.35rem;
+  width: 4rem;
+  background-color: #7C4DFF;
+  margin-top: 1.5rem;
+}
+
+.writer_info{
+  height: 9rem;
+  
+}
+
+#dash {
+  display: inline;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+#nick {
+  display: inline;
+}
+
+#wdate {
+  display: inline;
+  color: gray;
+}
+
+.tag_list{
+  margin-right: 1rem;
+}

@@ -1,0 +1,53 @@
+.simple_profile {
+  background-color: lightgray;
+  height: 10rem;
+}
+
+#my_avatar {
+  position: relative;
+  top: 30%;
+  left: 5%;
+}
+
+#my_level img{
+  position: relative;
+  left: 50%;
+}
+
+.link_group a{
+  text-decoration: none;
+}
+
+#hidden_name{
+  visibility: collapse;
+}
+
+#hidden_img{
+  visibility: hidden;
+}
+
+.my_menu{
+  display: inline;
+}
+
+@media ( min-width:0px ) and ( max-width: 767px){
+  #my_detail{
+    display: none;
+  }
+
+  #my_level_img {
+    display: none;
+  }
+
+  #my_level {
+    display: none;
+  }
+
+  #hidden_name {
+    visibility: visible;
+  }
+
+  #hidden_img{
+    visibility: visible;
+  }
+}

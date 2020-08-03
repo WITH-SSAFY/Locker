@@ -1,0 +1,44 @@
+server:
+  port: 8090
+
+spring:
+  datasource:
+    url: jdbc:mysql://i3a606.p.ssafy.io:3306/locker?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: 1q2w3e4r
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+      format_sql: true
+  jwt:
+    secret: govlepel@$&
+  messages:
+    basename: i18n/exception
+    encoding: UTF-8
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: com.ssafy.Locker@gmail.com
+    password: 1q2w3e4r!@
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+  social:
+    kakao:
+      client_id: b61dc6eae6d4f924c15b4499b65c993e # 앱생성시 받은 REST API 키
+      redirect: /api/social/login/kakao
+      url:
+        login: https://kauth.kakao.com/oauth/authorize
+        token: https://kauth.kakao.com/oauth/token
+        profile: https://kapi.kakao.com/v2/user/me
+  url:
+    base: http://i3a606.p.ssafy.io:8090
+    #base: http://localhost:8090
+
+mybatis:
+  config-location: classpath:config/mybatis-config.xml
+

@@ -1,0 +1,220 @@
+.full-screen {
+  overflow: hidden;
+}
+
+/* .full-page {
+	position: relative;
+	overflow: hidden;
+	transition: 1s cubic-bezier(0.5, 0, 0.5, 1);
+}
+
+.panel {
+	position: relative;
+	height: 100vh;
+	overflow: hidden;
+	font-size: 10vmin;
+	padding: 1em;
+	box-sizing: border-box;
+	cursor: default;
+} */
+
+.nav-buttons {
+  list-style: none;
+  position: fixed;
+  top: calc(50% - 40px);
+  right: 4rem;
+  z-index: 1;
+}
+
+.nav-buttons li {
+  margin-bottom: 0.6rem;
+}
+
+.nav-buttons li:last-child {
+  margin-bottom: 0;
+}
+
+.nav-buttons li button {
+  background: rgba(0, 0, 0, 0.4);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  height: 1rem;
+  width: 1rem;
+}
+
+.nav-buttons li button:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.nav-buttons li button.active {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.under-line {
+  height: 0.3rem;
+  width: 20%;
+  background-color: #7C4DFF;
+}
+
+.locker {
+  height: 15rem;
+}
+
+.contents-1 {
+  height: 100vh;
+  background-color: white;
+}
+
+.contents-1 .logo {
+  color: black;
+  width: 20vw;
+}
+
+.contents-1 .sentence {
+  margin-top: 3rem;
+}
+
+.contents-1 .box-top {
+  position: absolute;
+  background-color: #EDE7F6;
+  left: 60%;
+  top: 7rem;
+  width: 40%;
+  height: 1.5rem;
+}
+
+.contents-1 .box-under {
+  position: absolute;
+  background-color: #EDE7F6;
+  left: 60%;
+  bottom: 0;
+  width: 40%;
+  height: 45vh;
+}
+
+.box-over {
+  position: absolute;
+  z-index: 1;
+  background-color: black;
+  width: 0.5rem;
+  height: 3rem;
+}
+
+.contents-2 {
+  height: 100vh;
+  background-color: #333;
+  /* opacity: .99; */
+}
+
+.text-section {
+  position: absolute;
+}
+
+.contents-2 .logo {
+  color: white;
+  width: 20vw;
+}
+
+.contents-2 .sentence {
+  position: relative;
+  color: white;
+  margin-top: 3rem;
+  z-index: 1;
+}
+
+.contents-2 .lockers-back {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.contents-2 .lockers {
+  position: absolute;
+  top: 3.5rem;
+  right: 0;
+  width: 70%;
+  max-height: 95vh;
+}
+
+.contents-2 .locker {
+  background-color: #777;
+  height: 30vh;
+}
+
+.contents-2 .diagonals {
+  position: relative;
+  left: calc(30% + 1.55rem);
+  width: 70%;
+  height: 10%;
+}
+
+.contents-2 .diagonal1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  width: 0.1rem;
+  height: 5rem;
+  background-color: #666;
+  transform: rotate(45deg);
+}
+
+.contents-2 .diagonal2 {
+  position: absolute;
+  top: 0;
+  left: 70%;
+  transform: translate(-50%, -50%);
+  width: 0.1rem;
+  height: 5rem;
+  background-color: #777;
+  transform: rotate(45deg);
+}
+
+
+.contents-3 {
+  height: 100vh;
+  background-color: white;
+}
+
+.contents-3 .diagonals {
+  position: relative;
+  left: calc(55% + 1.55rem);
+  width: 70%;
+  height: 10%;
+}
+
+.contents-3 .diagonal1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  width: 0.05rem;
+  height: 5rem;
+  background-color: #666;
+  transform: rotate(45deg);
+}
+
+.contents-3 .diagonal2 {
+  position: absolute;
+  top: 0;
+  left: 70%;
+  transform: translate(-50%, -50%);
+  width: 0.05rem;
+  height: 5rem;
+  background-color: #777;
+  transform: rotate(45deg);
+}
+
+.contents-3 .under-line {
+  height: 0.3rem;
+  width: 9%;
+  background-color: #7C4DFF;
+}
+
+.main-under-line {
+  height: 0.4rem;
+  width: 3.3rem;
+  background-color: #7C4DFF;
+}
