@@ -1,9 +1,8 @@
 <template>
   <v-container>
     <div class="row">
-    
       <div class="col-md-9">
-        <v-flex style="margin-top: 2rem;">
+        <v-flex style="margin-top: 0;">
           <h1 class="mb-5" style="font-size: 3.3rem;"><strong>LOCKER</strong></h1>
           <!-- <h1 class="ml-2 mb-5" style="posigion: absolute; font-size: 4rem;"><strong>LOCKER</strong></h1> -->
           <div class="main-under-line"></div>

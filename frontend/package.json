@@ -16,6 +16,7 @@
     "core-js": "^3.6.5",
     "swiper": "^6.0.4",
     "vue": "^2.6.11",
+    "vue-fullpage.js": "^0.1.5",
     "vue-router": "^3.2.0",
     "vue2-content-editor": "https://github.com/tui2tone/vue2-medium-editor",
     "vuetify": "^2.2.11",
