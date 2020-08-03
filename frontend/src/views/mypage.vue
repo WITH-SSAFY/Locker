@@ -113,7 +113,7 @@
           cols="12"
           md="10"
           v-for="(myPost, index) in myPostList"
-          :key="myPost.post_id"
+          :key="myPost.pid"
           style="padding: 2% 8%;"
         >
           <v-card>

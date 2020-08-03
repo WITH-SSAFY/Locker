@@ -8,13 +8,17 @@
           class="p-0"
         >
           <div class="mx-5 py-3">
-            <div class="row post_title ml-1" >{{title}}
+            <div class="row post_title ml-1" >{{ title }}
             </div>
             <div class="under-line"></div>
             <div class="my-6">
-              <div id="nick">{{writer}}</div>
+              <div id="nick">{{ writer }}</div>
               <div id="dash">/</div>
               <div id="wdate">2020.07.29</div>
+            </div>
+            <div class="float-right">
+              <button class="btn btn-light badge-pill mr-2" @click="goEditDetail(pid)"><span>edit</span></button>
+              <button class="btn btn-light badge-pill" @click="deleteDetail(pid)"><span>delete</span></button>
             </div>
             <div>
               <v-btn
@@ -75,7 +79,7 @@
   </div>
 </template>
 <script>
-
+  // import { mapState } from "vuex"
   import SideBar from "../SideBar.vue"
   import { Viewer } from '@toast-ui/vue-editor';
   import('../../assets/css/read-post.css')
@@ -95,6 +99,8 @@
 
         //this.viewerText = "# this is test\r\n![image](https://t1.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/4sri/image/sLl-6IxU6iwhAmD-kelYRD_nUS4.jpeg)";
       this.viewerText;
+      // this.userInfo;
+      // this.myPostList;
     },
     
     components: {
@@ -105,15 +111,20 @@
     data(){
       return{
         //viewerText : '',
-        tags: ["java", "login", "cookie"]
+        tags: ["java", "login", "cookie"],
       }
     },
     computed : {
+      // ...mapState(["userInfo","myPostList"]),
+
       title(){
         return this.$store.state.myDetailTitle;
       },
       writer(){
         return this.$store.state.writer;
+      },
+      pid() {
+        return this.$store.state.pid;
       },
       viewerText(){
          console.log("readMyDetail: ",this.$store.state.myDetail);
@@ -124,11 +135,16 @@
     methods:{
       checkViewerText(){
         console.log("check: "+this.viewerText);
-      }
+      },
+      goEditDetail (pid) {
+        this.$store.dispatch('goEditDetail', pid);
+        //this.$router.push({name: "editPost"});  
+      },
+      deleteDetail (pid) {
+        //console.log(pid)
+        this.$store.dispatch('deleteDetail', pid);
+      },
     }
-    
-    
-    
   };
 </script>
 
