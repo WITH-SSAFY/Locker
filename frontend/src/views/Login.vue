@@ -57,14 +57,29 @@
               <v-icon dark>mdi-google-plus</v-icon>
               <span class="ml-1">Google</span>
             </v-btn>
+
             <v-btn
                 depressed
                 block
                 color="rgba(255, 204, 0, 0.5)"
-                @click="socialLogin"
+                class="mb-2"
+                @click="signinWithKakao"
             >
               <v-icon dark>mdi-chat</v-icon>
               <span class="ml-1">KakaoTalk</span>
+            </v-btn>
+
+            <v-btn
+                depressed
+                block
+                color="rgba(45, 180, 0, 0.5)"
+            >
+              <v-icon
+                large
+                color="white"
+              >
+              mdi-alpha-n</v-icon>
+              <span>Naver</span>
             </v-btn>
           </div>
         </v-card>
@@ -99,7 +114,7 @@ export default {
   },
   methods: {
     //state에 있는 action을 가져다 쓸 수 있게 해줌
-    ...mapActions(["login","socialLogin"]),
+    ...mapActions(["login","signinWithKakao"])
   }
 }
 </script>

@@ -62,9 +62,6 @@ export default new Vuex.Store({
         state.writer = payload.myDetail.writer;
         state.pid = payload.myDetail.pid;
         router.push({name: "editPost"});
-      },
-      socialLogin(){
-        console.log("hello, it's a test")
       }
       
   },
@@ -74,7 +71,6 @@ export default new Vuex.Store({
     login({dispatch}, loginObj){
       // 로그인 > 유효한 멤버인지 확인하고 토큰 반환
       axios
-        // .post('https://reqres.in/api/login', loginObj) //파라메터(body)
         .post('/v1/signin?id='+loginObj.id+"&password="+loginObj.password) //파라메터(body)
         .then( res => {
           // 성공 시 token을 받아옴 (실제로는 user_id 값을 받아옴 / 토큰에 user_id를 암호화해서)
@@ -105,18 +101,75 @@ export default new Vuex.Store({
       }
     },
 
-    socialLogin({commit}){
-      console.log("socialLogin");
+    signinWithKakao({dispatch}) {
+      console.log("signinWithKakao")
+      window.Kakao.Auth.login({
+        success: function(authObj){
+          axios2
+          .post("http://i3a606.p.ssafy.io:8090/api/v1/signin/kakao?accessToken="+authObj.access_token)
+          .then(response =>{
+            console.log(response.data);
+            let token = response.data.data
+            localStorage.setItem("access_token", token) //key, value
+            dispatch('getMemberInfo')
+          })
+          .catch(err => {
+            if(err.response){
+              console.log("err.response.data", err.response.data);
+              if(err.response.data.code === -1000){
+                // alert(authObj.access_token);
+                console.log("token", authObj.access_token);
+                router.push({ name: "KakaoRegister", params: { kToken: authObj.access_token }})
+              } 
+              // console.log("status", err.reaponse.status);
+              // console.log("headers", err.reaponse.headers);
+            } else if(err.request){
+              console.log("error!!!",err.request);
+            } else{
+              console.log('Error', err.message);
+            }
+            console.log("err.config",err.config);
+          })
+        },
+        fail: function(err){
+          alert("fail",JSON.stringify(err))
+        }
+      })
+    }, 
+
+    signupWithKakao({commit}, authObj) {
+      console.log("signupWithKakao")
+      commit
+      console.log(authObj)
       axios2
-        .get("http://i3a606.p.ssafy.io:8090/api/social/login")
-        // .get("http://i3a606.p.ssafy.io/social/login")
+        .post("http://i3a606.p.ssafy.io:8090/api/v1/signup/kakao?accessToken="+authObj.kToken+"&name="+authObj.usrName)
         .then(response =>{
-          console.log(response.data);
-          // commit("socialLogin",{test: response.data})
+          console.log("response.data", response.data);
+          // let token = response.data.data
+          // localStorage.setItem("access_token", token) //key, value
+          // dispatch('getMemberInfo')
           commit
-        }).catch(
-          exp => alert("소셜로그인 요청 실패 : "+exp)
-        );
+          // login
+          alert("회원가입에 성공했습니다.!")
+          router.push({name: "home"})
+        })
+        .catch(err => {
+          if(err.response){
+            console.log("err.response.data", err.response.data);
+            // if(err.response.data.code === -1000){
+            //   console.log("code가 -1000")
+
+            // }
+            // console.log("status", err.reaponse.status);
+            // console.log("headers", err.reaponse.headers);
+            
+          } else if(err.request){
+            console.log("err.request",err.request);
+          } else{
+            console.log('err.message', err.message);
+          }
+          console.log('err.config', err.config);
+        })
     },
 
     getMemberInfo({commit}) {
@@ -131,15 +184,9 @@ export default new Vuex.Store({
         }
         //반환된 토큰을 가지고 유저정보를 반환
         //새로고침을 하면 state 날라감 -> 토큰만 가지고 멤버정보 요청 가능 : localStorage에 토큰 저장
-        axios
-          // .get("https://reqres.in/api/users/2", config) //config : 보안과 관련된 헤더나 옵션 등을 설정해줄 수 있는 파일
-          .get("/v1/user?lang=ko", config) //config : 보안과 관련된 헤더나 옵션 등을 설정해줄 수 있는 파일
+        axios //config : 보안과 관련된 헤더나 옵션 등을 설정해줄 수 있는 파일
+          .get("/v1/user?lang=ko", config)
           .then(response => {
-              // avatar: "https://s3.amazonaws.com/uifaces/faces/twitter/josephstein/128.jpg"
-              // email: "janet.weaver@reqres.in"
-              // first_name: "Janet"
-              // id: 2
-              // last_name: "Weaver"
               let userInfo = {
                 id: response.data.data.uid,
                 name: response.data.data.name,
@@ -158,7 +205,6 @@ export default new Vuex.Store({
       axios
           .get("/v1/post/all") //일단은 전체 리스트받아오는 걸로
           .then(response =>{
-            //console.dir(response.data);
             commit("getMyPostList",{myPostList : response.data})
           }).catch(
             exp => alert("내 글 리스트 불러오기 실패 "+exp)
