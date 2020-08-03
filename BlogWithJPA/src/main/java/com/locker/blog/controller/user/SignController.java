@@ -6,11 +6,13 @@ import com.locker.blog.advice.exception.CUserExistException;
 import com.locker.blog.advice.exception.CUserNotFoundException;
 import com.locker.blog.domain.response.CommonResult;
 import com.locker.blog.domain.response.SingleResult;
+import com.locker.blog.domain.user.GithubProfile;
 import com.locker.blog.domain.user.GoogleProfile;
 import com.locker.blog.domain.user.KakaoProfile;
 import com.locker.blog.domain.user.User;
 import com.locker.blog.repository.user.UserJpaRepo;
 import com.locker.blog.config.security.JwtTokenProvider;
+import com.locker.blog.service.auth.GithubService;
 import com.locker.blog.service.auth.GoogleService;
 import com.locker.blog.service.auth.KakaoService;
 import com.locker.blog.service.response.ResponseService;
@@ -39,6 +41,7 @@ public class SignController {
     private final EmailSendService emailSendService;
     private final KakaoService kakaoService;
     private final GoogleService googleService;
+    private final GithubService githubService;
 
     @ApiOperation(value = "로그인", notes = "이메일 회원 로그인을 한다.")
     @PostMapping(value = "/signin")
@@ -104,6 +107,7 @@ public class SignController {
 
         KakaoProfile kakaoProfile = null;
         GoogleProfile googleProfile = null;
+        GithubProfile githubProfile = null;
         String uid = null;
 
         // get profile
@@ -115,6 +119,9 @@ public class SignController {
         else if(provider.equals("google")) {
             googleProfile = googleService.getGoogleProfile(accessToken);
             uid = String.valueOf(googleProfile.getId());
+        }
+        else if(provider.equals("github")) {
+
         }
 
         User user = userJpaRepo.findByEmailAndProvider(uid, provider).orElseThrow(CUserNotFoundException::new);
@@ -128,10 +135,10 @@ public class SignController {
 
         KakaoProfile kakaoProfile = null;
         GoogleProfile googleProfile = null;
+        GithubProfile githubProfile = null;
         String uid = null;
         String name = null;
         String picture = null;
-        System.out.println(provider);
 
         // get profile
         if(provider.equals("kakao")) {
@@ -144,6 +151,11 @@ public class SignController {
             uid = String.valueOf(googleProfile.getEmail());
             name = String.valueOf(googleProfile.getName());
             picture = String.valueOf(googleProfile.getPicture());
+        }
+        else if(provider.equals("github")) {
+            githubProfile = githubService.getGithubProfile(accessToken);
+            uid = String.valueOf(githubProfile.getEmail());
+            name = String.valueOf(githubProfile.getName());
         }
         System.out.println(uid + " " + name + " " + picture);
 

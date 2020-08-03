@@ -2,7 +2,9 @@ package com.locker.blog.service.auth;
 
 import com.google.gson.Gson;
 import com.locker.blog.advice.exception.CCommunicationException;
+import com.locker.blog.domain.social.GithubRetAuth;
 import com.locker.blog.domain.social.RetAuth;
+import com.locker.blog.domain.user.GithubProfile;
 import com.locker.blog.domain.user.GoogleProfile;
 import com.locker.blog.domain.user.KakaoProfile;
 import lombok.RequiredArgsConstructor;
@@ -18,61 +20,64 @@ import java.net.URI;
 
 @RequiredArgsConstructor
 @Service
-public class GoogleService {
-
+public class GithubService {
     private final RestTemplate restTemplate;
     private final Environment env;
     private final Gson gson;
 
-    @Value("${spring.url.base}")
-    private String baseUrl;
+    @Value("${spring.security.oauth2.client.registration.github.clientId}")
+    private String githubClientId;
 
-    @Value("${spring.security.oauth2.client.registration.google.clientId}")
-    private String googleClientId;
+    @Value("${spring.security.oauth2.client.registration.github.clientSecret}")
+    private String githubClientSecret;
 
-    @Value("${spring.security.oauth2.client.registration.google.clientSecret}")
-    private String googleClientSecret;
+    @Value("${spring.security.oauth2.client.registration.github.redirectUri}")
+    private String githubRedirect;
 
-    @Value("${spring.security.oauth2.client.registration.google.redirectUri}")
-    private String googleRedirect;
-
-    public GoogleProfile getGoogleProfile(String accessToken) {
-        URI uri = URI.create("https://www.googleapis.com/oauth2/v1/userinfo?access_token=" + accessToken);
-
-        // Request profile
+    public GithubProfile getGithubProfile(String accessToken) {
+        URI uri = URI.create("https://api.github.com/user?access_token=" + accessToken);
         ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
         System.out.println(response.getBody());
-        System.out.println(response.getStatusCode());
+
         try {
+            // Request profile
             if (response.getStatusCode() == HttpStatus.OK)
-                return gson.fromJson(response.getBody(), GoogleProfile.class);
+                return gson.fromJson(response.getBody(), GithubProfile.class);
         } catch (Exception e) {
             throw new CCommunicationException();
         }
         throw new CCommunicationException();
     }
 
-    public RetAuth getGoogleTokenInfo(String code) {
+    public GithubRetAuth getGithubToken(String code, String state) {
         // Set header : Content-type: application/x-www-form-urlencoded
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
         // Set parameter
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("client_id", githubClientId);
+        params.add("client_secret", githubClientSecret);
         params.add("code", code);
-        params.add("client_id", googleClientId);
-        params.add("client_secret", googleClientSecret);
-        params.add("redirect_uri", googleRedirect);
-        params.add("grant_type", "authorization_code");
+        params.add("redirect_uri", githubRedirect);
+        params.add("state", state);
 
         // Set http entity
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
-        URI uri = URI.create("https://oauth2.googleapis.com/token");
+        URI uri = URI.create("https://github.com/login/oauth/access_token");
 
         ResponseEntity<String> response = restTemplate.postForEntity(uri, request, String.class);
 
         if (response.getStatusCode() == HttpStatus.OK) {
-            return gson.fromJson(response.getBody(), RetAuth.class);
+            GithubRetAuth githubRetAuth = new GithubRetAuth();
+            String[] output = response.getBody().split("&");
+            for (int i = 0; i < output.length; i++) {
+                String[] str = output[i].split("=");
+                if(str[0].equals("access_token")) githubRetAuth.setAccess_token(str[1]);
+                else if(str[0].equals("scope")) githubRetAuth.setScope(str[1]);
+                else if(str[0].equals("token_type")) githubRetAuth.setToken_type(str[1]);
+            }
+            return githubRetAuth;
         }
         return null;
     }

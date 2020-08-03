@@ -1,7 +1,7 @@
 spring:
   profiles: auth
   datasource:
-    url: jdbc:mysql://i3a606.p.ssafy.io:3306/test?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+    url: jdbc:mysql://i3a606.p.ssafy.io:3306/locker?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
     username: root
     password: 1q2w3e4r
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -33,3 +33,17 @@ spring:
             scope:
               - email
               - profile
+          facebook:
+            clientId: 121189305185277
+            clientSecret: 42ffe5aa7379e8326387e0fe16f34132
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}" # Note that facebook now mandates the use of https redirect URIs, so make sure your app supports https in production
+            scope:
+              - email
+              - public_profile
+          github:
+            clientId: c073047a7c28dc98f6c4
+            clientSecret: b8753e6376a96acbab93f536caf52de6df3e856f
+            redirectUri: http://localhost:8090/api/social/login/github
+            scope:
+              - user:email
+              - read:user

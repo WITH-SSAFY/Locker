@@ -6,12 +6,12 @@ import lombok.ToString;
 
 @Getter @Setter @ToString
 public class GoogleProfile {
-    private Long id;
+    private String id;
     private String email;
-    private Boolean verifiedEmail;
+    private Boolean verified_email;
     private String name;
-    private String givenName;
-    private String familyName;
+    private String given_name;
+    private String family_name;
     private String picture;
     private String locale;
 }
