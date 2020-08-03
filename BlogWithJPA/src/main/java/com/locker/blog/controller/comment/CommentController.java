@@ -16,6 +16,7 @@ import java.util.List;
 @Api(tags = {"4. Comment"})
 @RestController
 @RequestMapping("/api/v1/comment")
+@CrossOrigin
 public class CommentController {
     private static final String SUCCESS = "success";
     private static final String FAIL = "fail";
