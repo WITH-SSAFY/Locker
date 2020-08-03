@@ -85,6 +85,11 @@
               >
               <v-list-item-title>logout</v-list-item-title>
             </v-list-item>
+            <v-list-item
+              router :to="{name: 'userSetting'}"
+              >
+              <v-list-item-title>setting</v-list-item-title>
+            </v-list-item>
           </v-list>
           </v-menu>
         
