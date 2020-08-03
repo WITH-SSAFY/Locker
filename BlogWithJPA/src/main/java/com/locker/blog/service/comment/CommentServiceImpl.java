@@ -30,4 +30,11 @@ public class CommentServiceImpl implements CommentService{
     public int update(Comment comment) {
         return commentRepo.update(comment);
     }
+
+    @Override
+    public int getRid(String pid) {
+        return commentRepo.getRid(pid);
+    }
+
+
 }

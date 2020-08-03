@@ -25,7 +25,7 @@ public class CommentController {
     CommentService commentService;
 
     @ApiOperation(value = "하나의 포스트에 달린 모든 댓글 조회", notes = "하나의 포스트에 달린 모든 댓글 조회한다.")
-    @GetMapping(value = "/")
+    @GetMapping(value = "")
     public ResponseEntity<List<Comment>> selectAll() throws Exception {
         List<Comment> list = commentService.selectAll();
         if(list.size() > 0) {
@@ -35,7 +35,7 @@ public class CommentController {
     }
 
     @ApiOperation(value = "댓글 하나 추가", notes = "하나의 포스트에서 댓글을 추가한다.")
-    @PostMapping(value = "/")
+    @PostMapping(value = "")
     public ResponseEntity<String> insert(@RequestBody Comment comment) throws Exception {
         if(commentService.insert(comment)==0){
             return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
@@ -44,7 +44,7 @@ public class CommentController {
     }
 
     @ApiOperation(value = "댓글 하나 삭제", notes = "댓글을 쓴 사람이 해당 댓글을 삭제한다.")
-    @DeleteMapping(value = "/")
+    @DeleteMapping(value = "")
     public ResponseEntity<String> delete(@RequestBody Comment comment) throws Exception {
         if(commentService.delete(comment)==0){
             return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
@@ -53,7 +53,7 @@ public class CommentController {
     }
 
     @ApiOperation(value = "댓글 하나 수정", notes = "댓글을 쓴 사람이 해당 댓글을 수정한다.")
-    @PutMapping(value = "/")
+    @PutMapping(value = "")
     public ResponseEntity<String> update(@RequestBody Comment comment) throws Exception {
         if(commentService.update(comment)==0){
             return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
@@ -61,5 +61,11 @@ public class CommentController {
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }
 
-
+    //해당 포스트에서 새로 추가될 댓글의 번호
+    @ApiOperation(value = "새로 추가할 댓글 번호", notes = "새로 추가할 댓글 번호를 받아온다.")
+    @PutMapping(value = "/rid")
+    public ResponseEntity<String> getRid(@RequestParam String pid) throws Exception{
+        String rid = Integer.toString(commentService.getRid(pid)+1);
+        return new ResponseEntity<String>(rid, HttpStatus.OK);
+    }
 }

@@ -30,4 +30,9 @@ public class CommentRepoImpl implements CommentRepo{
     public int update(Comment comment) {
         return sqlSession.update("comment.update",comment);
     }
+
+    @Override
+    public int getRid(String pid) {
+        return sqlSession.selectOne("comment.getRid",pid);
+    }
 }
