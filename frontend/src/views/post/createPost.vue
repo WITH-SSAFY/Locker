@@ -85,7 +85,7 @@
         title: '',
         content: '',
         editorOptions: {
-          hideModeSwitch: false//모드 설정(markdown, wysiwyg) 안보이게함
+          hideModeSwitch: true,//모드 설정(markdown, wysiwyg) 안보이게함
         }
       };
     },
@@ -113,7 +113,7 @@
 }
 </script>
 
-<style scoped>
+<style>
     #container {
        margin: 20px auto 0 auto;
        height: 100%;
@@ -144,11 +144,23 @@
       color:rgba(255, 255, 255, 0.904);
     }
 
+    /*md 사이즈 */
     @media (max-width: 768px){
-    #title_container{
-      width: 100%;
-    }  
-  }
-
-  
+      /* 제목 너비 크기 조정 */
+      #title_container{
+        width: 100%;
+      }
+      /*editor 가운데 줄 안보이게 */
+      .tui-editor .te-preview-style-vertical .te-md-splitter {
+        display: none;
+      }
+      /* 오른쪽 결과 창 안보이게 함 */
+      .te-preview{
+        display: none;
+      }
+      /* 왼쪽 에디터 부분 크기 조정*/
+      .tui-editor .te-preview-style-vertical .te-editor{
+        width: 100%;
+      }
+    }
 </style>
