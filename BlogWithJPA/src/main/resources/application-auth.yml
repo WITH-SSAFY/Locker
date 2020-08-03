@@ -30,8 +30,6 @@ spring:
             clientId: 858388202728-f26u33io27sn79ic2ac789sc03ht9vuf.apps.googleusercontent.com
             clientSecret: Ype18wpAoTZ8sxzR9XzsMQfv
             redirectUri: http://localhost:8090/api/social/login/google
-            url:
-              token: https://oauth2.googleapis.com/token
             scope:
               - email
               - profile

@@ -3,6 +3,7 @@ package com.locker.blog.service.auth;
 import com.google.gson.Gson;
 import com.locker.blog.advice.exception.CCommunicationException;
 import com.locker.blog.domain.social.RetAuth;
+import com.locker.blog.domain.user.GoogleProfile;
 import com.locker.blog.domain.user.KakaoProfile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +15,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -36,19 +36,25 @@ public class GoogleService {
     @Value("${spring.security.oauth2.client.registration.google.redirectUri}")
     private String googleRedirect;
 
-    public KakaoProfile getGoogleProfile(String accessToken) {
+    public GoogleProfile getGoogleProfile(String accessToken) {
         // Set header : Content-type: application/x-www-form-urlencoded
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         headers.set("Authorization", "Bearer " + accessToken);
 
+        System.out.println(accessToken);
+
         // Set http entity
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(null, headers);
+        URI uri = URI.create("https://www.googleapis.com/oauth2/v1/userinfo");
+        // or ?alt=json&access_token=?
+
         try {
             // Request profile
-            ResponseEntity<String> response = restTemplate.postForEntity(env.getProperty("spring.social.kakao.url.profile"), request, String.class);
+            ResponseEntity<String> response = restTemplate.postForEntity(uri, request, String.class);
+            System.out.println(response.getBody());
             if (response.getStatusCode() == HttpStatus.OK)
-                return gson.fromJson(response.getBody(), KakaoProfile.class);
+                return gson.fromJson(response.getBody(), GoogleProfile.class);
         } catch (Exception e) {
             throw new CCommunicationException();
         }
@@ -57,7 +63,6 @@ public class GoogleService {
 
     public RetAuth getGoogleTokenInfo(String code) {
         // Set header : Content-type: application/x-www-form-urlencoded
-        System.out.println(code);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
@@ -71,11 +76,10 @@ public class GoogleService {
 
         // Set http entity
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
-        URI uri = URI.create("https://www.googleapis.com/oauth2/v4/token");
+        URI uri = URI.create("https://oauth2.googleapis.com/token");
 
         ResponseEntity<String> response = restTemplate.postForEntity(uri, request, String.class);
 
-        System.out.println(response.getBody());
         if (response.getStatusCode() == HttpStatus.OK) {
             return gson.fromJson(response.getBody(), RetAuth.class);
         }

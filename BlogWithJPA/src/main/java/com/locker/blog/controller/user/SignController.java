@@ -6,10 +6,12 @@ import com.locker.blog.advice.exception.CUserExistException;
 import com.locker.blog.advice.exception.CUserNotFoundException;
 import com.locker.blog.domain.response.CommonResult;
 import com.locker.blog.domain.response.SingleResult;
+import com.locker.blog.domain.user.GoogleProfile;
 import com.locker.blog.domain.user.KakaoProfile;
 import com.locker.blog.domain.user.User;
 import com.locker.blog.repository.user.UserJpaRepo;
 import com.locker.blog.config.security.JwtTokenProvider;
+import com.locker.blog.service.auth.GoogleService;
 import com.locker.blog.service.auth.KakaoService;
 import com.locker.blog.service.response.ResponseService;
 import com.locker.blog.service.user.EmailSendService;
@@ -36,6 +38,7 @@ public class SignController {
     private final PasswordEncoder passwordEncoder;
     private final EmailSendService emailSendService;
     private final KakaoService kakaoService;
+    private final GoogleService googleService;
 
     @ApiOperation(value = "로그인", notes = "이메일 회원 로그인을 한다.")
     @PostMapping(value = "/signin")
@@ -99,27 +102,60 @@ public class SignController {
             @ApiParam(value = "서비스 제공자 provider", required = true) @PathVariable String provider,
             @ApiParam(value = "소셜 access_token", required = true) @RequestParam String accessToken) {
 
-        KakaoProfile profile = kakaoService.getKakaoProfile(accessToken);
+        KakaoProfile kakaoProfile = null;
+        GoogleProfile googleProfile = null;
+        String uid = null;
 
-        User user = userJpaRepo.findByEmailAndProvider(String.valueOf(profile.getId()), provider).orElseThrow(CUserNotFoundException::new);
+        // get profile
+        if(provider.equals("kakao")) {
+            kakaoProfile = kakaoService.getKakaoProfile(accessToken);
+            System.out.println(kakaoProfile.toString());
+            uid = String.valueOf(kakaoProfile.getId());
+        }
+        else if(provider.equals("google")) {
+            googleProfile = googleService.getGoogleProfile(accessToken);
+            uid = String.valueOf(googleProfile.getId());
+        }
+
+        User user = userJpaRepo.findByEmailAndProvider(uid, provider).orElseThrow(CUserNotFoundException::new);
         return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.getId()), user.getRoles()));
     }
 
     @ApiOperation(value = "소셜 계정 가입", notes = "소셜 계정 회원가입을 한다.")
     @PostMapping(value = "/signup/{provider}")
     public CommonResult signupProvider(@ApiParam(value = "서비스 제공자 provider", required = true) @PathVariable String provider,
-                                       @ApiParam(value = "소셜 access_token", required = true) @RequestParam String accessToken,
-                                       @ApiParam(value = "이름", required = true) @RequestParam String name) {
+                                       @ApiParam(value = "소셜 access_token", required = true) @RequestParam String accessToken) {
 
-        KakaoProfile profile = kakaoService.getKakaoProfile(accessToken);
-        Optional<User> user = userJpaRepo.findByEmailAndProvider(String.valueOf(profile.getId()), provider);
+        KakaoProfile kakaoProfile = null;
+        GoogleProfile googleProfile = null;
+        String uid = null;
+        String name = null;
+        String picture = null;
+        System.out.println(provider);
+
+        // get profile
+        if(provider.equals("kakao")) {
+            kakaoProfile = kakaoService.getKakaoProfile(accessToken);
+            System.out.println(kakaoProfile.toString());
+            uid = String.valueOf(kakaoProfile.getId());
+        }
+        else if(provider.equals("google")) {
+            googleProfile = googleService.getGoogleProfile(accessToken);
+            uid = String.valueOf(googleProfile.getEmail());
+            name = String.valueOf(googleProfile.getName());
+            picture = String.valueOf(googleProfile.getPicture());
+        }
+        System.out.println(uid + " " + name + " " + picture);
+
+        Optional<User> user = userJpaRepo.findByEmailAndProvider(uid, provider);
         if(user.isPresent()) throw new CUserExistException();
 
         userJpaRepo.save(User.builder()
-                .email(String.valueOf(profile.getId()))
+                .email(uid)
                 .provider(provider)
                 .name(name)
                 .nickname(name)
+                .picture(picture)
                 .roles(Collections.singletonList("ROLE_USER"))
                 .build());
 
