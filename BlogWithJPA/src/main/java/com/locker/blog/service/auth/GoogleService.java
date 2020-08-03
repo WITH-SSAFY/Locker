@@ -37,22 +37,13 @@ public class GoogleService {
     private String googleRedirect;
 
     public GoogleProfile getGoogleProfile(String accessToken) {
-        // Set header : Content-type: application/x-www-form-urlencoded
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        headers.set("Authorization", "Bearer " + accessToken);
+        URI uri = URI.create("https://www.googleapis.com/oauth2/v1/userinfo?access_token=" + accessToken);
 
-        System.out.println(accessToken);
-
-        // Set http entity
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(null, headers);
-        URI uri = URI.create("https://www.googleapis.com/oauth2/v1/userinfo");
-        // or ?alt=json&access_token=?
-
+        // Request profile
+        ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
+        System.out.println(response.getBody());
+        System.out.println(response.getStatusCode());
         try {
-            // Request profile
-            ResponseEntity<String> response = restTemplate.postForEntity(uri, request, String.class);
-            System.out.println(response.getBody());
             if (response.getStatusCode() == HttpStatus.OK)
                 return gson.fromJson(response.getBody(), GoogleProfile.class);
         } catch (Exception e) {
