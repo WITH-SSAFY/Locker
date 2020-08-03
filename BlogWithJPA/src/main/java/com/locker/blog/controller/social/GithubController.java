@@ -19,6 +19,7 @@ public class GithubController {
     private final GithubService githubService;
     /**
      * 구 인증 완료 후 리다이렉트
+     * /oauth2/authorization/github
      */
     @GetMapping(value = "/login/github")
     public GithubRetAuth redirectGoogle(@RequestParam String code, @RequestParam String state) {
