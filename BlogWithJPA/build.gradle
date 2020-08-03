@@ -34,6 +34,7 @@ dependencies {
 	// security + oauth2
 	implementation 'org.springframework.cloud:spring-cloud-starter-security:2.1.2.RELEASE'
 	implementation 'org.springframework.cloud:spring-cloud-starter-oauth2:2.1.2.RELEASE'
+	compile('org.springframework.boot:spring-boot-starter-oauth2-client')
 
 	// jwt
 	implementation 'org.springframework.boot:spring-boot-starter-security'

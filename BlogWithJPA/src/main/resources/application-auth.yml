@@ -1,7 +1,7 @@
 spring:
   profiles: auth
   datasource:
-    url: jdbc:mysql://i3a606.p.ssafy.io:3306/locker?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+    url: jdbc:mysql://i3a606.p.ssafy.io:3306/test?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
     username: root
     password: 1q2w3e4r
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -21,3 +21,15 @@ spring:
         login: https://kauth.kakao.com/oauth/authorize
         token: https://kauth.kakao.com/oauth/token
         profile: https://kapi.kakao.com/v2/user/me
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: 858388202728-f26u33io27sn79ic2ac789sc03ht9vuf.apps.googleusercontent.com
+            clientSecret: Ype18wpAoTZ8sxzR9XzsMQfv
+            redirectUri: http://localhost:8090/api/social/login/google
+            scope:
+              - email
+              - profile
