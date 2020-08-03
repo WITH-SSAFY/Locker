@@ -1,19 +1,15 @@
 package com.locker.blog.controller.social;
 
 import com.google.gson.Gson;
-import com.locker.blog.domain.response.CommonResult;
-import com.locker.blog.domain.social.RetKakaoAuth;
+import com.locker.blog.domain.social.RetAuth;
+import com.locker.blog.service.auth.KakaoService;
 import com.locker.blog.service.response.ResponseService;
-import com.locker.blog.service.user.KakaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.HashMap;
@@ -63,8 +59,8 @@ public class KakaoController {
      * 카카오 인증 완료 후 리다이렉트
      */
     @GetMapping(value = "/login/kakao")
-    public RetKakaoAuth redirectKakao(@RequestParam String code) {
-        RetKakaoAuth retKakaoAuth = kakaoService.getKakaoTokenInfo(code);
-        return retKakaoAuth;
+    public RetAuth redirectKakao(@RequestParam String code) {
+        RetAuth retAuth = kakaoService.getKakaoTokenInfo(code);
+        return retAuth;
     }
 }
