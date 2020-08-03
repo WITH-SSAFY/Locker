@@ -1,14 +1,11 @@
 <template>
   <v-main class="full-screen">
-    <div class="swiper-container">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide">
-          <mainPostList/>
-        </div>
-      </div>
-      <div class="swiper-button-prev"></div>
-      <div class="swiper-button-next"></div>
-    </div>
+    <full-page :options="options" id="fullpage">
+      <div class="section"><mainPostList/></div>
+      <div class="section"><contents1/></div>
+      <div class="section"><contents2/></div>
+      <div class="section"><contents3/></div>
+    </full-page>
 
     <ul class="nav-buttons">
       <li><button value="1" class="active fp-btn" data-page="0"></button></li>
@@ -17,9 +14,9 @@
       <li><button value="4" class="fp-btn" data-page="3"></button></li>
     </ul>
 
-    <contents1/>
+    <!-- <contents1/>
     <contents2/>
-    <contents3/>
+    <contents3/> -->
   </v-main>
 </template>
  
@@ -43,6 +40,15 @@
     data() {
       return {
         isNotMain: false,
+        options: {
+          licenseKey: 'YOUR_KEY_HERE',
+          afterLoad: this.afterLoad,
+          // scrollOverflow: true,
+          scrollBar: false,
+          // menu: '#menu',
+          navigation: true,
+          // anchors: ['page1', 'page2', 'page3'],
+        }
       }
     },
     created() {
