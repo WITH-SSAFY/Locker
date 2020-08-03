@@ -43,7 +43,7 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String id = authentication.getName();
         // 결과데이터가 단일건인경우 getSingleResult를 이용해서 결과를 출력한다.
-        return responseService.getSingleResult(userJpaRepo.findByUid(id).orElseThrow(CUserNotFoundException::new));
+        return responseService.getSingleResult(userJpaRepo.findByEmail(id).orElseThrow(CUserNotFoundException::new));
     }
 
     @ApiImplicitParams({
@@ -55,7 +55,7 @@ public class UserController {
             @ApiParam(value = "회원번호", required = true) @RequestParam Long msrl,
             @ApiParam(value = "회원이름", required = true) @RequestParam String name) {
         User user = User.builder()
-                .msrl(msrl)
+                .id(msrl)
                 .name(name)
                 .build();
         return responseService.getSingleResult(userJpaRepo.save(user));

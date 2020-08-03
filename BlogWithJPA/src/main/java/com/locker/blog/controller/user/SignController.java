@@ -10,9 +10,9 @@ import com.locker.blog.domain.user.KakaoProfile;
 import com.locker.blog.domain.user.User;
 import com.locker.blog.repository.user.UserJpaRepo;
 import com.locker.blog.config.security.JwtTokenProvider;
+import com.locker.blog.service.auth.KakaoService;
 import com.locker.blog.service.response.ResponseService;
 import com.locker.blog.service.user.EmailSendService;
-import com.locker.blog.service.user.KakaoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -20,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -42,11 +41,11 @@ public class SignController {
     @PostMapping(value = "/signin")
     public SingleResult<String> signin(@ApiParam(value = "회원ID : 이메일", required = true) @RequestParam String id,
                                        @ApiParam(value = "비밀번호", required = true) @RequestParam String password) {
-        User user = userJpaRepo.findByUid(id).orElseThrow(CEmailSigninFailedException::new);
+        User user = userJpaRepo.findByEmail(id).orElseThrow(CEmailSigninFailedException::new);
         if (!passwordEncoder.matches(password, user.getPassword()))
             throw new CEmailSigninFailedException();
 
-        return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.getMsrl()), user.getRoles()));
+        return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.getEmail()), user.getRoles()));
 
     }
 
@@ -58,12 +57,11 @@ public class SignController {
                                @ApiParam(value = "닉네임", required = true) @RequestParam String nickname) {
 
         userJpaRepo.save(User.builder()
-                .uid(uid)
+                .email(uid)
                 .password(passwordEncoder.encode(password))
                 .name(name)
                 .nickname(nickname)
                 .roles(Collections.singletonList("ROLE_USER"))
-                .createDate(LocalDateTime.now())
                 .provider("null")
                 .build());
         return responseService.getSuccessResult();
@@ -74,10 +72,10 @@ public class SignController {
     @PostMapping(value = "/duplicate")
     public CommonResult checkDuplicate (@ApiParam(value = "회원ID : 이메일", required = true) @RequestParam String uid) {
         User noUser = new User();
-        noUser.setUid("can't found");
+        noUser.setEmail("can't found");
 
-        User user = userJpaRepo.findByUid(uid).orElse(noUser);
-        if(uid.matches(user.getUid())) {
+        User user = userJpaRepo.findByEmail(uid).orElse(noUser);
+        if(uid.matches(user.getEmail())) {
             throw new CEmailDuplicatedException();
         }
         return responseService.getSuccessResult();
@@ -103,8 +101,8 @@ public class SignController {
 
         KakaoProfile profile = kakaoService.getKakaoProfile(accessToken);
 
-        User user = userJpaRepo.findByUidAndProvider(String.valueOf(profile.getId()), provider).orElseThrow(CUserNotFoundException::new);
-        return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.getMsrl()), user.getRoles()));
+        User user = userJpaRepo.findByEmailAndProvider(String.valueOf(profile.getId()), provider).orElseThrow(CUserNotFoundException::new);
+        return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.getId()), user.getRoles()));
     }
 
     @ApiOperation(value = "소셜 계정 가입", notes = "소셜 계정 회원가입을 한다.")
@@ -114,16 +112,15 @@ public class SignController {
                                        @ApiParam(value = "이름", required = true) @RequestParam String name) {
 
         KakaoProfile profile = kakaoService.getKakaoProfile(accessToken);
-        Optional<User> user = userJpaRepo.findByUidAndProvider(String.valueOf(profile.getId()), provider);
+        Optional<User> user = userJpaRepo.findByEmailAndProvider(String.valueOf(profile.getId()), provider);
         if(user.isPresent()) throw new CUserExistException();
 
         userJpaRepo.save(User.builder()
-                .uid(String.valueOf(profile.getId()))
+                .email(String.valueOf(profile.getId()))
                 .provider(provider)
                 .name(name)
                 .nickname(name)
                 .roles(Collections.singletonList("ROLE_USER"))
-                .createDate(LocalDateTime.now())
                 .build());
 
         return responseService.getSuccessResult();
