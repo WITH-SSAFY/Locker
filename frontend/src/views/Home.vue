@@ -6,17 +6,6 @@
       <div class="section"><contents2/></div>
       <div class="section"><contents3/></div>
     </full-page>
-
-    <ul class="nav-buttons">
-      <li><button value="1" class="active fp-btn" data-page="0"></button></li>
-      <li><button value="2" class="fp-btn" data-page="1"></button></li>
-      <li><button value="3" class="fp-btn" data-page="2"></button></li>
-      <li><button value="4" class="fp-btn" data-page="3"></button></li>
-    </ul>
-
-    <!-- <contents1/>
-    <contents2/>
-    <contents3/> -->
   </v-main>
 </template>
  
@@ -43,11 +32,12 @@
         options: {
           licenseKey: 'YOUR_KEY_HERE',
           afterLoad: this.afterLoad,
-          // scrollOverflow: true,
           scrollBar: false,
-          // menu: '#menu',
           navigation: true,
-          // anchors: ['page1', 'page2', 'page3'],
+          navigationPosition: 'right',
+          // navigationTooltips: [],
+          menu: '#menu',
+          anchors: ['page1', 'page2', 'page3'],
         }
       }
     },
