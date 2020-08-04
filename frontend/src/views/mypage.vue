@@ -43,8 +43,8 @@
             <!-- 텍스트 섹션 -->
             <div class="col-md-8 d-flex-wrap align-self-start">
               <div class="d-flex align-items-center justify-content-between p-0">
-                <p class="lead d-inline my-0" style="font-size: 5rem;"><strong>{{ userInfo.nickname }}</strong></p>
-                <!-- <a href="" class="d-inline btn btn-outline-dark btn-sm">Edit Profile</a> -->
+                <p class="lead d-inline my-0" style="font-size: 5rem;"><strong>{{ userInfo.nickname }}</strong></p> -->
+                <!-- <a href="" class="d-inline btn btn-outline-dark btn-sm">Edit Profile</a>
                 <div class="d-inline-flex ml-5">
                   <v-icon size="60" style="color: #EDE7F6;">mdi-arm-flex</v-icon>
                   <p class="d-inline"><small>1F_병아리</small></p>
@@ -89,7 +89,7 @@
             color="#7C4DFF"
             grow
           >
-          
+
             <v-tab key="" to="/">
               <p><strong>Article</strong></p>
             </v-tab>
@@ -100,45 +100,28 @@
               <p><strong>Introduce</strong></p>
             </v-tab>
 
+            <v-tab-item id="/article">
+              <router-view v-if="activeTab === 'article'"/>
+            </v-tab-item>
             <v-tab-item id="/repository">
               <router-view v-if="activeTab === 'repository'"/>
             </v-tab-item>
+            <!-- <v-tab-item id="/introduce">
+              <router-view v-if="activeTab === 'introduce'"/>
+            </v-tab-item> -->
 
           </v-tabs>
         </v-col>
       </v-row>
-
-      <!-- 포스트 리스트 -->
-      <v-row>
-        <v-col
-          cols="12"
-          md="10"
-          v-for="(myPost, index) in myPostList"
-          :key="myPost.pid"
-          style="padding: 2% 8%;"
-        >
-          <v-card>
-            <v-card-title class="title" @click="showMyDetail(myPost.pid)">{{ myPost.title }}</v-card-title>
-            
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn icon @click="like(index)">
-                <v-icon :id="index">mdi-heart</v-icon>
-              </v-btn>
-              <v-btn icon><v-icon>mdi-bookmark</v-icon></v-btn>
-              <v-btn icon><v-icon>mdi-share-variant</v-icon></v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-col>
-      </v-row>
-      <!-- <category/> -->
     </v-container>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex"
-// import category from "./category.vue"
+// import article from "./mypage-tabs/article.vue"
+// import repository from "./mypage-tabs/repository.vue"
+// import introduce from "./mypage-tabs/introduce.vue"
 import SideBar from "./SideBar.vue"
 import('../assets/css/side-style.css')
 
@@ -165,23 +148,24 @@ export default {
     data() {
       return {
         tab: null,
-        items: [
-          '글',
-          '카테고리',
-          '소개'
-        ],
+        // items: [
+        //   '글',
+        //   '카테고리',
+        //   '소개'
+        // ],
       }
     },
     components: {
       SideBar,
-      // category,
+      // article,
+      // repository,
     },
     methods:{
-      showMyDetail (pid) {
-        this.$store.dispatch('showMyDetail', pid);
-        //this.$router.push({name: "readPost"});
-      },
-       //좋아요 클릭시
+      // showMyDetail (pid) {
+      //   this.$store.dispatch('showMyDetail', pid);
+      //   //this.$router.push({name: "readPost"});
+      // },
+      //좋아요 클릭시
       like(index){
         if(this.likes[index]){
           this.likes[index] = false;

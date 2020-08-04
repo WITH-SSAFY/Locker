@@ -44,8 +44,15 @@ const routes = [
     path: "/mypage",
     name: "mypage",
     beforeEnter: onlyAuthUser,
-    component: () =>
-      import(/* webpackChunkName: "mypage" */ "../views/mypage.vue")
+    component: { template: '<div>Posts<router-view></router-view></div>'},
+    
+    children: [
+      { path: 'article', component: { template: '<div>New Post</div>'} },
+      { path: 'register', component: { template: '<div>New Register</div>'} },
+      { path: 'introduce', component: { template: '<div>New Intro</div>'} },
+    ]
+    // component: () =>
+    //   import(/* webpackChunkName: "mypage" */ "../views/mypage.vue")
   },
   {
     path: "/register",
@@ -100,12 +107,24 @@ const routes = [
     component: () => 
       import(/* webpackChunkName: "KakaoRegister" */ "../views/KakaoRegister.vue")
   },
-  {
-    path: "/repository",
-    name: "repository",
-    component: () =>
-      import(/* webpackChunkName: "repository" */ "../views/repository.vue")
-  }
+  // {
+  //   path: "/article",
+  //   name: "article",
+  //   component: () =>
+  //     import(/* webpackChunkName: "article" */ "../views/mypage-tabs/article.vue")
+  // },
+  // {
+  //   path: "/repository",
+  //   name: "repository",
+  //   component: () =>
+  //     import(/* webpackChunkName: "repository" */ "../views/mypage-tabs/repository.vue")
+  // },
+  // {
+  //   path: "/introduce",
+  //   name: "introduce",
+  //   component: () =>
+  //     import(/* webpackChunkName: "introduce" */ "../views/mypage-tabs/introduce.vue")
+  // },
 ];
 
 const router = new VueRouter({

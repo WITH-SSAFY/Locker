@@ -41,7 +41,7 @@
 
 <script>
 export default {
-  name: "category",
+  name: "repository",
 
 }
 </script>
