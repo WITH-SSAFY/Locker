@@ -4,6 +4,7 @@ import com.locker.blog.domain.comment.Comment;
 import com.locker.blog.service.comment.CommentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,8 +65,8 @@ public class CommentController {
 
     //해당 포스트에서 새로 추가될 댓글의 번호
     @ApiOperation(value = "새로 추가할 댓글 번호", notes = "새로 추가할 댓글 번호를 받아온다.")
-    @GetMapping(value = "/rid")
-    public ResponseEntity<String> getRid(@RequestParam String pid) throws Exception{
+    @GetMapping(value = "/{rid}")
+    public ResponseEntity<String> getRid(@ApiParam(value = "현재 포스트 번호", required = true) @PathVariable String pid) throws Exception{
         String rid = Integer.toString(commentService.getRid(pid)+1);
         return new ResponseEntity<String>(rid, HttpStatus.OK);
     }
