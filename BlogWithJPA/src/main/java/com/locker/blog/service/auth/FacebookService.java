@@ -2,11 +2,10 @@ package com.locker.blog.service.auth;
 
 import com.google.gson.Gson;
 import com.locker.blog.advice.exception.CCommunicationException;
+import com.locker.blog.domain.social.FbRetAuth;
 import com.locker.blog.domain.social.GithubRetAuth;
 import com.locker.blog.domain.social.RetAuth;
 import com.locker.blog.domain.user.GithubProfile;
-import com.locker.blog.domain.user.GoogleProfile;
-import com.locker.blog.domain.user.KakaoProfile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
@@ -20,19 +19,22 @@ import java.net.URI;
 
 @RequiredArgsConstructor
 @Service
-public class GithubService {
+public class FacebookService {
     private final RestTemplate restTemplate;
     private final Environment env;
     private final Gson gson;
 
-    @Value("${spring.security.oauth2.client.registration.github.clientId}")
-    private String githubClientId;
+    @Value("${spring.security.oauth2.client.registration.facebook.clientId}")
+    private String facebookClientId;
 
-    @Value("${spring.security.oauth2.client.registration.github.clientSecret}")
-    private String githubClientSecret;
+    @Value("${spring.security.oauth2.client.registration.facebook.clientSecret}")
+    private String facebookClientSecret;
 
-    @Value("${spring.security.oauth2.client.registration.github.redirectUri}")
-    private String githubRedirect;
+    @Value("${spring.security.oauth2.client.registration.facebook.redirectUri}")
+    private String facebookRedirect;
+
+    @Value("${spring.security.oauth2.client.provider.facebook.tokenUri}")
+    private String facebookTokenUri;
 
     public GithubProfile getGithubProfile(String accessToken) {
         URI uri = URI.create("https://api.github.com/user?access_token=" + accessToken);
@@ -49,35 +51,17 @@ public class GithubService {
         throw new CCommunicationException();
     }
 
-    public GithubRetAuth getGithubToken(String code, String state) {
-        // Set header : Content-type: application/x-www-form-urlencoded
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-        // Set parameter
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("client_id", githubClientId);
-        params.add("client_secret", githubClientSecret);
-        params.add("code", code);
-        params.add("redirect_uri", githubRedirect);
-        params.add("state", state);
-
+    public FbRetAuth getFacebookToken(String code) {
         // Set http entity
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
-        URI uri = URI.create("https://github.com/login/oauth/access_token");
-
-        ResponseEntity<String> response = restTemplate.postForEntity(uri, request, String.class);
+        URI uri = URI.create(facebookTokenUri
+                + "?client_id=" + facebookClientId
+                + "&redirect_uri=" + facebookRedirect
+                + "&client_secret=" + facebookClientSecret
+                + "&code=" + code);
+        ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
 
         if (response.getStatusCode() == HttpStatus.OK) {
-            GithubRetAuth githubRetAuth = new GithubRetAuth();
-            String[] output = response.getBody().split("&");
-            for (int i = 0; i < output.length; i++) {
-                String[] str = output[i].split("=");
-                if(str[0].equals("access_token")) githubRetAuth.setAccess_token(str[1]);
-                else if(str[0].equals("scope")) githubRetAuth.setScope(str[1]);
-                else if(str[0].equals("token_type")) githubRetAuth.setToken_type(str[1]);
-            }
-            return githubRetAuth;
+            return gson.fromJson(response.getBody(), FbRetAuth.class);
         }
         return null;
     }

@@ -45,25 +45,27 @@ public class SignController {
 
     @ApiOperation(value = "로그인", notes = "이메일 회원 로그인을 한다.")
     @PostMapping(value = "/signin")
-    public SingleResult<String> signin(@ApiParam(value = "회원ID : 이메일", required = true) @RequestParam String id,
+    public SingleResult<String> signin(@ApiParam(value = "회원ID : 이메일", required = true) @RequestParam String email,
                                        @ApiParam(value = "비밀번호", required = true) @RequestParam String password) {
-        User user = userJpaRepo.findByEmail(id).orElseThrow(CEmailSigninFailedException::new);
+        User user = userJpaRepo.findByEmail(email).orElseThrow(CEmailSigninFailedException::new);
         if (!passwordEncoder.matches(password, user.getPassword()))
             throw new CEmailSigninFailedException();
 
+        System.out.println(user.toString());
         return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.getEmail()), user.getRoles()));
 
     }
 
     @ApiOperation(value = "가입", notes = "회원가입을 한다.")
     @PostMapping(value = "/signup")
-    public CommonResult signin(@ApiParam(value = "회원ID : 이메일", required = true) @RequestParam String uid,
+    public CommonResult signin(
+                               @ApiParam(value = "이메일 : 이메일", required = true) @RequestParam String email,
                                @ApiParam(value = "비밀번호", required = true) @RequestParam String password,
                                @ApiParam(value = "이름", required = true) @RequestParam String name,
                                @ApiParam(value = "닉네임", required = true) @RequestParam String nickname) {
 
         userJpaRepo.save(User.builder()
-                .email(uid)
+                .email(email)
                 .password(passwordEncoder.encode(password))
                 .name(name)
                 .nickname(nickname)
@@ -76,12 +78,12 @@ public class SignController {
 
     @ApiOperation(value = "중복 체크", notes = "아이디 중복을 확인 한다.")
     @PostMapping(value = "/duplicate")
-    public CommonResult checkDuplicate (@ApiParam(value = "회원ID : 이메일", required = true) @RequestParam String uid) {
+    public CommonResult checkDuplicate (@ApiParam(value = "회원ID : 이메일", required = true) @RequestParam String email) {
         User noUser = new User();
         noUser.setEmail("can't found");
 
-        User user = userJpaRepo.findByEmail(uid).orElse(noUser);
-        if(uid.matches(user.getEmail())) {
+        User user = userJpaRepo.findByEmail(email).orElse(noUser);
+        if(email.matches(user.getEmail())) {
             throw new CEmailDuplicatedException();
         }
         return responseService.getSuccessResult();
@@ -108,24 +110,26 @@ public class SignController {
         KakaoProfile kakaoProfile = null;
         GoogleProfile googleProfile = null;
         GithubProfile githubProfile = null;
-        String uid = null;
+        String email = null;
 
         // get profile
         if(provider.equals("kakao")) {
             kakaoProfile = kakaoService.getKakaoProfile(accessToken);
             System.out.println(kakaoProfile.toString());
-            uid = String.valueOf(kakaoProfile.getId());
+            email = String.valueOf(kakaoProfile.getId());   // 이메일 변경 필
         }
         else if(provider.equals("google")) {
             googleProfile = googleService.getGoogleProfile(accessToken);
-            uid = String.valueOf(googleProfile.getId());
+            email = String.valueOf(googleProfile.getEmail());
         }
         else if(provider.equals("github")) {
 
         }
 
-        User user = userJpaRepo.findByEmailAndProvider(uid, provider).orElseThrow(CUserNotFoundException::new);
-        return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.getId()), user.getRoles()));
+        System.out.println(email + " " + provider);
+
+        User user = userJpaRepo.findByEmailAndProvider(email, provider).orElseThrow(CUserNotFoundException::new);
+        return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.getEmail()), user.getRoles()));
     }
 
     @ApiOperation(value = "소셜 계정 가입", notes = "소셜 계정 회원가입을 한다.")
@@ -138,6 +142,7 @@ public class SignController {
         GithubProfile githubProfile = null;
         String uid = null;
         String name = null;
+        String email = null;
         String picture = null;
 
         // get profile
@@ -148,13 +153,15 @@ public class SignController {
         }
         else if(provider.equals("google")) {
             googleProfile = googleService.getGoogleProfile(accessToken);
-            uid = String.valueOf(googleProfile.getEmail());
+            uid = String.valueOf(googleProfile.getId());
+            email = String.valueOf(googleProfile.getEmail());
             name = String.valueOf(googleProfile.getName());
             picture = String.valueOf(googleProfile.getPicture());
         }
         else if(provider.equals("github")) {
             githubProfile = githubService.getGithubProfile(accessToken);
-            uid = String.valueOf(githubProfile.getEmail());
+            uid = String.valueOf(githubProfile.getId());
+            email = String.valueOf(githubProfile.getEmail());
             name = String.valueOf(githubProfile.getName());
         }
         System.out.println(uid + " " + name + " " + picture);
@@ -163,7 +170,7 @@ public class SignController {
         if(user.isPresent()) throw new CUserExistException();
 
         userJpaRepo.save(User.builder()
-                .email(uid)
+                .email(email)
                 .provider(provider)
                 .name(name)
                 .nickname(name)
