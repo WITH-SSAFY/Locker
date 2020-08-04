@@ -13,6 +13,84 @@
             <v-toolbar-title><strong>Login</strong></v-toolbar-title>
           </v-toolbar>
           <div class="px-5 py-3">
+            <div class="mb-7 ml-3" style="margin-right: 11rem">
+              <v-row>
+                <v-col cols="3">
+                  <v-row>
+                    <v-btn
+                      elevation="0"
+                      dark
+                      small
+                      class="mb-2 mx-2 px-0"
+                      color="rgba(219, 68, 55)"
+                      @click="signinWithSocial({provider: google})"
+                      height="3rem"
+                    >
+                      <v-icon dark size="30">mdi-google-plus</v-icon>
+                    </v-btn>
+                  </v-row>
+                  <v-row >
+                    <v-btn
+                      elevation="0"
+                      dark
+                      small
+                      color="rgb(255, 204, 0)"
+                      class="mb-2 mx-2 px-0"
+                      @click="signinWithKakao"
+                      height="3rem"
+                    >
+                      <v-icon dark size="30">mdi-chat</v-icon>
+                    </v-btn>
+                  </v-row>
+                </v-col>
+                <v-col cols="3">
+                  <v-row>
+                  <v-btn
+                    elevation="0"
+                    dark
+                    small
+                    color="rgba(66, 103, 178)"
+                    class="mb-2 ml-2 px-0"
+                    height="3rem"
+                  >
+                    <v-icon size="35">
+                    facebook</v-icon>
+                  </v-btn>
+                </v-row>
+                <v-row>
+                  <v-btn
+                    elevation="0"
+                    dark
+                    small
+                    color="rgb(45, 180, 0)"
+                    class="mb-2 ml-2 px-0"
+                    height="3rem"
+                  >
+                    <v-icon
+                      size="50"
+                    >
+                    mdi-alpha-n</v-icon>
+                  </v-btn>
+                </v-row>
+                </v-col>
+                <v-col cols="6" style="padding-left: 5px;">
+                  <v-btn
+                    elevation="0"
+                    class="mb-2"
+                    dark
+                    small
+                    color="black"
+                    @click="signinWithSocial({provider: github})"
+                    height="6.5rem"
+                    width="6.5rem"
+                  >
+                    <v-icon dark size="90">mdi-github</v-icon>
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </div>
+
+
             <div class="form-inline form-group">
               <v-icon large>mdi-email</v-icon>
               <v-text-field
@@ -32,57 +110,18 @@
             </div>
             <v-btn
                 depressed
+                dark
                 block
                 @click="login({id, password})"
-                color="#EDE7F6"
+                color="#7C4DFF"
                 class="mb-2"
             >
               <strong>로그인</strong>
             </v-btn>
-            <v-btn
-                depressed
-                block
-                color="dark"
-                class="mb-2"
-                @click="signinWithSocial({provider: github})"
-            >
-              <v-icon dark>mdi-github</v-icon>
-              <span class="ml-2">Github</span>
-            </v-btn>
-            <v-btn
-                depressed
-                block
-                color="dark"
-                class="mb-2"
-                @click="signinWithSocial({provider: google})"
-            >
-              <v-icon dark>mdi-google-plus</v-icon>
-              <span class="ml-1">Google</span>
-            </v-btn>
-
-            <v-btn
-                depressed
-                block
-                color="rgba(255, 204, 0, 0.5)"
-                class="mb-2"
-                @click="signinWithKakao"
-            >
-              <v-icon dark>mdi-chat</v-icon>
-              <span class="ml-1">KakaoTalk</span>
-            </v-btn>
-
-            <v-btn
-                depressed
-                block
-                color="rgba(45, 180, 0, 0.5)"
-            >
-              <v-icon
-                large
-                color="white"
-              >
-              mdi-alpha-n</v-icon>
-              <span>Naver</span>
-            </v-btn>
+            
+                
+            
+                
           </div>
         </v-card>
         <div class="pa-2">

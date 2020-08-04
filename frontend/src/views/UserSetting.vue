@@ -109,7 +109,7 @@
                   <div style="font-size: 1.5rem; font-weight:bold;">이메일 주소</div>
                 </v-col>
                 <v-col md="9" class="mt-2">
-                  <div style="font-size: 1.3">{{userInfo.id}}</div>
+                  <div style="font-size: 1.3">{{userInfo.email}}</div>
                 </v-col>
               </v-row>
             </div>
@@ -142,7 +142,7 @@ export default {
    data: ()=>{
      return{
       userInfo: {
-        id: "test@test.com",
+        email: "test@test.com",
         name: "test_name",
         nickname: "test_nick",
         introduction: "병아리에서 벗어나고 싶은 자바 개발자입니다 블라블라"

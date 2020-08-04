@@ -253,9 +253,11 @@ export default new Vuex.Store({
           .get("/v1/user?lang=ko", config)
           .then(response => {
               let userInfo = {
-                id: response.data.data.uid,
+                id: response.data.data.id,
+                email: response.data.data.email,
                 name: response.data.data.name,
-                nickname: response.data.data.nickname
+                nickname: response.data.data.nickname,
+                picture: response.data.data.picture
               }
               commit('loginSuccess', userInfo)
           })
