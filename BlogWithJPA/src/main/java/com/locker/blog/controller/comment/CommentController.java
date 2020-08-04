@@ -46,9 +46,9 @@ public class CommentController {
     }
 
     @ApiOperation(value = "댓글 하나 삭제", notes = "댓글을 쓴 사람이 해당 댓글을 삭제한다.")
-    @DeleteMapping(value = "")
-    public ResponseEntity<String> delete(@RequestBody Comment comment) throws Exception {
-        if(commentService.delete(comment)==0){
+    @DeleteMapping(value = "/{rid}")
+    public ResponseEntity<String> delete(@PathVariable Long rid) throws Exception {
+        if(commentService.delete(rid)==0){
             return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
@@ -61,13 +61,5 @@ public class CommentController {
             return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-    }
-
-    //해당 포스트에서 새로 추가될 댓글의 번호
-    @ApiOperation(value = "새로 추가할 댓글 번호", notes = "새로 추가할 댓글 번호를 받아온다.")
-    @GetMapping(value = "/{rid}")
-    public ResponseEntity<String> getRid(@ApiParam(value = "현재 포스트 번호", required = true) @PathVariable String pid) throws Exception{
-        String rid = Integer.toString(commentService.getRid(pid)+1);
-        return new ResponseEntity<String>(rid, HttpStatus.OK);
     }
 }
