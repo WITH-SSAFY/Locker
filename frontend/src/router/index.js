@@ -105,7 +105,14 @@ const routes = [
     name: "userSetting",
     component: () =>
       import(/* webpackChunkName: "userSetting" */ "../views/UserSetting.vue")
-  }
+  },
+  {
+    path: "/socialJoin",
+    name: "socialJoin",
+    props: true,
+    component: () => 
+      import(/* webpackChunkName: "SocialJoin" */ "../views/SocialJoin.vue")
+  },
 ];
 
 const router = new VueRouter({
