@@ -64,7 +64,7 @@ public class CommentController {
 
     //해당 포스트에서 새로 추가될 댓글의 번호
     @ApiOperation(value = "새로 추가할 댓글 번호", notes = "새로 추가할 댓글 번호를 받아온다.")
-    @PutMapping(value = "/rid")
+    @GetMapping(value = "/rid")
     public ResponseEntity<String> getRid(@RequestParam String pid) throws Exception{
         String rid = Integer.toString(commentService.getRid(pid)+1);
         return new ResponseEntity<String>(rid, HttpStatus.OK);
