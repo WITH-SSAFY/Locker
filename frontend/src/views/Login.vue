@@ -2,12 +2,14 @@
   <v-container fill-height style="max-width:450px;">
     <v-layout align-center row wrap>
       <v-flex xs12>
-        <v-alert type="error" :value="isLoginError">
+        <!-- <v-alert type="error" :value="isLoginError">
           아이디와 비밀번호를 확인해주세요.
         </v-alert>
         <v-alert type="success" :value="isLogin">
           로그인이 완료되었습니다. 
-        </v-alert>
+        </v-alert> -->
+        isLogin: {{ isLogin }}
+        isLoginError: {{ isLoginError }}
         <v-card>
           <v-toolbar flat>
             <v-toolbar-title><strong>Login</strong></v-toolbar-title>
@@ -142,6 +144,8 @@
 
 <script>
 import {mapState, mapActions} from "vuex"
+
+const userLoginStore = 'userLoginStore'
 
 export default {
   data(){
