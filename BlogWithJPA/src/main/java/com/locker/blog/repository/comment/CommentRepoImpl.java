@@ -17,8 +17,8 @@ public class CommentRepoImpl implements CommentRepo{
     }
 
     @Override
-    public int delete(Comment comment) {
-        return sqlSession.delete("comment.delete", comment);
+    public int delete(Long pid) {
+        return sqlSession.delete("comment.delete", pid);
     }
 
     @Override
@@ -29,10 +29,5 @@ public class CommentRepoImpl implements CommentRepo{
     @Override
     public int update(Comment comment) {
         return sqlSession.update("comment.update",comment);
-    }
-
-    @Override
-    public int getRid(String pid) {
-        return sqlSession.selectOne("comment.getRid",pid);
     }
 }
