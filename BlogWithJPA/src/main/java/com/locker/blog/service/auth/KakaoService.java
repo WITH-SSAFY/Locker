@@ -41,6 +41,7 @@ public class KakaoService {
         try {
             // Request profile
             ResponseEntity<String> response = restTemplate.postForEntity(env.getProperty("spring.social.kakao.url.profile"), request, String.class);
+            System.out.println("response : " + response.getBody());
             if (response.getStatusCode() == HttpStatus.OK)
                 return gson.fromJson(response.getBody(), KakaoProfile.class);
         } catch (Exception e) {

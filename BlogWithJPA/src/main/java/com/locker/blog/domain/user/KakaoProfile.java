@@ -7,12 +7,10 @@ import lombok.ToString;
 @Getter @Setter @ToString
 public class KakaoProfile {
     private Long id;
-    private Properties properties;
-
-    @Getter @Setter @ToString
-    private static class Properties {
-        private String nickname;
-        private String thumbnail_image;
-        private String profile_image;
-    }
+    private String status;
+    private String msg_blocked;
+    private String registered_at;
+    private String nickname;
+    private String thumbnail_image;
+    private String profile_image;
 }

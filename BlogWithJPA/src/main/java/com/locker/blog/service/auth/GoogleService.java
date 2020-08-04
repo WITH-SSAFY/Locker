@@ -41,8 +41,7 @@ public class GoogleService {
 
         // Request profile
         ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
-        System.out.println(response.getBody());
-        System.out.println(response.getStatusCode());
+
         try {
             if (response.getStatusCode() == HttpStatus.OK)
                 return gson.fromJson(response.getBody(), GoogleProfile.class);
