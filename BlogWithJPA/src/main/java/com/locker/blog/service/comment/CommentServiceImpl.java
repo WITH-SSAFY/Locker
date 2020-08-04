@@ -17,8 +17,8 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
-    public int delete(Comment comment) {
-        return commentRepo.delete(comment);
+    public int delete(Long pid) {
+        return commentRepo.delete(pid);
     }
 
     @Override
@@ -29,11 +29,6 @@ public class CommentServiceImpl implements CommentService{
     @Override
     public int update(Comment comment) {
         return commentRepo.update(comment);
-    }
-
-    @Override
-    public int getRid(String pid) {
-        return commentRepo.getRid(pid);
     }
 
 

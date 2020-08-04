@@ -6,7 +6,7 @@
 
     <insert id="insert" parameterType="Comment">
         insert into comment(pid, rid, replyId, replyName, replyText, createdAt, updatedAt)
-        values(#{pid}, #{rid}, #{replyId}, #{replyName}, #{replyText}, #{createdAt}, #{updatedAt})
+        values(#{pid}, null, #{replyId}, #{replyName}, #{replyText}, now(), now())
     </insert>
 
     <select id="selectAll" resultType="Comment">
@@ -18,16 +18,10 @@
     <update id="update" parameterType="Comment">
         update comment
         set replyText=#{replyText}, updatedAt=now()
-        where pid=#{pid} and rid=#{rid} and replyId=#{replyId}
+        where rid=#{rid}
     </update>
 
-    <delete id="delete" parameterType="Comment">
-        delete from comment where pid=#{pid} and rid=#{rid} and replyId=#{replyId}
+    <delete id="delete">
+        delete from comment where rid=#{rid}
     </delete>
-
-    <select id="getRid" resultType="Integer">
-        select count(*)
-        from comment
-        where pid=#{pid}
-    </select>
 </mapper>
