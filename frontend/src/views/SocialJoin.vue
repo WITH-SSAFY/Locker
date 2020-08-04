@@ -14,7 +14,7 @@
             >
               <!-- v-model="valid" -->
               <div class="form-inline form-group">
-                <v-icon large>mdi-account-outline</v-icon>
+                <!-- <v-icon large>mdi-account-outline</v-icon>
                 <v-text-field
                   v-model="usrName"
                   :counter="30"
@@ -22,21 +22,22 @@
                   label="이름"
                   class="ml-2"
                   required
-                ></v-text-field>
+                ></v-text-field> -->
+                <!-- {{ access_token }} -->
+                Locker의 서비스를 이용하기 위해서는 회원가입이 필요합니다!<br>
+                가입하시겠어요??
               </div>
 
               <v-btn
                   depressed
                   block
                   id="request_btn"
-                  @click="signupWithKakao({ kToken, usrName })"
+                  @click="signupWithKakao({ access_token })"
                   color="#EDE7F6"
                   class="mb-2"
               >
                 <strong>회원가입</strong>
               </v-btn>
-
-              <!-- <v-btn @click="test">test!!</v-btn> -->
             </v-form>     
           </div>
         </v-card>
@@ -48,22 +49,16 @@
 import {mapActions} from "vuex"
 
 export default {
-  data: () => ({
-    usrName : '',
-    usrNameRules : [
-      v => !!v || '이름을 입력해주세요',
-      v => (v &&v.length>=2&& v.length <= 30) || '이름은 최소 2자 최대 30자 입니다',
-    ],
-  }),
   props: {
-    // access_token: {
+    // kToken: {
     //   type: String,
     //   default: "none"
     // }
+    access_token: {
+      type: String,
+      default: "none"
+    }
   },
-  // props: {
-  //   access_token: ''
-  // },
   methods: {
     ...mapActions(["signupWithKakao"]),
     test(){

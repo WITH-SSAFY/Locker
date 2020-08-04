@@ -44,6 +44,7 @@
                 block
                 color="dark"
                 class="mb-2"
+                @click="signinWithSocial({provider: github})"
             >
               <v-icon dark>mdi-github</v-icon>
               <span class="ml-2">Github</span>
@@ -53,6 +54,7 @@
                 block
                 color="dark"
                 class="mb-2"
+                @click="signinWithSocial({provider: google})"
             >
               <v-icon dark>mdi-google-plus</v-icon>
               <span class="ml-1">Google</span>
@@ -106,7 +108,9 @@ export default {
   data(){
     return{
       id: null,
-      password: null
+      password: null,
+      github: "github",
+      google: "google"
     }
   },
   computed: {
@@ -114,7 +118,7 @@ export default {
   },
   methods: {
     //state에 있는 action을 가져다 쓸 수 있게 해줌
-    ...mapActions(["login","signinWithKakao"])
+    ...mapActions(["login", "signinWithKakao", "signinWithSocial"])
   }
 }
 </script>
