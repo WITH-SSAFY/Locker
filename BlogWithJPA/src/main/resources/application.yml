@@ -1,12 +1,12 @@
 server:
-  port: 8090
+  port: 8080
 
 spring:
   profiles:
     active: auth
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         show_sql: true
@@ -17,9 +17,12 @@ spring:
     basename: i18n/exception
     encoding: UTF-8
   url:
-    base: http://i3a606.p.ssafy.io:8090
-    #base: http://localhost:8090
+    #base: http://i3a606.p.ssafy.io:8080
+    base: http://localhost:8080
+  logging:
+    level: debug
 
 mybatis:
   config-location: classpath:config/mybatis-config.xml
+
 
