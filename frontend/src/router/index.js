@@ -107,24 +107,19 @@ const routes = [
     component: () => 
       import(/* webpackChunkName: "KakaoRegister" */ "../views/KakaoRegister.vue")
   },
-  // {
-  //   path: "/article",
-  //   name: "article",
-  //   component: () =>
-  //     import(/* webpackChunkName: "article" */ "../views/mypage-tabs/article.vue")
-  // },
   {
-    path: "/repository",
-    name: "repository",
+    path: "/userSetting",
+    name: "userSetting",
     component: () =>
-      import(/* webpackChunkName: "repository" */ "../views/mypage-tabs/repository.vue")
+      import(/* webpackChunkName: "userSetting" */ "../views/UserSetting.vue")
   },
-  // {
-  //   path: "/introduce",
-  //   name: "introduce",
-  //   component: () =>
-  //     import(/* webpackChunkName: "introduce" */ "../views/mypage-tabs/introduce.vue")
-  // },
+  {
+    path: "/socialJoin",
+    name: "socialJoin",
+    props: true,
+    component: () => 
+      import(/* webpackChunkName: "SocialJoin" */ "../views/SocialJoin.vue")
+  },
 ];
 
 const router = new VueRouter({

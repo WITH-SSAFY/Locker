@@ -1,8 +1,9 @@
-package com.locker.blog.service.user;
+package com.locker.blog.service.auth;
 
 import com.google.gson.Gson;
 import com.locker.blog.advice.exception.CCommunicationException;
-import com.locker.blog.domain.social.RetKakaoAuth;
+import com.locker.blog.domain.social.RetAuth;
+import com.locker.blog.domain.user.GoogleProfile;
 import com.locker.blog.domain.user.KakaoProfile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,9 +14,11 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
+
 @RequiredArgsConstructor
 @Service
-public class KakaoService {
+public class GoogleService {
 
     private final RestTemplate restTemplate;
     private final Environment env;
@@ -24,46 +27,51 @@ public class KakaoService {
     @Value("${spring.url.base}")
     private String baseUrl;
 
-    @Value("${spring.social.kakao.client_id}")
-    private String kakaoClientId;
+    @Value("${spring.security.oauth2.client.registration.google.clientId}")
+    private String googleClientId;
 
-    @Value("${spring.social.kakao.redirect}")
-    private String kakaoRedirect;
+    @Value("${spring.security.oauth2.client.registration.google.clientSecret}")
+    private String googleClientSecret;
 
-    public KakaoProfile getKakaoProfile(String accessToken) {
-        // Set header : Content-type: application/x-www-form-urlencoded
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        headers.set("Authorization", "Bearer " + accessToken);
+    @Value("${spring.security.oauth2.client.registration.google.redirectUri}")
+    private String googleRedirect;
 
-        // Set http entity
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(null, headers);
+    public GoogleProfile getGoogleProfile(String accessToken) {
+        URI uri = URI.create("https://www.googleapis.com/oauth2/v1/userinfo?access_token=" + accessToken);
+
+        // Request profile
+        ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
+
         try {
-            // Request profile
-            ResponseEntity<String> response = restTemplate.postForEntity(env.getProperty("spring.social.kakao.url.profile"), request, String.class);
             if (response.getStatusCode() == HttpStatus.OK)
-                return gson.fromJson(response.getBody(), KakaoProfile.class);
+                return gson.fromJson(response.getBody(), GoogleProfile.class);
         } catch (Exception e) {
             throw new CCommunicationException();
         }
         throw new CCommunicationException();
     }
 
-    public RetKakaoAuth getKakaoTokenInfo(String code) {
+    public RetAuth getGoogleTokenInfo(String code) {
         // Set header : Content-type: application/x-www-form-urlencoded
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
         // Set parameter
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("grant_type", "authorization_code");
-        params.add("client_id", kakaoClientId);
-        params.add("redirect_uri", baseUrl + kakaoRedirect);
         params.add("code", code);
+        params.add("client_id", googleClientId);
+        params.add("client_secret", googleClientSecret);
+        params.add("redirect_uri", googleRedirect);
+        params.add("grant_type", "authorization_code");
+
         // Set http entity
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
-        ResponseEntity<String> response = restTemplate.postForEntity(env.getProperty("spring.social.kakao.url.token"), request, String.class);
+        URI uri = URI.create("https://oauth2.googleapis.com/token");
+
+        ResponseEntity<String> response = restTemplate.postForEntity(uri, request, String.class);
+
         if (response.getStatusCode() == HttpStatus.OK) {
-            return gson.fromJson(response.getBody(), RetKakaoAuth.class);
+            return gson.fromJson(response.getBody(), RetAuth.class);
         }
         return null;
     }

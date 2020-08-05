@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
+@ToString
 @Builder // builder를 사용할수 있게 합니다.
 @Entity // jpa entity임을 알립니다.
 @Getter @Setter
@@ -22,23 +23,30 @@ import java.util.stream.Collectors;
 @Table(name = "user") // 'user' 테이블과 매핑됨을 명시
 public class User implements UserDetails {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long msrl;
-    @Column(nullable = false, unique = true, length = 50)
-    private String uid;
+    private Long id;
+    @Column(nullable = false, unique = true,length = 50)
+    private String email;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(length = 100)
     private String password;
     @Column(nullable = false, length = 100)
     private String name;
-    @Column(nullable = false, length = 100)
+    @Column(length = 100)
     private String nickname;
     @Column(length = 100)
     private String provider;
-    private LocalDateTime createDate;
+    @Column
+    private String picture;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private List<String> roles = new ArrayList<>();
+
+    public User update(String name, String picture) {
+        this.name = name;
+        this.picture = picture;
+        return this;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -48,7 +56,7 @@ public class User implements UserDetails {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Override
     public String getUsername() {
-        return this.uid;
+        return this.email;
     }
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

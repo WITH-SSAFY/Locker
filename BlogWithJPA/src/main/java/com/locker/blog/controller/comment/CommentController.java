@@ -4,6 +4,7 @@ import com.locker.blog.domain.comment.Comment;
 import com.locker.blog.service.comment.CommentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.util.List;
 @Api(tags = {"4. Comment"})
 @RestController
 @RequestMapping("/api/v1/comment")
+@CrossOrigin
 public class CommentController {
     private static final String SUCCESS = "success";
     private static final String FAIL = "fail";
@@ -25,7 +27,7 @@ public class CommentController {
     CommentService commentService;
 
     @ApiOperation(value = "하나의 포스트에 달린 모든 댓글 조회", notes = "하나의 포스트에 달린 모든 댓글 조회한다.")
-    @GetMapping(value = "/")
+    @GetMapping(value = "")
     public ResponseEntity<List<Comment>> selectAll() throws Exception {
         List<Comment> list = commentService.selectAll();
         if(list.size() > 0) {
@@ -35,7 +37,7 @@ public class CommentController {
     }
 
     @ApiOperation(value = "댓글 하나 추가", notes = "하나의 포스트에서 댓글을 추가한다.")
-    @PostMapping(value = "/")
+    @PostMapping(value = "")
     public ResponseEntity<String> insert(@RequestBody Comment comment) throws Exception {
         if(commentService.insert(comment)==0){
             return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
@@ -44,22 +46,20 @@ public class CommentController {
     }
 
     @ApiOperation(value = "댓글 하나 삭제", notes = "댓글을 쓴 사람이 해당 댓글을 삭제한다.")
-    @DeleteMapping(value = "/")
-    public ResponseEntity<String> delete(@RequestBody Comment comment) throws Exception {
-        if(commentService.delete(comment)==0){
+    @DeleteMapping(value = "/{rid}")
+    public ResponseEntity<String> delete(@PathVariable Long rid) throws Exception {
+        if(commentService.delete(rid)==0){
             return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }
 
     @ApiOperation(value = "댓글 하나 수정", notes = "댓글을 쓴 사람이 해당 댓글을 수정한다.")
-    @PutMapping(value = "/")
+    @PutMapping(value = "")
     public ResponseEntity<String> update(@RequestBody Comment comment) throws Exception {
         if(commentService.update(comment)==0){
             return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }
-
-
 }
