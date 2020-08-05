@@ -43,7 +43,7 @@
             <!-- 텍스트 섹션 -->
             <div class="col-md-8 d-flex-wrap align-self-start">
               <div class="d-flex align-items-center justify-content-between p-0">
-                <p class="lead d-inline my-0" style="font-size: 5rem;"><strong>{{ userInfo.nickname }}</strong></p>
+                <!-- <p class="lead d-inline my-0" style="font-size: 5rem;"><strong>{{ userInfo.nickname }}</strong></p> -->
                 <!-- <a href="" class="d-inline btn btn-outline-dark btn-sm">Edit Profile</a> -->
                 <div class="d-inline-flex ml-5">
                   <v-icon size="60" style="color: #EDE7F6;">mdi-arm-flex</v-icon>
@@ -84,26 +84,25 @@
           md="10"
         >
           <v-tabs
-            v-model="tab"
+            v-model="activeTab"
             background-color="transparent"
             color="#7C4DFF"
             grow
           >
-            <v-tab
-              v-for="item in items"
-              :key="item"
-            >
-              <p><strong>{{ item }}</strong></p>
+            <v-tab key="" to="/">
+              <p><strong>Article</strong></p>
             </v-tab>
-          </v-tabs>
+            <v-tab key="repository" to="/repository">
+              <p><strong>Repository</strong></p>
+            </v-tab>
+            <v-tab key="" to="/">
+              <p><strong>Introduce</strong></p>
+            </v-tab>
 
-          <v-tabs-items v-model="tab">
-            <v-tab-item
-              v-for="item in items"
-              :key="item"
-            >
+            <v-tab-item id="/repository">
+              <router-view v-if="activeTab === 'repository'"/>
             </v-tab-item>
-          </v-tabs-items>
+          </v-tabs>
         </v-col>
       </v-row>
 

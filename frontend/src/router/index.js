@@ -44,6 +44,13 @@ const routes = [
     path: "/mypage",
     name: "mypage",
     beforeEnter: onlyAuthUser,
+    // component: { template: '<div>Posts<router-view></router-view></div>'},
+    
+    // children: [
+    //   { path: 'article', component: { template: '<div>New Post</div>'} },
+    //   { path: 'register', component: { template: '<div>New Register</div>'} },
+    //   { path: 'introduce', component: { template: '<div>New Intro</div>'} },
+    // ]
     component: () =>
       import(/* webpackChunkName: "mypage" */ "../views/mypage.vue")
   },
