@@ -11,5 +11,5 @@ public interface PostDAO {
     public List<Post> selectAll();
     public Post selectOne(String post_id);
     public int update(Post post);
-    public List<Post> selectAllByWriter(String writer);
+    public List<Post> selectAllByWriter(String email);
 }

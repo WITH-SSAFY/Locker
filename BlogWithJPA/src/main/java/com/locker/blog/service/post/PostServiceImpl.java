@@ -39,8 +39,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> selectAllByWriter(String writer) {
-        return dao.selectAllByWriter(writer);
+    public List<Post> selectAllByWriter(String email) {
+        return dao.selectAllByWriter(email);
     }
 
 }
