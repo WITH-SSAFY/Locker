@@ -10,8 +10,8 @@ import axios from "../lib/axios-common.js"
 export default new Vuex.Store({
   state: {
     userInfo: null,
-    isLogin: false,
-    // isLogin: true,
+    // isLogin: false,
+    isLogin: true,
     isLoginError: false,
     myPostList: null,//내가 쓴 포스트 목록
     myDetailTitle: "",//상세보기 제목
