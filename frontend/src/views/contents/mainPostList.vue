@@ -7,7 +7,18 @@
           <!-- <h1 class="ml-2 mb-5" style="posigion: absolute; font-size: 4rem;"><strong>LOCKER</strong></h1> -->
           <div class="main-under-line"></div>
         </v-flex>
-        <v-item-group
+
+        <div class="row justify-content-end">
+          <div class="col-md-3 m-2" style="height: 25vh; background-color: #333;"></div>
+          <div class="col-md-3 m-2" style="height: 25vh; background-color: #333;"></div>
+          <div class="col-md-3 m-2" style="height: 25vh; background-color: #333;"></div>
+        </div>
+        <div class="row justify-content-between">
+          <div class="col-md-3 m-2" style="height: 25vh; background-color: #333;"></div>
+          <div class="col-md-3 ml-md-auto m-2" style="height: 25vh; background-color: #333;"></div>
+          <div class="col-md-3 m-2" style="height: 25vh; background-color: #333;"></div>
+        </div>
+        <!-- <v-item-group
           v-model="selected"
           :mandatory="mandatory"
           :multiple="multiple"
@@ -119,7 +130,7 @@
               </v-col>
             </v-row>
           </v-container>
-        </v-item-group>
+        </v-item-group> -->
       </div>
 
       <div class="col-md-3">
