@@ -120,6 +120,12 @@ const routes = [
     component: () => 
       import(/* webpackChunkName: "SocialJoin" */ "../views/SocialJoin.vue")
   },
+  {
+    path: "/repository",
+    name: "repository",
+    component: () =>
+      import(/* webpackChunkName: "repository" */ "../views/mypage-tabs/repository.vue")
+  },
 ];
 
 const router = new VueRouter({
