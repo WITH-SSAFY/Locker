@@ -1,5 +1,5 @@
 <template>
-    <div>
+  <div>
     <v-container class="mt-md-6">
       <v-row>
         <v-col
@@ -53,31 +53,39 @@
             </div>
           </div>
 
+          <!-- 댓글 창 -->
           <div class="row mr-4">
             <div class="col-md-10">
               <v-text-field
                 label="댓글"
                 outlined
-              ></v-text-field>
+                v-model="text"
+              >
+              </v-text-field>
             </div>
             <div class="col-md-1">
               <v-btn 
                 style="height: 65%;"
                 dark
                 elevation="0"
+                @click="postComment(pid)"
               >
-              작성</v-btn>
+              작성
+              </v-btn>
             </div>
           </div>
         </v-col>
 
+        <!-- 사이드바 -->
         <v-col>
           <side-bar class="side" text-align="left"></side-bar>
         </v-col>
+
       </v-row>
     </v-container>
   </div>
 </template>
+
 <script>
   // import { mapState } from "vuex"
   import SideBar from "../SideBar.vue"
@@ -86,6 +94,7 @@
   import('../../assets/css/side-style.css')
   //import axios from "../js/axios-common.js"  
   import '@toast-ui/editor/dist/toastui-editor-viewer.css';
+  import axios from "../../lib/axios-common.js";
   
   export default {
     created(){
@@ -99,24 +108,19 @@
 
         //this.viewerText = "# this is test\r\n![image](https://t1.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/4sri/image/sLl-6IxU6iwhAmD-kelYRD_nUS4.jpeg)";
       this.viewerText;
-      // this.userInfo;
-      // this.myPostList;
     },
-    
     components: {
       Viewer,
       SideBar
     },
-
     data(){
-      return{
+      return {
         //viewerText : '',
+        text: '',
         tags: ["java", "login", "cookie"],
       }
     },
     computed : {
-      // ...mapState(["userInfo","myPostList"]),
-
       title(){
         return this.$store.state.myDetailTitle;
       },
@@ -127,23 +131,32 @@
         return this.$store.state.pid;
       },
       viewerText(){
-         console.log("readMyDetail: ",this.$store.state.myDetail);
+        //  console.log("readMyDetail: ",this.$store.state.myDetail);
          return this.$store.state.myDetail;
-      }
-      
+      }  
     },
     methods:{
-      checkViewerText(){
-        console.log("check: "+this.viewerText);
+      checkViewerText () {
+        console.log("check: "+ this.viewerText);
       },
       goEditDetail (pid) {
         this.$store.dispatch('goEditDetail', pid);
         //this.$router.push({name: "editPost"});  
       },
       deleteDetail (pid) {
-        //console.log(pid)
         this.$store.dispatch('deleteDetail', pid);
       },
+      postComment (pid) {
+        console.log("text : " + this.text)
+        axios
+          .post("v1/comment", { replyText : this.text,
+                                pid
+          })
+          .then(res => {
+            console.log(res.data)
+          })
+          .catch(exp => alert("댓글 작성에 실패했습니다" + exp))
+      }
     }
   };
 </script>

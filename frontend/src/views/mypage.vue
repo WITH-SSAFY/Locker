@@ -1,5 +1,4 @@
 <template>
-
   <div>
     <v-container class="mt-md-6">
       <v-row>
@@ -77,38 +76,46 @@
         </v-col>
       </v-row>
 
-      <!-- 탭 -->
+
+      <!-- 중첩 라우터 -->
+      <p>
+        <router-link to="article" class="p-3">article</router-link>
+        <router-link to="repository" class="p-3">repository</router-link>
+        <router-link to="introduce" class="p-3">introduce</router-link>
+      </p>
+      <router-view></router-view>
+
+      <!-- 탭
       <v-row class="no-gutters">
         <v-col
           cols="12"
           md="10"
         >
           <v-tabs
-            v-model="tab"
+            v-model="activeTab"
             background-color="transparent"
             color="#7C4DFF"
             grow
           >
-            <v-tab
-              v-for="item in items"
-              :key="item"
-            >
-              <p><strong>{{ item }}</strong></p>
+            <v-tab key="" to="/">
+              <p><strong>Article</strong></p>
             </v-tab>
-          </v-tabs>
+            <v-tab key="repository" to="/repository">
+              <p><strong>Repository</strong></p>
+            </v-tab>
+            <v-tab key="" to="/">
+              <p><strong>Introduce</strong></p>
+            </v-tab>
 
-          <v-tabs-items v-model="tab">
-            <v-tab-item
-              v-for="item in items"
-              :key="item"
-            >
+            <v-tab-item id="/repository">
+              <router-view v-if="activeTab === 'repository'"/>
             </v-tab-item>
-          </v-tabs-items>
+          </v-tabs>
         </v-col>
-      </v-row>
+      </v-row> -->
 
       <!-- 포스트 리스트 -->
-      <v-row>
+      <!-- <v-row>
         <v-col
           cols="12"
           md="10"
@@ -129,7 +136,7 @@
             </v-card-actions>
           </v-card>
         </v-col>
-      </v-row>
+      </v-row> -->
       <!-- <category/> -->
     </v-container>
   </div>
@@ -197,8 +204,6 @@ export default {
     
 }
 </script>
-<style scoped>
-.title {
-  cursor: pointer;
-}
+<style>
+
 </style>

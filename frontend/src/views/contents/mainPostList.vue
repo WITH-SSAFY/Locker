@@ -2,12 +2,55 @@
   <v-container>
     <div class="row">
       <div class="col-md-9">
-        <v-flex style="margin-top: 0;">
+        <v-flex style="margin: 0;">
           <h1 class="mb-5" style="font-size: 3.3rem;"><strong>LOCKER</strong></h1>
           <!-- <h1 class="ml-2 mb-5" style="posigion: absolute; font-size: 4rem;"><strong>LOCKER</strong></h1> -->
           <div class="main-under-line"></div>
         </v-flex>
-        <v-item-group
+
+       
+        <div class="row no-gutters">
+          <div class="col-md-3 offfset-md-3" style="height: 25vh;">
+
+          </div>
+          <div class="box col-md-3" style="background-color: #333;">
+            <div class="thumbnail">
+              <img src="#">
+            </div>
+          </div>
+          <div class="box col-md-3" style="background-color: #333;">
+            <div class="thumbnail">
+              <img src="#">
+            </div>
+          </div>
+          <div class="box col-md-3" style="background-color: #333;">
+            <div class="thumbnail">
+              <img src="#">
+            </div>
+          </div>
+        </div>
+        <div class="row no-gutters">
+          <div class="box col-md-3" style="background-color: #333;">
+            <div class="thumbnail">
+              <img src="#">
+            </div>
+          </div>
+          <div class="col-md-3 offfset-md-3" style="height: 25vh;">
+
+          </div>
+          <div class="box col-md-3" style="background-color: #333;">
+            <div class="thumbnail">
+              <img src="#">
+            </div>
+          </div>
+          <div class="box col-md-3" style="background-color: #333;">
+            <div class="thumbnail">
+              <img src="#">
+            </div>
+          </div>
+        </div>
+        
+        <!-- <v-item-group
           v-model="selected"
           :mandatory="mandatory"
           :multiple="multiple"
@@ -119,7 +162,7 @@
               </v-col>
             </v-row>
           </v-container>
-        </v-item-group>
+        </v-item-group> -->
       </div>
 
       <div class="col-md-3">
@@ -174,5 +217,9 @@ export default {
 </script>
 
 <style>
-
+.box {
+  box-sizing: border-box;
+  border: 5px solid transparent;
+  background-clip: padding-box;
+}
 </style>

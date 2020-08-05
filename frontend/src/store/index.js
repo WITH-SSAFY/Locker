@@ -16,7 +16,7 @@ export default new Vuex.Store({
     myPostList: null,//내가 쓴 포스트 목록
     myDetailTitle: "",//상세보기 제목
     myDetail: "",//상세보기 내용
-    writer: "",//글쓴이
+    nickname: "",//글쓴이
     pid: "",//글번호
   },
   //state 값 변화
@@ -51,7 +51,7 @@ export default new Vuex.Store({
       showMyDetail(state,payload){
         state.myDetail = payload.myDetail.content;
         state.myDetailTitle = payload.myDetail.title;
-        state.writer = payload.myDetail.writer;
+        state.nickname = payload.myDetail.nickname;
         state.pid = payload.myDetail.pid;
         console.log("state_mayDetail :"+state.myDetail);
         console.log("payload_mayDetail :"+payload.myDetail);
@@ -60,7 +60,7 @@ export default new Vuex.Store({
       goEditDetail(state,payload){
         state.myDetail = payload.myDetail.content;
         state.myDetailTitle = payload.myDetail.title;
-        state.writer = payload.myDetail.writer;
+        state.nickname = payload.myDetail.nickname;
         state.pid = payload.myDetail.pid;
         router.push({name: "editPost"});
       }
@@ -72,7 +72,7 @@ export default new Vuex.Store({
     login({dispatch}, loginObj){
       // 로그인 > 유효한 멤버인지 확인하고 토큰 반환
       axios
-        .post('/v1/signin?id='+loginObj.id+"&password="+loginObj.password) //파라메터(body)
+        .post('/v1/signin?email='+loginObj.id+"&password="+loginObj.password) //파라메터(body)
         .then( res => {
           // 성공 시 token을 받아옴 (실제로는 user_id 값을 받아옴 / 토큰에 user_id를 암호화해서)
           // 이 토큰을 헤더에 포함시켜서 유저 정보을 요청

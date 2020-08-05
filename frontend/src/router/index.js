@@ -2,6 +2,11 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 // import store from "../store/index.js"
 
+import mypage from "../views/mypage.vue";
+import article from "../views/mypage-tabs/article.vue";
+import repository from "../views/mypage-tabs/repository.vue";
+import introduce from "../views/mypage-tabs/introduce.vue";
+
 Vue.use(VueRouter);
 
 const rejectAuthUser = (to, from, next) => {
@@ -44,8 +49,13 @@ const routes = [
     path: "/mypage",
     name: "mypage",
     beforeEnter: onlyAuthUser,
-    component: () =>
-      import(/* webpackChunkName: "mypage" */ "../views/mypage.vue")
+    component: mypage,
+    children: [
+      { path: '/', component: article },
+      { path: '/article', component: article },
+      { path: '/repository', component: repository },
+      { path: '/introduce', component: introduce },
+    ]
   },
   {
     path: "/register",

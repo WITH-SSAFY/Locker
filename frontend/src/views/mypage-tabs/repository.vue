@@ -1,6 +1,5 @@
 <template>
   <div class="row category-back">
-
     <div class="top-left-box">
       <div class="category-title">
         <div class="under-line" style="width: 2.5rem;"></div>
@@ -41,7 +40,6 @@
 
 <script>
 export default {
-  name: "category",
 
 }
 </script>

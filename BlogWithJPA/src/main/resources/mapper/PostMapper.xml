@@ -4,15 +4,15 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="post">
     <select id="selectAllByWriter" resultType="Post">
-        select p.title, p.content, p.created_at, p.updated_at, p.pid
+        select p.pid, p.email, p.nickname, p.content, p.title, p.created, p.updated
         from post p, user u
-        where p.writer=u.msrl
-        and u.nickname=#{writer}
+        where p.email=u.email
+        and u.email=#{email}
     </select>
 
     <insert id="insert" parameterType="Post">
-        insert into post(title, writer, content, created_at, updated_at)
-        values(#{title}, #{writer}, #{content}, now(), now())
+        insert into post(email,nickname,content,title, created, updated)
+        values(#{email},#{nickname},#{content}, #{title},now(), now())
     </insert>
 
     <select id="selectAll" resultType="Post">
@@ -28,7 +28,7 @@
 
     <update id="update" parameterType="Post">
         update post
-        set title=#{title}, content=#{content}, updated_at=now()
+        set title=#{title}, content=#{content}, updated=now()
         where pid=#{pid}
     </update>
 
