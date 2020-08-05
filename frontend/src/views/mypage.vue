@@ -204,8 +204,6 @@ export default {
     
 }
 </script>
-<style scoped>
-.title {
-  cursor: pointer;
-}
+<style>
+
 </style>

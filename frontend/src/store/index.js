@@ -16,7 +16,7 @@ export default new Vuex.Store({
     myPostList: null,//내가 쓴 포스트 목록
     myDetailTitle: "",//상세보기 제목
     myDetail: "",//상세보기 내용
-    writer: "",//글쓴이
+    nickname: "",//글쓴이
     pid: "",//글번호
   },
   //state 값 변화
@@ -51,7 +51,7 @@ export default new Vuex.Store({
       showMyDetail(state,payload){
         state.myDetail = payload.myDetail.content;
         state.myDetailTitle = payload.myDetail.title;
-        state.writer = payload.myDetail.writer;
+        state.nickname = payload.myDetail.nickname;
         state.pid = payload.myDetail.pid;
         console.log("state_mayDetail :"+state.myDetail);
         console.log("payload_mayDetail :"+payload.myDetail);
@@ -60,7 +60,7 @@ export default new Vuex.Store({
       goEditDetail(state,payload){
         state.myDetail = payload.myDetail.content;
         state.myDetailTitle = payload.myDetail.title;
-        state.writer = payload.myDetail.writer;
+        state.nickname = payload.myDetail.nickname;
         state.pid = payload.myDetail.pid;
         router.push({name: "editPost"});
       }
