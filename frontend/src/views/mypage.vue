@@ -42,7 +42,7 @@
             <!-- 텍스트 섹션 -->
             <div class="col-md-8 d-flex-wrap align-self-start">
               <div class="d-flex align-items-center justify-content-between p-0">
-                <!-- <p class="lead d-inline my-0" style="font-size: 5rem;"><strong>{{ userInfo.nickname }}</strong></p> -->
+                <p class="lead d-inline my-0" style="font-size: 5rem;"><strong>{{ userInfo.nickname }}</strong></p>
                 <!-- <a href="" class="d-inline btn btn-outline-dark btn-sm">Edit Profile</a> -->
                 <div class="d-inline-flex ml-5">
                   <v-icon size="60" style="color: #EDE7F6;">mdi-arm-flex</v-icon>
@@ -204,8 +204,6 @@ export default {
     
 }
 </script>
-<style scoped>
-.title {
-  cursor: pointer;
-}
+<style>
+
 </style>

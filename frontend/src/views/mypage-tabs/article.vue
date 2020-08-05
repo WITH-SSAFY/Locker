@@ -49,6 +49,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.title {
+  cursor: pointer;
+}
 </style>

@@ -84,6 +84,7 @@
       return {
         title: '',
         content: '',
+        email: '',
         editorOptions: {
           hideModeSwitch: true,//모드 설정(markdown, wysiwyg) 안보이게함
         }
@@ -97,11 +98,12 @@
         this.content = this.$refs.toastuiEditor.invoke('getMarkdown');
         console.log("title : "+this.title);
         console.log("content : "+this.content);
-        console.log("writer : "+this.$store.state.userInfo.nickname);
+        console.log("nickname : "+this.$store.state.userInfo.nickname);
          axios
           .post("/v1/post",{title : this.title,
+                            email : this.email,
                             content: this.content,
-                            writer: this.$store.state.userInfo.nickname})
+                            nickname: this.$store.state.userInfo.nickname})
            .then(() =>{
              //alert("작성자: "+this.$store.state.userInfo.nickname);
              this.$store.dispatch('getMyPostList');
