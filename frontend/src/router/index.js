@@ -2,6 +2,11 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 // import store from "../store/index.js"
 
+import mypage from "../views/mypage.vue";
+import article from "../views/mypage-tabs/article.vue";
+import repository from "../views/mypage-tabs/repository.vue";
+import introduce from "../views/mypage-tabs/introduce.vue";
+
 Vue.use(VueRouter);
 
 const rejectAuthUser = (to, from, next) => {
@@ -44,15 +49,12 @@ const routes = [
     path: "/mypage",
     name: "mypage",
     beforeEnter: onlyAuthUser,
-    // component: { template: '<div>Posts<router-view></router-view></div>'},
-    
-    // children: [
-    //   { path: 'article', component: { template: '<div>New Post</div>'} },
-    //   { path: 'register', component: { template: '<div>New Register</div>'} },
-    //   { path: 'introduce', component: { template: '<div>New Intro</div>'} },
-    // ]
-    component: () =>
-      import(/* webpackChunkName: "mypage" */ "../views/mypage.vue")
+    component: mypage,
+    children: [
+      { path: '/article', component: article },
+      { path: '/repository', component: repository },
+      { path: '/introduce', component: introduce },
+    ]
   },
   {
     path: "/register",
@@ -120,12 +122,12 @@ const routes = [
     component: () => 
       import(/* webpackChunkName: "SocialJoin" */ "../views/SocialJoin.vue")
   },
-  {
-    path: "/repository",
-    name: "repository",
-    component: () =>
-      import(/* webpackChunkName: "repository" */ "../views/mypage-tabs/repository.vue")
-  },
+  // {
+  //   path: "/repository",
+  //   name: "repository",
+  //   component: () =>
+  //     import(/* webpackChunkName: "repository" */ "../views/mypage-tabs/repository.vue")
+  // },
 ];
 
 const router = new VueRouter({
