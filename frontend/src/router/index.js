@@ -51,6 +51,7 @@ const routes = [
     beforeEnter: onlyAuthUser,
     component: mypage,
     children: [
+      { path: '/', component: article },
       { path: '/article', component: article },
       { path: '/repository', component: repository },
       { path: '/introduce', component: introduce },
