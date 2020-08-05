@@ -29,9 +29,9 @@ public class PostController {
     PostService service;
 
     @ApiOperation(value = "특정 사용자가 작성한 모든 글 조회", notes = "특정 id가 작성한 모든 글을 조회한다.")
-    @GetMapping(value = "/all/{writer}")
-    public ResponseEntity<List<Post>> selectAllByWriter(@PathVariable String writer) throws Exception {
-        List<Post> list = service.selectAllByWriter(writer);
+    @GetMapping(value = "/all/{email}")
+    public ResponseEntity<List<Post>> selectAllByWriter(@PathVariable String email) throws Exception {
+        List<Post> list = service.selectAllByWriter(email);
         if(list.size() > 0) {
             return new ResponseEntity<List<Post>>(list, HttpStatus.OK);
         }
