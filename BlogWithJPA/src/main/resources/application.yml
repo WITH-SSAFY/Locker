@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8090
 
 spring:
   profiles:
@@ -17,12 +17,11 @@ spring:
     basename: i18n/exception
     encoding: UTF-8
   url:
-    #base: http://i3a606.p.ssafy.io:8080
-    base: http://localhost:8080
+    #base: http://i3a606.p.ssafy.io:8090
+    base: http://localhost:8090
+
   logging:
-    level: debug
+    level: info
 
 mybatis:
   config-location: classpath:config/mybatis-config.xml
-
-
