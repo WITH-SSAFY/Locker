@@ -5,9 +5,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Getter @Setter @ToString
-public class FbRetAuth {
+public class FacebookRetAuth {
     private String access_token;
     private String token_type;
-    private String refresh_token;
-    private String code;
+    private long expires_in;
 }

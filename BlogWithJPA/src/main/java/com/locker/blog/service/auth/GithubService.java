@@ -8,6 +8,8 @@ import com.locker.blog.domain.user.GithubProfile;
 import com.locker.blog.domain.user.GoogleProfile;
 import com.locker.blog.domain.user.KakaoProfile;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.*;
@@ -21,6 +23,8 @@ import java.net.URI;
 @RequiredArgsConstructor
 @Service
 public class GithubService {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     private final RestTemplate restTemplate;
     private final Environment env;
     private final Gson gson;
@@ -37,7 +41,7 @@ public class GithubService {
     public GithubProfile getGithubProfile(String accessToken) {
         URI uri = URI.create("https://api.github.com/user?access_token=" + accessToken);
         ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
-        System.out.println(response.getBody());
+        logger.info(response.getBody());
 
         try {
             // Request profile
