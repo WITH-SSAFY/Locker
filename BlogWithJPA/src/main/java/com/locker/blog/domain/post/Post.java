@@ -18,14 +18,19 @@ public class Post {
     @Column(nullable = false)
     private Long pid;
 
+    @Column(nullable = false, name="email")
+    @JoinColumn(nullable = false)
+    private String email;
+
     @Column(nullable = false)
     @JoinColumn(nullable = false)
-    private String writer;
+    private String nickname;
 
     private String title;
 
     @Column(length = 1000)
     private String content;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+
+    private LocalDateTime created;
+    private LocalDateTime updated;
 }
