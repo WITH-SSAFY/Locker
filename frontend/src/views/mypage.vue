@@ -1,5 +1,4 @@
 <template>
-
   <div>
     <v-container class="mt-md-6">
       <v-row>
@@ -77,7 +76,16 @@
         </v-col>
       </v-row>
 
-      <!-- 탭 -->
+
+      <!-- 중첩 라우터 -->
+      <p>
+        <router-link to="article" class="p-3">article</router-link>
+        <router-link to="repository" class="p-3">repository</router-link>
+        <router-link to="introduce" class="p-3">introduce</router-link>
+      </p>
+      <router-view></router-view>
+
+      <!-- 탭
       <v-row class="no-gutters">
         <v-col
           cols="12"
@@ -104,10 +112,10 @@
             </v-tab-item>
           </v-tabs>
         </v-col>
-      </v-row>
+      </v-row> -->
 
       <!-- 포스트 리스트 -->
-      <v-row>
+      <!-- <v-row>
         <v-col
           cols="12"
           md="10"
@@ -128,7 +136,7 @@
             </v-card-actions>
           </v-card>
         </v-col>
-      </v-row>
+      </v-row> -->
       <!-- <category/> -->
     </v-container>
   </div>

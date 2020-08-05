@@ -1,5 +1,6 @@
 <template>
   <div class="article">
+    article test
     <!-- 포스트 리스트 -->
     <v-row>
       <v-col
@@ -30,7 +31,6 @@
 import { mapState } from "vuex"
 
 export default {
-  name: 'article',
   components: {
 
   },
