@@ -23,8 +23,10 @@ public class EmailSendService {
     }
 
     public void sendVerificationMail(String email) {
-        String VERIFICATION_LINK = "http://http://i3a606.p.ssafy.io/user/verify/";
-        UUID uuid = UUID.randomUUID();
-        sendMail(email,"[Locker] 블로그 회원가입 인증메일입니다.",VERIFICATION_LINK+uuid.toString());
+        StringBuilder VERIFICATION_LINK = new StringBuilder()
+                .append("아래 링크를 클릭하시면 이메일 인증이 완료됩니다.").append("\n\n")
+                .append("https://i3a606.p.ssafy.io/verify/success");
+
+        sendMail(email,"[Locker] 블로그 회원가입 인증메일입니다.",VERIFICATION_LINK.toString());
     }
 }
