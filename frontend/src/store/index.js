@@ -188,25 +188,26 @@ export default new Vuex.Store({
       console.log("authCode", authCode)
       console.log("authObj.provider", authObj.provider)
 
-      axios
-        .get("/social/login/"+authObj.provider+"?code="+authCode)
-        .then(response => {
-            // let userInfo = {
-            //   id: response.data.data.id,
-            //   email: response.data.data.email,
-            //   name: response.data.data.name,
-            //   nickname: response.data.data.nickname,
-            //   picture: response.data.data.picture
-            // }
-            // commit('loginSuccess', userInfo)
-            console.log(response.data)
-            let token = response.data.data
-            localStorage.setItem("access_token", token) //key, value
-            dispatch('getMemberInfo')
-        })
-        .catch(error => {
-          console.log(error)
-        })
+      // axios
+      //   .get("/social/login/"+authObj.provider+"?code="+authCode)
+      //   .then(response => {
+      //       // let userInfo = {
+      //       //   id: response.data.data.id,
+      //       //   email: response.data.data.email,
+      //       //   name: response.data.data.name,
+      //       //   nickname: response.data.data.nickname,
+      //       //   picture: response.data.data.picture
+      //       // }
+      //       // commit('loginSuccess', userInfo)
+            
+      //       //없는 사용자면 signup 해야함.!!
+      //       console.log(response)
+      //   })
+      //   .catch(error => {
+      //     console.log(error)
+      //   })
+
+      //access_token 가지고 서버에 요청하기
     },
 
     signupWithSocial({commit}, authObj){
