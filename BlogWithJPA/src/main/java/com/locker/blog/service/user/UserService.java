@@ -24,6 +24,7 @@ public class UserService {
                 .name(name)
                 .nickname(nickname)
                 .picture(picture)
+                .verify(true)
                 .roles(Collections.singletonList("ROLE_USER"))
                 .build());
     }

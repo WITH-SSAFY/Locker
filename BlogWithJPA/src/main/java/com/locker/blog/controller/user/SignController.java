@@ -72,13 +72,14 @@ public class SignController {
                 .nickname(nickname)
                 .roles(Collections.singletonList("ROLE_USER"))
                 .provider("null")
+                .verify(true)
                 .build());
         return responseService.getSuccessResult();
     }
 
 
     @ApiOperation(value = "중복 체크", notes = "아이디 중복을 확인 한다.")
-    @PostMapping(value = "/duplicate")
+    @PostMapping(value = "/verify/duplicate")
     public CommonResult checkDuplicate (@ApiParam(value = "회원ID : 이메일", required = true) @RequestParam String email) {
         User noUser = new User();
         noUser.setEmail("can't found");
