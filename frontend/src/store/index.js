@@ -285,10 +285,9 @@ export default new Vuex.Store({
           })
       }
     },
-    getMyPostList({commit}){//내가 쓴 포스트 리스트 받아옴
-      console.log("getMyPostList");
+    getMyPostList({commit}, email){ // 내가 쓴 포스트 리스트 받아옴
       axios
-          .get("/v1/post/all") //일단은 전체 리스트받아오는 걸로
+          .get("/v1/post/all/" + email)
           .then(response =>{
             commit("getMyPostList",{myPostList : response.data})
           }).catch(

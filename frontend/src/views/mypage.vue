@@ -150,8 +150,9 @@ import('../assets/css/side-style.css')
 
 export default {
     created(){
-      this.$store.dispatch('getMyPostList');
+      // this.$store.dispatch('getMyPostList', this.$store.state.myEmail);
       this.userInfo;
+      this.$store.dispatch('getMyPostList', this.userInfo.email);
       this.myPostList;
       //likes 배열 초기화 작업
       this.likes.length=this.size;

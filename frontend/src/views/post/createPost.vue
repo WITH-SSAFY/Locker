@@ -101,7 +101,7 @@
         console.log("nickname : "+this.$store.state.userInfo.nickname);
          axios
           .post("/v1/post",{title : this.title,
-                            email : this.email,
+                            email : this.$store.state.userInfo.email,
                             content: this.content,
                             nickname: this.$store.state.userInfo.nickname})
            .then(() =>{
