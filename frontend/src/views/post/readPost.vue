@@ -111,7 +111,6 @@
   import { Viewer } from '@toast-ui/vue-editor';
   import('../../assets/css/read-post.css')
   import('../../assets/css/side-style.css')
-  //import axios from "../js/axios-common.js"  
   import '@toast-ui/editor/dist/toastui-editor-viewer.css';
   import axios from "../../lib/axios-common.js";
   
@@ -168,6 +167,7 @@
           })
           .then(() => {
             this.$store.dispatch('getCommentList', pid);
+            this.text='';
             // this.$router.push('/readPost')
           })
           .catch(exp => alert("댓글 작성에 실패했습니다" + exp))
