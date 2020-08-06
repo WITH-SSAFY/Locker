@@ -163,7 +163,7 @@ public class SignController {
         Optional<User> optionalUser = userJpaRepo.findByEmailAndProvider(uid, provider);
         if(optionalUser.isPresent()) {
             User user = userJpaRepo.findByEmailAndProvider(email, provider).orElseThrow(CUserNotFoundException::new);
-            return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.getEmail()), user.getRoles()));
+            return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.getId()), user.getRoles()));
         }
 
         userJpaRepo.save(User.builder()
@@ -175,6 +175,6 @@ public class SignController {
                 .roles(Collections.singletonList("ROLE_USER"))
                 .build());
 
-        return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(optionalUser.get().getEmail()), optionalUser.get().getRoles()));
+        return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(optionalUser.get().getId()), optionalUser.get().getRoles()));
     }
 }
