@@ -37,6 +37,8 @@ public class User implements UserDetails {
     private String provider;
     @Column
     private String picture;
+    @Column(length = 500)
+    private String introduction;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
