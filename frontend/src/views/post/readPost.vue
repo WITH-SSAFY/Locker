@@ -87,10 +87,14 @@
           <v-card flat>
             <div class="d-flex justify-content-between">
               <div>
-                <span class="mr-5">{{ comment.replynickname }}</span>
+                <span class="mr-5"><strong>{{ comment.replynickname }}</strong></span>
                 <span>{{ comment.replytext }}</span>
               </div>
-              <small>{{ comment.created }}</small>
+              <div>
+                <small class="mr-5">{{ comment.created }}</small>
+                <button class="btn btn-sm btn-light mr-2" @click="editComment(pid, comment.rid)">edit</button>
+                <button class="btn btn-sm btn-light mr-2" @click="deleteComment(pid, comment.rid)">delete</button>
+              </div>
             </div>
           </v-card>
         </v-col>
@@ -119,7 +123,6 @@
       this.viewerText;
       this.$store.dispatch('getCommentList', this.$store.state.pid)
       this.viewerComment;
-
     },
     components: {
       Viewer,
@@ -171,6 +174,28 @@
             // this.$router.push('/readPost')
           })
           .catch(exp => alert("댓글 작성에 실패했습니다" + exp))
+      },
+      editComment (pid, rid) {
+        console.log(pid, rid)
+        // axios
+        //   .put("v1/comment", { replytext: this.text,
+        //                        replyemail: this.$store.state.userInfo.email,
+        //                        replynickname: this.$store.state.userInfo.nickname,
+        //                        pid, rid,
+        //   })
+        //   .then(() => {
+        //     console.log(replytext, replyemail, replynickname, pid, rid)
+        //   })
+        //   .catch(exp => alert("댓글 수정에 실패했습니다" + exp))
+      },
+      deleteComment (pid, rid) {
+        console.log(pid, rid)
+        axios
+          .delete("v1/comment/" + rid)
+          .then(() => {
+            this.$store.dispatch('getCommentList', pid)
+          })
+          .catch(exp => alert("내 댓글 삭제 실패" + exp))
       }
     }
   };
