@@ -2,25 +2,21 @@ package com.locker.blog.controller.user;
 
 import com.locker.blog.advice.exception.CEmailDuplicatedException;
 import com.locker.blog.advice.exception.CEmailSigninFailedException;
-import com.locker.blog.advice.exception.CUserExistException;
 import com.locker.blog.advice.exception.CUserNotFoundException;
 import com.locker.blog.domain.response.CommonResult;
 import com.locker.blog.domain.response.SingleResult;
-import com.locker.blog.domain.user.GithubProfile;
-import com.locker.blog.domain.user.GoogleProfile;
-import com.locker.blog.domain.user.KakaoProfile;
-import com.locker.blog.domain.user.User;
+import com.locker.blog.domain.user.*;
 import com.locker.blog.repository.user.UserJpaRepo;
 import com.locker.blog.config.security.JwtTokenProvider;
-import com.locker.blog.service.auth.GithubService;
-import com.locker.blog.service.auth.GoogleService;
-import com.locker.blog.service.auth.KakaoService;
+import com.locker.blog.service.auth.*;
 import com.locker.blog.service.response.ResponseService;
 import com.locker.blog.service.user.EmailSendService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +29,7 @@ import java.util.Optional;
 @RequestMapping("/api/v1")
 @CrossOrigin
 public class SignController {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final UserJpaRepo userJpaRepo;
     private final JwtTokenProvider jwtTokenProvider;
@@ -42,6 +39,8 @@ public class SignController {
     private final KakaoService kakaoService;
     private final GoogleService googleService;
     private final GithubService githubService;
+    private final FacebookService facebookService;
+    private final NaverService naverService;
 
     @ApiOperation(value = "로그인", notes = "이메일 회원 로그인을 한다.")
     @PostMapping(value = "/signin")
@@ -51,8 +50,8 @@ public class SignController {
         if (!passwordEncoder.matches(password, user.getPassword()))
             throw new CEmailSigninFailedException();
 
-        System.out.println(user.toString());
-        return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.getEmail()), user.getRoles()));
+        logger.info(user.toString());
+        return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.getId()), user.getRoles()));
 
     }
 
@@ -110,52 +109,29 @@ public class SignController {
         KakaoProfile kakaoProfile = null;
         GoogleProfile googleProfile = null;
         GithubProfile githubProfile = null;
-        String email = null;
+        FacebookProfile facebookProfile = null;
+        NaverProfile naverProfile = null;
 
-        // get profile
-        if(provider.equals("kakao")) {
-            kakaoProfile = kakaoService.getKakaoProfile(accessToken);
-            System.out.println(kakaoProfile.toString());
-            email = String.valueOf(kakaoProfile.getId());   // 이메일 변경 필
-        }
-        else if(provider.equals("google")) {
-            googleProfile = googleService.getGoogleProfile(accessToken);
-            email = String.valueOf(googleProfile.getEmail());
-        }
-        else if(provider.equals("github")) {
-
-        }
-
-        System.out.println(email + " " + provider);
-
-        User user = userJpaRepo.findByEmailAndProvider(email, provider).orElseThrow(CUserNotFoundException::new);
-        return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.getEmail()), user.getRoles()));
-    }
-
-    @ApiOperation(value = "소셜 계정 가입", notes = "소셜 계정 회원가입을 한다.")
-    @PostMapping(value = "/signup/{provider}")
-    public CommonResult signupProvider(@ApiParam(value = "서비스 제공자 provider", required = true) @PathVariable String provider,
-                                       @ApiParam(value = "소셜 access_token", required = true) @RequestParam String accessToken) {
-
-        KakaoProfile kakaoProfile = null;
-        GoogleProfile googleProfile = null;
-        GithubProfile githubProfile = null;
         String uid = null;
         String name = null;
+        String nickname = null;
         String email = null;
         String picture = null;
 
         // get profile
         if(provider.equals("kakao")) {
             kakaoProfile = kakaoService.getKakaoProfile(accessToken);
-            System.out.println(kakaoProfile.toString());
             uid = String.valueOf(kakaoProfile.getId());
+
+            // logger
+            logger.info(kakaoProfile.toString());
         }
         else if(provider.equals("google")) {
             googleProfile = googleService.getGoogleProfile(accessToken);
             uid = String.valueOf(googleProfile.getId());
             email = String.valueOf(googleProfile.getEmail());
             name = String.valueOf(googleProfile.getName());
+            nickname = name;
             picture = String.valueOf(googleProfile.getPicture());
         }
         else if(provider.equals("github")) {
@@ -163,21 +139,42 @@ public class SignController {
             uid = String.valueOf(githubProfile.getId());
             email = String.valueOf(githubProfile.getEmail());
             name = String.valueOf(githubProfile.getName());
+            nickname = name;
+            picture = String.valueOf(githubProfile.getAvatar_url());
         }
-        System.out.println(uid + " " + name + " " + picture);
+        else if(provider.equals("facebook")) {
+            facebookProfile = facebookService.getFacebookProfile(accessToken);
+            uid = String.valueOf(facebookProfile.getId());
+            email = String.valueOf(facebookProfile.getEmail());
+            name = String.valueOf(facebookProfile.getName());
+            nickname = name;
+            picture = String.valueOf(facebookProfile.getPicture().getData().getUrl());
+        }
+        else if(provider.equals("naver")) {
+            naverProfile = naverService.getNaverProfile(accessToken);
+            uid = String.valueOf(naverProfile.getResponse().getId());
+            email = String.valueOf(naverProfile.getResponse().getEmail());
+            nickname = String.valueOf(naverProfile.getResponse().getNickname());
+            name = String.valueOf(naverProfile.getResponse().getName());
+        }
 
-        Optional<User> user = userJpaRepo.findByEmailAndProvider(uid, provider);
-        if(user.isPresent()) throw new CUserExistException();
+        logger.info("uid : " + uid + " name : " + name + " picture : " + picture + " email : " + email + " provider : " + provider);
+
+        Optional<User> user = userJpaRepo.findByEmailAndProvider(email, provider);
+        if(user.isPresent()) {
+            return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.get().getId()), user.get().getRoles()));
+
+        }
 
         userJpaRepo.save(User.builder()
                 .email(email)
                 .provider(provider)
                 .name(name)
-                .nickname(name)
+                .nickname(nickname)
                 .picture(picture)
                 .roles(Collections.singletonList("ROLE_USER"))
                 .build());
 
-        return responseService.getSuccessResult();
+        return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(email), Collections.singletonList("ROLE_USER")));
     }
 }

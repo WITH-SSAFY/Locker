@@ -44,4 +44,13 @@ public class GithubProfile {
     private Long collaborators;
     private Boolean dtwo_factor_authentication;
     private Plan plan;
+
+    @Getter @Setter @ToString
+    private static class Plan {
+        private String name;
+        private Long space;
+        private Long collaborators;
+        private Long private_repos;
+    }
+
 }

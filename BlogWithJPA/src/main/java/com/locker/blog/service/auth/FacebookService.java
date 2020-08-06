@@ -2,17 +2,15 @@ package com.locker.blog.service.auth;
 
 import com.google.gson.Gson;
 import com.locker.blog.advice.exception.CCommunicationException;
-import com.locker.blog.domain.social.FbRetAuth;
-import com.locker.blog.domain.social.GithubRetAuth;
-import com.locker.blog.domain.social.RetAuth;
-import com.locker.blog.domain.user.GithubProfile;
+import com.locker.blog.domain.social.FacebookRetAuth;
+import com.locker.blog.domain.user.FacebookProfile;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
@@ -20,6 +18,8 @@ import java.net.URI;
 @RequiredArgsConstructor
 @Service
 public class FacebookService {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     private final RestTemplate restTemplate;
     private final Environment env;
     private final Gson gson;
@@ -36,22 +36,28 @@ public class FacebookService {
     @Value("${spring.security.oauth2.client.provider.facebook.tokenUri}")
     private String facebookTokenUri;
 
-    public GithubProfile getGithubProfile(String accessToken) {
-        URI uri = URI.create("https://api.github.com/user?access_token=" + accessToken);
+    @Value("${spring.security.oauth2.client.provider.facebook.userInfoUri}")
+    private String facebookUserInfoUri;
+
+    public FacebookProfile getFacebookProfile(String accessToken) {
+        // Set http entity
+        URI uri = URI.create(facebookUserInfoUri
+                + "?access_token=" + accessToken);
         ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
-        System.out.println(response.getBody());
+
+        logger.info(response.getBody());
 
         try {
             // Request profile
             if (response.getStatusCode() == HttpStatus.OK)
-                return gson.fromJson(response.getBody(), GithubProfile.class);
+                return gson.fromJson(response.getBody(), FacebookProfile.class);
         } catch (Exception e) {
             throw new CCommunicationException();
         }
         throw new CCommunicationException();
     }
 
-    public FbRetAuth getFacebookToken(String code) {
+    public FacebookRetAuth getFacebookToken(String code) {
         // Set http entity
         URI uri = URI.create(facebookTokenUri
                 + "?client_id=" + facebookClientId
@@ -61,7 +67,7 @@ public class FacebookService {
         ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
 
         if (response.getStatusCode() == HttpStatus.OK) {
-            return gson.fromJson(response.getBody(), FbRetAuth.class);
+            return gson.fromJson(response.getBody(), FacebookRetAuth.class);
         }
         return null;
     }

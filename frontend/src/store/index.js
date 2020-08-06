@@ -4,7 +4,7 @@ import router from "../router/index.js"
 
 Vue.use(Vuex);
 
-import axios2 from "axios"
+// import axios2 from "axios"
 import axios from "../lib/axios-common.js"
 
 export default new Vuex.Store({
@@ -137,6 +137,7 @@ export default new Vuex.Store({
         },
         fail: function(err){
           alert("fail",JSON.stringify(err))
+          console.log("err : ",err)
         }
       })
     }, 
@@ -164,56 +165,51 @@ export default new Vuex.Store({
           console.log('err.config', err.config);
         })
     },
+
+    // signinWithFacebook({dispatch}, authObj){
+    //   console.log("signinWithFacebook")
+    //   dispatch
+    //   console.log(authObj)
+    //   axios
+    //   .get("/social/fb")
+    //   .then(response => {
+    //       console.log(response.data);
+    //       let loginUrl = response.data.loginUrl;
+    //       window.open("http://i3a606.p.ssafy.io:8090/oauth2/authorization/"+authObj.provider,
+    //             authObj.provider+" 로그인",
+    //             "width=450, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes" ); 
+    //   })
+    //   .catch(error => {
+    //     console.log(error)
+    //     alert('facebook 로그인 실패!')
+    //   })
+    // },
+
     signinWithSocial({dispatch}, authObj){
-      console.log("signinWithSocial - "+authObj.provider)
+      console.log("signinWithSocial")
       dispatch
-      let token = null
-      
-      axios2
-      .get("http://localhost:8090/oauth2/authorization/"+authObj.provider)
+      let authCode = authObj.authCode
+      console.log("authCode", authCode)
+      console.log("authObj.provider", authObj.provider)
+
+      axios
+        .get("/social/login/"+authObj.provider+"?code="+authCode)
         .then(response => {
-          token = response.data.access_token
-          console.log(response.data);
-          axios
-            .post("/v1/signin/"+authObj.provider+"?accessToken="+token)
-            .then(response =>{
-              console.log(response.data)
-              localStorage.setItem("access_token", token) //key, value
-              dispatch('getMemberInfo')
-            })
-            .catch(err => {
-              if(err.response){
-                console.log("err.response.data", err.response.data);
-                if(err.response.data.code === -1000){
-                  console.log("token 값 확인 : ", token);
-                  dispatch('signupWith', ({ access_token: token, provider: authObj.provider }))
-                } 
-                // console.log("status", err.reaponse.status);
-                // console.log("headers", err.reaponse.headers);
-              } else if(err.request){
-                console.log("error!!!",err.request);
-              } else{
-                console.log('Error', err.message);
-              }
-              console.log("err.config",err.config);
-            })
+            // let userInfo = {
+            //   id: response.data.data.id,
+            //   email: response.data.data.email,
+            //   name: response.data.data.name,
+            //   nickname: response.data.data.nickname,
+            //   picture: response.data.data.picture
+            // }
+            // commit('loginSuccess', userInfo)
+            console.log(response.data)
+            let token = response.data.data
+            localStorage.setItem("access_token", token) //key, value
+            dispatch('getMemberInfo')
         })
-        .catch(err => {
-          if(err.response){
-            console.log("err.response.data", err.response.data);
-            if(err.response.data.code === -1000){
-              // console.log("token 값 확인 : ", .access_token);
-              // router.push({ name: "socialJoin", params: { access_token: authObj.access_token }})
-              dispatch()
-            } 
-            // console.log("status", err.reaponse.status);
-            // console.log("headers", err.reaponse.headers);
-          } else if(err.request){
-            console.log("error!!!",err.request);
-          } else{
-            console.log('Error', err.message);
-          }
-          console.log("err.config",err.config);
+        .catch(error => {
+          console.log(error)
         })
     },
 
