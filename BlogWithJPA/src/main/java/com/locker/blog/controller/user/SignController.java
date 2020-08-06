@@ -50,8 +50,8 @@ public class SignController {
         if (!passwordEncoder.matches(password, user.getPassword()))
             throw new CEmailSigninFailedException();
 
-        System.out.println(user.toString());
-        return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.getEmail()), user.getRoles()));
+        logger.info(user.toString());
+        return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.getId()), user.getRoles()));
 
     }
 
@@ -158,15 +158,12 @@ public class SignController {
             name = String.valueOf(naverProfile.getResponse().getName());
         }
 
-        logger.info("uid : " + uid + " name : " + name + " picture : " + picture);
+        logger.info("uid : " + uid + " name : " + name + " picture : " + picture + " email : " + email + " provider : " + provider);
 
-        User user = userJpaRepo.findByEmailAndProvider(email, provider).orElse(null);
-        logger.info(user.toString());
+        Optional<User> user = userJpaRepo.findByEmailAndProvider(email, provider);
+        if(user.isPresent()) {
+            return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.get().getId()), user.get().getRoles()));
 
-        if(!user.equals(null)) {
-            String token = jwtTokenProvider.createToken(String.valueOf(user.getId()), user.getRoles());
-            logger.info("token : " + token);
-            return responseService.getSingleResult(token);
         }
 
         userJpaRepo.save(User.builder()
@@ -178,8 +175,6 @@ public class SignController {
                 .roles(Collections.singletonList("ROLE_USER"))
                 .build());
 
-        String token = jwtTokenProvider.createToken(String.valueOf(user.getId()), user.getRoles());
-        logger.info("token : " + token);
-        return responseService.getSingleResult(token);
+        return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(email), Collections.singletonList("ROLE_USER")));
     }
 }
