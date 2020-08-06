@@ -27,9 +27,9 @@ public class CommentController {
     CommentService commentService;
 
     @ApiOperation(value = "하나의 포스트에 달린 모든 댓글 조회", notes = "하나의 포스트에 달린 모든 댓글 조회한다.")
-    @GetMapping(value = "")
-    public ResponseEntity<List<Comment>> selectAll() throws Exception {
-        List<Comment> list = commentService.selectAll();
+    @GetMapping(value = "/{pid}")
+    public ResponseEntity<List<Comment>> selectAll(@PathVariable Long pid) throws Exception {
+        List<Comment> list = commentService.selectAll(pid);
         if(list.size() > 0) {
             return new ResponseEntity<List<Comment>>(list, HttpStatus.OK);
         }

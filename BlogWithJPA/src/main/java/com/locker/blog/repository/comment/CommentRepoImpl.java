@@ -17,13 +17,13 @@ public class CommentRepoImpl implements CommentRepo{
     }
 
     @Override
-    public int delete(Long pid) {
-        return sqlSession.delete("comment.delete", pid);
+    public int delete(Long rid) {
+        return sqlSession.delete("comment.delete", rid);
     }
 
     @Override
-    public List<Comment> selectAll() {
-        return sqlSession.selectList("comment.selectAll");
+    public List<Comment> selectAll(Long pid) {
+        return sqlSession.selectList("comment.selectAll",pid);
     }
 
     @Override
