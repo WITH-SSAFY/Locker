@@ -19,6 +19,7 @@ export default new Vuex.Store({
     commentList: [],
     nickname: "", //글쓴이
     pid: null, //글 번호
+    myEmail: "", //내 이메일
   },
   //state 값 변화
   mutations: {
@@ -285,10 +286,13 @@ export default new Vuex.Store({
           })
       }
     },
-    getMyPostList({commit}){//내가 쓴 포스트 리스트 받아옴
-      console.log("getMyPostList");
+    getMyPostList({commit}, email){ //내가 쓴 포스트 리스트 받아옴
+      console.log('ddd' + email)
+      // console.log("getMyPostList");
+      // let email = this.$store.state.email
+      // console.log(email)
       axios
-          .get("/v1/post/all") //일단은 전체 리스트받아오는 걸로
+          .get("/v1/post/all/" + email)
           .then(response =>{
             commit("getMyPostList",{myPostList : response.data})
           }).catch(
