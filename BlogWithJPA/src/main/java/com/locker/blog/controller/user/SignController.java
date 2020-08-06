@@ -102,7 +102,7 @@ public class SignController {
 
     @ApiOperation(value = "소셜 로그인", notes = "소셜 회원 로그인을 한다.")
     @PostMapping(value = "/signin/{provider}")
-    public CommonResult signinByProvider(
+    public SingleResult<String> signinByProvider(
             @ApiParam(value = "서비스 제공자 provider", required = true) @PathVariable String provider,
             @ApiParam(value = "소셜 access_token", required = true) @RequestParam String accessToken) {
 
@@ -160,10 +160,13 @@ public class SignController {
 
         logger.info("uid : " + uid + " name : " + name + " picture : " + picture);
 
-        Optional<User> optionalUser = userJpaRepo.findByEmailAndProvider(uid, provider);
-        if(optionalUser.isPresent()) {
-            User user = userJpaRepo.findByEmailAndProvider(email, provider).orElseThrow(CUserNotFoundException::new);
-            return responseService.getSuccessResult();
+        User user = userJpaRepo.findByEmailAndProvider(email, provider).orElse(null);
+        logger.info(user.toString());
+
+        if(!user.equals(null)) {
+            String token = jwtTokenProvider.createToken(String.valueOf(user.getId()), user.getRoles());
+            logger.info("token : " + token);
+            return responseService.getSingleResult(token);
         }
 
         userJpaRepo.save(User.builder()
@@ -175,6 +178,8 @@ public class SignController {
                 .roles(Collections.singletonList("ROLE_USER"))
                 .build());
 
-        return responseService.getSuccessResult();
+        String token = jwtTokenProvider.createToken(String.valueOf(user.getId()), user.getRoles());
+        logger.info("token : " + token);
+        return responseService.getSingleResult(token);
     }
 }
