@@ -102,15 +102,6 @@
   
   export default {
     created(){
-        //서버로 부터 데이터 받아옴
-        // axios
-        //     .get("/post")
-        //     .then( response =>{
-        //         this.viewerText = response.data;
-        //     })
-        //     .catch(exp => alert("글 읽기 실패 "+exp))
-
-        //this.viewerText = "# this is test\r\n![image](https://t1.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/4sri/image/sLl-6IxU6iwhAmD-kelYRD_nUS4.jpeg)";
       this.viewerText;
       this.$store.dispatch('getCommentList', this.$store.state.pid)
       this.viewerComment;
@@ -138,7 +129,6 @@
         return this.$store.state.pid;
       },
       viewerText(){
-        //  console.log("readMyDetail: ",this.$store.state.myDetail);
         return this.$store.state.myDetail;
       },
       viewerComment(){
@@ -147,9 +137,6 @@
 
     },
     methods:{
-      checkViewerText () {
-        console.log("check: "+ this.viewerText);
-      },
       goEditDetail (pid) {
         this.$store.dispatch('goEditDetail', pid);
         //this.$router.push({name: "editPost"});  
@@ -158,10 +145,6 @@
         this.$store.dispatch('deleteDetail', pid);
       },
       postComment (pid) {
-        // console.log("text : " + this.text)
-        console.log("pid : " + pid)
-        // console.log("email : " + this.$store.state.userInfo.email)
-        // console.log("nickname : " + this.$store.state.userInfo.nickname)
         axios
           .post("v1/comment", { replytext: this.text,
                                 replyemail: this.$store.state.userInfo.email,
@@ -177,7 +160,6 @@
     }
   };
 </script>
-
 
 <style scoped>
     #container {
