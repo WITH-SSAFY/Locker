@@ -10,8 +10,11 @@
             <div class="row align-items-center ml-16 mr-5 mb-5">
               <div class="col-md-3 d-none d-sm-block align-self-start">
                 <div class="d-flex justify-content-center" style="background-color: #f2f3f4;">
-                  <v-icon
+                  <v-icon v-if="userInfo.picture==null"
                     size="180" style="z-index: 1;">mdi-account-circle-outline</v-icon>
+                  <v-avatar v-else  size="180" style="z-index: 1;">
+                    <img :src="userInfo.picture">
+                  </v-avatar>
                 </div>
                 <div>
                   <v-btn
@@ -71,7 +74,7 @@
                     >
                     확인</v-btn>
                 </div>
-                <div class="mt-2">
+                <div  class="mt-2">
                   <v-icon size="60" style="color: #EDE7F6;">mdi-arm-flex</v-icon>
                   <p class="d-inline"><small>1F_병아리</small></p>
                 </div>
@@ -138,15 +141,16 @@
     </div>
 </template>
 <script>
+import { mapState } from 'vuex';
 export default {
    data: ()=>{
      return{
-      userInfo: {
-        email: "test@test.com",
-        name: "test_name",
-        nickname: "test_nick",
-        introduction: "병아리에서 벗어나고 싶은 자바 개발자입니다 블라블라"
-      },
+      // userInfo: {
+      //   email: "test@test.com",
+      //   name: "test_name",
+      //   nickname: "test_nick",
+      //   introduction: "병아리에서 벗어나고 싶은 자바 개발자입니다 블라블라"
+      // },
       curName: true,
       curIntro: true,
       updateName: false,
@@ -154,6 +158,9 @@ export default {
       showUpdateBtn: true,
       showSaveBtn: false
      }
+   },
+   computed:{
+     ...mapState(["userInfo"])
    },
    methods: {
      showForm(){
