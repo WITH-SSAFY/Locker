@@ -43,4 +43,9 @@ public class PostServiceImpl implements PostService {
         return dao.selectAllByWriter(email);
     }
 
+    @Override
+    public int addLike(Long pid) {
+        return dao.addLike(pid);
+    }
+
 }

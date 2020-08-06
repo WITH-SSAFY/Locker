@@ -95,4 +95,15 @@ public class PostController {
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "좋아요 추가", notes = "해당 글의 좋아요 수를 하나 추가 한다.")
+    @PutMapping("/like/{pid}")
+    public ResponseEntity<String> addLike(@ApiParam(value = "글 번호", required = true) @PathVariable Long pid) {
+
+        if(service.addLike(pid) == 0) { //insert 실패
+            return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
+        }
+        //insert 성공
+        return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+    }
+
 }

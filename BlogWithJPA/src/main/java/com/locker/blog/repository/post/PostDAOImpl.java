@@ -43,5 +43,10 @@ public class PostDAOImpl implements PostDAO {
         return session.selectList("post.selectAllByWriter", email);
     }
 
+    @Override
+    public int addLike(Long pid) {
+        return session.update("post.addLike",pid);
+    }
+
 
 }
