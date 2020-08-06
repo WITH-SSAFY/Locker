@@ -27,7 +27,6 @@
                       @click="handleClickSignIn"
                       :disabled="!isInit"
                     >
-                      <!-- @click="signinWithSocial({provider: google})" -->
                       <v-icon dark size="30">mdi-google-plus</v-icon>
                     </v-btn>
                   </v-row>
@@ -122,8 +121,6 @@
             </v-btn>             
           </div>
         </v-card>
-        <!-- isInit : {{ isInit }} / isSignIn : {{isSignIn }}<br> -->
-        <!-- <v-btn router :to="{ name: 'test'}">test~~~</v-btn> -->
         <div class="pa-2">
           <small>아직 LOCKER의 회원이 아니라면?</small>
           <v-btn
@@ -198,8 +195,11 @@ export default {
         //   "getAuthResponse",
         //   this.$gAuth.GoogleAuth.currentUser.get().getAuthResponse()
         // );
+        let token = googleUser.getAuthResponse().access_token;
         console.log("google - access_token : ", googleUser.getAuthResponse().access_token )
         this.isSignIn = this.$gAuth.isAuthorized;
+        this.signinWithSocial({access_token: token, provider: this.google})
+        
       } catch (error) {
         //on fail do something
         console.error(error);
