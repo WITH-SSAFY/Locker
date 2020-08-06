@@ -28,6 +28,7 @@ export default new Vuex.Store({
         state.isLogin = true;
         state.isLoginError = false;
         state.userInfo = payload;
+        console.log("userInfo : ", state.userInfo)
         router.push({ name: "home"})
       },
     // 로그인이 실패했을 때
@@ -209,9 +210,6 @@ export default new Vuex.Store({
       //     console.log(error)
       //   })
 
-      //access_token 가지고 서버에 요청하기
-      // -> 성공하면, getMemberInfo를 dispatch하기
-      // -> 없는 사용자의 경우 -> 서버에서 아예 signup 해줌
       axios
           .post("/v1/signin/"+authObj.provider+"?accessToken="+authObj.access_token)
           .then(response =>{
@@ -285,6 +283,27 @@ export default new Vuex.Store({
           })
       }
     },
+
+    deleteUserInfo({commit}, userInfo){
+      console.log("userInfo 값 확인 : ", userInfo)
+
+      var result = confirm("정말 탈퇴하시겠어요?")
+      if(result){
+        console.log("탈퇴합니다!")
+        
+        axios 
+        .delete("/v1/user/"+userInfo.id)
+        .then(response =>{
+          console.log(response.data)
+          localStorage.removeItem("access_token")
+          commit('logout')
+          router.push({name: "home"})
+        }).catch( exp =>
+          console.log("회원 탈퇴 실패! ", exp)
+        );
+      } 
+    },
+
     getMyPostList({commit}){//내가 쓴 포스트 리스트 받아옴
       console.log("getMyPostList");
       axios

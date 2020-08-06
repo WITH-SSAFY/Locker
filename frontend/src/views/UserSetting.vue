@@ -47,7 +47,8 @@
                     style="font-size: 2.5rem; font-weight: bold;"
                   ></v-text-field>
                 </div>
-                <p v-if="curIntro" class="mt-6 mb-10">{{ userInfo.introduction }}</p>
+                <!-- <p v-if="curIntro" class="mt-6 mb-10">{{ userInfo.introduction }}</p> -->
+                <p v-if="curIntro" class="mt-6 mb-10">병아리에서 벗어나고 싶은 자바 개발자입니다 블라블라</p>
                 <v-text-field
                   v-if="updateIntro"
                   v-model="userInfo.introduction"
@@ -124,6 +125,7 @@
                     elevation="0"
                     color="#C62828"
                     dark
+                    @click="deleteUserInfo({id: userInfo.id})"
                   >
                   회원 탈퇴</v-btn>
                 </v-col>
@@ -138,15 +140,16 @@
     </div>
 </template>
 <script>
+import { mapActions, mapState } from 'vuex';
 export default {
    data: ()=>{
      return{
-      userInfo: {
-        email: "test@test.com",
-        name: "test_name",
-        nickname: "test_nick",
-        introduction: "병아리에서 벗어나고 싶은 자바 개발자입니다 블라블라"
-      },
+      // userInfo: {
+      //   email: "test@test.com",
+      //   name: "test_name",
+      //   nickname: "test_nick",
+      //   introduction: "병아리에서 벗어나고 싶은 자바 개발자입니다 블라블라"
+      // },
       curName: true,
       curIntro: true,
       updateName: false,
@@ -155,7 +158,11 @@ export default {
       showSaveBtn: false
      }
    },
+   computed: {
+     ...mapState(["userInfo"])
+   },
    methods: {
+     ...mapActions(["deleteUserInfo"]),
      showForm(){
        this.curName = false;
        this.curIntro = false;
