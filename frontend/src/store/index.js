@@ -117,10 +117,10 @@ export default new Vuex.Store({
           .catch(err => {
             if(err.response){
               console.log("err.response.data", err.response.data);
-              if(err.response.data.code === -1000){
-                console.log("token 값 확인 : ", authObj.access_token);
-                dispatch('signupWithKakao', authObj)
-              } 
+              // if(err.response.data.code === -1000){
+              //   console.log("token 값 확인 : ", authObj.access_token);
+              //   dispatch('signupWithKakao', authObj)
+              // } 
               // console.log("status", err.reaponse.status);
               // console.log("headers", err.reaponse.headers);
             } else if(err.request){
@@ -137,30 +137,30 @@ export default new Vuex.Store({
         }
       })
     }, 
-    signupWithKakao({commit}, authObj) {
-      console.log("signupWithKakao")
-      commit
-      console.log(authObj)
-      axios
-        .post("/v1/signup/kakao?accessToken="+authObj.access_token)
-        .then(response => {
-          console.log("response.data", response.data);
-          commit
-          alert("회원가입에 성공했습니다.!")
-          router.push({name: "home"})
-        })
-        .catch(err => {
-          if(err.response){
-            console.log("err.response.data", err.response.data);
+    // signupWithKakao({commit}, authObj) {
+    //   console.log("signupWithKakao")
+    //   commit
+    //   console.log(authObj)
+    //   axios
+    //     .post("/v1/signup/kakao?accessToken="+authObj.access_token)
+    //     .then(response => {
+    //       console.log("response.data", response.data);
+    //       commit
+    //       alert("회원가입에 성공했습니다.!")
+    //       router.push({name: "home"})
+    //     })
+    //     .catch(err => {
+    //       if(err.response){
+    //         console.log("err.response.data", err.response.data);
             
-          } else if(err.request){
-            console.log("err.request",err.request);
-          } else{
-            console.log('err.message', err.message);
-          }
-          console.log('err.config', err.config);
-        })
-    },
+    //       } else if(err.request){
+    //         console.log("err.request",err.request);
+    //       } else{
+    //         console.log('err.message', err.message);
+    //       }
+    //       console.log('err.config', err.config);
+    //     })
+    // },
 
     // signinWithFacebook({dispatch}, authObj){
     //   console.log("signinWithFacebook")
@@ -184,34 +184,52 @@ export default new Vuex.Store({
     signinWithSocial({dispatch}, authObj){
       console.log("signinWithSocial")
       dispatch
-      let authCode = authObj.authCode
-      console.log("authCode", authCode)
-      console.log("authObj.provider", authObj.provider)
+      console.log("authObj 값 확인 : ", authObj)
 
+      // axios
+      //   .get("/social/login/"+authObj.provider+"?code="+authCode)
+      //   .then(response => {
+      //       // let userInfo = {
+      //       //   id: response.data.data.id,
+      //       //   email: response.data.data.email,
+      //       //   name: response.data.data.name,
+      //       //   nickname: response.data.data.nickname,
+      //       //   picture: response.data.data.picture
+      //       // }
+      //       // commit('loginSuccess', userInfo)
+            
+      //       //없는 사용자면 signup 해야함.!!
+      //       console.log(response)
+      //   })
+      //   .catch(error => {
+      //     console.log(error)
+      //   })
+
+      //access_token 가지고 서버에 요청하기
+      // -> 성공하면, getMemberInfo를 dispatch하기
+      // -> 없는 사용자의 경우 -> 서버에서 아예 signup 해줌
       axios
-        .get("/social/login/"+authObj.provider+"?code="+authCode)
-        .then(response => {
-            // let userInfo = {
-            //   id: response.data.data.id,
-            //   email: response.data.data.email,
-            //   name: response.data.data.name,
-            //   nickname: response.data.data.nickname,
-            //   picture: response.data.data.picture
-            // }
-            // commit('loginSuccess', userInfo)
-            console.log(response.data)
+          .post("/v1/signin/"+authObj.provider+"?accessToken="+authObj.access_token)
+          .then(response =>{
+            console.log(response.data);
             let token = response.data.data
             localStorage.setItem("access_token", token) //key, value
             dispatch('getMemberInfo')
-        })
-        .catch(error => {
-          console.log(error)
-        })
+          })
+          .catch(err => {
+            if(err.response){
+              console.log("err.response.data", err.response.data);
+            } else if(err.request){
+              console.log("error!!!",err.request);
+            } else{
+              console.log('Error', err.message);
+            }
+            console.log("err.config",err.config);
+          })
     },
 
     signupWithSocial({commit}, authObj){
       console.log("signinWithSocial - "+authObj.provider)
-      commit
       axios
         .post("/v1/signup/"+authObj.provider+"?accessToken="+authObj.access_token)
         .then(response => {
@@ -258,8 +276,8 @@ export default new Vuex.Store({
               commit('loginSuccess', userInfo)
           })
           .catch(error => {
-            console.log(error)
-            alert('이메일과 비밀번호를 확인하세요')
+            console.log("화면 열면 나는 에러!!!", error)
+            // alert('이메일과 비밀번호를 확인하세요1111')
           })
       }
     },
