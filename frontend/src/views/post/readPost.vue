@@ -76,6 +76,10 @@
           </div>
         </v-col>
 
+        <ul v-for="(comment, idx) in viewerComment" :key="idx">
+          <li>{{ comment }}</li>
+        </ul>
+
         <!-- 사이드바 -->
         <v-col>
           <side-bar class="side" text-align="left"></side-bar>
@@ -108,7 +112,9 @@
 
         //this.viewerText = "# this is test\r\n![image](https://t1.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/4sri/image/sLl-6IxU6iwhAmD-kelYRD_nUS4.jpeg)";
       this.viewerText;
+      this.$store.dispatch('getCommentList', this.$store.state.pid)
       this.viewerComment;
+
     },
     components: {
       Viewer,
@@ -137,7 +143,8 @@
       },
       viewerComment(){
         return this.$store.state.commentList;
-      }
+      },
+
     },
     methods:{
       checkViewerText () {
@@ -152,7 +159,7 @@
       },
       postComment (pid) {
         // console.log("text : " + this.text)
-        // console.log("pid : " + pid)
+        console.log("pid : " + pid)
         // console.log("email : " + this.$store.state.userInfo.email)
         // console.log("nickname : " + this.$store.state.userInfo.nickname)
         axios
@@ -162,7 +169,8 @@
                                 pid,
           })
           .then(() => {
-            this.$store.dispatch('getCommentList');
+            this.$store.dispatch('getCommentList', pid);
+            // this.$router.push('/readPost')
           })
           .catch(exp => alert("댓글 작성에 실패했습니다" + exp))
       }

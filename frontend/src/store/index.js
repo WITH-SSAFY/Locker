@@ -16,7 +16,7 @@ export default new Vuex.Store({
     myPostList: null, //내가 쓴 포스트 목록
     myDetailTitle: "", //상세보기 제목
     myDetail: "", //상세보기 내용
-    commentList: null,
+    commentList: [],
     nickname: "", //글쓴이
     pid: null, //글 번호
   },
@@ -287,7 +287,9 @@ export default new Vuex.Store({
       axios
         .get("/v1/comment/" + pid)
         .then(response => {
-          commit("getCommentList", { myCommentList: response.data })
+          console.log(response.data)
+          commit("getCommentList", { commentList: response.data })
+
         })
         .catch(
           exp => alert("전체 댓글 가져오기 실패" + exp)
