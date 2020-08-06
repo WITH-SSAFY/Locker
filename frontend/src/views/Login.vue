@@ -24,10 +24,9 @@
                       class="mb-2 mx-2 px-0"
                       color="rgba(219, 68, 55)"
                       height="3rem"
-                      @click="handleClickLogin"
+                      @click="handleClickSignIn"
                       :disabled="!isInit"
                     >
-                      <!-- @click="signinWithSocial({provider: google})" -->
                       <v-icon dark size="30">mdi-google-plus</v-icon>
                     </v-btn>
                   </v-row>
@@ -122,8 +121,6 @@
             </v-btn>             
           </div>
         </v-card>
-        <!-- isInit : {{ isInit }} / isSignIn : {{isSignIn }}<br> -->
-        <!-- <v-btn router :to="{ name: 'test'}">test~~~</v-btn> -->
         <div class="pa-2">
           <small>아직 LOCKER의 회원이 아니라면?</small>
           <v-btn
@@ -159,7 +156,7 @@ export default {
   },
   methods: {
     //state에 있는 action을 가져다 쓸 수 있게 해줌
-    ...mapActions(["login", "signinWithKakao", "handleClickLogin"]),
+    ...mapActions(["login", "signinWithKakao", "handleClickLogin", "signinWithSocial"]),
 
     // async handleClickUpdateScope() {
     //   const option = new window.gapi.auth2.SigninOptionsBuilder();
@@ -173,37 +170,42 @@ export default {
     //   }
     // },
 
-    handleClickLogin() {
-      this.$gAuth
-        .getAuthCode()
-        .then(authCode => {
-          //on success
-          console.log("authCode", authCode);
-          this.signinWithSocial({authCode, provider: this.google})
-        })
-        .catch(error => {
-          //on fail do something
-          console.error(error);
-        });
-    },
-
-    // async handleClickSignIn() {
-    //   try {
-    //     const googleUser = await this.$gAuth.signIn();
-    //     console.log("googleUser", googleUser);
-    //     console.log("getId", googleUser.getId());
-    //     console.log("getBasicProfile", googleUser.getBasicProfile());
-    //     console.log("getAuthResponse", googleUser.getAuthResponse());
-    //     console.log(
-    //       "getAuthResponse",
-    //       this.$gAuth.GoogleAuth.currentUser.get().getAuthResponse()
-    //     );
-    //     this.isSignIn = this.$gAuth.isAuthorized;
-    //   } catch (error) {
-    //     //on fail do something
-    //     console.error(error);
-    //   }
+    // handleClickLogin() {
+    //   this.$gAuth
+    //     .getAuthCode()
+    //     .then(authCode => {
+    //       //on success
+    //       console.log("authCode", authCode);
+    //       this.signinWithSocial({authCode, provider: this.google})
+    //     })
+    //     .catch(error => {
+    //       //on fail do something
+    //       console.error(error);
+    //     });
     // },
+
+    async handleClickSignIn() {
+      try {
+        const googleUser = await this.$gAuth.signIn();
+        // console.log("googleUser", googleUser);
+        // console.log("getId", googleUser.getId());
+        // console.log("getBasicProfile", googleUser.getBasicProfile());
+        // console.log("getAuthResponse", googleUser.getAuthResponse());
+        // console.log(
+        //   "getAuthResponse",
+        //   this.$gAuth.GoogleAuth.currentUser.get().getAuthResponse()
+        // );
+        let token = googleUser.getAuthResponse().access_token;
+        console.log("google - access_token : ", googleUser.getAuthResponse().access_token )
+        this.isSignIn = this.$gAuth.isAuthorized;
+        this.signinWithSocial({access_token: token, provider: this.google})
+        
+      } catch (error) {
+        //on fail do something
+        console.error(error);
+        alert("구글 로그인 도중 문제가 발생했습니다!", error)
+      }
+    },
 
     // async handleClickSignOut() {
     //   try {

@@ -12,7 +12,7 @@
             </div>
             <div class="under-line"></div>
             <div class="my-6">
-              <div id="nick">{{ writer }}</div>
+              <div id="nick">{{ nickname }}</div>
               <div id="dash">/</div>
               <div id="wdate">2020.07.29</div>
             </div>
@@ -45,7 +45,7 @@
             </div>
             <div class="col-md-7 d-flex-wrap">
               <div class="mx-2">
-                <p class="d-inline" style="font-size: 1.8rem">user_nick
+                <p class="d-inline" style="font-size: 1.8rem">{{ nickname }}
                   <v-icon size="30" class="ml-1" color="#7C4DFF">mdi-arm-flex</v-icon>
                 </p>
               </div>  
@@ -75,6 +75,10 @@
             </div>
           </div>
         </v-col>
+
+        <ul v-for="(comment, idx) in viewerComment" :key="idx">
+          <li>{{ comment }}</li>
+        </ul>
 
         <!-- 사이드바 -->
         <v-col>
@@ -108,6 +112,9 @@
 
         //this.viewerText = "# this is test\r\n![image](https://t1.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/4sri/image/sLl-6IxU6iwhAmD-kelYRD_nUS4.jpeg)";
       this.viewerText;
+      this.$store.dispatch('getCommentList', this.$store.state.pid)
+      this.viewerComment;
+
     },
     components: {
       Viewer,
@@ -124,16 +131,20 @@
       title(){
         return this.$store.state.myDetailTitle;
       },
-      writer(){
-        return this.$store.state.writer;
+      nickname(){
+        return this.$store.state.nickname;
       },
       pid() {
         return this.$store.state.pid;
       },
       viewerText(){
         //  console.log("readMyDetail: ",this.$store.state.myDetail);
-         return this.$store.state.myDetail;
-      }  
+        return this.$store.state.myDetail;
+      },
+      viewerComment(){
+        return this.$store.state.commentList;
+      },
+
     },
     methods:{
       checkViewerText () {
@@ -147,13 +158,19 @@
         this.$store.dispatch('deleteDetail', pid);
       },
       postComment (pid) {
-        console.log("text : " + this.text)
+        // console.log("text : " + this.text)
+        console.log("pid : " + pid)
+        // console.log("email : " + this.$store.state.userInfo.email)
+        // console.log("nickname : " + this.$store.state.userInfo.nickname)
         axios
-          .post("v1/comment", { replyText : this.text,
-                                pid
+          .post("v1/comment", { replytext: this.text,
+                                replyemail: this.$store.state.userInfo.email,
+                                replynickname: this.$store.state.userInfo.nickname,
+                                pid,
           })
-          .then(res => {
-            console.log(res.data)
+          .then(() => {
+            this.$store.dispatch('getCommentList', pid);
+            // this.$router.push('/readPost')
           })
           .catch(exp => alert("댓글 작성에 실패했습니다" + exp))
       }
