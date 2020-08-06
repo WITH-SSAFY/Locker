@@ -75,24 +75,39 @@
             </div>
           </div>
         </v-col>
-
-        <ul v-for="(comment, idx) in viewerComment" :key="idx">
-          <li>{{ comment }}</li>
-        </ul>
-
-        <!-- 사이드바 -->
-        <v-col>
-          <side-bar class="side" text-align="left"></side-bar>
-        </v-col>
-
       </v-row>
+
+      <v-row>
+        <v-col
+          cols="12"
+          md="10"
+          v-for="comment in viewerComment"
+          :key="comment.rid"
+        >
+          <v-card flat>
+            <div class="d-flex justify-content-between">
+              <div>
+                <span class="mr-5">{{ comment.replynickname }}</span>
+                <span>{{ comment.replytext }}</span>
+              </div>
+              <small>{{ comment.created }}</small>
+            </div>
+          </v-card>
+        </v-col>
+      </v-row>
+
+      <!-- 사이드바 -->
+      <!-- <v-col>
+        <side-bar class="side" text-align="left"></side-bar>
+      </v-col> -->
+      
     </v-container>
   </div>
 </template>
 
 <script>
   // import { mapState } from "vuex"
-  import SideBar from "../SideBar.vue"
+  // import SideBar from "../SideBar.vue"
   import { Viewer } from '@toast-ui/vue-editor';
   import('../../assets/css/read-post.css')
   import('../../assets/css/side-style.css')
@@ -109,7 +124,7 @@
     },
     components: {
       Viewer,
-      SideBar
+      // SideBar
     },
     data(){
       return {

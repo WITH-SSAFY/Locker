@@ -144,13 +144,11 @@
 
 <script>
 import { mapState } from "vuex"
-// import category from "./category.vue"
 import SideBar from "./SideBar.vue"
 import('../assets/css/side-style.css')
 
 export default {
     created(){
-      // this.$store.dispatch('getMyPostList', this.$store.state.myEmail);
       this.userInfo;
       this.$store.dispatch('getMyPostList', this.userInfo.email);
       this.myPostList;
