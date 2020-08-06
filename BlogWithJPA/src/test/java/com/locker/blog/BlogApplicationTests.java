@@ -7,9 +7,4 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class BlogApplicationTests {
-    @Test
-    public void deployTest() {
-        Logger logger = LoggerFactory.getLogger(this.getClass());
-        logger.info("deploy - success");
-    }
 }
