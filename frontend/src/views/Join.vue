@@ -176,7 +176,7 @@
               if(this.email!=''&&/^[A-Za-z0-9_.-]+@[A-Za-z0-9-]+\.[A-Za-z0-9]+/.test(this.email)){
                   //console.log("email : "+this.email);
                   axios
-                    .post("/v1/duplicate?uid="+this.email)
+                    .post("/v1/duplicate?email="+this.email)
                     .then(response => {
                         let data = response.data;
                         console.dir(data);
@@ -194,7 +194,7 @@
                      alert("이메일 중복 확인 해주세요")
                    }else{
                      axios
-                    .post("/v1/signup?uid="+this.email
+                    .post("/v1/signup?email="+this.email
                           +"&password="+this.password
                           +"&name="+this.usrName
                           +"&nickname="+this.nickName)
