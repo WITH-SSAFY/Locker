@@ -11,6 +11,7 @@ import com.locker.blog.config.security.JwtTokenProvider;
 import com.locker.blog.service.auth.*;
 import com.locker.blog.service.response.ResponseService;
 import com.locker.blog.service.user.EmailSendService;
+import com.locker.blog.service.user.SocialSaveService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -41,6 +42,7 @@ public class SignController {
     private final GithubService githubService;
     private final FacebookService facebookService;
     private final NaverService naverService;
+    private final SocialSaveService socialSaveService;
 
     @ApiOperation(value = "로그인", notes = "이메일 회원 로그인을 한다.")
     @PostMapping(value = "/signin")
@@ -163,18 +165,11 @@ public class SignController {
         Optional<User> user = userJpaRepo.findByEmailAndProvider(email, provider);
         if(user.isPresent()) {
             return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.get().getId()), user.get().getRoles()));
-
         }
 
-        userJpaRepo.save(User.builder()
-                .email(email)
-                .provider(provider)
-                .name(name)
-                .nickname(nickname)
-                .picture(picture)
-                .roles(Collections.singletonList("ROLE_USER"))
-                .build());
-
-        return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(email), Collections.singletonList("ROLE_USER")));
+        socialSaveService.insert(email,provider,name,nickname,picture);
+        User findUser = userJpaRepo.findByEmailAndProvider(email,provider).orElseThrow(CUserNotFoundException::new);
+        return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(findUser.getId()), findUser.getRoles()));
     }
+
 }
