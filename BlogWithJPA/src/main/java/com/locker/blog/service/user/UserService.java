@@ -1,7 +1,9 @@
 package com.locker.blog.service.user;
 
+import com.locker.blog.domain.response.SingleResult;
 import com.locker.blog.domain.user.User;
 import com.locker.blog.repository.user.UserJpaRepo;
+import com.locker.blog.service.response.ResponseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,8 +13,9 @@ import java.util.Collections;
 @Transactional
 @Service
 @RequiredArgsConstructor
-public class SocialSaveService {
+public class UserService {
     private final UserJpaRepo userJpaRepo;
+    private final ResponseService responseService;
 
     public void insert(String email, String provider, String name, String nickname, String picture) {
         userJpaRepo.save(User.builder()
@@ -23,5 +26,9 @@ public class SocialSaveService {
                 .picture(picture)
                 .roles(Collections.singletonList("ROLE_USER"))
                 .build());
+    }
+
+    public SingleResult<User> modify(User user) {
+        return responseService.getSingleResult(userJpaRepo.save(user));
     }
 }
