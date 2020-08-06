@@ -5,19 +5,26 @@
 <mapper namespace="comment">
 
     <insert id="insert" parameterType="Comment">
-        insert into comment(pid, rid, replyId, replyName, replyText, createdAt, updatedAt)
-        values(#{pid}, null, #{replyId}, #{replyName}, #{replyText}, now(), now())
+        insert into comment(pid,rid, parentid ,depth, replyemail, replynickname, replytext, created, updated)
+        <if test="parentid == null">
+            values( #{pid}, null , 0, 0,#{replyemail}, #{replynickname},#{replytext}, now(), now())
+        </if>
+        <if test="parentid != null">
+             values(#{pid}, null, #{parentid}, 1, #{replyemail}, #{replynickname}, #{replytext}, now(), now())
+        </if>
+
     </insert>
 
     <select id="selectAll" resultType="Comment">
         select *
         from comment
         where pid=#{pid}
+        order by if ( parentid = 0, rid, parentid)
     </select>
 
     <update id="update" parameterType="Comment">
         update comment
-        set replyText=#{replyText}, updatedAt=now()
+        set replytext=#{replytext}, updated=now()
         where rid=#{rid}
     </update>
 

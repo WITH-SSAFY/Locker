@@ -17,13 +17,13 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
-    public int delete(Long pid) {
-        return commentRepo.delete(pid);
+    public int delete(Long rid) {
+        return commentRepo.delete(rid);
     }
 
     @Override
-    public List<Comment> selectAll() {
-        return commentRepo.selectAll();
+    public List<Comment> selectAll(Long pid) {
+        return commentRepo.selectAll(pid);
     }
 
     @Override
