@@ -12,7 +12,7 @@
             </div>
             <div class="under-line"></div>
             <div class="my-6">
-              <div id="nick">{{ writer }}</div>
+              <div id="nick">{{ nickname }}</div>
               <div id="dash">/</div>
               <div id="wdate">2020.07.29</div>
             </div>
@@ -45,7 +45,7 @@
             </div>
             <div class="col-md-7 d-flex-wrap">
               <div class="mx-2">
-                <p class="d-inline" style="font-size: 1.8rem">user_nick
+                <p class="d-inline" style="font-size: 1.8rem">{{ nickname }}
                   <v-icon size="30" class="ml-1" color="#7C4DFF">mdi-arm-flex</v-icon>
                 </p>
               </div>  
@@ -124,8 +124,8 @@
       title(){
         return this.$store.state.myDetailTitle;
       },
-      writer(){
-        return this.$store.state.writer;
+      nickname(){
+        return this.$store.state.nickname;
       },
       pid() {
         return this.$store.state.pid;
@@ -147,13 +147,18 @@
         this.$store.dispatch('deleteDetail', pid);
       },
       postComment (pid) {
-        console.log("text : " + this.text)
+        // console.log("text : " + this.text)
+        // console.log("pid : " + pid)
+        // console.log("email : " + this.$store.state.userInfo.email)
+        // console.log("nickname : " + this.$store.state.userInfo.nickname)
         axios
-          .post("v1/comment", { replyText : this.text,
-                                pid
+          .post("v1/comment", { replytext: this.text,
+                                replyemail: this.$store.state.userInfo.email,
+                                replynickname: this.$store.state.userInfo.nickname,
+                                pid,
           })
-          .then(res => {
-            console.log(res.data)
+          .then(() => {
+            this.$store.dispatch('getCommentList');
           })
           .catch(exp => alert("댓글 작성에 실패했습니다" + exp))
       }

@@ -13,11 +13,12 @@ export default new Vuex.Store({
     isLogin: false,
     // isLogin: true,
     isLoginError: false,
-    myPostList: null,//내가 쓴 포스트 목록
-    myDetailTitle: "",//상세보기 제목
-    myDetail: "",//상세보기 내용
-    nickname: "",//글쓴이
-    pid: "",//글번호
+    myPostList: null, //내가 쓴 포스트 목록
+    myDetailTitle: "", //상세보기 제목
+    myDetail: "", //상세보기 내용
+    commentList: null,
+    nickname: "", //글쓴이
+    pid: null, //글 번호
   },
   //state 값 변화
   mutations: {
@@ -47,6 +48,9 @@ export default new Vuex.Store({
         //state.myPostList = JSON.parse(localStorage.getItem('myPostList'));
         //console.log("myPostList: ",state.myPostList);
         //router.push({name: "mypage"});
+      },
+      getCommentList(state, payload){
+        state.commentList = payload.commentList;
       },
       showMyDetail(state,payload){
         state.myDetail = payload.myDetail.content;
@@ -281,6 +285,17 @@ export default new Vuex.Store({
       // let myPostList = [{title: "test", content: "#test"},{title: "test2", content: "#test2"}];
       // localStorage.setItem('myPostList',JSON.stringify(myPostList));
       // commit('getMyPostList');
+    },
+    getCommentList({commit}, pid) { // 하나의 포스트에 대한 모든 댓글 받아옴
+      console.log("getCommentList");
+      axios
+        .get("/v1/comment/" + pid)
+        .then(response => {
+          commit("getCommentList", { myCommentList: response.data })
+        })
+        .catch(
+          exp => alert("전체 댓글 가져오기 실패" + exp)
+        );
     },
     showMyDetail({commit}, pid){//내 글 상세보기
       console.log("showMyDetail_pid:"+pid);
