@@ -5,6 +5,8 @@ import com.locker.blog.advice.exception.CCommunicationException;
 import com.locker.blog.domain.social.RetAuth;
 import com.locker.blog.domain.user.KakaoProfile;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.*;
@@ -13,9 +15,11 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+
 @RequiredArgsConstructor
 @Service
 public class KakaoService {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final RestTemplate restTemplate;
     private final Environment env;
@@ -38,10 +42,10 @@ public class KakaoService {
 
         // Set http entity
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(null, headers);
+
         try {
             // Request profile
             ResponseEntity<String> response = restTemplate.postForEntity(env.getProperty("spring.social.kakao.url.profile"), request, String.class);
-            System.out.println("response : " + response.getBody());
             if (response.getStatusCode() == HttpStatus.OK)
                 return gson.fromJson(response.getBody(), KakaoProfile.class);
         } catch (Exception e) {

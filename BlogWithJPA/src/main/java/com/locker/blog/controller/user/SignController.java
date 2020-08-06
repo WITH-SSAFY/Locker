@@ -124,6 +124,10 @@ public class SignController {
         if(provider.equals("kakao")) {
             kakaoProfile = kakaoService.getKakaoProfile(accessToken);
             uid = String.valueOf(kakaoProfile.getId());
+            email = String.valueOf(kakaoProfile.getKakao_account().getEmail());
+            name = String.valueOf(kakaoProfile.getProperties().getNickname());
+            nickname = name;
+            picture = String.valueOf(kakaoProfile.getProperties().getProfile_image());
 
             // logger
             logger.info(kakaoProfile.toString());
