@@ -19,6 +19,7 @@ export default new Vuex.Store({
     commentList: [],
     nickname: "", //글쓴이
     pid: null, //글 번호
+    rid: null, //댓글 번호
   },
   //state 값 변화
   mutations: {
@@ -306,7 +307,6 @@ export default new Vuex.Store({
         .then(response => {
           console.log(response.data)
           commit("getCommentList", { commentList: response.data })
-
         })
         .catch(
           exp => alert("전체 댓글 가져오기 실패" + exp)
@@ -314,9 +314,8 @@ export default new Vuex.Store({
     },
     showMyDetail({commit}, pid){//내 글 상세보기
       console.log("showMyDetail_pid:"+pid);
-      
       axios
-          .get("/v1/post/" + pid) //일단은 전체 리스트받아오는 걸로
+          .get("/v1/post/" + pid)
           .then(response =>{
             console.dir(response.data);
             commit("showMyDetail",{myDetail : response.data})
@@ -327,7 +326,7 @@ export default new Vuex.Store({
     goEditDetail({commit},pid) {
       console.log("editDetail_pid:"+pid);
       axios
-      .get("/v1/post/" + pid) //일단은 전체 리스트받아오는 걸로
+      .get("/v1/post/" + pid)
       .then(response =>{
         commit("goEditDetail",{myDetail : response.data})
       }).catch(
