@@ -108,6 +108,7 @@
 
         //this.viewerText = "# this is test\r\n![image](https://t1.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/4sri/image/sLl-6IxU6iwhAmD-kelYRD_nUS4.jpeg)";
       this.viewerText;
+      this.viewerComment;
     },
     components: {
       Viewer,
@@ -132,8 +133,11 @@
       },
       viewerText(){
         //  console.log("readMyDetail: ",this.$store.state.myDetail);
-         return this.$store.state.myDetail;
-      }  
+        return this.$store.state.myDetail;
+      },
+      viewerComment(){
+        return this.$store.state.commentList;
+      }
     },
     methods:{
       checkViewerText () {
