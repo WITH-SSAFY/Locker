@@ -75,42 +75,47 @@
             </div>
           </div>
         </v-col>
-
-        <ul v-for="(comment, idx) in viewerComment" :key="idx">
-          <li>{{ comment }}</li>
-        </ul>
-
-        <!-- 사이드바 -->
-        <v-col>
-          <side-bar class="side" text-align="left"></side-bar>
-        </v-col>
-
       </v-row>
+
+      <v-row>
+        <v-col
+          cols="12"
+          md="10"
+          v-for="comment in viewerComment"
+          :key="comment.rid"
+        >
+          <v-card flat>
+            <div class="d-flex justify-content-between">
+              <div>
+                <span class="mr-5">{{ comment.replynickname }}</span>
+                <span>{{ comment.replytext }}</span>
+              </div>
+              <small>{{ comment.created }}</small>
+            </div>
+          </v-card>
+        </v-col>
+      </v-row>
+
+      <!-- 사이드바 -->
+      <!-- <v-col>
+        <side-bar class="side" text-align="left"></side-bar>
+      </v-col> -->
+      
     </v-container>
   </div>
 </template>
 
 <script>
   // import { mapState } from "vuex"
-  import SideBar from "../SideBar.vue"
+  // import SideBar from "../SideBar.vue"
   import { Viewer } from '@toast-ui/vue-editor';
   import('../../assets/css/read-post.css')
   import('../../assets/css/side-style.css')
-  //import axios from "../js/axios-common.js"  
   import '@toast-ui/editor/dist/toastui-editor-viewer.css';
   import axios from "../../lib/axios-common.js";
   
   export default {
     created(){
-        //서버로 부터 데이터 받아옴
-        // axios
-        //     .get("/post")
-        //     .then( response =>{
-        //         this.viewerText = response.data;
-        //     })
-        //     .catch(exp => alert("글 읽기 실패 "+exp))
-
-        //this.viewerText = "# this is test\r\n![image](https://t1.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/4sri/image/sLl-6IxU6iwhAmD-kelYRD_nUS4.jpeg)";
       this.viewerText;
       this.$store.dispatch('getCommentList', this.$store.state.pid)
       this.viewerComment;
@@ -118,7 +123,7 @@
     },
     components: {
       Viewer,
-      SideBar
+      // SideBar
     },
     data(){
       return {
@@ -138,7 +143,6 @@
         return this.$store.state.pid;
       },
       viewerText(){
-        //  console.log("readMyDetail: ",this.$store.state.myDetail);
         return this.$store.state.myDetail;
       },
       viewerComment(){
@@ -147,9 +151,6 @@
 
     },
     methods:{
-      checkViewerText () {
-        console.log("check: "+ this.viewerText);
-      },
       goEditDetail (pid) {
         this.$store.dispatch('goEditDetail', pid);
         //this.$router.push({name: "editPost"});  
@@ -158,10 +159,6 @@
         this.$store.dispatch('deleteDetail', pid);
       },
       postComment (pid) {
-        // console.log("text : " + this.text)
-        console.log("pid : " + pid)
-        // console.log("email : " + this.$store.state.userInfo.email)
-        // console.log("nickname : " + this.$store.state.userInfo.nickname)
         axios
           .post("v1/comment", { replytext: this.text,
                                 replyemail: this.$store.state.userInfo.email,
@@ -170,6 +167,7 @@
           })
           .then(() => {
             this.$store.dispatch('getCommentList', pid);
+            this.text='';
             // this.$router.push('/readPost')
           })
           .catch(exp => alert("댓글 작성에 실패했습니다" + exp))
@@ -177,7 +175,6 @@
     }
   };
 </script>
-
 
 <style scoped>
     #container {
