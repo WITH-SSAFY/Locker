@@ -145,12 +145,6 @@ import { mapState } from 'vuex';
 export default {
    data: ()=>{
      return{
-      // userInfo: {
-      //   email: "test@test.com",
-      //   name: "test_name",
-      //   nickname: "test_nick",
-      //   introduction: "병아리에서 벗어나고 싶은 자바 개발자입니다 블라블라"
-      // },
       curName: true,
       curIntro: true,
       updateName: false,
@@ -182,13 +176,3 @@ export default {
    }
 }
 </script>
-<style scoped>
-  /* .upadate_btn a{
-    text-decoration: none;
-    color: red;
-  } */
-
-  /* a {
-    text-decoration: none;
-  } */
-</style>
