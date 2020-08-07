@@ -19,7 +19,6 @@ export default new Vuex.Store({
     commentList: [],
     nickname: "", //글쓴이
     pid: null, //글 번호
-    rid: null, //댓글 번호
   },
   //state 값 변화
   mutations: {
@@ -68,8 +67,10 @@ export default new Vuex.Store({
         state.nickname = payload.myDetail.nickname;
         state.pid = payload.myDetail.pid;
         router.push({name: "editPost"});
+      },
+      goEditComment(state, payload) {
+        console.log(payload)
       }
-      
   },
   //비즈니스 로직
   actions: {
@@ -301,7 +302,6 @@ export default new Vuex.Store({
       // commit('getMyPostList');
     },
     getCommentList({commit}, pid) { // 하나의 포스트에 대한 모든 댓글 받아옴
-      console.log("getCommentList");
       axios
         .get("/v1/comment/" + pid)
         .then(response => {
@@ -313,7 +313,6 @@ export default new Vuex.Store({
         );
     },
     showMyDetail({commit}, pid){//내 글 상세보기
-      console.log("showMyDetail_pid:"+pid);
       axios
           .get("/v1/post/" + pid)
           .then(response =>{
@@ -324,7 +323,6 @@ export default new Vuex.Store({
           );
     },
     goEditDetail({commit},pid) {
-      console.log("editDetail_pid:"+pid);
       axios
       .get("/v1/post/" + pid)
       .then(response =>{
@@ -335,8 +333,6 @@ export default new Vuex.Store({
       commit
     },
     deleteDetail({commit}, pid) {
-      console.log("deleteDetail")
-      console.log(pid)
       axios
         .delete("/v1/post/" + pid)
         .then(response => {
@@ -349,6 +345,11 @@ export default new Vuex.Store({
         );
         commit
     },
-    
+    goEditComment({commit}, { pid, rid }) {
+      console.log(pid, rid)
+      axios
+        .get("v1/comment/" + pid + '/' + rid) // 이 정보 얻어오는 api가 필요합니다 만들어주세요
+      commit
+    }
   }
 });
