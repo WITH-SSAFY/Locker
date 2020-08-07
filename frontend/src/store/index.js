@@ -82,18 +82,14 @@ export default new Vuex.Store({
         .then( res => {
           // 성공 시 token을 받아옴 (실제로는 user_id 값을 받아옴 / 토큰에 user_id를 암호화해서)
           // 이 토큰을 헤더에 포함시켜서 유저 정보을 요청
-          
           //config에서 헤더 값을 설정해 줄 수 있고, 헤더 내에 토큰 값을 넣어주려고 하기 때문에 config 쓰는것.
           let token = res.data.data
-          //토큰을 로컬스토리지에 저장
           localStorage.setItem("access_token", token) //key, value
           dispatch('getMemberInfo')
         })
         .catch( err => {
             console.log(err)
-            // if(loginObj.id !== '' && loginObj.password !== ''){
-              alert('이메일과 비밀번호를 확인하세요')
-            // }
+            alert('이메일과 비밀번호를 확인하세요')
         });
     },
     logout({commit}){
@@ -103,9 +99,7 @@ export default new Vuex.Store({
         console.log("로그아웃 합니다!")
         localStorage.removeItem("access_token")
         router.push({ name: "home"})
-      } else {
-        // commit('login')
-      }
+      } 
     },
 
     signinWithKakao({dispatch}) {
@@ -123,12 +117,6 @@ export default new Vuex.Store({
           .catch(err => {
             if(err.response){
               console.log("err.response.data", err.response.data);
-              // if(err.response.data.code === -1000){
-              //   console.log("token 값 확인 : ", authObj.access_token);
-              //   dispatch('signupWithKakao', authObj)
-              // } 
-              // console.log("status", err.reaponse.status);
-              // console.log("headers", err.reaponse.headers);
             } else if(err.request){
               console.log("error!!!",err.request);
             } else{
@@ -191,26 +179,6 @@ export default new Vuex.Store({
       console.log("signinWithSocial")
       dispatch
       console.log("authObj 값 확인 : ", authObj)
-
-      // axios
-      //   .get("/social/login/"+authObj.provider+"?code="+authCode)
-      //   .then(response => {
-      //       // let userInfo = {
-      //       //   id: response.data.data.id,
-      //       //   email: response.data.data.email,
-      //       //   name: response.data.data.name,
-      //       //   nickname: response.data.data.nickname,
-      //       //   picture: response.data.data.picture
-      //       // }
-      //       // commit('loginSuccess', userInfo)
-            
-      //       //없는 사용자면 signup 해야함.!!
-      //       console.log(response)
-      //   })
-      //   .catch(error => {
-      //     console.log(error)
-      //   })
-
       //access_token 가지고 서버에 요청하기
       // -> 성공하면, getMemberInfo를 dispatch하기
       // -> 없는 사용자의 경우 -> 서버에서 아예 signup 해줌
@@ -282,8 +250,7 @@ export default new Vuex.Store({
               commit('loginSuccess', userInfo)
           })
           .catch(error => {
-            console.log("화면 열면 나는 에러!!!", error)
-            // alert('이메일과 비밀번호를 확인하세요1111')
+            console.log(error)
           })
       }
     },
