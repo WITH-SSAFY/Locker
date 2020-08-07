@@ -97,31 +97,11 @@ const routes = [
       import(/* webpackChunkName: "editPost" */ "../views/post/editPost.vue")
     
   },
-  // {
-  //   path: "/social/kakao/login",
-  //   beforeEnter: function(){
-  //     alert("hello!!!!!")
-  //   }
-  // }
-  {
-    path: "/KakaoRegister",
-    name: "KakaoRegister",
-    props: true,
-    component: () => 
-      import(/* webpackChunkName: "KakaoRegister" */ "../views/KakaoRegister.vue")
-  },
   {
     path: "/userSetting",
     name: "userSetting",
     component: () =>
       import(/* webpackChunkName: "userSetting" */ "../views/UserSetting.vue")
-  },
-  {
-    path: "/socialJoin",
-    name: "socialJoin",
-    props: true,
-    component: () => 
-      import(/* webpackChunkName: "SocialJoin" */ "../views/SocialJoin.vue")
   },
 ];
 

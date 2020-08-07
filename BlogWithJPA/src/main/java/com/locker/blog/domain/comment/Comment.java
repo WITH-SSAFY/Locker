@@ -5,11 +5,13 @@ import java.time.LocalDateTime;
 public class Comment {
     private Long pid;
     private Long rid;
-    private String replyId;
-    private String replyName;
-    private String replyText;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Long parentid;
+    private int depth;
+    private String replyemail;
+    private String replynickname;
+    private String replytext;
+    private LocalDateTime created;
+    private LocalDateTime updated;
 
     public Long getPid() {
         return pid;
@@ -19,24 +21,32 @@ public class Comment {
         return rid;
     }
 
-    public String getReplyId() {
-        return replyId;
+    public Long getParentid() {
+        return parentid;
     }
 
-    public String getReplyName() {
-        return replyName;
+    public int getDepth() {
+        return depth;
     }
 
-    public String getReplyText() {
-        return replyText;
+    public String getReplyemail() {
+        return replyemail;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public String getReplynickname() {
+        return replynickname;
     }
 
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
+    public String getReplytext() {
+        return replytext;
+    }
+
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public LocalDateTime getUpdated() {
+        return updated;
     }
 
     public void setPid(Long pid) {
@@ -47,23 +57,31 @@ public class Comment {
         this.rid = rid;
     }
 
-    public void setReplyId(String replyId) {
-        this.replyId = replyId;
+    public void setParentid(Long parentid) {
+        this.parentid = parentid;
     }
 
-    public void setReplyName(String replyName) {
-        this.replyName = replyName;
+    public void setDepth(int depth) {
+        this.depth = depth;
     }
 
-    public void setReplyText(String replyText) {
-        this.replyText = replyText;
+    public void setReplyemail(String replyemail) {
+        this.replyemail = replyemail;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public void setReplynickname(String replynickname) {
+        this.replynickname = replynickname;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setReplytext(String replytext) {
+        this.replytext = replytext;
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
+    }
+
+    public void setUpdated(LocalDateTime updated) {
+        this.updated = updated;
     }
 }

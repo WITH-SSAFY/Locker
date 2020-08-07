@@ -4,7 +4,7 @@ import router from "../router/index.js"
 
 Vue.use(Vuex);
 
-import axios2 from "axios"
+// import axios2 from "axios"
 import axios from "../lib/axios-common.js"
 
 export default new Vuex.Store({
@@ -13,11 +13,13 @@ export default new Vuex.Store({
     isLogin: false,
     // isLogin: true,
     isLoginError: false,
-    myPostList: null,//내가 쓴 포스트 목록
-    myDetailTitle: "",//상세보기 제목
-    myDetail: "",//상세보기 내용
-    nickname: "",//글쓴이
-    pid: "",//글번호
+    myPostList: null, //내가 쓴 포스트 목록
+    myDetailTitle: "", //상세보기 제목
+    myDetail: "", //상세보기 내용
+    commentList: [],
+    nickname: "", //글쓴이
+    pid: null, //글 번호
+    rid: null, //댓글 번호
   },
   //state 값 변화
   mutations: {
@@ -47,6 +49,9 @@ export default new Vuex.Store({
         //state.myPostList = JSON.parse(localStorage.getItem('myPostList'));
         //console.log("myPostList: ",state.myPostList);
         //router.push({name: "mypage"});
+      },
+      getCommentList(state, payload){
+        state.commentList = payload.commentList;
       },
       showMyDetail(state,payload){
         state.myDetail = payload.myDetail.content;
@@ -117,10 +122,10 @@ export default new Vuex.Store({
           .catch(err => {
             if(err.response){
               console.log("err.response.data", err.response.data);
-              if(err.response.data.code === -1000){
-                console.log("token 값 확인 : ", authObj.access_token);
-                dispatch('signupWithKakao', authObj)
-              } 
+              // if(err.response.data.code === -1000){
+              //   console.log("token 값 확인 : ", authObj.access_token);
+              //   dispatch('signupWithKakao', authObj)
+              // } 
               // console.log("status", err.reaponse.status);
               // console.log("headers", err.reaponse.headers);
             } else if(err.request){
@@ -133,89 +138,103 @@ export default new Vuex.Store({
         },
         fail: function(err){
           alert("fail",JSON.stringify(err))
+          console.log("err : ",err)
         }
       })
     }, 
-    signupWithKakao({commit}, authObj) {
-      console.log("signupWithKakao")
-      commit
-      console.log(authObj)
-      axios
-        .post("/v1/signup/kakao?accessToken="+authObj.access_token)
-        .then(response => {
-          console.log("response.data", response.data);
-          commit
-          alert("회원가입에 성공했습니다.!")
-          router.push({name: "home"})
-        })
-        .catch(err => {
-          if(err.response){
-            console.log("err.response.data", err.response.data);
+    // signupWithKakao({commit}, authObj) {
+    //   console.log("signupWithKakao")
+    //   commit
+    //   console.log(authObj)
+    //   axios
+    //     .post("/v1/signup/kakao?accessToken="+authObj.access_token)
+    //     .then(response => {
+    //       console.log("response.data", response.data);
+    //       commit
+    //       alert("회원가입에 성공했습니다.!")
+    //       router.push({name: "home"})
+    //     })
+    //     .catch(err => {
+    //       if(err.response){
+    //         console.log("err.response.data", err.response.data);
             
-          } else if(err.request){
-            console.log("err.request",err.request);
-          } else{
-            console.log('err.message', err.message);
-          }
-          console.log('err.config', err.config);
-        })
-    },
+    //       } else if(err.request){
+    //         console.log("err.request",err.request);
+    //       } else{
+    //         console.log('err.message', err.message);
+    //       }
+    //       console.log('err.config', err.config);
+    //     })
+    // },
+
+    // signinWithFacebook({dispatch}, authObj){
+    //   console.log("signinWithFacebook")
+    //   dispatch
+    //   console.log(authObj)
+    //   axios
+    //   .get("/social/fb")
+    //   .then(response => {
+    //       console.log(response.data);
+    //       let loginUrl = response.data.loginUrl;
+    //       window.open("http://i3a606.p.ssafy.io:8090/oauth2/authorization/"+authObj.provider,
+    //             authObj.provider+" 로그인",
+    //             "width=450, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes" ); 
+    //   })
+    //   .catch(error => {
+    //     console.log(error)
+    //     alert('facebook 로그인 실패!')
+    //   })
+    // },
+
     signinWithSocial({dispatch}, authObj){
-      console.log("signinWithSocial - "+authObj.provider)
+      console.log("signinWithSocial")
       dispatch
-      let token = null
-      
-      axios2
-      .get("http://localhost:8090/oauth2/authorization/"+authObj.provider)
-        .then(response => {
-          token = response.data.access_token
-          console.log(response.data);
-          axios
-            .post("/v1/signin/"+authObj.provider+"?accessToken="+token)
-            .then(response =>{
-              console.log(response.data)
-              localStorage.setItem("access_token", token) //key, value
-              dispatch('getMemberInfo')
-            })
-            .catch(err => {
-              if(err.response){
-                console.log("err.response.data", err.response.data);
-                if(err.response.data.code === -1000){
-                  console.log("token 값 확인 : ", token);
-                  dispatch('signupWith', ({ access_token: token, provider: authObj.provider }))
-                } 
-                // console.log("status", err.reaponse.status);
-                // console.log("headers", err.reaponse.headers);
-              } else if(err.request){
-                console.log("error!!!",err.request);
-              } else{
-                console.log('Error', err.message);
-              }
-              console.log("err.config",err.config);
-            })
-        })
-        .catch(err => {
-          if(err.response){
-            console.log("err.response.data", err.response.data);
-            if(err.response.data.code === -1000){
-              // console.log("token 값 확인 : ", .access_token);
-              // router.push({ name: "socialJoin", params: { access_token: authObj.access_token }})
-              dispatch()
-            } 
-            // console.log("status", err.reaponse.status);
-            // console.log("headers", err.reaponse.headers);
-          } else if(err.request){
-            console.log("error!!!",err.request);
-          } else{
-            console.log('Error', err.message);
-          }
-          console.log("err.config",err.config);
-        })
+      console.log("authObj 값 확인 : ", authObj)
+
+      // axios
+      //   .get("/social/login/"+authObj.provider+"?code="+authCode)
+      //   .then(response => {
+      //       // let userInfo = {
+      //       //   id: response.data.data.id,
+      //       //   email: response.data.data.email,
+      //       //   name: response.data.data.name,
+      //       //   nickname: response.data.data.nickname,
+      //       //   picture: response.data.data.picture
+      //       // }
+      //       // commit('loginSuccess', userInfo)
+            
+      //       //없는 사용자면 signup 해야함.!!
+      //       console.log(response)
+      //   })
+      //   .catch(error => {
+      //     console.log(error)
+      //   })
+
+      //access_token 가지고 서버에 요청하기
+      // -> 성공하면, getMemberInfo를 dispatch하기
+      // -> 없는 사용자의 경우 -> 서버에서 아예 signup 해줌
+      axios
+          .post("/v1/signin/"+authObj.provider+"?accessToken="+authObj.access_token)
+          .then(response =>{
+            console.log(response.data);
+            let token = response.data.data
+            localStorage.setItem("access_token", token) //key, value
+            dispatch('getMemberInfo')
+          })
+          .catch(err => {
+            if(err.response){
+              console.log("err.response.data", err.response.data);
+            } else if(err.request){
+              console.log("error!!!",err.request);
+            } else{
+              console.log('Error', err.message);
+            }
+            console.log("err.config",err.config);
+          })
     },
 
     signupWithSocial({commit}, authObj){
       console.log("signinWithSocial - "+authObj.provider)
-      commit
       axios
         .post("/v1/signup/"+authObj.provider+"?accessToken="+authObj.access_token)
         .then(response => {
@@ -262,15 +281,14 @@ export default new Vuex.Store({
               commit('loginSuccess', userInfo)
           })
           .catch(error => {
-            console.log(error)
-            alert('이메일과 비밀번호를 확인하세요')
+            console.log("화면 열면 나는 에러!!!", error)
+            // alert('이메일과 비밀번호를 확인하세요1111')
           })
       }
     },
-    getMyPostList({commit}){//내가 쓴 포스트 리스트 받아옴
-      console.log("getMyPostList");
+    getMyPostList({commit}, email){ // 내가 쓴 포스트 리스트 받아옴
       axios
-          .get("/v1/post/all") //일단은 전체 리스트받아오는 걸로
+          .get("/v1/post/all/" + email)
           .then(response =>{
             commit("getMyPostList",{myPostList : response.data})
           }).catch(
@@ -282,11 +300,22 @@ export default new Vuex.Store({
       // localStorage.setItem('myPostList',JSON.stringify(myPostList));
       // commit('getMyPostList');
     },
+    getCommentList({commit}, pid) { // 하나의 포스트에 대한 모든 댓글 받아옴
+      console.log("getCommentList");
+      axios
+        .get("/v1/comment/" + pid)
+        .then(response => {
+          console.log(response.data)
+          commit("getCommentList", { commentList: response.data })
+        })
+        .catch(
+          exp => alert("전체 댓글 가져오기 실패" + exp)
+        );
+    },
     showMyDetail({commit}, pid){//내 글 상세보기
       console.log("showMyDetail_pid:"+pid);
-      
       axios
-          .get("/v1/post/" + pid) //일단은 전체 리스트받아오는 걸로
+          .get("/v1/post/" + pid)
           .then(response =>{
             console.dir(response.data);
             commit("showMyDetail",{myDetail : response.data})
@@ -297,7 +326,7 @@ export default new Vuex.Store({
     goEditDetail({commit},pid) {
       console.log("editDetail_pid:"+pid);
       axios
-      .get("/v1/post/" + pid) //일단은 전체 리스트받아오는 걸로
+      .get("/v1/post/" + pid)
       .then(response =>{
         commit("goEditDetail",{myDetail : response.data})
       }).catch(

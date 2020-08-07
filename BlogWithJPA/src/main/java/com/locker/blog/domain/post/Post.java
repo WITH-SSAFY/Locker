@@ -18,7 +18,7 @@ public class Post {
     @Column(nullable = false)
     private Long pid;
 
-    @Column(nullable = false, name="email")
+    @Column(nullable = false)
     @JoinColumn(nullable = false)
     private String email;
 
@@ -28,9 +28,11 @@ public class Post {
 
     private String title;
 
-    @Column(length = 1000)
+    @Column(columnDefinition = "LONGTEXT")
     private String content;
 
     private LocalDateTime created;
     private LocalDateTime updated;
+
+    private Long likes;
 }

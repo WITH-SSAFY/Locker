@@ -12,7 +12,7 @@
             </div>
             <div class="under-line"></div>
             <div class="my-6">
-              <div id="nick">{{ writer }}</div>
+              <div id="nick">{{ nickname }}</div>
               <div id="dash">/</div>
               <div id="wdate">2020.07.29</div>
             </div>
@@ -45,7 +45,7 @@
             </div>
             <div class="col-md-7 d-flex-wrap">
               <div class="mx-2">
-                <p class="d-inline" style="font-size: 1.8rem">user_nick
+                <p class="d-inline" style="font-size: 1.8rem">{{ nickname }}
                   <v-icon size="30" class="ml-1" color="#7C4DFF">mdi-arm-flex</v-icon>
                 </p>
               </div>  
@@ -75,43 +75,58 @@
             </div>
           </div>
         </v-col>
-
-        <!-- 사이드바 -->
-        <v-col>
-          <side-bar class="side" text-align="left"></side-bar>
-        </v-col>
-
       </v-row>
+
+      <v-row>
+        <v-col
+          cols="12"
+          md="10"
+          v-for="comment in viewerComment"
+          :key="comment.rid"
+        >
+          <v-card flat>
+            <div class="d-flex justify-content-between">
+              <div>
+                <span class="mr-5"><strong>{{ comment.replynickname }}</strong></span>
+                <span>{{ comment.replytext }}</span>
+              </div>
+              <div>
+                <small class="mr-5">{{ comment.created }}</small>
+                <button class="btn btn-sm btn-light mr-2" @click="editComment(pid, comment.rid)">edit</button>
+                <button class="btn btn-sm btn-light mr-2" @click="deleteComment(pid, comment.rid)">delete</button>
+              </div>
+            </div>
+          </v-card>
+        </v-col>
+      </v-row>
+
+      <!-- 사이드바 -->
+      <!-- <v-col>
+        <side-bar class="side" text-align="left"></side-bar>
+      </v-col> -->
+      
     </v-container>
   </div>
 </template>
 
 <script>
   // import { mapState } from "vuex"
-  import SideBar from "../SideBar.vue"
+  // import SideBar from "../SideBar.vue"
   import { Viewer } from '@toast-ui/vue-editor';
   import('../../assets/css/read-post.css')
   import('../../assets/css/side-style.css')
-  //import axios from "../js/axios-common.js"  
   import '@toast-ui/editor/dist/toastui-editor-viewer.css';
   import axios from "../../lib/axios-common.js";
   
   export default {
     created(){
-        //서버로 부터 데이터 받아옴
-        // axios
-        //     .get("/post")
-        //     .then( response =>{
-        //         this.viewerText = response.data;
-        //     })
-        //     .catch(exp => alert("글 읽기 실패 "+exp))
-
-        //this.viewerText = "# this is test\r\n![image](https://t1.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/4sri/image/sLl-6IxU6iwhAmD-kelYRD_nUS4.jpeg)";
       this.viewerText;
+      this.$store.dispatch('getCommentList', this.$store.state.pid)
+      this.viewerComment;
     },
     components: {
       Viewer,
-      SideBar
+      // SideBar
     },
     data(){
       return {
@@ -124,21 +139,21 @@
       title(){
         return this.$store.state.myDetailTitle;
       },
-      writer(){
-        return this.$store.state.writer;
+      nickname(){
+        return this.$store.state.nickname;
       },
       pid() {
         return this.$store.state.pid;
       },
       viewerText(){
-        //  console.log("readMyDetail: ",this.$store.state.myDetail);
-         return this.$store.state.myDetail;
-      }  
+        return this.$store.state.myDetail;
+      },
+      viewerComment(){
+        return this.$store.state.commentList;
+      },
+
     },
     methods:{
-      checkViewerText () {
-        console.log("check: "+ this.viewerText);
-      },
       goEditDetail (pid) {
         this.$store.dispatch('goEditDetail', pid);
         //this.$router.push({name: "editPost"});  
@@ -147,20 +162,44 @@
         this.$store.dispatch('deleteDetail', pid);
       },
       postComment (pid) {
-        console.log("text : " + this.text)
         axios
-          .post("v1/comment", { replyText : this.text,
-                                pid
+          .post("v1/comment", { replytext: this.text,
+                                replyemail: this.$store.state.userInfo.email,
+                                replynickname: this.$store.state.userInfo.nickname,
+                                pid,
           })
-          .then(res => {
-            console.log(res.data)
+          .then(() => {
+            this.$store.dispatch('getCommentList', pid);
+            this.text='';
+            // this.$router.push('/readPost')
           })
           .catch(exp => alert("댓글 작성에 실패했습니다" + exp))
+      },
+      editComment (pid, rid) {
+        console.log(pid, rid)
+        // axios
+        //   .put("v1/comment", { replytext: this.text,
+        //                        replyemail: this.$store.state.userInfo.email,
+        //                        replynickname: this.$store.state.userInfo.nickname,
+        //                        pid, rid,
+        //   })
+        //   .then(() => {
+        //     console.log(replytext, replyemail, replynickname, pid, rid)
+        //   })
+        //   .catch(exp => alert("댓글 수정에 실패했습니다" + exp))
+      },
+      deleteComment (pid, rid) {
+        console.log(pid, rid)
+        axios
+          .delete("v1/comment/" + rid)
+          .then(() => {
+            this.$store.dispatch('getCommentList', pid)
+          })
+          .catch(exp => alert("내 댓글 삭제 실패" + exp))
       }
     }
   };
 </script>
-
 
 <style scoped>
     #container {

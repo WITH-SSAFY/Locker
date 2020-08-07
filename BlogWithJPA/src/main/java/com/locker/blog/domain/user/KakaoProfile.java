@@ -4,13 +4,27 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter @Setter @ToString
+@Getter
+@Setter
+@ToString
 public class KakaoProfile {
     private Long id;
-    private String status;
-    private String msg_blocked;
-    private String registered_at;
-    private String nickname;
-    private String thumbnail_image;
-    private String profile_image;
+    private Properties properties;
+    private KakaoAccount kakao_account;
+
+    @Getter
+    @Setter
+    @ToString
+    public static class Properties {
+        private String nickname;
+        private String thumbnail_image;
+        private String profile_image;
+    }
+
+    @Getter
+    @Setter
+    @ToString
+    public static class KakaoAccount {
+        private String email;
+    }
 }

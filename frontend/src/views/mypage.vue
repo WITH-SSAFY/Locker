@@ -10,7 +10,11 @@
           <div class="row align-items-center mx-5 mb-5">
             <div class="col-md-4 d-none d-sm-block align-self-start">
               <div class="d-flex justify-content-center" style="background-color: #f2f3f4;">
-                <v-icon size="250" class="mb-5" style="z-index: 1;">mdi-account-circle-outline</v-icon>
+                <v-icon v-if="userInfo.picture==null"
+                    size="250" class="mb-5" style="z-index: 1;">mdi-account-circle-outline</v-icon>
+                  <v-avatar v-else size="250" class="mb-5" style="z-index: 1;">
+                    <img :src="userInfo.picture">
+                  </v-avatar>
               </div>
               <!-- 장식 박스 -->
               <div>
@@ -144,14 +148,13 @@
 
 <script>
 import { mapState } from "vuex"
-// import category from "./category.vue"
 import SideBar from "./SideBar.vue"
 import('../assets/css/side-style.css')
 
 export default {
     created(){
-      this.$store.dispatch('getMyPostList');
       this.userInfo;
+      this.$store.dispatch('getMyPostList', this.userInfo.email);
       this.myPostList;
       //likes 배열 초기화 작업
       this.likes.length=this.size;

@@ -68,11 +68,20 @@
               v-on="on"
               class="menu ml-2"
             >
-              <v-icon
+              <!-- <v-icon
                 large
                 color="rgba( 117, 117, 117, 1)"
               >
-              mdi-account-circle</v-icon>
+              mdi-account-circle</v-icon> -->
+              <v-icon
+                v-if="userInfo.picture==null"
+                large
+                color="rgba( 117, 117, 117, 1)"
+              >
+              mdi-account-circle-outline</v-icon>
+              <v-avatar v-else size="35">
+                <img :src="userInfo.picture">
+              </v-avatar>
             </div>
           </template>
 

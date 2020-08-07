@@ -10,11 +10,11 @@ import javax.transaction.Transactional;
 @SpringBootTest
 public class EncodingTest {
 
-        @Autowired
-        private PasswordEncoder passwordEncoder;
+        //@Autowired
+        //private PasswordEncoder passwordEncoder;
 
-        @Test
-        public void encodeTest() {
-            System.out.printf("testSecret : %s\n", passwordEncoder.encode("testSecret"));
-        }
+        //@Test
+        //public void encodeTest() {
+        //    System.out.printf("testSecret : %s\n", passwordEncoder.encode("testSecret"));
+        //}
 }

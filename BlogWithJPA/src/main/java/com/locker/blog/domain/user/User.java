@@ -2,6 +2,7 @@ package com.locker.blog.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -37,6 +38,10 @@ public class User implements UserDetails {
     private String provider;
     @Column
     private String picture;
+    @Column(length = 500)
+    private String introduction;
+    @Column(columnDefinition = "boolean default false")
+    private Boolean verify;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default

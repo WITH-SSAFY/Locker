@@ -11,6 +11,7 @@ import com.locker.blog.config.security.JwtTokenProvider;
 import com.locker.blog.service.auth.*;
 import com.locker.blog.service.response.ResponseService;
 import com.locker.blog.service.user.EmailSendService;
+import com.locker.blog.service.user.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -41,6 +42,7 @@ public class SignController {
     private final GithubService githubService;
     private final FacebookService facebookService;
     private final NaverService naverService;
+    private final UserService userService;
 
     @ApiOperation(value = "로그인", notes = "이메일 회원 로그인을 한다.")
     @PostMapping(value = "/signin")
@@ -50,8 +52,8 @@ public class SignController {
         if (!passwordEncoder.matches(password, user.getPassword()))
             throw new CEmailSigninFailedException();
 
-        System.out.println(user.toString());
-        return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.getEmail()), user.getRoles()));
+        logger.info(user.toString());
+        return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.getId()), user.getRoles()));
 
     }
 
@@ -70,13 +72,14 @@ public class SignController {
                 .nickname(nickname)
                 .roles(Collections.singletonList("ROLE_USER"))
                 .provider("null")
+                .verify(true)
                 .build());
         return responseService.getSuccessResult();
     }
 
 
     @ApiOperation(value = "중복 체크", notes = "아이디 중복을 확인 한다.")
-    @PostMapping(value = "/duplicate")
+    @PostMapping(value = "/verify/duplicate")
     public CommonResult checkDuplicate (@ApiParam(value = "회원ID : 이메일", required = true) @RequestParam String email) {
         User noUser = new User();
         noUser.setEmail("can't found");
@@ -122,6 +125,10 @@ public class SignController {
         if(provider.equals("kakao")) {
             kakaoProfile = kakaoService.getKakaoProfile(accessToken);
             uid = String.valueOf(kakaoProfile.getId());
+            email = String.valueOf(kakaoProfile.getKakao_account().getEmail());
+            name = String.valueOf(kakaoProfile.getProperties().getNickname());
+            nickname = name;
+            picture = String.valueOf(kakaoProfile.getProperties().getProfile_image());
 
             // logger
             logger.info(kakaoProfile.toString());
@@ -158,23 +165,16 @@ public class SignController {
             name = String.valueOf(naverProfile.getResponse().getName());
         }
 
-        logger.info("uid : " + uid + " name : " + name + " picture : " + picture);
+        logger.info("uid : " + uid + " name : " + name + " picture : " + picture + " email : " + email + " provider : " + provider);
 
-        Optional<User> optionalUser = userJpaRepo.findByEmailAndProvider(uid, provider);
-
-        if(optionalUser.isPresent()) {
-            return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(optionalUser.get().getEmail()), optionalUser.get().getRoles()));
+        Optional<User> user = userJpaRepo.findByEmailAndProvider(email, provider);
+        if(user.isPresent()) {
+            return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.get().getId()), user.get().getRoles()));
         }
 
-        userJpaRepo.save(User.builder()
-                .email(email)
-                .provider(provider)
-                .name(name)
-                .nickname(nickname)
-                .picture(picture)
-                .roles(Collections.singletonList("ROLE_USER"))
-                .build());
-
-        return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(optionalUser.get().getEmail()), optionalUser.get().getRoles()));
+        userService.insert(email,provider,name,nickname,picture);
+        User findUser = userJpaRepo.findByEmailAndProvider(email,provider).orElseThrow(CUserNotFoundException::new);
+        return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(findUser.getId()), findUser.getRoles()));
     }
+
 }
