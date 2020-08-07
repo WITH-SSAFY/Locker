@@ -31,10 +31,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // jwt token으로 인증할것이므로 세션필요없으므로 생성안함.
                 .and()
                     .authorizeRequests() // 다음 리퀘스트에 대한 사용권한 체크
-                    .antMatchers("/api/**","/oauth2/**").permitAll() // api 주소, oauth2 주소는 누구나 접근가능
-                    .antMatchers(HttpMethod.GET, "/exception/**").permitAll() //  exception으 시작하는 GET요청 리소스는 누구나 접근가능
-                    .antMatchers("/**/users").hasRole("ADMIN")       // 모든 회원 조회는 관리자만 가능
-                    .anyRequest().hasRole("USER") // 그외 나머지 요청은 모두 인증된 회원만 접근 가능
+                        //.antMatchers("/api/**","/oauth2/**").permitAll() // api 주소, oauth2 주소는 누구나 접근가능
+                        //.antMatchers(HttpMethod.GET, "/exception/**").permitAll() //  exception으 시작하는 GET요청 리소스는 누구나 접근가능
+                        //.antMatchers("/**/users").hasRole("ADMIN")       // 모든 회원 조회는 관리자만 가능
+                        //.anyRequest().hasRole("USER") // 그외 나머지 요청은 모두 인증된 회원만 접근 가능
+                        .anyRequest().permitAll()
                 .and()
                 .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
                 .and()
