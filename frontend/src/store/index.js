@@ -16,6 +16,7 @@ export default new Vuex.Store({
     myPostList: null, //내가 쓴 포스트 목록
     myDetailTitle: "", //상세보기 제목
     myDetail: "", //상세보기 내용
+    postList: [],
     commentList: [],
     nickname: "", //글쓴이
     pid: null, //글 번호
@@ -49,6 +50,10 @@ export default new Vuex.Store({
         //console.log("myPostList: ",state.myPostList);
         //router.push({name: "mypage"});
       },
+      getPostList(state, payload) {
+        console.log('페이로드' + payload)
+        state.postList = payload.postList
+      },
       getCommentList(state, payload){
         state.commentList = payload.commentList;
       },
@@ -57,8 +62,6 @@ export default new Vuex.Store({
         state.myDetailTitle = payload.myDetail.title;
         state.nickname = payload.myDetail.nickname;
         state.pid = payload.myDetail.pid;
-        console.log("state_mayDetail :"+state.myDetail);
-        console.log("payload_mayDetail :"+payload.myDetail);
         router.push({name: "readPost"});
       },
       goEditDetail(state,payload){
@@ -289,17 +292,21 @@ export default new Vuex.Store({
     },
     getMyPostList({commit}, email){ // 내가 쓴 포스트 리스트 받아옴
       axios
-          .get("/v1/post/all/" + email)
-          .then(response =>{
-            commit("getMyPostList",{myPostList : response.data})
-          }).catch(
-            exp => alert("내 글 리스트 불러오기 실패 "+exp)
-          );
-      
-      //localStorage로 테스트
-      // let myPostList = [{title: "test", content: "#test"},{title: "test2", content: "#test2"}];
-      // localStorage.setItem('myPostList',JSON.stringify(myPostList));
-      // commit('getMyPostList');
+        .get("/v1/post/all/" + email)
+        .then(response =>{
+          commit("getMyPostList",{ myPostList : response.data })
+        }).catch(
+          exp => alert("내 글 리스트 불러오기 실패 "+exp)
+        );
+    },
+    getPostList({commit}){
+      axios
+        .get("/v1/post/all")
+        .then(response => {
+          commit("getPostList", { postList : response.data })
+        }).catch(
+          exp => alert("전체 글 리스트 불러오기 실패" + exp)
+        )
     },
     getCommentList({commit}, pid) { // 하나의 포스트에 대한 모든 댓글 받아옴
       axios

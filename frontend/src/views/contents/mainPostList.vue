@@ -8,173 +8,48 @@
           <div class="main-under-line"></div>
         </v-flex>
 
-       
         <div class="row no-gutters">
           <div class="col-md-3 offfset-md-3" style="height: 25vh;">
 
           </div>
-          <div class="box col-md-3" style="background-color: #333;">
-            <div class="thumbnail">
-              <img src="#">
-            </div>
+          <div class="box col-md-3">
+
           </div>
-          <div class="box col-md-3" style="background-color: #333;">
-            <div class="thumbnail">
-              <img src="#">
-            </div>
+          <div class="box col-md-3">
+
           </div>
-          <div class="box col-md-3" style="background-color: #333;">
-            <div class="thumbnail">
-              <img src="#">
-            </div>
+          <div class="box col-md-3">
+  
           </div>
         </div>
         <div class="row no-gutters">
-          <div class="box col-md-3" style="background-color: #333;">
-            <div class="thumbnail">
-              <img src="#">
-            </div>
+          <div class="box col-md-3">
+ 
           </div>
           <div class="col-md-3 offfset-md-3" style="height: 25vh;">
 
           </div>
-          <div class="box col-md-3" style="background-color: #333;">
-            <div class="thumbnail">
-              <img src="#">
-            </div>
+          <div class="box col-md-3">
+ 
           </div>
-          <div class="box col-md-3" style="background-color: #333;">
-            <div class="thumbnail">
-              <img src="#">
-            </div>
+          <div class="box col-md-3">
+
           </div>
         </div>
         
-        <!-- <v-item-group
-          v-model="selected"
-          :mandatory="mandatory"
-          :multiple="multiple"
-        >
-          <v-container class="pa-0">
-            <v-row>
-              <v-col
-                md="3"
-                offset-md="3"
-              >
-                <v-item v-slot:default="{ active, toggle }">
-                  <v-card
-                    v-if="type === 'cards'"
-                    :color="active ? 'deep-purple lighten-5' : ''"
-                    class="d-flex align-center"
-                    dark
-                    height="27vh"
-                    @mouseover="toggle"
-                  >
-                    <v-scroll-y-transition>
-                      <div
-                        v-if="active"
-                        class="display-3 flex-grow-1 text-center"
-                      >
-                        Locker
-                      </div>
-                    </v-scroll-y-transition>
-                  </v-card>
-                </v-item>
-              </v-col>
-
-              <v-col
-                v-for="n in 3"
-                :key="`a-${n}`"
-                cols="12"
-                md="3"
-              >
-                <v-item v-slot:default="{ active, toggle }">
-                  <v-card
-                    v-if="type === 'cards'"
-                    :color="active ? 'deep-purple accent-2' : ''"
-                    class="d-flex align-center"
-                    dark
-                    height="27vh"
-                    @mouseover="toggle"
-                  >
-                    <v-scroll-y-transition>
-                      <div
-                        v-if="active"
-                        class="display-3 flex-grow-1 text-center"
-                      >
-                        Locker
-                      </div>
-                    </v-scroll-y-transition>
-                  </v-card>
-                </v-item>
-              </v-col>
-              
-              <v-col
-                md="3"
-                offset-md="3"
-              >
-                <v-item v-slot:default="{ active, toggle }">
-                  <v-card
-                    v-if="type === 'cards'"
-                    :color="active ? 'deep-purple accent-2' : ''"
-                    class="d-flex align-center"
-                    dark
-                    height="27vh"
-                    @mouseover="toggle"
-                  >
-                    <v-scroll-y-transition>
-                      <div
-                        v-if="active"
-                        class="display-3 flex-grow-1 text-center"
-                      >
-                        Locker
-                      </div>
-                    </v-scroll-y-transition>
-                  </v-card>
-                </v-item>
-              </v-col>
-
-              <v-col
-                v-for="n in 1"
-                :key="`b-${n}`"
-                cols="12"
-                md="3"
-              >
-                <v-item v-slot:default="{ active, toggle }">
-                  <v-card
-                    v-if="type === 'cards'"
-                    :color="active ? 'deep-purple accent-2' : ''"
-                    class="d-flex align-center"
-                    dark
-                    height="27vh"
-                    @mouseover="toggle"
-                  >
-                    <v-scroll-y-transition>
-                      <div
-                        v-if="active"
-                        class="display-3 flex-grow-1 text-center"
-                      >
-                        Locker
-                      </div>
-                    </v-scroll-y-transition>
-                  </v-card>
-                </v-item>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-item-group> -->
       </div>
 
       <div class="col-md-3">
-        <!-- <ul class="list-unstyled">
+        <ul>
           <li
-            v-for="(myPost, index) in myPostList"
-            :key="index"
+            v-for="post in postList"
+            :key="post.pid"
           >
-            {{ myPost.title }}
-            {{ myPost.content }}
+            dkdk
+            {{ post.title }}
+            {{ post.content }}
           </li>
-        </ul> -->
+        </ul>
       </div>
 
     </div>
@@ -182,7 +57,7 @@
 </template>
 
 <script>
-// import { mapState } from "vuex"
+import { mapState } from "vuex"
 
 export default {
   name: 'mainPostList',
@@ -190,28 +65,19 @@ export default {
 
   },
   computed: {
-    // ...mapState(["myPostList"])
+    ...mapState(["postList"])
   },
   watch: {
-    multiple (val) {
-      this.selected = (val)
-        ? this.selected >= 0 ? [this.selected] : []
-        : this.selected.pop()
-    }
+
   },
   data: function () {
     return {
-      mandatory: false,
-      multiple: true,
-      selected: null,
-      types: [
-        'cards',
-      ],
-      type: 'cards',
+
     }
   },
   created() {
-  
+    this.$store.dispatch('getPostList')
+    this.postList
   },
 }
 </script>
@@ -221,5 +87,6 @@ export default {
   box-sizing: border-box;
   border: 5px solid transparent;
   background-clip: padding-box;
+  background-color: #333;
 }
 </style>
