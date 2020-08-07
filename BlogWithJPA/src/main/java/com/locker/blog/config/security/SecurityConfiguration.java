@@ -45,7 +45,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .oauth2Login();
         http
                 .portMapper()
-                    .http(8090).mapsTo(9443)
                     .http(8080).mapsTo(8443)
                     .http(80).mapsTo(443);
     }
