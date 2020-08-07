@@ -4,7 +4,7 @@ import router from "../router/index.js"
 
 Vue.use(Vuex);
 
-import axios2 from "axios"
+// import axios2 from "axios"
 import axios from "../lib/axios-common.js"
 
 export default new Vuex.Store({
@@ -185,8 +185,8 @@ export default new Vuex.Store({
       //access_token 가지고 서버에 요청하기
       // -> 성공하면, getMemberInfo를 dispatch하기
       // -> 없는 사용자의 경우 -> 서버에서 아예 signup 해줌
-      axios2
-          .post("https://i3a606.p.ssafy.io:8090/api/v1/signin/"+authObj.provider+"?accessToken="+authObj.access_token)
+      axios
+          .post("/v1/signin/"+authObj.provider+"?accessToken="+authObj.access_token)
           .then(response =>{
             console.log(response.data);
             let token = response.data.data
@@ -243,13 +243,16 @@ export default new Vuex.Store({
         axios //config : 보안과 관련된 헤더나 옵션 등을 설정해줄 수 있는 파일
           .get("/v1/user?lang=ko", config)
           .then(response => {
+              let res = response.data.data;
               let userInfo = {
-                id: response.data.data.id,
-                email: response.data.data.email,
-                name: response.data.data.name,
-                nickname: response.data.data.nickname,
-                picture: response.data.data.picture
+                id: res.id,
+                email: res.email,
+                name: res.name,
+                nickname: res.nickname,
+                picture: res.picture,
+                introduction: res.introduction
               }
+              console.log("가지고 온 유저 정보 : ", res)
               commit('loginSuccess', userInfo)
           })
           .catch(error => {
@@ -257,6 +260,22 @@ export default new Vuex.Store({
           })
       }
     },
+
+    updateUserInfo({commit},userInfo) {
+      commit
+      // alert("updateUserInfo!!!")
+      console.log("udateUserInfo!!")
+      console.log("userInfo", userInfo)
+      axios
+        .put("/v1/user/info?id="+userInfo.id+"&nickname="+userInfo.nickname+"&introduction="+userInfo.introduction)
+        .then(response => {
+          console.log("response", response)
+        })
+        .catch(exp =>{
+          console.log("exp", exp)
+        })
+    },
+
     getMyPostList({commit}, email){ // 내가 쓴 포스트 리스트 받아옴
       axios
         .get("/v1/post/all/" + email)
