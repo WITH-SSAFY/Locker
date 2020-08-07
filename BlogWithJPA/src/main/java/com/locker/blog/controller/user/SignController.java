@@ -161,9 +161,9 @@ public class SignController {
         logger.info("uid : " + uid + " name : " + name + " picture : " + picture);
 
         Optional<User> optionalUser = userJpaRepo.findByEmailAndProvider(uid, provider);
+
         if(optionalUser.isPresent()) {
-            User user = userJpaRepo.findByEmailAndProvider(email, provider).orElseThrow(CUserNotFoundException::new);
-            return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.getEmail()), user.getRoles()));
+            return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(optionalUser.get().getEmail()), optionalUser.get().getRoles()));
         }
 
         userJpaRepo.save(User.builder()
