@@ -4,7 +4,7 @@ import router from "../router/index.js"
 
 Vue.use(Vuex);
 
-// import axios2 from "axios"
+import axios2 from "axios"
 import axios from "../lib/axios-common.js"
 
 export default new Vuex.Store({
@@ -214,8 +214,8 @@ export default new Vuex.Store({
       //access_token 가지고 서버에 요청하기
       // -> 성공하면, getMemberInfo를 dispatch하기
       // -> 없는 사용자의 경우 -> 서버에서 아예 signup 해줌
-      axios
-          .post("/v1/signin/"+authObj.provider+"?accessToken="+authObj.access_token)
+      axios2
+          .post("https://i3a606.p.ssafy.io:8090/api/v1/signin/"+authObj.provider+"?accessToken="+authObj.access_token)
           .then(response =>{
             console.log(response.data);
             let token = response.data.data
