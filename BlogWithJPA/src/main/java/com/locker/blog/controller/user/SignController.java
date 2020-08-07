@@ -27,7 +27,7 @@ import java.util.Optional;
 @Api(tags = {"1. Sign"})
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/v1")
 @CrossOrigin
 public class SignController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
