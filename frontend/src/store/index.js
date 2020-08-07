@@ -262,10 +262,9 @@ export default new Vuex.Store({
     },
 
     updateUserInfo({commit},userInfo) {
-      commit
-      // alert("updateUserInfo!!!")
       console.log("udateUserInfo!!")
-      console.log("userInfo", userInfo)
+      commit
+      
       axios
         .put("/v1/user/info?id="+userInfo.id+"&nickname="+userInfo.nickname+"&introduction="+userInfo.introduction)
         .then(response => {

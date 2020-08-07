@@ -168,7 +168,6 @@ export default {
        this.showSaveBtn = true;
      }, 
      closeForm(){
-       console.log("확인 누르면 userInfo", this.userInfo)
        this.updateUserInfo(this.userInfo)
        this.curName = true;
        this.curIntro = true;
