@@ -9,45 +9,31 @@
         </v-flex>
 
         <div class="row no-gutters">
-          <div class="col-md-3 offfset-md-3" style="height: 25vh;">
-
-          </div>
-          <div class="box col-md-3">
-
-          </div>
-          <div class="box col-md-3">
-
-          </div>
-          <div class="box col-md-3">
-  
-          </div>
+          <div class="col-md-3 offfset-md-3" style="height: 25vh;"></div>
+          <div class="box col-md-3"></div>
+          <div class="box col-md-3"></div>
+          <div class="box col-md-3"></div>
         </div>
         <div class="row no-gutters">
-          <div class="box col-md-3">
- 
-          </div>
-          <div class="col-md-3 offfset-md-3" style="height: 25vh;">
-
-          </div>
-          <div class="box col-md-3">
- 
-          </div>
-          <div class="box col-md-3">
-
-          </div>
+          <div class="box col-md-3"></div>
+          <div class="col-md-3 offfset-md-3" style="height: 25vh;"></div>
+          <div class="box col-md-3"></div>
+          <div class="box col-md-3"></div>
         </div>
         
       </div>
 
       <div class="col-md-3">
-        <ul>
+        <p style="background-color: #333; color: #fff;">전체 글 목록 (임시)</p>
+        <ul class="list-unstyled">
           <li
             v-for="post in postList"
             :key="post.pid"
+            class="my-3"
           >
-            dkdk
-            {{ post.title }}
-            {{ post.content }}
+            <strong>{{ post.nickname }}</strong>
+            <span>{{ post.title }}</span>
+            <span>{{ post.content }}</span>
           </li>
         </ul>
       </div>
