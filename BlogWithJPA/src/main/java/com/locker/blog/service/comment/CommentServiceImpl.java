@@ -17,8 +17,8 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
-    public int delete(Long rid) {
-        return commentRepo.delete(rid);
+    public int delete(Comment comment) {
+        return commentRepo.delete(comment);
     }
 
     @Override
