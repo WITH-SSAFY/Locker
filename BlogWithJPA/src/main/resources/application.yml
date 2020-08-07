@@ -1,11 +1,5 @@
 server:
   port: 8080
-  ssl:
-    enabled: true
-    key-store: src/main/resources/bootsecurity.p12
-    key-store-password: 1q2w3e4r
-    key-store-type: PKCS12
-    key-alias: bootsecurity
 
 spring:
   profiles:
