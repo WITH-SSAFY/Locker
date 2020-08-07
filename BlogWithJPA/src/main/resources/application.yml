@@ -17,7 +17,7 @@ spring:
     basename: i18n/exception
     encoding: UTF-8
   url:
-    base: https://i3a606.p.ssafy.io:8000
+    base: https://i3a606.p.ssafy.io
     #base: http://localhost:8090
 
   logging:
