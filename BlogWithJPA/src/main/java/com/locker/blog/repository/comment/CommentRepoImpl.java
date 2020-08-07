@@ -27,6 +27,11 @@ public class CommentRepoImpl implements CommentRepo{
     }
 
     @Override
+    public Comment selectOne(Comment comment) {
+        return sqlSession.selectOne("comment.selectOne", comment);
+    }
+
+    @Override
     public int update(Comment comment) {
         return sqlSession.update("comment.update",comment);
     }

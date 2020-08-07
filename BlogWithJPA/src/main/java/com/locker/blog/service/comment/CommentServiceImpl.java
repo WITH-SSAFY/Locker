@@ -27,6 +27,11 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
+    public Comment selectOne(Comment comment) {
+        return commentRepo.selectOne(comment);
+    }
+
+    @Override
     public int update(Comment comment) {
         return commentRepo.update(comment);
     }
