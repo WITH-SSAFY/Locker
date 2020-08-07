@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -31,8 +32,8 @@ public class Post {
     @Column(columnDefinition = "LONGTEXT")
     private String content;
 
-    private LocalDateTime created;
-    private LocalDateTime updated;
+    private LocalDate created;
+    private LocalDate updated;
 
     private Long likes;
 }
