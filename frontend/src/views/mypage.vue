@@ -53,7 +53,7 @@
                   <p class="d-inline"><small>1F_병아리</small></p>
                 </div>
               </div>
-              <p class="ml-2">병아리에서 벗어나고 싶은 자바 개발자입니다 블라블라</p>
+              <p class="ml-2">{{ userInfo.introduction }}</p>
               <div class="d-inline">
                 <a><v-icon size="35" style="color: black; padding-right: 1rem;">mdi-github</v-icon></a>
                 <a><v-icon size="35" style="color: black;">mdi-google-plus</v-icon></a>

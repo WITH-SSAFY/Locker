@@ -22,13 +22,23 @@
         order by if ( parentid = 0, rid, parentid)
     </select>
 
+    <select id="selectOne" resultType="Comment">
+        select *
+        from comment
+        where pid=#{pid}
+        and rid=#{rid}
+    </select>
+
     <update id="update" parameterType="Comment">
         update comment
         set replytext=#{replytext}, updated=now()
-        where rid=#{rid}
+        where pid=#{pid}
+        and rid=#{rid}
     </update>
 
     <delete id="delete">
-        delete from comment where rid=#{rid}
+        delete from comment where pid=#{pid} and rid=#{rid}
     </delete>
+
+
 </mapper>

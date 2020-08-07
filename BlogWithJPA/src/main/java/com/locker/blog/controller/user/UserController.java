@@ -1,5 +1,6 @@
 package com.locker.blog.controller.user;
 
+import com.locker.blog.advice.exception.CEmailSigninFailedException;
 import com.locker.blog.advice.exception.CUserNotFoundException;
 import com.locker.blog.domain.response.CommonResult;
 import com.locker.blog.domain.response.ListResult;
@@ -7,6 +8,7 @@ import com.locker.blog.domain.response.SingleResult;
 import com.locker.blog.domain.user.User;
 import com.locker.blog.repository.user.UserJpaRepo;
 import com.locker.blog.service.response.ResponseService;
+import com.locker.blog.service.user.EmailSendService;
 import com.locker.blog.service.user.UserService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,7 @@ public class UserController {
     private final UserService userService;
     private final ResponseService responseService; // 결과를 처리할 Service
     private final PasswordEncoder passwordEncoder;
+    private final EmailSendService emailSendService;
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header")
@@ -119,6 +122,19 @@ public class UserController {
             @ApiParam(value = "회원번호", required = true) @PathVariable Long id) {
         userJpaRepo.deleteById(id);
         // 성공 결과 정보만 필요한경우 getSuccessResult()를 이용하여 결과를 출력한다.
+        return responseService.getSuccessResult();
+    }
+
+    @ApiOperation(value = "회원 비밀번호 찾기", notes = "회원 비밀번호를 찾는다")
+    @PutMapping(value = "/user/find/password")
+    public CommonResult findPassword(
+            @ApiParam(value = "회원 이메일", required = true) @RequestParam String email) {
+
+        try {
+            emailSendService.sendFindPassword(email);
+        } catch (CEmailSigninFailedException e) {
+            throw e;
+        }
         return responseService.getSuccessResult();
     }
 }

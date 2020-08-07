@@ -16,10 +16,10 @@ export default new Vuex.Store({
     myPostList: null, //내가 쓴 포스트 목록
     myDetailTitle: "", //상세보기 제목
     myDetail: "", //상세보기 내용
+    postList: [],
     commentList: [],
     nickname: "", //글쓴이
     pid: null, //글 번호
-    rid: null, //댓글 번호
   },
   //state 값 변화
   mutations: {
@@ -50,6 +50,10 @@ export default new Vuex.Store({
         //console.log("myPostList: ",state.myPostList);
         //router.push({name: "mypage"});
       },
+      getPostList(state, payload) {
+        console.log('페이로드' + payload)
+        state.postList = payload.postList
+      },
       getCommentList(state, payload){
         state.commentList = payload.commentList;
       },
@@ -58,8 +62,6 @@ export default new Vuex.Store({
         state.myDetailTitle = payload.myDetail.title;
         state.nickname = payload.myDetail.nickname;
         state.pid = payload.myDetail.pid;
-        console.log("state_mayDetail :"+state.myDetail);
-        console.log("payload_mayDetail :"+payload.myDetail);
         router.push({name: "readPost"});
       },
       goEditDetail(state,payload){
@@ -68,8 +70,10 @@ export default new Vuex.Store({
         state.nickname = payload.myDetail.nickname;
         state.pid = payload.myDetail.pid;
         router.push({name: "editPost"});
+      },
+      goEditComment(state, payload) {
+        console.log(payload)
       }
-      
   },
   //비즈니스 로직
   actions: {
@@ -81,18 +85,14 @@ export default new Vuex.Store({
         .then( res => {
           // 성공 시 token을 받아옴 (실제로는 user_id 값을 받아옴 / 토큰에 user_id를 암호화해서)
           // 이 토큰을 헤더에 포함시켜서 유저 정보을 요청
-          
           //config에서 헤더 값을 설정해 줄 수 있고, 헤더 내에 토큰 값을 넣어주려고 하기 때문에 config 쓰는것.
           let token = res.data.data
-          //토큰을 로컬스토리지에 저장
           localStorage.setItem("access_token", token) //key, value
           dispatch('getMemberInfo')
         })
         .catch( err => {
             console.log(err)
-            // if(loginObj.id !== '' && loginObj.password !== ''){
-              alert('이메일과 비밀번호를 확인하세요')
-            // }
+            alert('이메일과 비밀번호를 확인하세요')
         });
     },
     logout({commit}){
@@ -102,9 +102,7 @@ export default new Vuex.Store({
         console.log("로그아웃 합니다!")
         localStorage.removeItem("access_token")
         router.push({ name: "home"})
-      } else {
-        // commit('login')
-      }
+      } 
     },
 
     signinWithKakao({dispatch}) {
@@ -122,12 +120,6 @@ export default new Vuex.Store({
           .catch(err => {
             if(err.response){
               console.log("err.response.data", err.response.data);
-              // if(err.response.data.code === -1000){
-              //   console.log("token 값 확인 : ", authObj.access_token);
-              //   dispatch('signupWithKakao', authObj)
-              // } 
-              // console.log("status", err.reaponse.status);
-              // console.log("headers", err.reaponse.headers);
             } else if(err.request){
               console.log("error!!!",err.request);
             } else{
@@ -190,26 +182,6 @@ export default new Vuex.Store({
       console.log("signinWithSocial")
       dispatch
       console.log("authObj 값 확인 : ", authObj)
-
-      // axios
-      //   .get("/social/login/"+authObj.provider+"?code="+authCode)
-      //   .then(response => {
-      //       // let userInfo = {
-      //       //   id: response.data.data.id,
-      //       //   email: response.data.data.email,
-      //       //   name: response.data.data.name,
-      //       //   nickname: response.data.data.nickname,
-      //       //   picture: response.data.data.picture
-      //       // }
-      //       // commit('loginSuccess', userInfo)
-            
-      //       //없는 사용자면 signup 해야함.!!
-      //       console.log(response)
-      //   })
-      //   .catch(error => {
-      //     console.log(error)
-      //   })
-
       //access_token 가지고 서버에 요청하기
       // -> 성공하면, getMemberInfo를 dispatch하기
       // -> 없는 사용자의 경우 -> 서버에서 아예 signup 해줌
@@ -271,37 +243,57 @@ export default new Vuex.Store({
         axios //config : 보안과 관련된 헤더나 옵션 등을 설정해줄 수 있는 파일
           .get("/v1/user?lang=ko", config)
           .then(response => {
+              let res = response.data.data;
               let userInfo = {
-                id: response.data.data.id,
-                email: response.data.data.email,
-                name: response.data.data.name,
-                nickname: response.data.data.nickname,
-                picture: response.data.data.picture
+                id: res.id,
+                email: res.email,
+                name: res.name,
+                nickname: res.nickname,
+                picture: res.picture,
+                introduction: res.introduction
               }
+              console.log("가지고 온 유저 정보 : ", res)
               commit('loginSuccess', userInfo)
           })
           .catch(error => {
-            console.log("화면 열면 나는 에러!!!", error)
-            // alert('이메일과 비밀번호를 확인하세요1111')
+            console.log(error)
           })
       }
     },
+
+    updateUserInfo({commit},userInfo) {
+      console.log("udateUserInfo!!")
+      commit
+      
+      axios
+        .put("/v1/user/info?id="+userInfo.id+"&nickname="+userInfo.nickname+"&introduction="+userInfo.introduction)
+        .then(response => {
+          console.log("response", response)
+        })
+        .catch(exp =>{
+          console.log("exp", exp)
+        })
+    },
+
     getMyPostList({commit}, email){ // 내가 쓴 포스트 리스트 받아옴
       axios
-          .get("/v1/post/all/" + email)
-          .then(response =>{
-            commit("getMyPostList",{myPostList : response.data})
-          }).catch(
-            exp => alert("내 글 리스트 불러오기 실패 "+exp)
-          );
-      
-      //localStorage로 테스트
-      // let myPostList = [{title: "test", content: "#test"},{title: "test2", content: "#test2"}];
-      // localStorage.setItem('myPostList',JSON.stringify(myPostList));
-      // commit('getMyPostList');
+        .get("/v1/post/all/" + email)
+        .then(response =>{
+          commit("getMyPostList",{ myPostList : response.data })
+        }).catch(
+          exp => alert("내 글 리스트 불러오기 실패 "+exp)
+        );
+    },
+    getPostList({commit}){
+      axios
+        .get("/v1/post/all")
+        .then(response => {
+          commit("getPostList", { postList : response.data })
+        }).catch(
+          exp => alert("전체 글 리스트 불러오기 실패" + exp)
+        )
     },
     getCommentList({commit}, pid) { // 하나의 포스트에 대한 모든 댓글 받아옴
-      console.log("getCommentList");
       axios
         .get("/v1/comment/" + pid)
         .then(response => {
@@ -313,7 +305,6 @@ export default new Vuex.Store({
         );
     },
     showMyDetail({commit}, pid){//내 글 상세보기
-      console.log("showMyDetail_pid:"+pid);
       axios
           .get("/v1/post/" + pid)
           .then(response =>{
@@ -324,7 +315,6 @@ export default new Vuex.Store({
           );
     },
     goEditDetail({commit},pid) {
-      console.log("editDetail_pid:"+pid);
       axios
       .get("/v1/post/" + pid)
       .then(response =>{
@@ -335,8 +325,6 @@ export default new Vuex.Store({
       commit
     },
     deleteDetail({commit}, pid) {
-      console.log("deleteDetail")
-      console.log(pid)
       axios
         .delete("/v1/post/" + pid)
         .then(response => {
@@ -349,6 +337,11 @@ export default new Vuex.Store({
         );
         commit
     },
-    
+    goEditComment({commit}, { pid, rid }) {
+      console.log(pid, rid)
+      axios
+        .get("v1/comment/" + pid + '/' + rid) // 이 정보 얻어오는 api가 필요합니다 만들어주세요
+      commit
+    }
   }
 });

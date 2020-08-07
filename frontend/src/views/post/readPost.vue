@@ -24,7 +24,6 @@
               <v-btn
                 class="tag_list"
                 v-for="(tag, index) in tags" :key="index"
-                
                 small
                 color="brown lighten-4"
                 rounded
@@ -53,7 +52,31 @@
             </div>
           </div>
 
-          <!-- 댓글 창 -->
+          <!-- 댓글 보기 창 -->
+          <v-row>
+            <v-col
+              cols="12"
+              md="10"
+              v-for="comment in viewerComment"
+              :key="comment.rid"
+            >
+              <v-card flat>
+                <div class="d-flex justify-content-between">
+                  <div>
+                    <span class="mr-5"><strong>{{ comment.replynickname }}</strong></span>
+                    <span>{{ comment.replytext }}</span>
+                  </div>
+                  <div>
+                    <small class="mr-5">{{ comment.created }}</small>
+                    <button class="btn btn-sm btn-light mr-2" @click="goEditComment(pid, comment.rid)">edit</button>
+                    <button class="btn btn-sm btn-light mr-2" @click="deleteComment(pid, comment.rid)">delete</button>
+                  </div>
+                </div>
+              </v-card>
+            </v-col>
+          </v-row>
+
+          <!-- 댓글 작성 창 -->
           <div class="row mr-4">
             <div class="col-md-10">
               <v-text-field
@@ -74,29 +97,6 @@
               </v-btn>
             </div>
           </div>
-        </v-col>
-      </v-row>
-
-      <v-row>
-        <v-col
-          cols="12"
-          md="10"
-          v-for="comment in viewerComment"
-          :key="comment.rid"
-        >
-          <v-card flat>
-            <div class="d-flex justify-content-between">
-              <div>
-                <span class="mr-5"><strong>{{ comment.replynickname }}</strong></span>
-                <span>{{ comment.replytext }}</span>
-              </div>
-              <div>
-                <small class="mr-5">{{ comment.created }}</small>
-                <button class="btn btn-sm btn-light mr-2" @click="editComment(pid, comment.rid)">edit</button>
-                <button class="btn btn-sm btn-light mr-2" @click="deleteComment(pid, comment.rid)">delete</button>
-              </div>
-            </div>
-          </v-card>
         </v-col>
       </v-row>
 
@@ -175,21 +175,12 @@
           })
           .catch(exp => alert("댓글 작성에 실패했습니다" + exp))
       },
-      editComment (pid, rid) {
-        console.log(pid, rid)
-        // axios
-        //   .put("v1/comment", { replytext: this.text,
-        //                        replyemail: this.$store.state.userInfo.email,
-        //                        replynickname: this.$store.state.userInfo.nickname,
-        //                        pid, rid,
-        //   })
-        //   .then(() => {
-        //     console.log(replytext, replyemail, replynickname, pid, rid)
-        //   })
-        //   .catch(exp => alert("댓글 수정에 실패했습니다" + exp))
+      goEditComment (pid, rid) {
+        // TODO: 본인 댓글만 수정 가능 조건 추가
+        this.$store.dispatch('goEditComment', {pid, rid});
       },
       deleteComment (pid, rid) {
-        console.log(pid, rid)
+        // TODO: 본인 댓글만 삭제 가능 조건 추가
         axios
           .delete("v1/comment/" + rid)
           .then(() => {
