@@ -62,4 +62,20 @@ public class CommentController {
         }
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }
+
+    @ApiOperation(value = "하나의 포스트에 달린 모든 댓글 조회", notes = "하나의 포스트에 달린 모든 댓글 조회한다.")
+    @GetMapping(value = "/{pid}/{rid}")
+    public ResponseEntity<Comment> selectOne(@PathVariable Long pid, @PathVariable Long rid) throws Exception {
+        Comment comment = new Comment();
+        comment.setPid(pid);
+        comment.setRid(rid);
+        Comment result = commentService.selectOne(comment);
+        if(result != null ) {
+            return new ResponseEntity<Comment>(result, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<Comment>(result, HttpStatus.NO_CONTENT);
+        }
+    }
+
+
 }
