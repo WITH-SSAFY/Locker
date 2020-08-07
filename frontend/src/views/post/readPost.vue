@@ -24,7 +24,6 @@
               <v-btn
                 class="tag_list"
                 v-for="(tag, index) in tags" :key="index"
-                
                 small
                 color="brown lighten-4"
                 rounded
