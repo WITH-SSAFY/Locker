@@ -1,5 +1,5 @@
 server:
-  port: 8443
+  port: 8080
   ssl:
     enabled: true
     key-store: src/main/resources/bootsecurity.p12
