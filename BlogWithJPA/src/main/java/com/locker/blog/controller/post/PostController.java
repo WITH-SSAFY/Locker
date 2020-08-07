@@ -1,5 +1,6 @@
 package com.locker.blog.controller.post;
 
+import com.locker.blog.domain.post.PagingPost;
 import com.locker.blog.domain.post.Post;
 import com.locker.blog.service.post.PostService;
 import io.swagger.annotations.Api;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Api(tags = {"3. Post"})
 @RestController
@@ -39,15 +42,23 @@ public class PostController {
     }
 
     //글 전체 조회
-    @ApiOperation(value = "모든 글 조회", notes = "모든 글을 조회한다.")
-    @GetMapping(value = "/all")
-    public ResponseEntity<List<Post>> selectAll() throws Exception {
-        List<Post> list = service.selectAll();
+    @ApiOperation(value = "해당 페이지의 모든 글 조회", notes = "해당 페이지의 모든 글을 조회한다.")
+    @GetMapping(value = "/all/page/{page}")
+    public ResponseEntity<List<PagingPost>> selectAll(@ApiParam(value = "페이지 번호", required = true) @PathVariable Long page) throws Exception {
+        Long sizePerPage = 6L;
+        Long startPage = (page-1)*sizePerPage;
+        Long endPage = sizePerPage;
 
+        Map<String,Long> pageMap = new HashMap<>();
+        pageMap.put("startPage",startPage);
+        pageMap.put("endPage",endPage);
+
+        List<PagingPost> list = service.selectAll(pageMap);
+        //System.out.println(list.toString());
         if(list.size() > 0) {
-            return new ResponseEntity<List<Post>>(list, HttpStatus.OK);
+            return new ResponseEntity<List<PagingPost>>(list, HttpStatus.OK);
         }
-        return new ResponseEntity<List<Post>>(list, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<List<PagingPost>>(list, HttpStatus.NO_CONTENT);
     }
 
     //해당 번호 글 한개 조회
