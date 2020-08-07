@@ -33,4 +33,6 @@ public class Post {
 
     private LocalDateTime created;
     private LocalDateTime updated;
+
+    private Long likes;
 }

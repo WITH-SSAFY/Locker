@@ -11,4 +11,6 @@ public interface PostService {
     public int update(Post post);
     public List<Post> selectAll();
     public List<Post> selectAllByWriter(String email);
+    public int addLike(Long pid);
+
 }

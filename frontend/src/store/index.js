@@ -67,8 +67,10 @@ export default new Vuex.Store({
         state.nickname = payload.myDetail.nickname;
         state.pid = payload.myDetail.pid;
         router.push({name: "editPost"});
+      },
+      goEditComment(state, payload) {
+        console.log(payload)
       }
-      
   },
   //비즈니스 로직
   actions: {
@@ -267,23 +269,19 @@ export default new Vuex.Store({
       // commit('getMyPostList');
     },
     getCommentList({commit}, pid) { // 하나의 포스트에 대한 모든 댓글 받아옴
-      console.log("getCommentList");
       axios
         .get("/v1/comment/" + pid)
         .then(response => {
           console.log(response.data)
           commit("getCommentList", { commentList: response.data })
-
         })
         .catch(
           exp => alert("전체 댓글 가져오기 실패" + exp)
         );
     },
     showMyDetail({commit}, pid){//내 글 상세보기
-      console.log("showMyDetail_pid:"+pid);
-      
       axios
-          .get("/v1/post/" + pid) //일단은 전체 리스트받아오는 걸로
+          .get("/v1/post/" + pid)
           .then(response =>{
             console.dir(response.data);
             commit("showMyDetail",{myDetail : response.data})
@@ -292,9 +290,8 @@ export default new Vuex.Store({
           );
     },
     goEditDetail({commit},pid) {
-      console.log("editDetail_pid:"+pid);
       axios
-      .get("/v1/post/" + pid) //일단은 전체 리스트받아오는 걸로
+      .get("/v1/post/" + pid)
       .then(response =>{
         commit("goEditDetail",{myDetail : response.data})
       }).catch(
@@ -303,8 +300,6 @@ export default new Vuex.Store({
       commit
     },
     deleteDetail({commit}, pid) {
-      console.log("deleteDetail")
-      console.log(pid)
       axios
         .delete("/v1/post/" + pid)
         .then(response => {
@@ -317,6 +312,11 @@ export default new Vuex.Store({
         );
         commit
     },
-    
+    goEditComment({commit}, { pid, rid }) {
+      console.log(pid, rid)
+      axios
+        .get("v1/comment/" + pid + '/' + rid) // 이 정보 얻어오는 api가 필요합니다 만들어주세요
+      commit
+    }
   }
 });
