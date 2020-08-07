@@ -2,6 +2,7 @@ package com.locker.blog.service.auth;
 
 import com.google.gson.Gson;
 import com.locker.blog.advice.exception.CCommunicationException;
+import com.locker.blog.domain.social.NaverRetAuth;
 import com.locker.blog.domain.social.RetAuth;
 import com.locker.blog.domain.user.KakaoProfile;
 import com.locker.blog.domain.user.NaverProfile;
@@ -55,7 +56,7 @@ public class NaverService {
         throw new CCommunicationException();
     }
 
-    public RetAuth getNaverTokenInfo(String code) {
+    public NaverRetAuth getNaverTokenInfo(String code) {
         // Set header : Content-type: application/x-www-form-urlencoded
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -70,7 +71,7 @@ public class NaverService {
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
         ResponseEntity<String> response = restTemplate.postForEntity(env.getProperty("spring.social.naver.url.token"), request, String.class);
         if (response.getStatusCode() == HttpStatus.OK) {
-            return gson.fromJson(response.getBody(), RetAuth.class);
+            return gson.fromJson(response.getBody(), NaverRetAuth.class);
         }
         return null;
     }

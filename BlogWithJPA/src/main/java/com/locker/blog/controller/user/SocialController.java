@@ -2,6 +2,7 @@ package com.locker.blog.controller.user;
 
 import com.locker.blog.domain.social.FacebookRetAuth;
 import com.locker.blog.domain.social.GithubRetAuth;
+import com.locker.blog.domain.social.NaverRetAuth;
 import com.locker.blog.domain.social.RetAuth;
 import com.locker.blog.service.auth.*;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +41,7 @@ public class SocialController {
     @Value("${spring.social.naver.clientId}")
     private String naverClientId;
 
-    @Value("${spring.social.naver.redirectUri}}")
+    @Value("${spring.social.naver.redirectUri}")
     private String naverRedirect;
 
     @Value("${spring.social.kakao.client_id}")
@@ -87,7 +88,7 @@ public class SocialController {
         StringBuilder loginUrl = new StringBuilder()
                 .append(env.getProperty("spring.social.naver.url.login"))
                 .append("&client_id=").append(naverClientId)
-                .append("&redirect_uri=").append(naverRedirect)
+                .append("&redirect_uri=").append(baseUrl).append(naverRedirect)
                 .append("&state=").append(state);
 
         HashMap<String,String> map = new HashMap<>();
@@ -101,9 +102,9 @@ public class SocialController {
      * /api/social/login/naver
      */
     @GetMapping(value = "/login/naver")
-    public RetAuth redirectNaver(@RequestParam String code) {
-        RetAuth retAuth = naverService.getNaverTokenInfo(code);
-        return retAuth;
+    public NaverRetAuth redirectNaver(@RequestParam String code) {
+        NaverRetAuth naverRetAuth = naverService.getNaverTokenInfo(code);
+        return naverRetAuth;
     }
 
 
