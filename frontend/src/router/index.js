@@ -103,6 +103,12 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "userSetting" */ "../views/UserSetting.vue")
   },
+  {
+    path: "/verify/success",
+    name: "verifySuccess",
+    component: () =>
+      import(/* webpackChunkName: "verifySuccess" */ "../views/verifySuccess.vue")
+  },
 ];
 
 const router = new VueRouter({
