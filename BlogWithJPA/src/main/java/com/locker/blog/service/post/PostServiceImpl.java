@@ -1,11 +1,13 @@
 package com.locker.blog.service.post;
 
+import com.locker.blog.domain.post.PagingPost;
 import com.locker.blog.domain.post.Post;
 import com.locker.blog.repository.post.PostDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -34,8 +36,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> selectAll() {
-        return dao.selectAll();
+    public List<PagingPost> selectAll(Map<String,Long> pageMap) {
+        return dao.selectAll(pageMap);
     }
 
     @Override

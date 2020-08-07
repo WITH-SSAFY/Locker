@@ -15,9 +15,10 @@
         values(#{email},#{nickname},#{content}, #{title},now(), now(), 0)
     </insert>
 
-    <select id="selectAll" resultType="Post">
-        select *
-        from post
+    <select id="selectAll" resultType="PagingPost">
+        select *, ROUND (@num:=@num+1) as num
+        from (select @num:=0) a,post
+        limit #{startPage}, #{endPage}
     </select>
 
     <select id="selectOne" parameterType="String" resultType="Post">
