@@ -97,7 +97,6 @@
                   <div style="font-size: 1.5rem; font-weight:bold;">소셜 정보</div>
                 </v-col>
                 <v-col md="9" class="mt-2">
-                  <!-- <div style="font-size: 1.3">locker_test</div> -->
                   <div class="d-inline">
                     <a><v-icon size="35" style="color: black; padding-right: 1rem;">mdi-github</v-icon></a>
                     <a><v-icon size="35" style="color: black;">mdi-google-plus</v-icon></a>
@@ -141,7 +140,8 @@
     </div>
 </template>
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
+
 export default {
    data: ()=>{
      return{
@@ -157,6 +157,8 @@ export default {
      ...mapState(["userInfo"])
    },
    methods: {
+     ...mapActions(["updateUserInfo"]),
+
      showForm(){
        this.curName = false;
        this.curIntro = false;
@@ -166,13 +168,19 @@ export default {
        this.showSaveBtn = true;
      }, 
      closeForm(){
+       console.log("확인 누르면 userInfo", this.userInfo)
+       this.updateUserInfo(this.userInfo)
        this.curName = true;
        this.curIntro = true;
        this.updateName = false;
        this.updateIntro = false;
        this.showUpdateBtn = true;
        this.showSaveBtn = false;
-     }
+     },
+     
+   }, 
+   created() {
+     console.log("가지고 온 유저 정보 : ", this.userInfo)
    }
 }
 </script>
