@@ -14,7 +14,7 @@
             <div class="my-6">
               <div id="nick">{{ nickname }}</div>
               <div id="dash">/</div>
-              <div id="wdate">2020.07.29</div>
+              <div id="wdate">{{ created }}</div>
             </div>
             <div class="float-right">
               <button class="btn btn-light badge-pill mr-2" @click="goEditDetail(pid)"><span>edit</span></button>
@@ -48,7 +48,7 @@
                   <v-icon size="30" class="ml-1" color="#7C4DFF">mdi-arm-flex</v-icon>
                 </p>
               </div>  
-              <p class="ml-2">병아리에서 벗어나고 싶은 자바 개발자입니다 블라블라</p>
+              <p class="ml-2">병아리에서 벗어나고 싶은 자바 개발자입니다 블라블라{{ editComment }}</p>
             </div>
           </div>
 
@@ -84,7 +84,7 @@
 
                   <div>
                     <small class="mr-5">{{ comment.created }}</small>
-                    <button class="btn btn-sm btn-light mr-2" v-if="showButton" @click="goEditComment(pid, comment.rid)">edit</button>
+                    <button class="btn btn-sm btn-light mr-2" v-if="showButton" @click="goEditComment(pid, comment.rid, comment.replytext)">edit</button>
                     <button class="btn btn-sm btn-light mr-2" v-if="showButton" @click="deleteComment(pid, comment.rid)">delete</button>
                   </div>
                 </div>
@@ -146,12 +146,10 @@
     },
     data(){
       return {
-        //viewerText : '',
         text: '',
         tags: ["java", "login", "cookie"],
         btnNum: null,
         showButton: true,
-        test: "nothing",
         editComment: null,
         rid: null,
       }
@@ -165,6 +163,9 @@
       },
       pid() {
         return this.$store.state.pid;
+      },
+      created() {
+        return this.$store.state.created;
       },
       viewerText(){
         return this.$store.state.myDetail;
@@ -191,23 +192,14 @@
           .then(() => {
             this.$store.dispatch('getCommentList', pid);
             this.text='';
-            // this.$router.push('/readPost')
           })
           .catch(exp => alert("댓글 작성에 실패했습니다" + exp))
       },
-      goEditComment (pid, rid) {
+      goEditComment (pid, rid, text) {
         // TODO: 본인 댓글만 수정 가능 조건 추가
         this.btnNum = rid
         this.showButton = false;
-        axios
-          .get("v1/comment/" + pid + '/' + rid)
-          .then(response => {
-            console.log(response.data)
-            this.editComment = response.data.replytext
-          })
-          .catch(
-            exp => alert("내 댓글 가져오기에 실패했습니다 " + exp)
-          );
+        this.editComment = text;
       },
       deleteComment (pid, rid) {
         // TODO: 본인 댓글만 삭제 가능 조건 추가
@@ -226,6 +218,7 @@
             this.btnNum = null
             this.$router.push('/readPost');
             this.$store.dispatch('getCommentList', pid)
+            this.showButton = true;
           })
           .catch(
             exp => alert("내 댓글 수정에 실패했습니다 " + exp)
