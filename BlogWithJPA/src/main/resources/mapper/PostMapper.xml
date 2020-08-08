@@ -12,7 +12,7 @@
 
     <insert id="insert" parameterType="Post">
         insert into post(email,nickname,content,title, created, updated, likes)
-        values(#{email},#{nickname},#{content}, #{title},now(), now(), 0)
+        values(#{email},#{nickname},#{content}, #{title},curdate(), curdate(), 0)
     </insert>
 
     <select id="selectAll" resultType="PagingPost">
@@ -29,7 +29,7 @@
 
     <update id="update" parameterType="Post">
         update post
-        set title=#{title}, content=#{content}, updated=now()
+        set title=#{title}, content=#{content}, updated=curdate()
         where pid=#{pid}
     </update>
 
