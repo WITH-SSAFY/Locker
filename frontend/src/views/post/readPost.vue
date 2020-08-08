@@ -48,7 +48,7 @@
                   <v-icon size="30" class="ml-1" color="#7C4DFF">mdi-arm-flex</v-icon>
                 </p>
               </div>  
-              <p class="ml-2">병아리에서 벗어나고 싶은 자바 개발자입니다 블라블라{{ editComment }}</p>
+              <p class="ml-2">병아리에서 벗어나고 싶은 자바 개발자입니다 블라블라</p>
             </div>
           </div>
 
