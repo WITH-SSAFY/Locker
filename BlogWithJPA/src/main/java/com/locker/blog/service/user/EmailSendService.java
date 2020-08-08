@@ -1,5 +1,6 @@
 package com.locker.blog.service.user;
 
+import com.locker.blog.repository.user.UserJpaRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -29,12 +30,14 @@ public class EmailSendService {
 
         sendMail(email,"[Locker] 블로그 회원가입 인증메일입니다.",VERIFICATION_LINK.toString());
     }
-    public void sendFindPassword(String email) {
+    public UUID sendFindPassword(String email) {
         UUID uuid = UUID.randomUUID();
         StringBuilder NEW_PASSWORD_LINK = new StringBuilder()
                 .append("임시 비밀번호를 제공해드립니다. 로그인 후 비밀번호 변경을 권장합니다.").append("\n\n")
                 .append(uuid);
 
         sendMail(email,"[Locker] 블로그 임시 비밀번호입니다.",NEW_PASSWORD_LINK.toString());
+
+        return uuid;
     }
 }
