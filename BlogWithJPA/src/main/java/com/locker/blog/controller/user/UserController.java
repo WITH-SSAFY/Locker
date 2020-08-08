@@ -17,6 +17,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @Api(tags = {"2. User"})
 @RequiredArgsConstructor
 @RestController
@@ -131,7 +133,10 @@ public class UserController {
             @ApiParam(value = "회원 이메일", required = true) @RequestParam String email) {
 
         try {
-            emailSendService.sendFindPassword(email);
+            UUID uuid = emailSendService.sendFindPassword(email);
+            User user = userJpaRepo.findByEmailAndProvider(email,"null").orElseThrow(CUserNotFoundException::new);
+            user.setPassword(passwordEncoder.encode(uuid.toString()));
+            userJpaRepo.save(user);
         } catch (CEmailSigninFailedException e) {
             throw e;
         }

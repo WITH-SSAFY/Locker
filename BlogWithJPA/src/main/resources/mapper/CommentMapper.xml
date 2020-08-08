@@ -36,7 +36,7 @@
         and rid=#{rid}
     </update>
 
-    <delete id="delete">
+    <delete id="delete" parameterType="Comment">
         delete from comment where pid=#{pid} and rid=#{rid}
     </delete>
 

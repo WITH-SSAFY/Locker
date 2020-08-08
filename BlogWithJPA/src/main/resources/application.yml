@@ -1,5 +1,5 @@
 server:
-  port: 8090
+  port: 8000
 
 spring:
   profiles:
@@ -17,7 +17,7 @@ spring:
     basename: i18n/exception
     encoding: UTF-8
   url:
-    base: http://i3a606.p.ssafy.io:8090
+    base: http://i3a606.p.ssafy.io
     #base: http://localhost:8090
 
   logging:
