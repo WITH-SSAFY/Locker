@@ -46,9 +46,13 @@ public class CommentController {
     }
 
     @ApiOperation(value = "댓글 하나 삭제", notes = "댓글을 쓴 사람이 해당 댓글을 삭제한다.")
-    @DeleteMapping(value = "/{rid}")
-    public ResponseEntity<String> delete(@PathVariable Long rid) throws Exception {
-        if(commentService.delete(rid)==0){
+    @DeleteMapping(value = "/{pid}/{rid}")
+    public ResponseEntity<String> delete(@PathVariable Long pid, @PathVariable Long rid) throws Exception {
+        Comment comment = new Comment();
+        comment.setPid(pid);
+        comment.setRid(rid);
+
+        if(commentService.delete(comment)==0){
             return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);

@@ -34,6 +34,11 @@
                   >
                     이미지 삭제 
                   </v-btn>
+
+                  <input type="file" v-on:change="handleChange">
+                  <div v-if="preview"><img v-bind:src="preview"></div>
+
+                  
                 </div>
               </div>
 
@@ -46,8 +51,8 @@
                     v-model="userInfo.nickname"
                     outlined
                     required
-                    height="5.3rem"
-                    style="font-size: 2.5rem; font-weight: bold;"
+                    height="6rem"
+                    style="font-size: 2.2rem; font-weight: bold;"
                   ></v-text-field>
                 </div>
                 <p v-if="curIntro" class="mt-6 mb-10">{{ userInfo.introduction }}</p>
@@ -61,8 +66,9 @@
                   <a
                     v-if="showUpdateBtn"
                     style="text-decoration: none;"
-                    @click="showForm"
+                    @keyup.enter="showForm"
                     >
+                    <!-- @click="showForm" -->
                     수정</a>
                   <v-btn
                     elevation="0"
@@ -74,13 +80,25 @@
                     >
                     확인</v-btn>
                 </div>
-                <div  class="mt-2">
-                  <v-icon size="60" style="color: #EDE7F6;">mdi-arm-flex</v-icon>
-                  <p class="d-inline"><small>1F_병아리</small></p>
-                </div>
+                
               </div>
             </div>
             <div class="ml-16 mr-3 mt-16">
+              <v-row class="mx-1">
+                <v-col cols="12" md="3">
+                  <div style="font-size: 1.5rem; font-weight:bold;" calss="pt-4"><br>나의 레벨</div>
+                </v-col>
+                <v-col md="9" class="mt-2">
+                  <!-- <div style="font-size: 1.3">locker_test</div> -->
+                  <div  class="mt-2">
+                    <v-icon size="60" style="color: #EDE7F6;">mdi-arm-flex</v-icon>
+                    <p class="d-inline"><small>1F_병아리</small></p>
+                  </div>
+                </v-col>
+              </v-row>
+            </div>
+            <hr>
+            <div class="ml-16 mr-3 mt-5">
               <v-row class="mx-1">
                 <v-col cols="12" md="3">
                   <div style="font-size: 1.5rem; font-weight:bold;">내 라커 이름</div>
@@ -97,7 +115,6 @@
                   <div style="font-size: 1.5rem; font-weight:bold;">소셜 정보</div>
                 </v-col>
                 <v-col md="9" class="mt-2">
-                  <!-- <div style="font-size: 1.3">locker_test</div> -->
                   <div class="d-inline">
                     <a><v-icon size="35" style="color: black; padding-right: 1rem;">mdi-github</v-icon></a>
                     <a><v-icon size="35" style="color: black;">mdi-google-plus</v-icon></a>
@@ -141,7 +158,8 @@
     </div>
 </template>
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
+
 export default {
    data: ()=>{
      return{
@@ -157,6 +175,8 @@ export default {
      ...mapState(["userInfo"])
    },
    methods: {
+     ...mapActions(["updateUserInfo"]),
+
      showForm(){
        this.curName = false;
        this.curIntro = false;
@@ -166,13 +186,23 @@ export default {
        this.showSaveBtn = true;
      }, 
      closeForm(){
+       this.updateUserInfo(this.userInfo)
        this.curName = true;
        this.curIntro = true;
        this.updateName = false;
        this.updateIntro = false;
        this.showUpdateBtn = true;
        this.showSaveBtn = false;
-     }
+     },
+     handleChange: function (event) {
+      var file = event.target.files[0]
+      if (file && file.type.match(/^image\/(png|jpeg)$/)) {
+        this.preview = window.URL.createObjectURL(file)
+      }
+    }
+   }, 
+   created() {
+     console.log("가지고 온 유저 정보 : ", this.userInfo)
    }
 }
 </script>
