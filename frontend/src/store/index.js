@@ -20,6 +20,7 @@ export default new Vuex.Store({
     commentList: [],
     nickname: "", //글쓴이
     pid: null, //글 번호
+    created: null, //작성일자
   },
   //state 값 변화
   mutations: {
@@ -57,11 +58,12 @@ export default new Vuex.Store({
       getCommentList(state, payload){
         state.commentList = payload.commentList;
       },
-      showMyDetail(state,payload){
+      showMyDetail(state, payload){
         state.myDetail = payload.myDetail.content;
         state.myDetailTitle = payload.myDetail.title;
         state.nickname = payload.myDetail.nickname;
         state.pid = payload.myDetail.pid;
+        state.created = payload.myDetail.created;
         router.push({name: "readPost"});
       },
       goEditDetail(state,payload){
