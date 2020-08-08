@@ -65,11 +65,27 @@
                   <div>
                     <span class="mr-5"><strong>{{ comment.replynickname }}</strong></span>
                     <span>{{ comment.replytext }}</span>
+                    <v-text-field
+                      label="수정 내용을 입력하세요"
+                      v-if="comment.rid === btnNum"
+                      v-model="editComment"
+                      required
+                    >
+                    </v-text-field>
+                    <v-btn
+                      v-if="comment.rid === btnNum"
+                      dark
+                      elevation="0"
+                      @click="fetchComment(pid, comment.rid, editComment)"
+                    >
+                    수정
+                    </v-btn>
                   </div>
+
                   <div>
                     <small class="mr-5">{{ comment.created }}</small>
-                    <button class="btn btn-sm btn-light mr-2" @click="goEditComment(pid, comment.rid)">edit</button>
-                    <button class="btn btn-sm btn-light mr-2" @click="deleteComment(pid, comment.rid)">delete</button>
+                    <button class="btn btn-sm btn-light mr-2" v-if="showButton" @click="goEditComment(pid, comment.rid)">edit</button>
+                    <button class="btn btn-sm btn-light mr-2" v-if="showButton" @click="deleteComment(pid, comment.rid)">delete</button>
                   </div>
                 </div>
               </v-card>
@@ -133,6 +149,11 @@
         //viewerText : '',
         text: '',
         tags: ["java", "login", "cookie"],
+        btnNum: null,
+        showButton: true,
+        test: "nothing",
+        editComment: null,
+        rid: null,
       }
     },
     computed : {
@@ -151,7 +172,6 @@
       viewerComment(){
         return this.$store.state.commentList;
       },
-
     },
     methods:{
       goEditDetail (pid) {
@@ -177,17 +197,40 @@
       },
       goEditComment (pid, rid) {
         // TODO: 본인 댓글만 수정 가능 조건 추가
-        this.$store.dispatch('goEditComment', {pid, rid});
+        this.btnNum = rid
+        this.showButton = false;
+        axios
+          .get("v1/comment/" + pid + '/' + rid)
+          .then(response => {
+            console.log(response.data)
+            this.editComment = response.data.replytext
+          })
+          .catch(
+            exp => alert("내 댓글 가져오기에 실패했습니다 " + exp)
+          );
       },
       deleteComment (pid, rid) {
         // TODO: 본인 댓글만 삭제 가능 조건 추가
         axios
-          .delete("v1/comment/" + rid)
+          .delete("v1/comment/" + pid + '/' + rid)
           .then(() => {
             this.$store.dispatch('getCommentList', pid)
           })
-          .catch(exp => alert("내 댓글 삭제 실패" + exp))
-      }
+          .catch(exp => alert("내 댓글 삭제에 실패했습니다" + exp))
+      },
+      fetchComment (pid, rid, editComment) {
+        axios
+          .put("v1/comment", {pid, rid, replytext: editComment})
+          .then(() => {
+            alert("댓글 등록이 완료되었습니다")
+            this.btnNum = null
+            this.$router.push('/readPost');
+            this.$store.dispatch('getCommentList', pid)
+          })
+          .catch(
+            exp => alert("내 댓글 수정에 실패했습니다 " + exp)
+          );
+      },
     }
   };
 </script>
