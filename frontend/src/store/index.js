@@ -71,9 +71,6 @@ export default new Vuex.Store({
         state.pid = payload.myDetail.pid;
         router.push({name: "editPost"});
       },
-      goEditComment(state, payload) {
-        console.log(payload)
-      }
   },
   //비즈니스 로직
   actions: {
@@ -319,11 +316,5 @@ export default new Vuex.Store({
         );
         commit
     },
-    goEditComment({commit}, { pid, rid }) {
-      console.log(pid, rid)
-      axios
-        .get("v1/comment/" + pid + '/' + rid) // 이 정보 얻어오는 api가 필요합니다 만들어주세요
-      commit
-    }
   }
 });
