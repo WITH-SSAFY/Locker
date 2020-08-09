@@ -14,7 +14,6 @@
       <v-btn 
         style="height: 65%;"
         dark
-        elevation="0"
         @click="postComment(pid)"
       >
       작성

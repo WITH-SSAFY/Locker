@@ -80,11 +80,19 @@
                     수정
                     </v-btn>
                   </div>
-
                   <div>
                     <small class="mr-5">{{ comment.created }}</small>
                     <button class="btn btn-sm btn-light mr-2" v-if="showButton" @click="goEditComment(pid, comment.rid, comment.replytext)">edit</button>
                     <button class="btn btn-sm btn-light mr-2" v-if="showButton" @click="deleteComment(pid, comment.rid)">delete</button>
+                    
+                    <!-- 대댓글 없을 시 대댓글 작성 창 보이기-->
+                    <button v-if="!comment.depth" @click="goReply(comment.rid)">
+                      <v-icon>mdi-reply</v-icon>
+                      <div v-if="comment.rid === btnNum">
+                        <commentCreate/>
+                      </div>
+                    </button>
+
                   </div>
                 </div>
               </v-card>
@@ -133,6 +141,7 @@
         showButton: true,
         editComment: null,
         rid: null,
+        showInput: false,
       }
     },
     computed : {
@@ -191,6 +200,10 @@
           .catch(
             exp => alert("내 댓글 수정에 실패했습니다 " + exp)
           );
+      },
+      goReply (rid) {
+        this.btnNum = rid
+        this.showInput = true
       },
     }
   };
