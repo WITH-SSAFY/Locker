@@ -52,7 +52,6 @@
             </div>
           </div>
 
-          <!-- 댓글 보기 창 -->
           <v-row>
             <v-col
               cols="12"
@@ -91,28 +90,9 @@
               </v-card>
             </v-col>
           </v-row>
+          
+          <commentCreate/>
 
-          <!-- 댓글 작성 창 -->
-          <div class="row mr-4">
-            <div class="col-md-10">
-              <v-text-field
-                label="댓글"
-                outlined
-                v-model="text"
-              >
-              </v-text-field>
-            </div>
-            <div class="col-md-1">
-              <v-btn 
-                style="height: 65%;"
-                dark
-                elevation="0"
-                @click="postComment(pid)"
-              >
-              작성
-              </v-btn>
-            </div>
-          </div>
         </v-col>
       </v-row>
 
@@ -128,6 +108,7 @@
 <script>
   // import { mapState } from "vuex"
   // import SideBar from "../SideBar.vue"
+  import commentCreate from "../commentCreate.vue"
   import { Viewer } from '@toast-ui/vue-editor';
   import('../../assets/css/read-post.css')
   import('../../assets/css/side-style.css')
@@ -142,11 +123,11 @@
     },
     components: {
       Viewer,
+      commentCreate,
       // SideBar
     },
     data(){
       return {
-        text: '',
         tags: ["java", "login", "cookie"],
         btnNum: null,
         showButton: true,
@@ -181,19 +162,6 @@
       },
       deleteDetail (pid) {
         this.$store.dispatch('deleteDetail', pid);
-      },
-      postComment (pid) {
-        axios
-          .post("v1/comment", { replytext: this.text,
-                                replyemail: this.$store.state.userInfo.email,
-                                replynickname: this.$store.state.userInfo.nickname,
-                                pid,
-          })
-          .then(() => {
-            this.$store.dispatch('getCommentList', pid);
-            this.text='';
-          })
-          .catch(exp => alert("댓글 작성에 실패했습니다" + exp))
       },
       goEditComment (pid, rid, text) {
         // TODO: 본인 댓글만 수정 가능 조건 추가
