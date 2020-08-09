@@ -80,26 +80,28 @@
                     수정
                     </v-btn>
                   </div>
-                  <div>
+                  <div class="ml-auto">
                     <small class="mr-5">{{ comment.created }}</small>
                     <button class="btn btn-sm btn-light mr-2" v-if="showButton" @click="goEditComment(pid, comment.rid, comment.replytext)">edit</button>
                     <button class="btn btn-sm btn-light mr-2" v-if="showButton" @click="deleteComment(pid, comment.rid)">delete</button>
-                    
-                    <!-- 대댓글 없을 시 대댓글 작성 창 보이기-->
                     <button v-if="!comment.depth" @click="goReply(comment.rid)">
                       <v-icon>mdi-reply</v-icon>
-                      <div v-if="comment.rid === btnNum">
-                        <commentCreate/>
-                      </div>
-                    </button>
-
+                    </button>                  
                   </div>
+                </div>
+                <!-- 대댓글 없을 시 대댓글 작성 창 보이기-->
+                <div v-if="comment.rid === inputNum" class="px-5 py-2">
+                  <commentCreate/>
                 </div>
               </v-card>
             </v-col>
           </v-row>
           
-          <commentCreate/>
+          <div class="row">
+            <div class="col-md-10">
+              <commentCreate/>
+            </div>
+          </div>
 
         </v-col>
       </v-row>
@@ -142,6 +144,7 @@
         editComment: null,
         rid: null,
         showInput: false,
+        inputNum: null,
       }
     },
     computed : {
@@ -202,8 +205,9 @@
           );
       },
       goReply (rid) {
-        this.btnNum = rid
-        this.showInput = true
+        this.inputNum = rid;
+        this.showButton = false;
+        this.showInput = !this.showInput;
       },
     }
   };

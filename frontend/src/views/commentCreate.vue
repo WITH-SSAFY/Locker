@@ -1,8 +1,8 @@
 <template>
 
   <!-- 댓글 작성 창 -->
-  <div class="row mr-4">
-    <div class="col-md-10">
+  <div class="d-flex">
+    <div class="input-group">
       <v-text-field
         label="댓글"
         outlined
@@ -10,11 +10,11 @@
       >
       </v-text-field>
     </div>
-    <div class="col-md-1">
+    <div class="input-group-append ml-5" >
       <v-btn 
-        style="height: 65%;"
         dark
         @click="postComment(pid)"
+        height="65%"
       >
       작성
       </v-btn>
