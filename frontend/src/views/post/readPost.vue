@@ -52,7 +52,6 @@
             </div>
           </div>
 
-          <!-- 댓글 보기 창 -->
           <v-row>
             <v-col
               cols="12"
@@ -81,38 +80,36 @@
                     수정
                     </v-btn>
                   </div>
-
-                  <div>
+                  <div class="ml-auto">
                     <small class="mr-5">{{ comment.created }}</small>
                     <button class="btn btn-sm btn-light mr-2" v-if="showButton" @click="goEditComment(pid, comment.rid, comment.replytext)">edit</button>
                     <button class="btn btn-sm btn-light mr-2" v-if="showButton" @click="deleteComment(pid, comment.rid)">delete</button>
+                    <button v-if="!comment.depth" @click="goReply(comment.rid)">
+                      <v-icon>mdi-reply</v-icon>
+                    </button>
+                    <button v-if="comment.depth" @click="showReply(comment.rid)">
+                      <v-icon>mdi-chevron-up</v-icon>
+                    </button>              
                   </div>
                 </div>
+
+                <!-- 대댓글 없을 시 대댓글 작성 창 보이기-->
+                <div v-if="comment.rid === inputNum" class="px-5 py-2">
+                  <commentCreate/>
+                </div>
+                
+                <!-- 대댓글 있으면 해당 parentid에 대한 댓글리스트 불러오기 -->
+
               </v-card>
             </v-col>
           </v-row>
-
-          <!-- 댓글 작성 창 -->
-          <div class="row mr-4">
+          
+          <div class="row">
             <div class="col-md-10">
-              <v-text-field
-                label="댓글"
-                outlined
-                v-model="text"
-              >
-              </v-text-field>
-            </div>
-            <div class="col-md-1">
-              <v-btn 
-                style="height: 65%;"
-                dark
-                elevation="0"
-                @click="postComment(pid)"
-              >
-              작성
-              </v-btn>
+              <commentCreate/>
             </div>
           </div>
+
         </v-col>
       </v-row>
 
@@ -128,6 +125,7 @@
 <script>
   // import { mapState } from "vuex"
   // import SideBar from "../SideBar.vue"
+  import commentCreate from "../commentCreate.vue"
   import { Viewer } from '@toast-ui/vue-editor';
   import('../../assets/css/read-post.css')
   import('../../assets/css/side-style.css')
@@ -142,16 +140,18 @@
     },
     components: {
       Viewer,
+      commentCreate,
       // SideBar
     },
     data(){
       return {
-        text: '',
         tags: ["java", "login", "cookie"],
         btnNum: null,
         showButton: true,
         editComment: null,
         rid: null,
+        showInput: false,
+        inputNum: null,
       }
     },
     computed : {
@@ -182,19 +182,6 @@
       deleteDetail (pid) {
         this.$store.dispatch('deleteDetail', pid);
       },
-      postComment (pid) {
-        axios
-          .post("v1/comment", { replytext: this.text,
-                                replyemail: this.$store.state.userInfo.email,
-                                replynickname: this.$store.state.userInfo.nickname,
-                                pid,
-          })
-          .then(() => {
-            this.$store.dispatch('getCommentList', pid);
-            this.text='';
-          })
-          .catch(exp => alert("댓글 작성에 실패했습니다" + exp))
-      },
       goEditComment (pid, rid, text) {
         // TODO: 본인 댓글만 수정 가능 조건 추가
         this.btnNum = rid
@@ -223,6 +210,15 @@
           .catch(
             exp => alert("내 댓글 수정에 실패했습니다 " + exp)
           );
+      },
+      goReply (rid) {
+        this.inputNum = rid;
+        this.showButton = false;
+        this.showInput = !this.showInput;
+      },
+      showReply (rid) {
+        this.listNum = rid;
+        this.showButton = false;
       },
     }
   };
