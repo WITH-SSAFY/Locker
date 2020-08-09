@@ -50,5 +50,10 @@ public class PostDAOImpl implements PostDAO {
         return session.update("post.addLike",pid);
     }
 
+    @Override
+    public List<Post> commonSearch(String content) {
+        return session.selectList("post.commonSearch",content);
+    }
+
 
 }

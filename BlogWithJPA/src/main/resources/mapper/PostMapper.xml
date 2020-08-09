@@ -42,4 +42,10 @@
     <delete id="delete" parameterType="String">
         delete from post where pid=#{pid}
     </delete>
+
+    <select id="commonSearch" parameterType="String" resultType="Post">
+        select *
+        from post
+        where content like concat('%',#{content},'%')
+    </select>
 </mapper>

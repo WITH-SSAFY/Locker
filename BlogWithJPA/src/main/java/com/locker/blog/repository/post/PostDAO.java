@@ -15,4 +15,5 @@ public interface PostDAO {
     public int update(Post post);
     public List<Post> selectAllByWriter(String email);
     public int addLike(Long pid);
+    public List<Post> commonSearch(String content);
 }
