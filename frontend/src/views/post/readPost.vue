@@ -86,13 +86,20 @@
                     <button class="btn btn-sm btn-light mr-2" v-if="showButton" @click="deleteComment(pid, comment.rid)">delete</button>
                     <button v-if="!comment.depth" @click="goReply(comment.rid)">
                       <v-icon>mdi-reply</v-icon>
-                    </button>                  
+                    </button>
+                    <button v-if="comment.depth" @click="showReply(comment.rid)">
+                      <v-icon>mdi-chevron-up</v-icon>
+                    </button>              
                   </div>
                 </div>
+
                 <!-- 대댓글 없을 시 대댓글 작성 창 보이기-->
                 <div v-if="comment.rid === inputNum" class="px-5 py-2">
                   <commentCreate/>
                 </div>
+                
+                <!-- 대댓글 있으면 해당 parentid에 대한 댓글리스트 불러오기 -->
+
               </v-card>
             </v-col>
           </v-row>
@@ -208,6 +215,10 @@
         this.inputNum = rid;
         this.showButton = false;
         this.showInput = !this.showInput;
+      },
+      showReply (rid) {
+        this.listNum = rid;
+        this.showButton = false;
       },
     }
   };

@@ -49,7 +49,7 @@ export default {
         })
         .then(() => {
           this.$store.dispatch('getCommentList', pid);
-          this.text='';
+          this.text = '';
         })
         .catch(exp => alert("댓글 작성에 실패했습니다" + exp))
     },
