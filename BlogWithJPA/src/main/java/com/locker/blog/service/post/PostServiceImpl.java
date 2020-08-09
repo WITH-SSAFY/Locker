@@ -50,4 +50,9 @@ public class PostServiceImpl implements PostService {
         return dao.addLike(pid);
     }
 
+    @Override
+    public List<Post> commonSearch(String content) {
+        return dao.commonSearch(content);
+    }
+
 }

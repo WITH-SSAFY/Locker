@@ -14,5 +14,5 @@ public interface PostService {
     public List<PagingPost> selectAll(Map<String,Long> pageMap);
     public List<Post> selectAllByWriter(String email);
     public int addLike(Long pid);
-
+    public List<Post> commonSearch(String content);
 }
