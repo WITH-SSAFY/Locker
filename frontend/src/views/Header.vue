@@ -1,117 +1,122 @@
 <template>
   <nav class="nav_back">
-    <div class="nav_deco"></div>
-    <v-container>
-      <div>
-        <router-link :to="{ name: 'home' }">
+    <!-- <div class="nav_deco"></div> -->
+    
+    <div class="d-flex justify-content-between" style="padding: 0 3rem;">
+      <!-- 로고 -->
+      <router-link :to="{ name: 'home' }">
+        <v-icon
+          large
+          color="black"
+          class="nav_icon"
+        >
+          mdi-archive-outline
+        </v-icon>
+        <div class="nav_title" v-if="isNotMain">
+          LOCKER
+        </div>
+      </router-link>
+      
+      <!-- 버튼 그룹 -->
+      <div class="button_group">
+        <v-btn
+          color="#7C4DFF"
+          text
+          icon
+          router :to="{ name: 'search'}"
+          class="mx-1"
+        >
+          <v-icon large>search</v-icon>
+        </v-btn>
+
+        <v-btn
+          color="#7C4DFF"
+          text
+          icon
+          v-if="isLogin"
+          class="mx-1"
+          router :to="{ name: 'createPost'}"
+        >
           <v-icon
             large
-            color="black"
-            class="nav_icon"
-          >
-            mdi-archive-outline
-          </v-icon>
-          <div class="nav_title" v-if="isNotMain">
-            LOCKER
-          </div>
-        </router-link>
+          >create</v-icon>
+        </v-btn>
 
-        <div class="button_group">
-          <v-btn
-            color="#7C4DFF"
-            text
-            icon
-            router :to="{ name: 'search'}"
-            class="mx-1"
+        <v-btn
+          color="#7C4DFF"
+          text
+          icon
+          v-if="isLogin"
+          class="mx-1"
+        >
+          <v-badge
+            color="#D4E157"
+            overlap
+            :value="test"
+            dot
           >
-            <v-icon large>search</v-icon>
-          </v-btn>
+            <v-icon large>notifications</v-icon>
+          </v-badge>
+        </v-btn>
 
-          <v-btn
-            color="#7C4DFF"
-            text
-            icon
-            v-if="isLogin"
-            class="mx-1"
-            router :to="{ name: 'createPost'}"
+        <v-menu
+          offset-y
+          v-if="isLogin"
+          absolute  
+        >
+        <template v-slot:activator="{ on, attrs }">
+          <div
+            v-bind="attrs"
+            v-on="on"
+            class="menu ml-2"
           >
-            <v-icon
+            <!-- <v-icon
               large
-            >create</v-icon>
-          </v-btn>
-
-          <v-btn
-            color="#7C4DFF"
-            text
-            icon
-            v-if="isLogin"
-            class="mx-1"
-          >
-            <v-badge
-              color="#D4E157"
-              overlap
-              :value="test"
-              dot
+              color="rgba( 117, 117, 117, 1)"
             >
-              <v-icon large>notifications</v-icon>
-            </v-badge>
-          </v-btn>
-
-          <v-menu
-            offset-y
-            v-if="isLogin"
-            absolute  
-          >
-          <template v-slot:activator="{ on, attrs }">
-            <div
-              v-bind="attrs"
-              v-on="on"
-              class="menu ml-2"
+            mdi-account-circle</v-icon> -->
+            <v-icon
+              v-if="userInfo.picture==null"
+              large
+              color="rgba( 117, 117, 117, 1)"
             >
-              <!-- <v-icon
-                large
-                color="rgba( 117, 117, 117, 1)"
-              >
-              mdi-account-circle</v-icon> -->
-              <v-icon
-                v-if="userInfo.picture==null"
-                large
-                color="rgba( 117, 117, 117, 1)"
-              >
-              mdi-account-circle-outline</v-icon>
-              <v-avatar v-else size="35">
-                <img :src="userInfo.picture">
-              </v-avatar>
-            </div>
-          </template>
-
-          <v-list>
-            <v-list-item  @click="goMypage">
-              <v-list-item-title>mypage</v-list-item-title>
-            </v-list-item>
-            <v-list-item
-              @click="$store.dispatch('logout')"
-              >
-              <v-list-item-title>logout</v-list-item-title>
-            </v-list-item>
-            <v-list-item
-              router :to="{name: 'userSetting'}"
-              >
-              <v-list-item-title>setting</v-list-item-title>
-            </v-list-item>
-          </v-list>
-          </v-menu>
+            mdi-account-circle-outline</v-icon>
+            <v-avatar v-else size="35">
+              <img :src="userInfo.picture">
+            </v-avatar>
+          </div>
+        </template>
         
-          <v-btn
-            v-else
-            icon
-            router :to="{name: 'login'}"
-          >
-            Login
-          </v-btn>
-        </div>
+        <!-- 드롭다운 -->
+        <v-list>
+          <v-list-item  @click="goMypage">
+            <v-list-item-title>mypage</v-list-item-title>
+          </v-list-item>
+          <v-list-item
+            @click="$store.dispatch('logout')"
+            >
+            <v-list-item-title>logout</v-list-item-title>
+          </v-list-item>
+          <v-list-item
+            router :to="{name: 'userSetting'}"
+            >
+            <v-list-item-title>setting</v-list-item-title>
+          </v-list-item>
+        </v-list>
+        </v-menu>
+        
+        <!-- 로그인버튼 -->
+        <v-btn
+          v-else
+          icon
+          router :to="{name: 'login'}"
+        >
+          Login
+        </v-btn>
+
       </div>
-    </v-container>
+    </div>
+   
   </nav>
 </template>
 
