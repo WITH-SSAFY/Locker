@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tag">
+<!--    public Long isDuptag(String name);//중복된 태그 인가(중복인 경우 해당 tagid)-->
+<!--    public int insertNewTag(String name);//(중복이 아닐떄) 새로운 태그 추가-->
+<!--    public int connectTag(PostTag posttag);//posttag테이블에서 pid와 tagid연결-->
+    <select id="isDupTag" resultType="Long">
+        select tagid from tag where name=#{name}
+    </select>
+
+    <insert id="insertNewTag">
+        insert into tag values (null, #{name})
+    </insert>
+
+    <insert id="connectTag">
+        insert into posttag values (#{pid},#{tagid})
+    </insert>
+</mapper>

@@ -97,13 +97,12 @@ public class PostController {
     @PostMapping
     public ResponseEntity<String> insert(
             @ApiParam(value = "글", required = true) @RequestBody Post post) {
-
         if(service.insert(post) == 0) { //insert 실패
             return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
         }
-
         //insert 성공
-        return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+        //System.out.println("newPid: "+post.getPid());
+        return new ResponseEntity<String>(post.getPid().toString(), HttpStatus.OK);//새로 생성된 pid 보내줌
     }
 
     @ApiOperation(value = "좋아요 추가", notes = "해당 글의 좋아요 수를 하나 추가 한다.")
