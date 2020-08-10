@@ -71,6 +71,7 @@ public class GithubService {
         URI uri = URI.create("https://github.com/login/oauth/access_token");
 
         ResponseEntity<String> response = restTemplate.postForEntity(uri, request, String.class);
+        logger.info("github token response -> " + response.getBody());
 
         if (response.getStatusCode() == HttpStatus.OK) {
             GithubRetAuth githubRetAuth = new GithubRetAuth();
