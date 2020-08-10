@@ -11,25 +11,25 @@ nav {
   background-color: rgba( 255, 255, 255, 0.8)
 }
 
-nav .nav_deco {
+/* nav .nav_deco {
   background-color: rgba( 237, 231, 246, 0.6) ;
   width: 30%;
   height: 15px;
   position: fixed;
   top : 0%;
   left : 35.5%;
-}
+} */
 
 nav .v-btn {
   text-decoration: none;
 }
 
-nav .container .nav_icon {
+nav .nav_icon {
   text-decoration: none;
   float: left;
 }
 
-nav .container .nav_title {
+nav .nav_title {
   float: left;
   font-size: 1.7rem;
   margin-top: -0.15rem;
@@ -38,7 +38,7 @@ nav .container .nav_title {
   color: black;
 }
 
-nav .container .button_group{
+nav .button_group{
   position: relative;
   float: right;
   display: inline;
