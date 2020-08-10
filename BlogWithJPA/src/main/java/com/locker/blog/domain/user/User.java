@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 public class User implements UserDetails {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false, unique = true,length = 50)
+    @Column(nullable = false,length = 50)
     private String email;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(length = 100)
