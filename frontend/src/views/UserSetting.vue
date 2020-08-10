@@ -13,7 +13,10 @@
                   <v-icon v-if="userInfo.picture==null"
                     size="180" style="z-index: 1;">mdi-account-circle-outline</v-icon>
                   <v-avatar v-else  size="180" style="z-index: 1;">
-                    <img :src="userInfo.picture">
+                    <!-- <div id="showPicture"></div> -->
+                    <!-- <div v-if="preview" style="border-radius: 50%; width: 8rem;"><img v-bind:src="preview"></div> -->
+                    <div style="border-radius: 50%; width: 8rem;" id="picture"><img :src="userInfo.picture"></div>
+                    <!-- <img v-else :src="userInfo.picture"> -->
                   </v-avatar>
                 </div>
                 <div>
@@ -23,9 +26,12 @@
                     dark
                     block
                     class="mt-2"
+                    :loading = "isSelecting"
+                    @click="onButtonClick"
                   >
                     <h6>이미지 바꾸기</h6>
                   </v-btn>
+                  <input ref="uploader" class="d-none" type="file" id="picture" @change="handleChange" accept="image/*">
                   <v-btn
                     block
                     color=""
@@ -34,9 +40,6 @@
                   >
                     이미지 삭제 
                   </v-btn>
-
-                  <input type="file" v-on:change="handleChange">
-                  <div v-if="preview"><img v-bind:src="preview"></div>
 
                   
                 </div>
@@ -158,6 +161,7 @@
 </template>
 <script>
 import { mapState, mapActions } from 'vuex';
+// import axios from "../lib/axios-common.js"
 
 export default {
    data: ()=>{
@@ -167,7 +171,8 @@ export default {
       updateName: false,
       updateIntro: false,
       showUpdateBtn: true,
-      showSaveBtn: false
+      showSaveBtn: false,
+      isSelecting: false,
      }
    },
    computed:{
@@ -193,11 +198,54 @@ export default {
        this.showUpdateBtn = true;
        this.showSaveBtn = false;
      },
-     handleChange: function (event) {
-      var file = event.target.files[0]
+      onButtonClick(){
+        this.isSelecting = true
+        window.addEventListener('focus', () =>{
+          this.isSelecting = false
+        }, { once: true })
+
+        this.$refs.uploader.click()
+      },
+
+     handleChange(event) {
+      let file = event.target.files[0]
+
+      // let token = localStorage.getItem("access_token");
+      // let config = {  
+      //   headers: {
+      //     "Accept": "*/*",
+      //     "X-AUTH-TOKEN": token
+      //   }
+      // }
+
       if (file && file.type.match(/^image\/(png|jpeg)$/)) {
         this.preview = window.URL.createObjectURL(file)
+        console.log("picture!!!", window.URL.createObjectURL(file))
       }
+
+      let reader = new FileReader();
+      console.log("this.userInfo", this.userInfo)
+
+      reader.onload = function(){
+        document.getElementById("picture").src = reader.result;
+        this.preview = reader.result 
+        // this.$state.userInfo.picture = reader.result;
+        // console.log("base64??", reader.result)
+
+        // picture db 수정 필요 ?? -> long long 이런거로?
+        // axios
+        //   .put("/v1/user/image?id="+"/picture="+reader.result, config)
+        //   .then(response => {
+        //     console.log("response", response)
+        //   })
+        //   .catch(exp =>{
+        //     console.log("exp", exp)
+        //   })
+      }
+      if(file){
+        reader.readAsDataURL(file);
+      }
+
     }
    }, 
    created() {
