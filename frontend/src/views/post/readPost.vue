@@ -48,7 +48,7 @@
                   <v-icon size="30" class="ml-1" color="#7C4DFF">mdi-arm-flex</v-icon>
                 </p>
               </div>  
-              <p class="ml-2">병아리에서 벗어나고 싶은 자바 개발자입니다 블라블라</p>
+              <p class="ml-2">{{ userInfo.introduction }}</p>
             </div>
           </div>
 
@@ -127,8 +127,8 @@
 </template>
 
 <script>
-  // import { mapState } from "vuex"
   // import SideBar from "../SideBar.vue"
+  import { mapState } from "vuex"
   import commentCreate from "../commentCreate.vue"
   import commentList from "../commentList.vue"
   import { Viewer } from '@toast-ui/vue-editor';
@@ -139,6 +139,7 @@
   
   export default {
     created(){
+      this.userInfo;
       this.viewerText;
       this.$store.dispatch('getCommentList', this.$store.state.pid)
       this.viewerComment;
@@ -164,6 +165,7 @@
       }
     },
     computed : {
+      ...mapState(["userInfo"]),
       title(){
         return this.$store.state.myDetailTitle;
       },
