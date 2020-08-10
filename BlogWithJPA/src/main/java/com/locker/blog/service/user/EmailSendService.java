@@ -7,6 +7,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.util.Random;
 import java.util.UUID;
 
 
@@ -24,11 +25,11 @@ public class EmailSendService {
     }
 
     public void sendVerificationMail(String email) {
-        StringBuilder VERIFICATION_LINK = new StringBuilder()
-                .append("아래 링크를 클릭하시면 이메일 인증이 완료됩니다.").append("\n\n")
-                .append("https://i3a606.p.ssafy.io/verify/success");
+        String VERIFICATION_LINK = new StringBuilder()
+                .append("이메일 인증 번호를 확인해주세요.").append("\n\n")
+                .append(excuteGenerate()).toString();
 
-        sendMail(email,"[Locker] 블로그 회원가입 인증메일입니다.",VERIFICATION_LINK.toString());
+        sendMail(email,"[Locker] 블로그 회원가입 인증메일입니다.",VERIFICATION_LINK);
     }
     public UUID sendFindPassword(String email) {
         UUID uuid = UUID.randomUUID();
@@ -39,5 +40,20 @@ public class EmailSendService {
         sendMail(email,"[Locker] 블로그 임시 비밀번호입니다.",NEW_PASSWORD_LINK.toString());
 
         return uuid;
+    }
+
+    private String excuteGenerate() {
+        int certNumLength = 6;
+        Random random = new Random(System.currentTimeMillis());
+
+        int range = (int)Math.pow(10,certNumLength);
+        int trim = (int)Math.pow(10, certNumLength-1);
+        int result = random.nextInt(range)+trim;
+
+        if(result>range){
+            result = result - trim;
+        }
+
+        return String.valueOf(result);
     }
 }
