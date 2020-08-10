@@ -199,6 +199,7 @@ export default new Vuex.Store({
           .get("/v1/user?lang=ko", config)
           .then(response => {
               let res = response.data.data;
+              let pic = res.picture;
               let userInfo = {
                 id: res.id,
                 email: res.email,
@@ -207,8 +208,11 @@ export default new Vuex.Store({
                 picture: res.picture,
                 introduction: res.introduction
               }
-              console.log("가지고 온 유저 정보 : ", res)
+              // console.log("가지고 온 유저 정보 : ", res)
               commit('loginSuccess', userInfo)
+              if(pic == "null") {
+                userInfo.picture = null;
+              }
           })
           .catch(error => {
             console.log(error)
