@@ -13,7 +13,7 @@
     <div class="input-group-append ml-5" >
       <v-btn 
         dark
-        @click="postComment(pid)"
+        @click="postComment(pid, parentid)"
         height="65%"
       >
       작성
@@ -37,15 +37,17 @@ export default {
     pid() {
       return this.$store.state.pid;
     },
+    parentid() {
+      return this.$store.state.parentid;
+    }
   },
   methods: {
-    postComment (pid) {
-      console.log(pid)
+    postComment (pid, parentid) {
       axios
         .post("v1/comment", { replytext: this.text,
                               replyemail: this.$store.state.userInfo.email,
                               replynickname: this.$store.state.userInfo.nickname,
-                              pid,
+                              parentid, pid,
         })
         .then(() => {
           this.$store.dispatch('getCommentList', pid);

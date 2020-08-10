@@ -84,7 +84,7 @@
                     <small class="mr-5">{{ comment.created }}</small>
                     <button class="btn btn-sm btn-light mr-2" v-if="showButton" @click="goEditComment(pid, comment.rid, comment.replytext)">edit</button>
                     <button class="btn btn-sm btn-light mr-2" v-if="showButton" @click="deleteComment(pid, comment.rid)">delete</button>
-                    <button v-if="!comment.depth" @click="goReply(comment.rid)">
+                    <button v-if="!comment.depth" @click="goReply(comment.rid, comment.parentid)">
                       <v-icon>mdi-reply</v-icon>
                     </button>
                     <button v-if="comment.depth" @click="showReply(comment.rid)">
@@ -211,10 +211,11 @@
             exp => alert("내 댓글 수정에 실패했습니다 " + exp)
           );
       },
-      goReply (rid) {
+      goReply (rid, parentid) {
         this.inputNum = rid;
         this.showButton = false;
         this.showInput = !this.showInput;
+        this.$store.commit('goreply', parentid)
       },
       showReply (rid) {
         this.listNum = rid;
