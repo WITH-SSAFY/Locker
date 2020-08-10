@@ -243,13 +243,17 @@ export default new Vuex.Store({
           .get("/v1/user?lang=ko", config)
           .then(response => {
               let res = response.data.data;
+              let pic = res.picture;
               let userInfo = {
                 id: res.id,
                 email: res.email,
                 name: res.name,
                 nickname: res.nickname,
-                picture: res.picture,
+                picture: pic,
                 introduction: res.introduction
+              }
+              if(pic === "null"){
+                userInfo.picture = null;
               }
               console.log("가지고 온 유저 정보 : ", res)
               commit('loginSuccess', userInfo)
