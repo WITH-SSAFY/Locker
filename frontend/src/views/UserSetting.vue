@@ -66,9 +66,8 @@
                   <a
                     v-if="showUpdateBtn"
                     style="text-decoration: none;"
-                    @keyup.enter="showForm"
+                    @click="showForm"
                     >
-                    <!-- @click="showForm" -->
                     수정</a>
                   <v-btn
                     elevation="0"
