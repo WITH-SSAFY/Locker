@@ -141,50 +141,6 @@ export default new Vuex.Store({
         }
       })
     }, 
-    // signupWithKakao({commit}, authObj) {
-    //   console.log("signupWithKakao")
-    //   commit
-    //   console.log(authObj)
-    //   axios
-    //     .post("/v1/signup/kakao?accessToken="+authObj.access_token)
-    //     .then(response => {
-    //       console.log("response.data", response.data);
-    //       commit
-    //       alert("회원가입에 성공했습니다.!")
-    //       router.push({name: "home"})
-    //     })
-    //     .catch(err => {
-    //       if(err.response){
-    //         console.log("err.response.data", err.response.data);
-            
-    //       } else if(err.request){
-    //         console.log("err.request",err.request);
-    //       } else{
-    //         console.log('err.message', err.message);
-    //       }
-    //       console.log('err.config', err.config);
-    //     })
-    // },
-
-    // signinWithFacebook({dispatch}, authObj){
-    //   console.log("signinWithFacebook")
-    //   dispatch
-    //   console.log(authObj)
-    //   axios
-    //   .get("/social/fb")
-    //   .then(response => {
-    //       console.log(response.data);
-    //       let loginUrl = response.data.loginUrl;
-    //       window.open("http://i3a606.p.ssafy.io:8090/oauth2/authorization/"+authObj.provider,
-    //             authObj.provider+" 로그인",
-    //             "width=450, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes" ); 
-    //   })
-    //   .catch(error => {
-    //     console.log(error)
-    //     alert('facebook 로그인 실패!')
-    //   })
-    // },
-
     signinWithSocial({dispatch}, authObj){
       console.log("signinWithSocial")
       dispatch
@@ -265,6 +221,9 @@ export default new Vuex.Store({
               }
               console.log("가지고 온 유저 정보 : ", res)
               commit('loginSuccess', userInfo)
+              if(pic == "null") {
+                userInfo.picture = null;
+              }
           })
           .catch(error => {
             console.log(error)
