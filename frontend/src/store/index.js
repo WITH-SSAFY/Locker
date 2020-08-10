@@ -22,6 +22,8 @@ export default new Vuex.Store({
     pid: null, //글 번호
     created: null, //작성일자
     parentid: null,  //댓글 부모번호
+    depth: null, //댓글 깊이
+    rid: null, //댓글 번호
   },
   //state 값 변화
   mutations: {
@@ -75,7 +77,9 @@ export default new Vuex.Store({
         router.push({name: "editPost"});
       },
       goreply(state, payload) {
-        this.parentid = payload;
+        state.rid = payload.rid;
+        state.parentid = payload.parentid;
+        state.depth = payload.depth;
       },
   },
   //비즈니스 로직

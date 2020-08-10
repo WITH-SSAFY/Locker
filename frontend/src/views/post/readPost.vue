@@ -52,6 +52,7 @@
             </div>
           </div>
 
+          <!-- 댓글 보기 창 -->
           <v-row>
             <v-col
               cols="12"
@@ -84,7 +85,7 @@
                     <small class="mr-5">{{ comment.created }}</small>
                     <button class="btn btn-sm btn-light mr-2" v-if="showButton" @click="goEditComment(pid, comment.rid, comment.replytext)">edit</button>
                     <button class="btn btn-sm btn-light mr-2" v-if="showButton" @click="deleteComment(pid, comment.rid)">delete</button>
-                    <button v-if="!comment.depth" @click="goReply(comment.rid, comment.parentid)">
+                    <button v-if="!comment.depth" @click="goReply(comment.rid, comment.parentid, comment.depth)">
                       <v-icon>mdi-reply</v-icon>
                     </button>
                     <button v-if="comment.depth" @click="showReply(comment.rid)">
@@ -99,11 +100,14 @@
                 </div>
                 
                 <!-- 대댓글 있으면 해당 parentid에 대한 댓글리스트 불러오기 -->
+                <div v-if="comment.rid === listNum" class="px-5 py-2">
+                  <commentList/>
+                </div>
 
               </v-card>
             </v-col>
           </v-row>
-          
+
           <div class="row">
             <div class="col-md-10">
               <commentCreate/>
@@ -126,6 +130,7 @@
   // import { mapState } from "vuex"
   // import SideBar from "../SideBar.vue"
   import commentCreate from "../commentCreate.vue"
+  import commentList from "../commentList.vue"
   import { Viewer } from '@toast-ui/vue-editor';
   import('../../assets/css/read-post.css')
   import('../../assets/css/side-style.css')
@@ -141,6 +146,7 @@
     components: {
       Viewer,
       commentCreate,
+      commentList,
       // SideBar
     },
     data(){
@@ -152,6 +158,9 @@
         rid: null,
         showInput: false,
         inputNum: null,
+        showList: false,
+        listNum: null,
+        depth: null,
       }
     },
     computed : {
@@ -211,15 +220,17 @@
             exp => alert("내 댓글 수정에 실패했습니다 " + exp)
           );
       },
-      goReply (rid, parentid) {
+      goReply (rid, parentid, depth) {
         this.inputNum = rid;
         this.showButton = false;
         this.showInput = !this.showInput;
-        this.$store.commit('goreply', parentid)
+        this.$store.commit('goreply', { rid, parentid, depth })   
       },
-      showReply (rid) {
+      showReply (rid, parentid) {
+        console.log(parentid)
         this.listNum = rid;
         this.showButton = false;
+        this.showList = !this.showList;
       },
     }
   };

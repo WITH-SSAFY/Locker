@@ -13,14 +13,14 @@
     <div class="input-group-append ml-5" >
       <v-btn 
         dark
-        @click="postComment(pid, parentid)"
+        @click="postComment(pid, parentid, rid)"
         height="65%"
       >
       작성
       </v-btn>
     </div>
   </div>
-
+  
 </template>
 
 <script>
@@ -39,17 +39,26 @@ export default {
     },
     parentid() {
       return this.$store.state.parentid;
+    },
+    depth() {
+      return this.$store.state.depth;
+    },
+    rid() {
+      return this.$store.state.rid;
     }
   },
   methods: {
-    postComment (pid, parentid) {
+    postComment (pid, parentid, rid) {
       axios
         .post("v1/comment", { replytext: this.text,
                               replyemail: this.$store.state.userInfo.email,
                               replynickname: this.$store.state.userInfo.nickname,
-                              parentid, pid,
+                              pid, parentid
         })
         .then(() => {
+          if (parentid) {
+            this.$store.state.parentid = rid;
+          }
           this.$store.dispatch('getCommentList', pid);
           this.text = '';
         })
