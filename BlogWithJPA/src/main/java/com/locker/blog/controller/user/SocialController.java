@@ -8,21 +8,18 @@ import com.locker.blog.service.auth.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 @ApiIgnore
 @RequiredArgsConstructor
-@Controller
+@RestController
 @RequestMapping("/api/social")
 @CrossOrigin
 public class SocialController {
@@ -128,10 +125,10 @@ public class SocialController {
      * /oauth2/authorization/github
      */
     @GetMapping(value = "/login/github")
-    public String redirectGithub(@RequestParam String code, @RequestParam String state, Model model) {
+    public GithubRetAuth redirectGithub(@RequestParam String code, @RequestParam String state, HttpServletResponse resp) throws IOException {
         GithubRetAuth githubRetAuth = githubService.getGithubToken(code,state);
-        model.addAttribute("token", githubRetAuth.getAccess_token());
-        return "redirect:http://i3a606.p.ssafy.io/login/github";
+        resp.sendRedirect("http://i3a606.p.ssafy.io/login/github");
+        return githubRetAuth;
     }
 
     /**
