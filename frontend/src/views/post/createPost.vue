@@ -143,29 +143,38 @@ export default {
       //태그 삭제
       this.tags.splice(index, 1); //splice(p1,p2,p3) p1: 시작 index, p2: 삭제 or 수정할 요소 개수, p3 바꿀 내용
     },
-    checkDupTag() {
+    async checkDupTag() {
       //서버로 부터 이미 등록된 태그인지 검사(태그 중복 검사)
       for (let i = 0; i < this.tags.length; i++) {
-        setTimeout(() => {
-          this.tagelem = this.tags[i];
-          console.log("tag: " + this.tagelem);
-          axios.get("v1/tag/" + this.tagelem).then(response => {
-            var data = response.data;
-            if (data == 0) {
-              //중복이 없다
-              this.registNewTag(); //새로운 태그이므로 등록  해야한다.
-            } else {
-              //이미 있는 태그
-              this.tagid = data;
-              //이 포스트에 해당 태그가 있다는 것을 알려줌(pid와 tagid연결)
-              this.connectTag();
-            }
-          });
-        }, 100);
+        this.tagelem = this.tags[i];
+        let response = await axios.get("v1/tag/" + this.tagelem); //서버로 부터 응답이 올때까지 대기
+        let data = response.data;
+        if (data == 0) {
+          //중복이 없다
+          this.registNewTag();
+        } else {
+          this.tagid = data;
+          this.connectTag();
+        }
+
+        // axios.get("v1/tag/" + this.tagelem).then(response => {
+        //   var data = response.data;
+        //   console.log("tag: " + this.tagelem);
+        //   if (data == 0) {
+        //     //중복이 없다
+        //     this.registNewTag(); //새로운 태그이므로 등록  해야한다.
+        //   } else {
+        //     //이미 있는 태그
+        //     this.tagid = data;
+        //     //이 포스트에 해당 태그가 있다는 것을 알려줌(pid와 tagid연결)
+        //     this.connectTag();
+        //   }
+        // });
       }
     },
     registNewTag() {
       //새로운 태그 등록
+      console.log("registTag: " + this.tagelem);
       axios
         .post("/v1/tag", { tagname: this.tagelem })
         .then(response => {
