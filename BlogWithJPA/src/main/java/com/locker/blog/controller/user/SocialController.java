@@ -8,6 +8,8 @@ import com.locker.blog.domain.social.RetAuth;
 import com.locker.blog.service.auth.*;
 import com.locker.blog.service.response.ResponseService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,7 @@ import java.util.UUID;
 @RequestMapping("/api/social")
 @CrossOrigin
 public class SocialController {
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
     private String token = null;
 
     private final Environment env;
@@ -132,12 +135,13 @@ public class SocialController {
     public GithubRetAuth redirectGithub(@RequestParam String code, @RequestParam String state, HttpServletResponse resp) throws IOException {
         GithubRetAuth githubRetAuth = githubService.getGithubToken(code,state);
         token = githubRetAuth.getAccess_token();
+        logger.info("token -> " + token);
         resp.sendRedirect("http://i3a606.p.ssafy.io/login/github");
         return githubRetAuth;
     }
 
     @GetMapping(value = "github/token")
-    public SingleResult singleResultGithubToken() {
+    public SingleResult<String> singleResultGithubToken() {
         return responseService.getSingleResult(token);
     }
 

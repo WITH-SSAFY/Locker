@@ -117,4 +117,19 @@ public class GithubService {
         }
         return null;
     }
+
+    public String getHiddenInfo(String login) {
+        URI uri = URI.create("https://raw.githubusercontent.com/" + login + "/" + login + "/master/README.md");
+        ResponseEntity<String> response = restTemplate.getForEntity(uri,String.class);
+        //logger.info(response.getBody());
+
+        try {
+            // Request profile
+            if (response.getStatusCode() == HttpStatus.OK)
+                return response.getBody();
+        } catch (Exception e) {
+            throw new CCommunicationException();
+        }
+        throw new CCommunicationException();
+    }
 }
