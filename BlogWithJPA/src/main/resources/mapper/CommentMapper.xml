@@ -9,10 +9,7 @@
         <if test="parentid == null">
             values( #{pid}, null, 0, 0,#{replyemail}, #{replynickname},#{replytext}, now(), now())
         </if>
-        <if test="parentid == 0">
-            values( #{pid}, null, #{parentid}, 0,#{replyemail}, #{replynickname},#{replytext}, now(), now())
-        </if>
-        <if test="parentid != 0">
+        <if test="parentid != null">
              values(#{pid}, null, #{parentid}, 1, #{replyemail}, #{replynickname}, #{replytext}, now(), now())
         </if>
     </insert>
