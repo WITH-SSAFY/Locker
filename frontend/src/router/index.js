@@ -6,7 +6,7 @@ import mypage from "../views/mypage.vue";
 import article from "../views/mypage-tabs/article.vue";
 import repository from "../views/mypage-tabs/repository.vue";
 import introduce from "../views/mypage-tabs/introduce.vue";
-import GithubLogin from "../views/GithubLogin.vue";
+// import GithubLogin from "../views/GithubLogin.vue";
 
 Vue.use(VueRouter);
 
@@ -111,12 +111,18 @@ const routes = [
         /* webpackChunkName: "verifySuccess" */ "../views/verifySuccess.vue"
       ),
   },
+  // {
+  //   // path: "/githublogin",
+  //   path: "/api/social/login/github",
+  //   // path: "/login/github",
+  //   name: "githublogin",
+  //   component: GithubLogin,
+  // },
   {
-    // path: "/githublogin",
-    path: ":8000/api/social/login/github",
-    // path: "/login/github",
+    path: "/login/github",
     name: "githublogin",
-    component: GithubLogin,
+    component: () =>
+      import(/* webpackChunkName: "verifySuccess" */ "../views/Github.vue"),
   },
 ];
 
