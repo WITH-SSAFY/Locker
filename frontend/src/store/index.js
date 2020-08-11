@@ -81,8 +81,8 @@ export default new Vuex.Store({
     },
     showreply(state, payload) {
       state.parentid = payload.rid;
-      console.log(state.parentid)
-    }
+      console.log(state.parentid);
+    },
   },
   //비즈니스 로직
   actions: {
@@ -190,7 +190,6 @@ export default new Vuex.Store({
         .then((response) => {
           console.log("response.data", response.data);
           commit;
-          alert("회원가입에 성공했습니다.!");
           router.push({ name: "home" });
         })
         .catch((err) => {

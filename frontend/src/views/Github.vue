@@ -4,16 +4,21 @@
 
 <script>
 import axios from "../lib/axios-common.js";
+import { mapActions } from "vuex";
 
 export default {
-  beforeRouteEnter(to, from, next) {
-    console.log("to from next", { to, from, next });
+  methods: {
+    ...mapActions(["signinWithSocial"])
+  },
+  beforeRouteEnter() {
     axios
-      // .get("/social/login/github")
       .get("/social/github/token")
       .then(function(res) {
         console.log("res", res.data);
-        //res.data.token
+        this.signinWithSocial({
+          provider: "github",
+          access_token: res.data.data
+        });
       })
       .catch(function(err) {
         console.log("err", err);
