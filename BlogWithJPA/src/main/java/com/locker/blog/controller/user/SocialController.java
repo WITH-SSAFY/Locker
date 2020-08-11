@@ -1,10 +1,12 @@
 package com.locker.blog.controller.user;
 
+import com.locker.blog.domain.response.SingleResult;
 import com.locker.blog.domain.social.FacebookRetAuth;
 import com.locker.blog.domain.social.GithubRetAuth;
 import com.locker.blog.domain.social.NaverRetAuth;
 import com.locker.blog.domain.social.RetAuth;
 import com.locker.blog.service.auth.*;
+import com.locker.blog.service.response.ResponseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
@@ -23,6 +25,7 @@ import java.util.UUID;
 @RequestMapping("/api/social")
 @CrossOrigin
 public class SocialController {
+    private String token = null;
 
     private final Environment env;
     private final KakaoService kakaoService;
@@ -30,6 +33,7 @@ public class SocialController {
     private final GithubService githubService;
     private final FacebookService facebookService;
     private final NaverService naverService;
+    private final ResponseService responseService;
 
     @Value("${spring.url.base}")
     private String baseUrl;
@@ -127,8 +131,14 @@ public class SocialController {
     @GetMapping(value = "/login/github")
     public GithubRetAuth redirectGithub(@RequestParam String code, @RequestParam String state, HttpServletResponse resp) throws IOException {
         GithubRetAuth githubRetAuth = githubService.getGithubToken(code,state);
+        token = githubRetAuth.getAccess_token();
         resp.sendRedirect("http://i3a606.p.ssafy.io/login/github");
         return githubRetAuth;
+    }
+
+    @GetMapping(value = "github/token")
+    public SingleResult singleResultGithubToken() {
+        return responseService.getSingleResult(token);
     }
 
     /**
