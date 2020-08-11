@@ -206,16 +206,16 @@ export default new Vuex.Store({
       //로컬 스토리지에 저장되어있는 토큰을 불러온다.
       let token = localStorage.getItem("access_token");
       if (token !== null) {
-        let config = {
-          headers: {
-            Accept: "*/*",
-            "X-AUTH-TOKEN": token,
-          },
-        };
+        // let config = {
+        //   headers: {
+        //     Accept: "*/*",
+        //     "X-AUTH-TOKEN": token,
+        //   },
+        // };
         //반환된 토큰을 가지고 유저정보를 반환
         //새로고침을 하면 state 날라감 -> 토큰만 가지고 멤버정보 요청 가능 : localStorage에 토큰 저장
         axios //config : 보안과 관련된 헤더나 옵션 등을 설정해줄 수 있는 파일
-          .get("/v1/user?lang=ko", config)
+          .get("/v1/user?lang=ko&token=" + token)
           .then((response) => {
             let res = response.data.data;
             let pic = res.picture;

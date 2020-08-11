@@ -129,24 +129,17 @@ export default {
     loginWithGithub() {
       // window.location.href = "/oauth2/authorization/github";
       // test.location.href = "/oauth2/authorization/github";
-      window.open("http://i3a606.p.ssafy.io:8000/oauth2/authorization/github");
-      // window.location.href =
-      //   "http://i3a606.p.ssafy.io:8000/oauth2/authorization/github";
+      // window.open("http://i3a606.p.ssafy.io:8000/oauth2/authorization/github");
+      window.location.href =
+        "http://i3a606.p.ssafy.io:8000/oauth2/authorization/github";
       // window.open("http://localhost:8080/oauth2/authorization/github");
-      // axios
-      //   .get("http://i3a606.p.ssafy.io:8000/oauth2/authorization/github")
-      //   .then(function(res) {
-      //     if (!res.data) {
-      //       // alert("something went wrong. can't get access token.");
-      //       // redirect("/");
-      //       console.log("성공 : ", res.data);
-      //     }
-      //     // redirect("/user?token=" + res.data + "&service=github");
-      //     console.log("re", res.data);
+      // axois
+      //   .get("")
+      //   .then(function(resp) {
+      //     // alert(resp.data + "! login success!");
       //   })
       //   .catch(function(err) {
-      //     alert("something went wrong. request failed.");
-      //     console.log(err);
+      //     // console.log(err);
       //     // redirect("/");
       //   });
     }
