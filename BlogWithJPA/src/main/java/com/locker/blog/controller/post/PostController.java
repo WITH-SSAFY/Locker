@@ -45,7 +45,7 @@ public class PostController {
     @ApiOperation(value = "해당 페이지의 모든 글 조회", notes = "해당 페이지의 모든 글을 조회한다.")
     @GetMapping(value = "/all/page/{page}")
     public ResponseEntity<List<PagingPost>> selectAll(@ApiParam(value = "페이지 번호", required = true) @PathVariable Long page) throws Exception {
-        Long sizePerPage = 6L;
+        Long sizePerPage = 5L;
         Long startPage = (page-1)*sizePerPage;
         Long endPage = sizePerPage;
 
