@@ -1,11 +1,11 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import router from "../router/index.js"
+import router from "../router/index.js";
 
 Vue.use(Vuex);
 
 // import axios2 from "axios"
-import axios from "../lib/axios-common.js"
+import axios from "../lib/axios-common.js";
 
 export default new Vuex.Store({
   state: {
@@ -21,291 +21,304 @@ export default new Vuex.Store({
     nickname: "", //글쓴이
     pid: null, //글 번호
     created: null, //작성일자
-    parentid: null,  //댓글 부모번호
+    parentid: null, //댓글 부모번호
     depth: null, //댓글 깊이
     rid: null, //댓글 번호
   },
   //state 값 변화
   mutations: {
     // 로그인이 성공했을 때
-      loginSuccess(state, payload){
-        console.log("login success!")
-        state.isLogin = true;
-        state.isLoginError = false;
-        state.userInfo = payload;
-        router.push({ name: "home"})
-      },
+    loginSuccess(state, payload) {
+      console.log("login success!");
+      state.isLogin = true;
+      state.isLoginError = false;
+      state.userInfo = payload;
+      router.push({ name: "home" });
+    },
     // 로그인이 실패했을 때
-      loginError(state){
-        console.log("login error!")
-        state.isLoginError = true;
-        state.isLogin = false;
-      },
-      logout(state){
-        state.isLogin = false;
-        state.isLoginError = false;
-        state.userInfo = null;
-      },
-      getMyPostList(state, payload){
-        state.myPostList = payload.myPostList;
-        //console.log(payload.myPostList);
-        //console.log("state : ",state.myPostList);
-        //state.myPostList = JSON.parse(localStorage.getItem('myPostList'));
-        //console.log("myPostList: ",state.myPostList);
-        //router.push({name: "mypage"});
-      },
-      getPostList(state, payload) {
-        console.log('페이로드' + payload)
-        state.postList = payload.postList
-      },
-      getCommentList(state, payload){
-        state.commentList = payload.commentList;
-      },
-      showMyDetail(state, payload){
-        state.myDetail = payload.myDetail.content;
-        state.myDetailTitle = payload.myDetail.title;
-        state.nickname = payload.myDetail.nickname;
-        state.pid = payload.myDetail.pid;
-        state.created = payload.myDetail.created;
-        router.push({name: "readPost"});
-      },
-      goEditDetail(state,payload){
-        state.myDetail = payload.myDetail.content;
-        state.myDetailTitle = payload.myDetail.title;
-        state.nickname = payload.myDetail.nickname;
-        state.pid = payload.myDetail.pid;
-        router.push({name: "editPost"});
-      },
-      goreply(state, payload) {
-        state.rid = payload.rid;
-        state.parentid = payload.parentid;
-        state.depth = payload.depth;
-      },
+    loginError(state) {
+      console.log("login error!");
+      state.isLoginError = true;
+      state.isLogin = false;
+    },
+    logout(state) {
+      state.isLogin = false;
+      state.isLoginError = false;
+      state.userInfo = null;
+    },
+    getMyPostList(state, payload) {
+      state.myPostList = payload.myPostList;
+      //console.log(payload.myPostList);
+      //console.log("state : ",state.myPostList);
+      //state.myPostList = JSON.parse(localStorage.getItem('myPostList'));
+      //console.log("myPostList: ",state.myPostList);
+      //router.push({name: "mypage"});
+    },
+    getPostList(state, payload) {
+      console.log("페이로드" + payload);
+      state.postList = payload.postList;
+    },
+    getCommentList(state, payload) {
+      state.commentList = payload.commentList;
+    },
+    showMyDetail(state, payload) {
+      state.myDetail = payload.myDetail.content;
+      state.myDetailTitle = payload.myDetail.title;
+      state.nickname = payload.myDetail.nickname;
+      state.pid = payload.myDetail.pid;
+      state.created = payload.myDetail.created;
+      router.push({ name: "readPost" });
+    },
+    goEditDetail(state, payload) {
+      state.myDetail = payload.myDetail.content;
+      state.myDetailTitle = payload.myDetail.title;
+      state.nickname = payload.myDetail.nickname;
+      state.pid = payload.myDetail.pid;
+      router.push({ name: "editPost" });
+    },
+    goreply(state, payload) {
+      state.rid = payload.rid;
+      state.parentid = payload.parentid;
+      state.depth = payload.depth;
+    },
   },
   //비즈니스 로직
   actions: {
     // 로그인 시도
-    login({dispatch}, loginObj){
+    login({ dispatch }, loginObj) {
       // 로그인 > 유효한 멤버인지 확인하고 토큰 반환
       axios
-        .post('/v1/signin?email='+loginObj.id+"&password="+loginObj.password) //파라메터(body)
-        .then( res => {
+        .post(
+          "/v1/signin?email=" + loginObj.id + "&password=" + loginObj.password
+        ) //파라메터(body)
+        .then((res) => {
           // 성공 시 token을 받아옴 (실제로는 user_id 값을 받아옴 / 토큰에 user_id를 암호화해서)
           // 이 토큰을 헤더에 포함시켜서 유저 정보을 요청
           //config에서 헤더 값을 설정해 줄 수 있고, 헤더 내에 토큰 값을 넣어주려고 하기 때문에 config 쓰는것.
-          let token = res.data.data
-          localStorage.setItem("access_token", token) //key, value
-          dispatch('getMemberInfo')
+          let token = res.data.data;
+          localStorage.setItem("access_token", token); //key, value
+          dispatch("getMemberInfo");
         })
-        .catch( err => {
-            console.log(err)
-            alert('이메일과 비밀번호를 확인하세요')
+        .catch((err) => {
+          console.log(err);
+          alert("이메일과 비밀번호를 확인하세요");
         });
     },
-    logout({commit}){
-      var result = confirm("로그아웃 하시겠어요?")
-      if(result){
-        commit('logout')
-        console.log("로그아웃 합니다!")
-        localStorage.removeItem("access_token")
-        router.push({ name: "home"})
-      } 
+    logout({ commit }) {
+      var result = confirm("로그아웃 하시겠어요?");
+      if (result) {
+        commit("logout");
+        console.log("로그아웃 합니다!");
+        localStorage.removeItem("access_token");
+        router.push({ name: "home" });
+      }
     },
 
-    signinWithKakao({dispatch}) {
-      console.log("signinWithKakao")
+    signinWithKakao({ dispatch }) {
+      console.log("signinWithKakao");
       window.Kakao.Auth.login({
-        success: function(authObj){
+        success: function(authObj) {
           axios
-          .post("/v1/signin/kakao?accessToken="+authObj.access_token)
-          .then(response =>{
-            console.log(response.data);
-            let token = response.data.data
-            localStorage.setItem("access_token", token) //key, value
-            dispatch('getMemberInfo')
-          })
-          .catch(err => {
-            if(err.response){
-              console.log("err.response.data", err.response.data);
-            } else if(err.request){
-              console.log("error!!!",err.request);
-            } else{
-              console.log('Error', err.message);
-            }
-            console.log("err.config",err.config);
-          })
+            .post("/v1/signin/kakao?accessToken=" + authObj.access_token)
+            .then((response) => {
+              console.log(response.data);
+              let token = response.data.data;
+              localStorage.setItem("access_token", token); //key, value
+              dispatch("getMemberInfo");
+            })
+            .catch((err) => {
+              if (err.response) {
+                console.log("err.response.data", err.response.data);
+              } else if (err.request) {
+                console.log("error!!!", err.request);
+              } else {
+                console.log("Error", err.message);
+              }
+              console.log("err.config", err.config);
+            });
         },
-        fail: function(err){
-          alert("fail",JSON.stringify(err))
-          console.log("err : ",err)
-        }
-      })
-    }, 
-    signinWithSocial({dispatch}, authObj){
-      console.log("signinWithSocial")
-      dispatch
-      console.log("authObj 값 확인 : ", authObj)
+        fail: function(err) {
+          alert("fail", JSON.stringify(err));
+          console.log("err : ", err);
+        },
+      });
+    },
+    signinWithSocial({ dispatch }, authObj) {
+      console.log("signinWithSocial");
+      dispatch;
+      console.log("authObj 값 확인 : ", authObj);
       //access_token 가지고 서버에 요청하기
       // -> 성공하면, getMemberInfo를 dispatch하기
       // -> 없는 사용자의 경우 -> 서버에서 아예 signup 해줌
       axios
-          .post("/v1/signin/"+authObj.provider+"?accessToken="+authObj.access_token)
-          .then(response =>{
-            console.log(response.data);
-            let token = response.data.data
-            localStorage.setItem("access_token", token) //key, value
-            dispatch('getMemberInfo')
-          })
-          .catch(err => {
-            if(err.response){
-              console.log("err.response.data", err.response.data);
-            } else if(err.request){
-              console.log("error!!!",err.request);
-            } else{
-              console.log('Error', err.message);
-            }
-            console.log("err.config",err.config);
-          })
-    },
-
-    signupWithSocial({commit}, authObj){
-      console.log("signinWithSocial - "+authObj.provider)
-      axios
-        .post("/v1/signup/"+authObj.provider+"?accessToken="+authObj.access_token)
-        .then(response => {
-          console.log("response.data", response.data);
-          commit
-          alert("회원가입에 성공했습니다.!")
-          router.push({name: "home"})
+        .post(
+          "/v1/signin/" +
+            authObj.provider +
+            "?accessToken=" +
+            authObj.access_token
+        )
+        .then((response) => {
+          console.log(response.data);
+          let token = response.data.data;
+          localStorage.setItem("access_token", token); //key, value
+          dispatch("getMemberInfo");
         })
-        .catch(err => {
-          if(err.response){
+        .catch((err) => {
+          if (err.response) {
             console.log("err.response.data", err.response.data);
-            
-          } else if(err.request){
-            console.log("err.request",err.request);
-          } else{
-            console.log('err.message', err.message);
+          } else if (err.request) {
+            console.log("error!!!", err.request);
+          } else {
+            console.log("Error", err.message);
           }
-          console.log('err.config', err.config);
-        })
+          console.log("err.config", err.config);
+        });
     },
 
-    getMemberInfo({commit}) {
+    signupWithSocial({ commit }, authObj) {
+      console.log("signinWithSocial - " + authObj.provider);
+      axios
+        .post(
+          "/v1/signup/" +
+            authObj.provider +
+            "?accessToken=" +
+            authObj.access_token
+        )
+        .then((response) => {
+          console.log("response.data", response.data);
+          commit;
+          alert("회원가입에 성공했습니다.!");
+          router.push({ name: "home" });
+        })
+        .catch((err) => {
+          if (err.response) {
+            console.log("err.response.data", err.response.data);
+          } else if (err.request) {
+            console.log("err.request", err.request);
+          } else {
+            console.log("err.message", err.message);
+          }
+          console.log("err.config", err.config);
+        });
+    },
+
+    getMemberInfo({ commit }) {
       //로컬 스토리지에 저장되어있는 토큰을 불러온다.
       let token = localStorage.getItem("access_token");
-      if(token !== null){
-        let config = {  
+      if (token !== null) {
+        let config = {
           headers: {
-            "Accept": "*/*",
-            "X-AUTH-TOKEN": token
-          }
-        }
+            Accept: "*/*",
+            "X-AUTH-TOKEN": token,
+          },
+        };
         //반환된 토큰을 가지고 유저정보를 반환
         //새로고침을 하면 state 날라감 -> 토큰만 가지고 멤버정보 요청 가능 : localStorage에 토큰 저장
         axios //config : 보안과 관련된 헤더나 옵션 등을 설정해줄 수 있는 파일
           .get("/v1/user?lang=ko", config)
-          .then(response => {
-              let res = response.data.data;
-              let pic = res.picture;
-              let userInfo = {
-                id: res.id,
-                email: res.email,
-                name: res.name,
-                nickname: res.nickname,
-                picture: pic,
-                introduction: res.introduction
-              }
-              if(pic === "null"){
-                userInfo.picture = null;
-              }
-              console.log("가지고 온 유저 정보 : ", res)
-              commit('loginSuccess', userInfo)
-              if(pic == "null") {
-                userInfo.picture = null;
-              }
+          .then((response) => {
+            let res = response.data.data;
+            let pic = res.picture;
+            let userInfo = {
+              id: res.id,
+              email: res.email,
+              name: res.name,
+              nickname: res.nickname,
+              picture: pic,
+              introduction: res.introduction,
+            };
+            if (pic === "null") {
+              userInfo.picture = null;
+            }
+            console.log("가지고 온 유저 정보 : ", res);
+            commit("loginSuccess", userInfo);
+            if (pic == "null") {
+              userInfo.picture = null;
+            }
           })
-          .catch(error => {
-            console.log(error)
-          })
+          .catch((error) => {
+            console.log(error);
+          });
       }
     },
 
-    updateUserInfo({commit},userInfo) {
-      console.log("udateUserInfo!!")
-      commit
-      
+    updateUserInfo({ commit }, userInfo) {
+      console.log("udateUserInfo!!");
+      commit;
+
       axios
-        .put("/v1/user/info?id="+userInfo.id+"&nickname="+userInfo.nickname+"&introduction="+userInfo.introduction)
-        .then(response => {
-          console.log("response", response)
+        .put(
+          "/v1/user/info?id=" +
+            userInfo.id +
+            "&nickname=" +
+            userInfo.nickname +
+            "&introduction=" +
+            userInfo.introduction
+        )
+        .then((response) => {
+          console.log("response", response);
         })
-        .catch(exp =>{
-          console.log("exp", exp)
-        })
+        .catch((exp) => {
+          console.log("exp", exp);
+        });
     },
 
-    getMyPostList({commit}, email){ // 내가 쓴 포스트 리스트 받아옴
+    getMyPostList({ commit }, email) {
+      // 내가 쓴 포스트 리스트 받아옴
       axios
         .get("/v1/post/all/" + email)
-        .then(response =>{
-          commit("getMyPostList",{ myPostList : response.data })
-        }).catch(
-          exp => alert("내 글 리스트 불러오기 실패 "+exp)
-        );
+        .then((response) => {
+          commit("getMyPostList", { myPostList: response.data });
+        })
+        .catch((exp) => alert("내 글 리스트 불러오기 실패 " + exp));
     },
-    getPostList({commit}){
+    getPostList({ commit }) {
       axios
         .get("/v1/post/all")
-        .then(response => {
-          commit("getPostList", { postList : response.data })
-        }).catch(
-          exp => alert("전체 글 리스트 불러오기 실패" + exp)
-        )
+        .then((response) => {
+          commit("getPostList", { postList: response.data });
+        })
+        .catch((exp) => alert("전체 글 리스트 불러오기 실패" + exp));
     },
-    getCommentList({commit}, pid) { // 하나의 포스트에 대한 모든 댓글 받아옴
+    getCommentList({ commit }, pid) {
+      // 하나의 포스트에 대한 모든 댓글 받아옴
       axios
         .get("/v1/comment/" + pid)
-        .then(response => {
-          console.log(response.data)
-          commit("getCommentList", { commentList: response.data })
+        .then((response) => {
+          console.log(response.data);
+          commit("getCommentList", { commentList: response.data });
         })
-        .catch(
-          exp => alert("전체 댓글 가져오기 실패" + exp)
-        );
+        .catch((exp) => alert("전체 댓글 가져오기 실패" + exp));
     },
-    showMyDetail({commit}, pid){//내 글 상세보기
+    showMyDetail({ commit }, pid) {
+      //내 글 상세보기
       axios
-          .get("/v1/post/" + pid)
-          .then(response =>{
-            console.dir(response.data);
-            commit("showMyDetail",{myDetail : response.data})
-          }).catch(
-            exp => alert("내 글 상세보기 실패 "+exp)
-          );
+        .get("/v1/post/" + pid)
+        .then((response) => {
+          console.dir(response.data);
+          commit("showMyDetail", { myDetail: response.data });
+        })
+        .catch((exp) => alert("내 글 상세보기 실패 " + exp));
     },
-    goEditDetail({commit},pid) {
+    goEditDetail({ commit }, pid) {
       axios
-      .get("/v1/post/" + pid)
-      .then(response =>{
-        commit("goEditDetail",{myDetail : response.data})
-      }).catch(
-        exp => alert("내 에디터로 이동 실패 "+exp)
-      );
-      commit
+        .get("/v1/post/" + pid)
+        .then((response) => {
+          commit("goEditDetail", { myDetail: response.data });
+        })
+        .catch((exp) => alert("내 에디터로 이동 실패 " + exp));
+      commit;
     },
-    deleteDetail({commit}, pid) {
+    deleteDetail({ commit }, pid) {
       axios
         .delete("/v1/post/" + pid)
-        .then(response => {
-          console.log(response)
-          this.dispatch("getMyPostList")
-          router.push({name: "mypage"})
+        .then((response) => {
+          console.log(response);
+          this.dispatch("getMyPostList");
+          router.push({ name: "mypage" });
         })
-        .catch(
-          exp => alert("내 글 삭제 실패 " + exp)
-        );
-        commit
+        .catch((exp) => alert("내 글 삭제 실패 " + exp));
+      commit;
     },
-  }
+  },
 });
