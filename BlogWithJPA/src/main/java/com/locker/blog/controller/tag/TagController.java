@@ -3,6 +3,7 @@ package com.locker.blog.controller.tag;
 import com.locker.blog.controller.post.PostController;
 import com.locker.blog.domain.post.Post;
 import com.locker.blog.domain.tag.PostTag;
+import com.locker.blog.domain.tag.Tag;
 import com.locker.blog.service.tag.TagService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,21 +36,25 @@ public class TagController {
 
     @ApiOperation(value = "이미 존재하는 태그 인지 확인", notes = "이미 존재하는 태그 인지 확인한다. 존재할 경우 해당 tagid 리턴")
     @GetMapping(value = "/{name}")
-    public ResponseEntity<String> isDuptag(@PathVariable String name) throws Exception {
-        Long tagid = tagService.isDuptag(name);
-        if(tagid > 0) {
-            return new ResponseEntity<String>(tagid.toString(), HttpStatus.OK);
+    public ResponseEntity<Long> isDuptag(@PathVariable String name) throws Exception {
+        Tag tag = tagService.isDuptag(name);
+        if(tag != null) {
+            Long tagid = tag.getTagid();
+            return new ResponseEntity<Long>(tagid, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<Long>(0L, HttpStatus.OK);
         }
-        return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
     }
 
     @ApiOperation(value = "새로운 태그 등록", notes = "새로운 태그를 등록한다.")
-    @PostMapping(value = "/{name}")
-    public ResponseEntity<String> insertNewTag(@PathVariable String name) throws Exception {
-        if(tagService.insertNewTag(name) > 0) {
-            return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+    @PostMapping
+    public ResponseEntity<Long> insertNewTag(@RequestBody Tag tag) throws Exception {
+        System.out.println("tagname"+tag.getTagname());
+        if(tagService.insertNewTag(tag) > 0){
+            Long newTagid = tag.getTagid();//새로 등록된 태그의 tagid
+            return new ResponseEntity<Long>(newTagid, HttpStatus.OK);
         }
-        return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<Long>(0L, HttpStatus.NO_CONTENT);
     }
 
     @ApiOperation(value = "pid와 tagid를 연결", notes = "pid와 tagid를 연결해준다.")
