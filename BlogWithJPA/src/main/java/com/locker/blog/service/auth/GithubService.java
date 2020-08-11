@@ -1,12 +1,12 @@
 package com.locker.blog.service.auth;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.locker.blog.advice.exception.CCommunicationException;
 import com.locker.blog.domain.social.GithubRetAuth;
 import com.locker.blog.domain.social.RetAuth;
-import com.locker.blog.domain.user.GithubProfile;
-import com.locker.blog.domain.user.GoogleProfile;
-import com.locker.blog.domain.user.KakaoProfile;
+import com.locker.blog.domain.user.*;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +19,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -47,6 +48,36 @@ public class GithubService {
             // Request profile
             if (response.getStatusCode() == HttpStatus.OK)
                 return gson.fromJson(response.getBody(), GithubProfile.class);
+        } catch (Exception e) {
+            throw new CCommunicationException();
+        }
+        throw new CCommunicationException();
+    }
+
+    public List<GithubRepository> getGithubRepo(String repoUrl) {
+        URI uri = URI.create(repoUrl);
+        ResponseEntity<String> response = restTemplate.getForEntity(uri,String.class);
+
+        /* --- > Test for GithubRepository Entity Start
+        ** String[] temp = response.getBody().split("},\\{");
+        ** String oneData = temp[0].substring(1,temp[0].length()) + "}";
+
+        ** logger.info("one data -> " + oneData);
+        ** GithubRepository githubRepository = gson.fromJson(oneData,GithubRepository.class);
+        ** logger.info("gson from one data -> " + githubRepository);
+        ** --- > Test for GithubRepository Entity End */
+
+        /*  --- > Test for GithubRepos Entity Start
+        ** String multiData = "[" + oneData + "," + oneData + "]";
+        ** logger.info("multi data -> " + multiData);
+        ** List<GithubRepository> githubRepositoryList = gson.fromJson(multiData,new TypeToken<List<GithubRepository>>(){}.getType());
+        ** logger.info("gson from multi data -> " + githubRepositoryList);
+        ** --- > Test for GithubRepos Entity End */
+
+        try {
+            // Request profile
+            if (response.getStatusCode() == HttpStatus.OK)
+                return gson.fromJson(response.getBody(), new TypeToken<List<GithubRepository>>(){}.getType());
         } catch (Exception e) {
             throw new CCommunicationException();
         }
