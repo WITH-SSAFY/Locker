@@ -10,7 +10,7 @@ export default {
   methods: {
     ...mapActions(["signinWithSocial"])
   },
-  beforeRouteEnter() {
+  beforeResolve() {
     axios
       .get("/social/github/token")
       .then(function(res) {
