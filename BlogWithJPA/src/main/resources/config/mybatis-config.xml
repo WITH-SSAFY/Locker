@@ -12,5 +12,6 @@
     <mappers>
         <mapper resource="mapper/PostMapper.xml"/>
         <mapper resource="mapper/CommentMapper.xml"/>
+        <mapper resource="mapper/TagMapper.xml"/>
     </mappers>
 </configuration>
