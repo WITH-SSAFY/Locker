@@ -76,10 +76,13 @@ export default new Vuex.Store({
       router.push({ name: "editPost" });
     },
     goreply(state, payload) {
-      state.rid = payload.rid;
-      state.parentid = payload.parentid;
+      state.parentid = payload.rid;
       state.depth = payload.depth;
     },
+    showreply(state, payload) {
+      state.parentid = payload.rid;
+      console.log(state.parentid)
+    }
   },
   //비즈니스 로직
   actions: {
