@@ -10,6 +10,8 @@ import com.locker.blog.repository.user.UserJpaRepo;
 import com.locker.blog.service.auth.GithubService;
 import com.locker.blog.service.response.ResponseService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,10 +31,11 @@ public class RepositoryController {
     private final UserJpaRepo userJpaRepo;
     private final ResponseService responseService;
 
+    @ApiOperation(value = "깃헙 레파지토리 정보", notes = "깃헙 레파지토리 정보를 가져온다.(전반적인 데이터)")
     @GetMapping(value = "github/repos")
     public ListResult<GithubRepository> githubRepositoryListResult (
-                                        @RequestParam String email,
-                                        @RequestParam String accessToken) {
+            @ApiParam(value = "깃헙 이메일", required = true) @RequestParam String email,
+            @ApiParam(value = "깃헙 토큰", required = true) @RequestParam String accessToken) {
         User user = userJpaRepo.findByEmailAndProvider(email,"github").orElseThrow(CUserNotFoundException::new);
 
         GithubProfile githubProfile = githubService.getGithubProfile(accessToken);
@@ -41,5 +44,18 @@ public class RepositoryController {
         logger.info(githubRepositoryList.toString());
 
         return responseService.getListResult(githubRepositoryList);
+    }
+
+    @ApiOperation(value = "깃헙 히든 정보", notes = "깃헙 히든 정보를 가져온다.")
+    @GetMapping(value = "github/hidden")
+    public SingleResult<String> githubHiddenSingleResult (
+            @ApiParam(value = "깃헙 이메일", required = true) @RequestParam String email,
+            @ApiParam(value = "깃헙 토큰", required = true) @RequestParam String accessToken) {
+        User user = userJpaRepo.findByEmailAndProvider(email,"github").orElseThrow(CUserNotFoundException::new);
+
+        GithubProfile githubProfile = githubService.getGithubProfile(accessToken);
+        String hiddenInfo = githubService.getHiddenInfo(githubProfile.getLogin());
+
+        return responseService.getSingleResult(hiddenInfo);
     }
 }
