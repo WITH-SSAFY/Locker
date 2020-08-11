@@ -7,6 +7,7 @@
         <!-- Type Alias 등록 -->
         <package name="com.locker.blog.domain.post"/>
         <package name="com.locker.blog.domain.comment"/>
+        <package name="com.locker.blog.domain.tag"/>
     </typeAliases>
     <mappers>
         <mapper resource="mapper/PostMapper.xml"/>

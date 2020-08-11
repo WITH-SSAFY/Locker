@@ -10,7 +10,7 @@
         and u.email=#{email}
     </select>
 
-    <insert id="insert" parameterType="Post">
+    <insert id="insert" parameterType="Post" useGeneratedKeys="true" keyProperty="pid">
         insert into post(email,nickname,content,title, created, updated, likes)
         values(#{email},#{nickname},#{content}, #{title},curdate(), curdate(), 0)
     </insert>
