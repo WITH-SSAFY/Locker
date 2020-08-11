@@ -10,7 +10,7 @@ export default {
     console.log("to from next", { to, from, next });
     axios
       // .get("/social/login/github")
-      .get("/github/token")
+      .get("/social/github/token")
       .then(function(res) {
         console.log("res", res.data);
         //res.data.token
