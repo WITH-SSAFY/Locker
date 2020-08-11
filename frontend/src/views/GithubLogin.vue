@@ -11,7 +11,7 @@ export default {
     }
   },
   created() {
-    // const redirect = this.redirect;
+    const redirect = this.redirect;
     console.log("this.$route", this.$route);
     axios
       .get(
