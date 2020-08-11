@@ -8,16 +8,20 @@ import com.locker.blog.service.auth.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 @ApiIgnore
 @RequiredArgsConstructor
-@RestController
+@Controller
 @RequestMapping("/api/social")
 @CrossOrigin
 public class SocialController {
@@ -123,11 +127,12 @@ public class SocialController {
      * /oauth2/authorization/github
      */
     @GetMapping(value = "/login/github")
-    public GithubRetAuth redirectGithub(@RequestParam String code, @RequestParam String state) {
+    public ModelAndView redirectGithub(@RequestParam String code, @RequestParam String state, ModelAndView mav) {
         GithubRetAuth githubRetAuth = githubService.getGithubToken(code,state);
-        return githubRetAuth;
+        mav.addObject("token", githubRetAuth.getAccess_token());
+        mav.setViewName("http://i3a606.p.ssafy.io/login/github");
+        return mav;
     }
-
 
     /**
      * 페이스북 로그인 페이지
