@@ -55,8 +55,7 @@ export default new Vuex.Store({
         //router.push({name: "mypage"});
       },
       getPostList(state, payload) {
-        console.log('페이로드' + payload)
-        state.postList = payload.postList
+        state.postList = payload.postList;
       },
       getCommentList(state, payload){
         state.commentList = payload.commentList;
@@ -254,10 +253,11 @@ export default new Vuex.Store({
           exp => alert("내 글 리스트 불러오기 실패 "+exp)
         );
     },
-    getPostList({commit}){
+    getPostList({commit}, page){
       axios
-        .get("/v1/post/all")
+        .get("/v1/post/all/page/" + page)
         .then(response => {
+          // console.log('들어옴 ', response.data)
           commit("getPostList", { postList : response.data })
         }).catch(
           exp => alert("전체 글 리스트 불러오기 실패" + exp)
