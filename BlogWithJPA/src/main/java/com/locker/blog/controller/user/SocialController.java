@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -127,11 +128,10 @@ public class SocialController {
      * /oauth2/authorization/github
      */
     @GetMapping(value = "/login/github")
-    public ModelAndView redirectGithub(@RequestParam String code, @RequestParam String state, ModelAndView mav) {
+    public String redirectGithub(@RequestParam String code, @RequestParam String state, Model model) {
         GithubRetAuth githubRetAuth = githubService.getGithubToken(code,state);
-        mav.addObject("token", githubRetAuth.getAccess_token());
-        mav.setViewName("http://i3a606.p.ssafy.io/login/github");
-        return mav;
+        model.addAttribute("token", githubRetAuth.getAccess_token());
+        return "redirect:http://i3a606.p.ssafy.io/login/github";
     }
 
     /**
