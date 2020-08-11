@@ -14,4 +14,11 @@
     <insert id="connectTag">
         insert into posttag values (#{pid},#{tagid})
     </insert>
+
+    <select id="getTags" resultType="Tag">
+       select t.tagname
+        from posttag p, tag t
+        where p.pid=#{pid}
+        and p.tagid = t.tagid
+    </select>
 </mapper>

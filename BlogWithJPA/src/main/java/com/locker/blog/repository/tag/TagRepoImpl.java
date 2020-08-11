@@ -30,7 +30,8 @@ public class TagRepoImpl implements TagRepo{
     }
 
     @Override
-    public List<Post> selectAll(String name) {
-        return sqlSession.selectList("tag.selectAll",name);
+    public List<Tag> getTags(Long pid) {
+        return sqlSession.selectList("tag.getTags",pid);
     }
+
 }
