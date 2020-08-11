@@ -2,61 +2,18 @@
   <div>
     <div>
       <section class="strips">
-        <article class="strips__strip">
-          <div class="strip__content">
-            <h1 class="strip__title" data-name="Lorem">Awesome</h1>
-            <div class="strip__inner-text">
-              <h2>Ettrics</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia sapiente deserunt consectetur, quod reiciendis corrupti quo ea aliquid! Repellendus numquam quo, voluptate. Suscipit soluta omnis quibusdam facilis, illo voluptates odit!</p>
-              <p>
-                <a href="https://twitter.com/ettrics" target="_blank"></a>
-              </p>
-            </div>
-          </div>
-        </article>
-        <article class="strips__strip">
-          <div class="strip__content">
-            <h1 class="strip__title" data-name="Ipsum">Info</h1>
-            <div class="strip__inner-text">
-              <h2>Ettrics</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia sapiente deserunt consectetur, quod reiciendis corrupti quo ea aliquid! Repellendus numquam quo, voluptate. Suscipit soluta omnis quibusdam facilis, illo voluptates odit!</p>
-              <p>
-                <a href="https://twitter.com/ettrics" target="_blank"></a>
-              </p>
-            </div>
-          </div>
-        </article>
-        <article class="strips__strip">
-          <div class="strip__content">
-            <h1 class="strip__title" data-name="Dolor">Go</h1>
-            <div class="strip__inner-text">
-              <h2>Ettrics</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia sapiente deserunt consectetur, quod reiciendis corrupti quo ea aliquid! Repellendus numquam quo, voluptate. Suscipit soluta omnis quibusdam facilis, illo voluptates odit!</p>
-              <p>
-                <a href="https://twitter.com/ettrics" target="_blank"></a>
-              </p>
-            </div>
-          </div>
-        </article>
-        <article class="strips__strip">
-          <div class="strip__content">
-            <h1 class="strip__title" data-name="Sit">Inside</h1>
-            <div class="strip__inner-text">
-              <h2>Ettrics</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia sapiente deserunt consectetur, quod reiciendis corrupti quo ea aliquid! Repellendus numquam quo, voluptate. Suscipit soluta omnis quibusdam facilis, illo voluptates odit!</p>
-              <p>
-                <a href="https://twitter.com/ettrics" target="_blank"></a>
-              </p>
-            </div>
-          </div>
-        </article>
 
-        <article class="strips__strip">
+        <article
+          class="strips__strip"
+          v-for="post in postList"
+          :key="post.pid"
+        >
           <div class="strip__content">
-            <h1 class="strip__title" data-name="Amet">Here</h1>
+            <h1 class="strip__title">{{ post.title }}</h1>
             <div class="strip__inner-text">
-              <h2>Ettrics2</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia sapiente deserunt consectetur, quod reiciendis corrupti quo ea aliquid! Repellendus numquam quo, voluptate. Suscipit soluta omnis quibusdam facilis, illo voluptates odit!</p>
+              <h2>{{ post.title }}</h2>
+              <p>{{ post.nickname }}</p>
+              <p>{{ post.content }}</p>
               <p>
                 <a href="https://twitter.com/ettrics" target="_blank"></a>
               </p>
@@ -68,7 +25,7 @@
       </section>
     </div>
 
-    <div style="height: 6rem;"></div>
+    <div style="height: 6rem; z-index: -1;"></div>
 
     <!-- test -->
     <div class="el">
@@ -79,21 +36,6 @@
         </div>
       </div>
     </div>
-
-    <!-- <div>
-      <p style="background-color: #333; color: #fff;">전체 글 목록 (임시)</p>
-      <ul class="list-unstyled">
-        <li
-          v-for="post in postList"
-          :key="post.pid"
-          class="my-3"
-        >
-          <strong>{{ post.nickname }}</strong>
-          <span>{{ post.title }}</span>
-          <span>{{ post.content }}</span>
-        </li>
-      </ul>
-    </div> -->
 
   </div>
 
@@ -118,7 +60,7 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('getPostList')
+    this.$store.dispatch('getPostList', 1)
     this.postList
   },
   mounted() {
@@ -129,11 +71,10 @@ export default {
       var stripClose = $('.strip__close');
       
       var expanded  = false;
-
       var open = function() {
-          
-        var tile = $(this).parent();
 
+        var tile = $('.strips__strip');
+        
           if (!expanded) {
             tile.addClass('strips__strip--expanded');
             // add delay to inner text

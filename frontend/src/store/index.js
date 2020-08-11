@@ -36,51 +36,50 @@ export default new Vuex.Store({
       router.push({ name: "home" });
     },
     // 로그인이 실패했을 때
-    loginError(state) {
-      console.log("login error!");
-      state.isLoginError = true;
-      state.isLogin = false;
-    },
-    logout(state) {
-      state.isLogin = false;
-      state.isLoginError = false;
-      state.userInfo = null;
-    },
-    getMyPostList(state, payload) {
-      state.myPostList = payload.myPostList;
-      //console.log(payload.myPostList);
-      //console.log("state : ",state.myPostList);
-      //state.myPostList = JSON.parse(localStorage.getItem('myPostList'));
-      //console.log("myPostList: ",state.myPostList);
-      //router.push({name: "mypage"});
-    },
-    getPostList(state, payload) {
-      console.log("페이로드" + payload);
-      state.postList = payload.postList;
-    },
-    getCommentList(state, payload) {
-      state.commentList = payload.commentList;
-    },
-    showMyDetail(state, payload) {
-      state.myDetail = payload.myDetail.content;
-      state.myDetailTitle = payload.myDetail.title;
-      state.nickname = payload.myDetail.nickname;
-      state.pid = payload.myDetail.pid;
-      state.created = payload.myDetail.created;
-      router.push({ name: "readPost" });
-    },
-    goEditDetail(state, payload) {
-      state.myDetail = payload.myDetail.content;
-      state.myDetailTitle = payload.myDetail.title;
-      state.nickname = payload.myDetail.nickname;
-      state.pid = payload.myDetail.pid;
-      router.push({ name: "editPost" });
-    },
-    goreply(state, payload) {
-      state.rid = payload.rid;
-      state.parentid = payload.parentid;
-      state.depth = payload.depth;
-    },
+      loginError(state){
+        console.log("login error!")
+        state.isLoginError = true;
+        state.isLogin = false;
+      },
+      logout(state){
+        state.isLogin = false;
+        state.isLoginError = false;
+        state.userInfo = null;
+      },
+      getMyPostList(state, payload){
+        state.myPostList = payload.myPostList;
+        //console.log(payload.myPostList);
+        //console.log("state : ",state.myPostList);
+        //state.myPostList = JSON.parse(localStorage.getItem('myPostList'));
+        //console.log("myPostList: ",state.myPostList);
+        //router.push({name: "mypage"});
+      },
+      getPostList(state, payload) {
+        state.postList = payload.postList;
+      },
+      getCommentList(state, payload){
+        state.commentList = payload.commentList;
+      },
+      showMyDetail(state, payload){
+        state.myDetail = payload.myDetail.content;
+        state.myDetailTitle = payload.myDetail.title;
+        state.nickname = payload.myDetail.nickname;
+        state.pid = payload.myDetail.pid;
+        state.created = payload.myDetail.created;
+        router.push({name: "readPost"});
+      },
+      goEditDetail(state,payload){
+        state.myDetail = payload.myDetail.content;
+        state.myDetailTitle = payload.myDetail.title;
+        state.nickname = payload.myDetail.nickname;
+        state.pid = payload.myDetail.pid;
+        router.push({name: "editPost"});
+      },
+      goreply(state, payload) {
+        state.rid = payload.rid;
+        state.parentid = payload.parentid;
+        state.depth = payload.depth;
+      },
   },
   //비즈니스 로직
   actions: {
@@ -272,13 +271,15 @@ export default new Vuex.Store({
         })
         .catch((exp) => alert("내 글 리스트 불러오기 실패 " + exp));
     },
-    getPostList({ commit }) {
+    getPostList({commit}, page){
       axios
-        .get("/v1/post/all")
-        .then((response) => {
-          commit("getPostList", { postList: response.data });
-        })
-        .catch((exp) => alert("전체 글 리스트 불러오기 실패" + exp));
+        .get("/v1/post/all/page/" + page)
+        .then(response => {
+          // console.log('들어옴 ', response.data)
+          commit("getPostList", { postList : response.data })
+        }).catch(
+          exp => alert("전체 글 리스트 불러오기 실패" + exp)
+        )
     },
     getCommentList({ commit }, pid) {
       // 하나의 포스트에 대한 모든 댓글 받아옴
