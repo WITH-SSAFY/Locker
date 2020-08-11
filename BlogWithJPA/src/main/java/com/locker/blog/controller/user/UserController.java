@@ -2,6 +2,7 @@ package com.locker.blog.controller.user;
 
 import com.locker.blog.advice.exception.CEmailSigninFailedException;
 import com.locker.blog.advice.exception.CUserNotFoundException;
+import com.locker.blog.config.security.JwtTokenProvider;
 import com.locker.blog.domain.response.CommonResult;
 import com.locker.blog.domain.response.ListResult;
 import com.locker.blog.domain.response.SingleResult;
@@ -12,6 +13,8 @@ import com.locker.blog.service.user.EmailSendService;
 import com.locker.blog.service.user.UserService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,7 +28,9 @@ import java.util.UUID;
 @RequestMapping("/api/v1")
 @CrossOrigin
 public class UserController {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    private final JwtTokenProvider jwtTokenProvider;
     private final UserJpaRepo userJpaRepo;
     private final UserService userService;
     private final ResponseService responseService; // 결과를 처리할 Service
@@ -42,18 +47,16 @@ public class UserController {
         return responseService.getListResult(userJpaRepo.findAll());
     }
 
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = false, dataType = "String", paramType = "header")
-    })
     @ApiOperation(value = "회원 단건 조회", notes = "토큰으로 회원을 조회한다")
     @GetMapping(value = "/user")
-    public SingleResult<User> findUserById(@ApiParam(value = "언어", defaultValue = "ko") @RequestParam String lang) {
+    public SingleResult<User> findUserById(@ApiParam(value = "언어", defaultValue = "ko") @RequestParam String lang, @RequestParam String token) {
         // SecurityContext에서 인증받은 회원의 정보를 얻어온다.
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String id = authentication.getName();
+        String pk = jwtTokenProvider.getUserPk(token);
+        logger.info("authentication's pk -> " + pk);
 
         // 결과데이터가 단일건인경우 getSingleResult를 이용해서 결과를 출력한다.
-        return responseService.getSingleResult(userJpaRepo.findByEmail(id).orElseThrow(CUserNotFoundException::new));
+        return responseService.getSingleResult(userJpaRepo.findById(Long.parseLong(pk)).orElseThrow(CUserNotFoundException::new));
     }
 
     @ApiImplicitParams({
