@@ -130,6 +130,8 @@ export default {
       // window.location.href = "/oauth2/authorization/github";
       // test.location.href = "/oauth2/authorization/github";
       window.open("http://i3a606.p.ssafy.io:8000/oauth2/authorization/github");
+      window.location.href =
+        "http://i3a606.p.ssafy.io:8000/oauth2/authorization/github";
       // window.open("http://localhost:8080/oauth2/authorization/github");
     }
   },
