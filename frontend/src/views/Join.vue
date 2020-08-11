@@ -21,12 +21,36 @@
                   class="ml-2"
                 ></v-text-field>&nbsp;&nbsp;&nbsp;&nbsp;
                 <v-btn
+                  v-show="!useThisEmail"
                   depressed
                   id="email_btn"
                   @click="checkEmail"
-                  :disabled="useThisEmail"
                   color="white"
                 >중복확인</v-btn>
+              </div>
+
+              <div class="form-inline form-group">
+                <v-icon large>mdi-email</v-icon>
+                <v-text-field
+                  v-model="inputAuth"
+                  label="인증 번호 입력"
+                  :disabled="!getAuthFlag||sendAuthFlag"
+                  class="ml-2"
+                ></v-text-field>
+                <v-btn
+                  v-show="!getAuthFlag"
+                  depressed
+                  id="getAuth_btn"
+                  @click="getAuth"
+                  color="white"
+                >번호받기</v-btn>
+                <v-btn
+                  v-show="getAuthFlag&&!sendAuthFlag"
+                  depressed
+                  id="sendAuth_btn"
+                  @click="sendAuth"
+                  color="white"
+                >인증</v-btn>
               </div>
 
               <div class="form-inline form-group">
@@ -137,8 +161,13 @@ export default {
 
     isEmailOk: false, //중복 확인된 이메일 인가?
 
-    useThisEmail: false //해당 이메일을 사용할 것인가?
+    useThisEmail: false, //해당 이메일을 사용할 것인가?
+    inputAuth: "", //사용자가 입력한 인증번호
+    auth: "", //서버로 부터 받아온 인증번호
+    getAuthFlag: false, //인증 번호를 받았는가?
+    sendAuthFlag: false //인증 보내서 인증을 완료 하였는가?
   }),
+
   computed: {
     passwordConfirmRules() {
       if (this.passwordConfirm != this.passwordConfirm) {
@@ -167,9 +196,38 @@ export default {
     resetValidation() {
       this.$refs.form.resetValidation();
     },
+    getAuth() {
+      if (this.useThisEmail) {
+        axios
+          .get("/v1/verify?email=" + this.email)
+          .then(response => {
+            this.auth = response.data.data;
+            this.getAuthFlag = true;
+            alert(
+              this.email +
+                "로 인증 번호를 발송 하였습니다. 확인 후 인증 번호를 입력해주세요"
+            );
+          })
+          .catch(exp => alert("인증 번호 받기 실패" + exp));
+      } else {
+        alert("먼저 이메일 중복 확인을 해주세요");
+      }
+    },
+    sendAuth() {
+      if (this.useThisEmail && this.getAuthFlag) {
+        if (this.auth == this.inputAuth) {
+          alert("인증이 완료 되었습니다.");
+          this.sendAuthFlag = true;
+        } else {
+          alert("인증 번호가 틀립니다.");
+        }
+      } else {
+        alert("유효하지 않은 접근입니다.");
+      }
+    },
 
     checkEmail() {
-      //이메일 인증
+      //이메일 중복확인
       if (
         this.email != "" &&
         /^[A-Za-z0-9_.-]+@[A-Za-z0-9-]+\.[A-Za-z0-9]+/.test(this.email)
@@ -197,6 +255,8 @@ export default {
       if (this.$refs.form.validate()) {
         if (!this.useThisEmail) {
           alert("이메일 중복 확인 해주세요");
+        } else if (!this.sendAuthFlag) {
+          alert("인증 번호를 입력 해주세요");
         } else {
           axios
             .post(
