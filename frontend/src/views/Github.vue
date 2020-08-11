@@ -7,14 +7,20 @@ import axios from "../lib/axios-common.js";
 import { mapActions } from "vuex";
 
 export default {
+  data() {
+    return {
+      token: null
+    };
+  },
   methods: {
     ...mapActions(["signinWithSocial"])
   },
-  beforeResolve() {
+  beforeRouteUpdate(to, from, next) {
+    console.log("to, from, next", { to, from, next });
     axios
       .get("/social/github/token")
       .then(function(res) {
-        console.log("res", res.data);
+        console.log("token", res.data.data);
         this.signinWithSocial({
           provider: "github",
           access_token: res.data.data
