@@ -1,7 +1,6 @@
 <template>
   <div>
     <h1>GITHUBLOGIN</h1>
-    {{ }}
   </div>
 </template>
 
@@ -50,13 +49,15 @@ export default {
   beforeRouteEnter(to, from, next) {
     // beforeRouteLeave(to, from, next) {
     console.log("to, from, next", { to, from, next });
+    console.log("to", to);
+    console.log("to.query", to.query);
 
     if (to.query) {
       if (to.query.code && to.query.state) {
         // next();
         console.log("to.query.code", to.query.code);
         console.log("to.query.state", to.query.state);
-        const redirect = this.redirect;
+        // const redirect = this.redirect;
         axios
           .get(
             // "http://localhost:8080/github/login?code=" +
@@ -72,7 +73,6 @@ export default {
             }
             if (!res.data.access_token) {
               alert("access_token이 없습니다!");
-              redirect("/");
             }
             // redirect("/user?token=" + res.data + "&service=github");
             console.log("res.data", res.data);
