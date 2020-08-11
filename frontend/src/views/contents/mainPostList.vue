@@ -68,9 +68,17 @@
       </section>
     </div>
 
-    <v-container>
-      <div style="height: 6rem;"></div>
-    </v-container>
+    <div style="height: 6rem;"></div>
+
+    <!-- test -->
+    <div class="el">
+      <div class="el__index">
+        <div class="el__index-back">1</div>
+        <div class="el__index-front">
+          <div class="el__index-overlay" data-index="1">1</div>
+        </div>
+      </div>
+    </div>
 
     <!-- <div>
       <p style="background-color: #333; color: #fff;">전체 글 목록 (임시)</p>
