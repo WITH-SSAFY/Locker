@@ -12,6 +12,15 @@
                 <a href="https://twitter.com/ettrics" target="_blank"></a>
               </p>
             </div>
+            <!-- <div class="el">
+              <div class="el__index">
+                <div class="el__index-back">1</div>
+                <div class="el__index-front">
+                  <div class="el__index-overlay" data-index="1">1</div>
+                </div>
+              </div>
+            </div> -->
+
           </div>
         </article>
         <article class="strips__strip">
@@ -26,6 +35,7 @@
             </div>
           </div>
         </article>
+
         <article class="strips__strip">
           <div class="strip__content">
             <h1 class="strip__title" data-name="Dolor">Go</h1>
@@ -68,7 +78,7 @@
       </section>
     </div>
 
-    <div style="height: 6rem;"></div>
+    <div style="height: 6rem; z-index: -1;"></div>
 
     <!-- test -->
     <div class="el">

@@ -338,16 +338,15 @@ $contentFadeinAT: 0.5s;
 }
 
 .el {
-  $elW: (100% - $elMrg * ($numOfEls - 1)) / $numOfEls;
-  $elMrgRel: percentage($elMrg / $elW);
-  
+  // $elW: (100% - $elMrg * ($numOfEls - 1)) / $numOfEls;
+  // $elMrgRel: percentage($elMrg / $elW);
   position: absolute;
   left: 0;
-  top: 50vh;
-  width: $elW;
+  bottom: 15vh;
+  width: 20%;
   height: 30%;
-  transition: transform $moveAT $expandAT, width $expandAT, opacity $moveAT $expandAT, z-index 0s $moveAT + $expandAT;
-  will-change: transform, width, opacity;
+  // transition: transform $moveAT $expandAT, width $expandAT, opacity $moveAT $expandAT, z-index 0s $moveAT + $expandAT;
+  // will-change: transform, width, opacity;
 
   &:not(.s--active) {
     cursor: pointer;
@@ -426,7 +425,7 @@ $contentFadeinAT: 0.5s;
     bottom: $vertPad * -1;
     width: 100%;
     height: 50%;
-    min-height: 250px;
+    min-height: 300px;
     text-align: center;
     font-size: 100vw / $numOfEls;
     line-height: 0.85;
