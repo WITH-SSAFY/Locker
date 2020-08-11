@@ -147,7 +147,7 @@ export default new Vuex.Store({
       });
     },
     signinWithSocial({ dispatch }, authObj) {
-      console.log("signinWithSocial");
+      console.log("signinWithSocial!!!");
       dispatch;
       console.log("authObj 값 확인 : ", authObj);
       //access_token 가지고 서버에 요청하기
