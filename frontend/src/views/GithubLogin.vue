@@ -1,7 +1,3 @@
-<template>
-  <div>
-    <h1>USER</h1>
-  </div>
 </template>
 
 <script>
@@ -12,30 +8,33 @@ export default {
   methods: {
     redirect: function(url) {
       window.location.href = url;
-    },
+    }
   },
   created() {
     // const redirect = this.redirect;
-    console.log("this.$route", this.$route);
-    if (this.$route.query.service === "github") {
-      axios
-        .get(
-          "http://localhost:8080/github/user?token=" + this.$route.query.token
-        )
-        .then(function(resp) {
-          alert(resp.data + "! login success!");
-        })
-        .catch(function(err) {
-          console.log(err);
+    axios
+      .get(
+        "http://i3a606.p.ssafy.io/github/login?code=" +
+          this.$route.query.code +
+          "&state=" +
+          this.$route.query.state
+      )
+      .then(function(res) {
+        if (!res.data) {
+          alert("something went wrong. can't get access token.");
           // redirect("/");
-        });
-    }
+        }
+        redirect("/user?token=" + res.data + "&service=github");
+      })
+      .catch(function(err) {
+        alert("something went wrong. request failed.");
+        console.log(err);
+        // redirect("/");
+      });
   },
   beforeRouteEnter(to, from, next) {
-    console.log("to, from, next", { to, from, next });
-
     if (to.query) {
-      if (to.query.service) {
+      if (to.query.code && to.query.state) {
         next();
       } else {
         alert("there's no query data.");
@@ -45,6 +44,6 @@ export default {
       alert("there's no query data.");
       // next("/");
     }
-  },
+  }
 };
 </script>
