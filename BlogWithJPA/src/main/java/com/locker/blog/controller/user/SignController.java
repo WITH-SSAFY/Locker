@@ -93,14 +93,15 @@ public class SignController {
 
 
     @ApiOperation(value = "이메일 인증", notes = "이메일로 인증 메세지를 보낸다.")
-    @PostMapping("/verify")
-    public CommonResult verify(@ApiParam(value = "이메일 인증", required = true) @RequestParam String email) {
+    @GetMapping("/verify")
+    public SingleResult<String> verify(@ApiParam(value = "이메일 인증", required = true) @RequestParam String email) {
+        String pin = null;
         try {
-            emailSendService.sendVerificationMail(email);
+            pin = emailSendService.sendVerificationMail(email);
         } catch (CEmailSigninFailedException e) {
             throw e;
         }
-        return responseService.getSuccessResult();
+        return responseService.getSingleResult(pin);
     }
 
     @ApiOperation(value = "소셜 로그인", notes = "소셜 회원 로그인을 한다.")
