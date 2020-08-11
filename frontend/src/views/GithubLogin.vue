@@ -12,14 +12,16 @@ export default {
   },
   created() {
     // const redirect = this.redirect;
+    console.log("this.$route", this.$route);
     axios
       .get(
-        "http://i3a606.p.ssafy.io/github/login?code=" +
+        "http://i3a606.p.ssafy.io/login/github?code=" +
           this.$route.query.code +
           "&state=" +
           this.$route.query.state
       )
       .then(function(res) {
+        console.log("res!", res);
         if (!res.data) {
           alert("something went wrong. can't get access token.");
           // redirect("/");
@@ -33,6 +35,7 @@ export default {
       });
   },
   beforeRouteEnter(to, from, next) {
+    console.log("to from next", { to, from, next });
     if (to.query) {
       if (to.query.code && to.query.state) {
         next();
