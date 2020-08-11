@@ -85,6 +85,7 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
+import axios from "axios";
 
 export default {
   data() {
@@ -128,8 +129,30 @@ export default {
     loginWithGithub() {
       // window.location.href = "/oauth2/authorization/github";
       // test.location.href = "/oauth2/authorization/github";
-      window.open("http://i3a606.p.ssafy.io:8000/oauth2/authorization/github");
+      // window.open("http://i3a606.p.ssafy.io:8000/oauth2/authorization/github");
       // window.open("http://localhost:8080/oauth2/authorization/github");
+      axios
+        .get(
+          // "http://localhost:8080/github/login?code=" +
+          // "http://i3a606.p.ssafy.io:8000/api/social/login/github?code=" +
+          //   this.$route.query.code +
+          //   "&state=" +
+          //   this.$route.query.state
+          "http://i3a606.p.ssafy.io:8000/oauth2/authorization/github"
+        )
+        .then(function(res) {
+          if (!res.data) {
+            alert("데이터 없다.....");
+            // redirect("/");
+          }
+          // redirect("/user?token=" + res.data + "&service=github");
+          console.log("res.data", res.data);
+        })
+        .catch(function(err) {
+          alert("에러ㅓㅓㅓㅓ");
+          console.log(err);
+          // redirect("/");
+        });
     }
   },
   created() {
