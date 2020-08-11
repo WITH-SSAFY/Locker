@@ -33,7 +33,7 @@
           class="p-0"
         >
           <div class="mx-5 py-3">
-            <div class="row post_title ml-1" >{{ title }}
+            <div class="row post_title ml-1" >{{ title }} {{ pid }}
             </div>
             <div class="under-line"></div>
             <div class="my-6">
@@ -78,6 +78,21 @@
           </div>
 
           <!-- 댓글 보기 창 -->
+          <!-- <ul>
+            <li
+              v-for="comment in viewerComment"
+              :key="comment.rid"
+            >
+              <div v-if="!comment.depth">
+                {{ comment.replytext }}
+              </div>
+              <div v-if="comment.depth" class="px-5">
+                {{ comment.replytext }}
+              </div>
+            </li>
+          </ul> -->
+
+
           <v-row>
             <v-col
               cols="12"
@@ -86,10 +101,15 @@
               :key="comment.rid"
             >
               <v-card flat>
-                <div class="d-flex justify-content-between">
+                
+                <!-- 대댓글 없는 경우 -->
+                <div v-if="!comment.depth" class="d-flex justify-content-between">
                   <div>
+                    <!-- 댓글 보기 왼쪽 -->
                     <span class="mr-5"><strong>{{ comment.replynickname }}</strong></span>
                     <span>{{ comment.replytext }}</span>
+                    
+                    <!-- 댓글 수정 -->
                     <v-text-field
                       label="수정 내용을 입력하세요"
                       v-if="comment.rid === btnNum"
@@ -106,6 +126,8 @@
                     수정
                     </v-btn>
                   </div>
+
+                  <!-- 댓글 보기 오른쪽 -->
                   <div class="ml-auto">
                     <small class="mr-5">{{ comment.created }}</small>
                     <button class="btn btn-sm btn-light mr-2" v-if="showButton" @click="goEditComment(pid, comment.rid, comment.replytext)">edit</button>
@@ -117,8 +139,53 @@
                       <v-icon>mdi-chevron-up</v-icon>
                     </button>              
                   </div>
-                </div>
+                  
+                </div>                    
 
+
+                <!-- 대댓글 있는 경우 -->
+
+                <div v-if="comment.depth" class="pl-5 d-flex justify-content-between">
+                  <div>
+                    <!-- 댓글 보기 왼쪽 -->
+                    <span class="mr-5"><strong>{{ comment.replynickname }}</strong></span>
+                    <span>{{ comment.replytext }}</span>
+                    
+                    <!-- 댓글 수정 -->
+                    <v-text-field
+                      label="수정 내용을 입력하세요"
+                      v-if="comment.rid === btnNum"
+                      v-model="editComment"
+                      required
+                    >
+                    </v-text-field>
+                    <v-btn
+                      v-if="comment.rid === btnNum"
+                      dark
+                      elevation="0"
+                      @click="fetchComment(pid, comment.rid, editComment)"
+                    >
+                    수정
+                    </v-btn>
+                  </div>
+
+                  <!-- 댓글 보기 오른쪽 -->
+                  <div class="ml-auto">
+                    <small class="mr-5">{{ comment.created }}</small>
+                    <button class="btn btn-sm btn-light mr-2" v-if="showButton" @click="goEditComment(pid, comment.rid, comment.replytext)">edit</button>
+                    <button class="btn btn-sm btn-light mr-2" v-if="showButton" @click="deleteComment(pid, comment.rid)">delete</button>
+                    <button>
+                      <div v-if="!comment.depth" @click="goReply(comment.rid, comment.parentid, comment.depth)">
+                        <v-icon>mdi-reply</v-icon>
+                      </div>
+                      <div v-if="comment.depth">
+                        <v-icon>mdi-chevron-up</v-icon>
+                      </div>
+                    </button>
+                  </div>
+
+                </div>  
+                
                 <!-- 대댓글 없을 시 대댓글 작성 창 보이기-->
                 <div v-if="comment.rid === inputNum" class="px-5 py-2">
                   <commentCreate/>
@@ -126,13 +193,14 @@
                 
                 <!-- 대댓글 있으면 해당 parentid에 대한 댓글리스트 불러오기 -->
                 <div v-if="comment.rid === listNum" class="px-5 py-2">
-                  <commentList/>
+                  <!-- <commentList/> -->
                 </div>
 
               </v-card>
             </v-col>
           </v-row>
-
+          
+          <!-- 댓글 작성 창 -->
           <div class="row">
             <div class="col-md-10">
               <commentCreate/>
@@ -149,6 +217,7 @@
         <side-bar class="side" text-align="left"></side-bar>
       </v-col> -->
       
+
     </v-container>
   </div>
 </template>
@@ -157,7 +226,7 @@
   // import SideBar from "../SideBar.vue"
   import { mapState } from "vuex"
   import commentCreate from "../commentCreate.vue"
-  import commentList from "../commentList.vue"
+  // import commentList from "../commentList.vue"
   import { Viewer } from '@toast-ui/vue-editor';
   import('../../assets/css/read-post.css')
   import('../../assets/css/side-style.css')
@@ -174,7 +243,7 @@
     components: {
       Viewer,
       commentCreate,
-      commentList,
+      // commentList,
       // SideBar
     },
     data(){
@@ -253,10 +322,11 @@
         this.inputNum = rid;
         this.showButton = false;
         this.showInput = !this.showInput;
-        this.$store.commit('goreply', { rid, parentid, depth })   
+        this.$store.commit('goreply', { parentid, depth, rid })   
       },
       showReply (rid, parentid) {
-        console.log(parentid)
+        this.$store.commit('showreply', { parentid, rid })
+        console.log(this.$store.state.parentid)
         this.listNum = rid;
         this.showButton = false;
         this.showList = !this.showList;
