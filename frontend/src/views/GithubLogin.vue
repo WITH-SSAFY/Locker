@@ -15,7 +15,7 @@ export default {
     console.log("this.$route", this.$route);
     axios
       .get(
-        "http://i3a606.p.ssafy.io/login/github?code=" +
+        "http://i3a606.p.ssafy.io:8000/api/social/login/github?code=" +
           this.$route.query.code +
           "&state=" +
           this.$route.query.state
