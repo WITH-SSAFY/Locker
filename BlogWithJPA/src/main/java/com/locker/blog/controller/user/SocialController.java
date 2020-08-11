@@ -123,7 +123,7 @@ public class SocialController {
      * /oauth2/authorization/github
      */
     @GetMapping(value = "/login/github")
-    public GithubRetAuth redirectGoogle(@RequestParam String code, @RequestParam String state) {
+    public GithubRetAuth redirectGithub(@RequestParam String code, @RequestParam String state) {
         GithubRetAuth githubRetAuth = githubService.getGithubToken(code,state);
         return githubRetAuth;
     }
