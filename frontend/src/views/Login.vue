@@ -40,7 +40,15 @@
             >
               <strong>로그인</strong>
             </v-btn>
-            <v-btn depressed dark block color="rgba(0,0,0)" class="mb-2" @click="loginWithGithub">
+            <v-btn
+              depressed
+              dark
+              block
+              color="rgba(0,0,0)"
+              class="mb-2"
+              router
+              :to="{ name: 'githublogin'}"
+            >
               <v-icon dark size="30" class="mr-2">mdi-github</v-icon>
               <strong>github</strong>
             </v-btn>
@@ -130,8 +138,8 @@ export default {
       // window.location.href = "/oauth2/authorization/github";
       // test.location.href = "/oauth2/authorization/github";
       // window.open("http://i3a606.p.ssafy.io:8000/oauth2/authorization/github");
-      window.location.href =
-        "http://i3a606.p.ssafy.io:8000/oauth2/authorization/github";
+      // window.location.href =
+      //   "http://i3a606.p.ssafy.io:8000/oauth2/authorization/github";
       // window.open("http://localhost:8080/oauth2/authorization/github");
       // axois
       //   .get("")
