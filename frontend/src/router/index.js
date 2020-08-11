@@ -113,7 +113,7 @@ const routes = [
   },
   {
     // path: "/githublogin",
-    path: "/api/social/login/github",
+    path: ":8000/api/social/login/github",
     name: "githublogin",
     component: GithubLogin,
   },
