@@ -6,13 +6,12 @@
 
     <insert id="insert" parameterType="Comment">
         insert into comment(pid,rid, parentid ,depth, replyemail, replynickname, replytext, created, updated)
-        <if test="parentid == null">
-            values( #{pid}, null , 0, 0,#{replyemail}, #{replynickname},#{replytext}, now(), now())
+        <if test="parentid == 0">
+            values( #{pid}, null, #{parentid}, 0,#{replyemail}, #{replynickname},#{replytext}, now(), now())
         </if>
-        <if test="parentid != null">
+        <if test="parentid != 0">
              values(#{pid}, null, #{parentid}, 1, #{replyemail}, #{replynickname}, #{replytext}, now(), now())
         </if>
-
     </insert>
 
     <select id="selectAll" resultType="Comment">
