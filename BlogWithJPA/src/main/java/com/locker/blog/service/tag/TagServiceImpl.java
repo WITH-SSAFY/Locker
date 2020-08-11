@@ -30,7 +30,7 @@ public class TagServiceImpl implements TagService{
     }
 
     @Override
-    public List<Post> selectAll(String name) {
-        return tagRepo.selectAll(name);
+    public List<Tag> getTags(Long pid) {
+        return tagRepo.getTags(pid);
     }
 }
