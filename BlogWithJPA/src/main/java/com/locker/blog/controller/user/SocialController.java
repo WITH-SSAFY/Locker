@@ -142,7 +142,10 @@ public class SocialController {
 
     @GetMapping(value = "github/token")
     public SingleResult<String> singleResultGithubToken() {
-        return responseService.getSingleResult(token);
+        SingleResult<String> ret = responseService.getSingleResult(token);
+        // 수정 필요
+        token = null;
+        return ret;
     }
 
     /**
