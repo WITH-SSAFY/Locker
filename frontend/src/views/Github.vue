@@ -4,7 +4,7 @@
 
 <script>
 import axios from "../lib/axios-common.js";
-import { mapState, mapAction } from "vuex";
+// import { mapState, mapAction } from "vuex";
 
 export default {
   beforeRouteEnter(to, from, next) {
