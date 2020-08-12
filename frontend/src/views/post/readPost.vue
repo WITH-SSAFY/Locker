@@ -27,14 +27,10 @@
             </div>
           </div>
         </v-col> -->
-          <!-- cols="12" -->
-        <v-col
-          cols="9"
-          class="p-0"
-        >
+        <!-- cols="12" -->
+        <v-col cols="9" class="p-0">
           <div class="mx-5 py-3">
-            <div class="row post_title ml-1" >{{ title }}
-            </div>
+            <div class="row post_title ml-1">{{ title }}</div>
             <div class="under-line"></div>
             <div class="my-6">
               <div id="nick">{{ nickname }}</div>
@@ -42,37 +38,48 @@
               <div id="wdate">{{ created }}</div>
             </div>
             <div class="float-right">
-              <button class="btn btn-light badge-pill mr-2" @click="goEditDetail(pid)"><span>edit</span></button>
-              <button class="btn btn-light badge-pill" @click="deleteDetail(pid)"><span>delete</span></button>
-            </div>
-            <div>
-              <v-btn
-                class="tag_list"
-                v-for="(tag, index) in tags" :key="index"
-                small
-                color="brown lighten-4"
-                rounded
-                elevation="0"
+              <button
+                class="btn btn-light badge-pill mr-2"
+                @click="goEditDetail(pid)"
               >
-                {{ tag }}
-              </v-btn>
+                <span>edit</span>
+              </button>
+              <button
+                class="btn btn-light badge-pill"
+                @click="deleteDetail(pid)"
+              >
+                <span>delete</span>
+              </button>
+            </div>
+            <div id="tag_list">
+              <v-chip
+                v-for="(tag, index) in tags"
+                :key="index"
+                class="mx-1"
+                color="#EDE7F6"
+                small
+                >{{ tag.tagname }}</v-chip
+              >
             </div>
           </div>
-          <hr>
+          <hr />
           <div class="row mx-5 py-3">
             <viewer :initialValue="viewerText" height="100%" />
           </div>
-          
+
           <div class="row mx-5 py-3 writer_info">
             <div class="col-md-2 col-sm-1">
               <v-icon size="80">mdi-account-circle-outline</v-icon>
             </div>
             <div class="col-md-7 d-flex-wrap">
               <div class="mx-2">
-                <p class="d-inline" style="font-size: 1.8rem">{{ nickname }}
-                  <v-icon size="30" class="ml-1" color="#7C4DFF">mdi-arm-flex</v-icon>
+                <p class="d-inline" style="font-size: 1.8rem">
+                  {{ nickname }}
+                  <v-icon size="30" class="ml-1" color="#7C4DFF"
+                    >mdi-arm-flex</v-icon
+                  >
                 </p>
-              </div>  
+              </div>
               <p class="ml-2">{{ userInfo.introduction }}</p>
             </div>
           </div>
@@ -85,14 +92,18 @@
               :key="comment.rid"
             >
               <v-card flat>
-                
                 <!-- 대댓글 없는 경우 -->
-                <div v-if="!comment.depth" class="d-flex justify-content-between">
+                <div
+                  v-if="!comment.depth"
+                  class="d-flex justify-content-between"
+                >
                   <div>
                     <!-- 댓글 보기 왼쪽 -->
-                    <span class="mr-5"><strong>{{ comment.replynickname }}</strong></span>
+                    <span class="mr-5"
+                      ><strong>{{ comment.replynickname }}</strong></span
+                    >
                     <span>{{ comment.replytext }}</span>
-                    
+
                     <!-- 댓글 수정 -->
                     <v-text-field
                       label="수정 내용을 입력하세요"
@@ -107,34 +118,55 @@
                       elevation="0"
                       @click="fetchComment(pid, comment.rid, editComment)"
                     >
-                    수정
+                      수정
                     </v-btn>
                   </div>
 
                   <!-- 댓글 보기 오른쪽 -->
                   <div class="ml-auto">
                     <small class="mr-5">{{ comment.created }}</small>
-                    <button class="btn btn-sm btn-light mr-2" @click="goEditComment(pid, comment.rid, comment.replytext)">edit</button>
-                    <button class="btn btn-sm btn-light mr-2" @click="deleteComment(pid, comment.rid)">delete</button>
-                    <button v-if="!comment.depth" @click="goReply(comment.rid, comment.depth)">
+                    <button
+                      class="btn btn-sm btn-light mr-2"
+                      @click="
+                        goEditComment(pid, comment.rid, comment.replytext)
+                      "
+                    >
+                      edit
+                    </button>
+                    <button
+                      class="btn btn-sm btn-light mr-2"
+                      @click="deleteComment(pid, comment.rid)"
+                    >
+                      delete
+                    </button>
+                    <button
+                      v-if="!comment.depth"
+                      @click="goReply(comment.rid, comment.depth)"
+                    >
                       <v-icon>mdi-reply</v-icon>
                     </button>
-                    <button v-if="comment.depth" @click="showReply(comment.rid)">
+                    <button
+                      v-if="comment.depth"
+                      @click="showReply(comment.rid)"
+                    >
                       <v-icon>mdi-chevron-up</v-icon>
-                    </button>              
+                    </button>
                   </div>
-                  
-                </div>                    
-
+                </div>
 
                 <!-- 대댓글 있는 경우 -->
 
-                <div v-if="comment.depth" class="pl-5 d-flex justify-content-between">
+                <div
+                  v-if="comment.depth"
+                  class="pl-5 d-flex justify-content-between"
+                >
                   <div>
                     <!-- 댓글 보기 왼쪽 -->
-                    <span class="mr-5"><strong>{{ comment.replynickname }}</strong></span>
+                    <span class="mr-5"
+                      ><strong>{{ comment.replynickname }}</strong></span
+                    >
                     <span>{{ comment.replytext }}</span>
-                    
+
                     <!-- 댓글 수정 -->
                     <v-text-field
                       label="수정 내용을 입력하세요"
@@ -149,17 +181,34 @@
                       elevation="0"
                       @click="fetchComment(pid, comment.rid, editComment)"
                     >
-                    수정
+                      수정
                     </v-btn>
                   </div>
 
                   <!-- 댓글 보기 오른쪽 -->
                   <div class="ml-auto">
                     <small class="mr-5">{{ comment.created }}</small>
-                    <button class="btn btn-sm btn-light mr-2" @click="goEditComment(pid, comment.rid, comment.replytext)">edit</button>
-                    <button class="btn btn-sm btn-light mr-2" @click="deleteComment(pid, comment.rid)">delete</button>
+                    <button
+                      class="btn btn-sm btn-light mr-2"
+                      @click="
+                        goEditComment(pid, comment.rid, comment.replytext)
+                      "
+                    >
+                      edit
+                    </button>
+                    <button
+                      class="btn btn-sm btn-light mr-2"
+                      @click="deleteComment(pid, comment.rid)"
+                    >
+                      delete
+                    </button>
                     <button>
-                      <div v-if="!comment.depth" @click="goReply(comment.rid, comment.parentid, comment.depth)">
+                      <div
+                        v-if="!comment.depth"
+                        @click="
+                          goReply(comment.rid, comment.parentid, comment.depth)
+                        "
+                      >
                         <v-icon>mdi-reply</v-icon>
                       </div>
                       <div v-if="comment.depth">
@@ -167,70 +216,52 @@
                       </div>
                     </button>
                   </div>
+                </div>
 
-                </div>  
-                
                 <!-- 대댓글 없을 시 대댓글 작성 창 보이기-->
                 <div v-if="comment.rid === inputNum" class="px-5 py-2">
-                  
                   <!-- 대댓글 작성 창 -->
                   <div class="d-flex">
                     <div class="input-group">
-                      <v-text-field
-                        label="대댓글"
-                        outlined
-                        v-model="reply"
-                      >
+                      <v-text-field label="대댓글" outlined v-model="reply">
                       </v-text-field>
                     </div>
-                    <div class="input-group-append ml-5" >
+                    <div class="input-group-append ml-5">
                       <div>
                         <v-btn
                           dark
                           @click="postReply(pid, comment.rid)"
                           height="65%"
                         >
-                        작성
+                          작성
                         </v-btn>
                       </div>
                     </div>
                   </div>
                 </div>
-
               </v-card>
             </v-col>
           </v-row>
-          
+
           <!-- 댓글 작성 창 -->
           <div class="row">
             <div class="col-md-10">
-
               <!-- 댓글 작성 창 -->
               <div class="d-flex">
                 <div class="input-group">
-                  <v-text-field
-                    label="댓글"
-                    outlined
-                    v-model="text"
-                  >
+                  <v-text-field label="댓글" outlined v-model="text">
                   </v-text-field>
                 </div>
-                <div class="input-group-append ml-5" >
+                <div class="input-group-append ml-5">
                   <div>
-                    <v-btn
-                      dark
-                      @click="postComment(pid)"
-                      height="65%"
-                    >
-                    작성
+                    <v-btn dark @click="postComment(pid)" height="65%">
+                      작성
                     </v-btn>
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
-
         </v-col>
       </v-row>
 
@@ -240,143 +271,152 @@
       >
         <side-bar class="side" text-align="left"></side-bar>
       </v-col> -->
-      
-
     </v-container>
   </div>
 </template>
 
 <script>
-  // import SideBar from "../SideBar.vue"
-  import { mapState } from "vuex"
-  import { Viewer } from '@toast-ui/vue-editor';
-  import('../../assets/css/read-post.css')
-  import('../../assets/css/side-style.css')
-  import '@toast-ui/editor/dist/toastui-editor-viewer.css';
-  import axios from "../../lib/axios-common.js";
-  
-  export default {
-    created(){
-      this.userInfo;
-      this.viewerText;
-      this.$store.dispatch('getCommentList', this.$store.state.pid)
-      this.viewerComment;
-    },
-    components: {
-      Viewer,
-      // SideBar
-    },
-    data(){
-      return {
-        tags: ["java", "login", "cookie"],
-        btnNum: null,
-        editComment: null,
-        inputNum: null,
-        showList: false,
-        listNum: null,
-        depth: null,
-        text: '',
-        reply: '',
-        parentid: null,
-      }
-    },
-    computed : {
-      ...mapState(["userInfo"]),
-      title(){
-        return this.$store.state.myDetailTitle;
-      },
-      nickname(){
-        return this.$store.state.nickname;
-      },
-      pid() {
-        return this.$store.state.pid;
-      },
-      created() {
-        return this.$store.state.created;
-      },
-      viewerText(){
-        return this.$store.state.myDetail;
-      },
-      viewerComment(){
-        return this.$store.state.commentList;
-      },
-    },
-    methods:{
-      goEditDetail (pid) {
-        this.$store.dispatch('goEditDetail', pid);
-        //this.$router.push({name: "editPost"});  
-      },
-      deleteDetail (pid) {
-        this.$store.dispatch('deleteDetail', pid);
-      },
-      goEditComment (pid, rid, text) {
-        // TODO: 본인 댓글만 수정 가능 조건 추가
-        this.btnNum = rid
-        this.editComment = text;
-      },
-      deleteComment (pid, rid) {
-        // TODO: 본인 댓글만 삭제 가능 조건 추가
-        axios
-          .delete("v1/comment/" + pid + '/' + rid)
-          .then(() => {
-            this.$store.dispatch('getCommentList', pid)
-          })
-          .catch(exp => alert("내 댓글 삭제에 실패했습니다" + exp))
-      },
-      fetchComment (pid, rid, editComment) {
-        axios
-          .put("v1/comment", {pid, rid, replytext: editComment})
-          .then(() => {
-            alert("댓글 등록이 완료되었습니다")
-            this.btnNum = null
-            this.$router.push('/readPost');
-            this.$store.dispatch('getCommentList', pid)
-          })
-          .catch(
-            exp => alert("내 댓글 수정에 실패했습니다 " + exp)
-          );
-      },
-      goReply (rid, depth) {
-        this.inputNum = rid;
-        this.$store.commit('goreply', { depth, rid })   
-      },
+// import SideBar from "../SideBar.vue"
+import { mapState } from "vuex";
+import { Viewer } from "@toast-ui/vue-editor";
+import("../../assets/css/read-post.css");
+import("../../assets/css/side-style.css");
+import "@toast-ui/editor/dist/toastui-editor-viewer.css";
+import axios from "../../lib/axios-common.js";
 
-      postComment (pid) {
-            axios
-              .post("v1/comment", { replytext: this.text,
-                                    replyemail: this.$store.state.userInfo.email,
-                                    replynickname: this.$store.state.userInfo.nickname,
-                                    pid
-              })
-              .then(() => {
-                this.$store.dispatch('getCommentList', pid);
-                this.text = '';
-              })
-              .catch(exp => alert("댓글 작성에 실패했습니다" + exp))
-      },
+export default {
+  created() {
+    this.userInfo;
+    this.viewerText;
+    this.$store.dispatch("getCommentList", this.$store.state.pid);
+    this.viewerComment;
+    this.getTags();
+  },
+  components: {
+    Viewer,
+    // SideBar
+  },
+  data() {
+    return {
+      tags: [],
+      btnNum: null,
+      editComment: null,
+      inputNum: null,
+      showList: false,
+      listNum: null,
+      depth: null,
+      text: "",
+      reply: "",
+      parentid: null,
+    };
+  },
+  computed: {
+    ...mapState(["userInfo"]),
+    title() {
+      return this.$store.state.myDetailTitle;
+    },
+    nickname() {
+      return this.$store.state.nickname;
+    },
+    pid() {
+      return this.$store.state.pid;
+    },
+    created() {
+      return this.$store.state.created;
+    },
+    viewerText() {
+      return this.$store.state.myDetail;
+    },
+    viewerComment() {
+      return this.$store.state.commentList;
+    },
+  },
+  methods: {
+    goEditDetail(pid) {
+      this.$store.dispatch("goEditDetail", pid);
+      //this.$router.push({name: "editPost"});
+    },
+    deleteDetail(pid) {
+      this.$store.dispatch("deleteDetail", pid);
+    },
+    goEditComment(pid, rid, text) {
+      // TODO: 본인 댓글만 수정 가능 조건 추가
+      this.btnNum = rid;
+      this.editComment = text;
+    },
+    deleteComment(pid, rid) {
+      // TODO: 본인 댓글만 삭제 가능 조건 추가
+      axios
+        .delete("v1/comment/" + pid + "/" + rid)
+        .then(() => {
+          this.$store.dispatch("getCommentList", pid);
+        })
+        .catch((exp) => alert("내 댓글 삭제에 실패했습니다" + exp));
+    },
+    fetchComment(pid, rid, editComment) {
+      axios
+        .put("v1/comment", { pid, rid, replytext: editComment })
+        .then(() => {
+          alert("댓글 등록이 완료되었습니다");
+          this.btnNum = null;
+          this.$router.push("/readPost");
+          this.$store.dispatch("getCommentList", pid);
+        })
+        .catch((exp) => alert("내 댓글 수정에 실패했습니다 " + exp));
+    },
+    goReply(rid, depth) {
+      this.inputNum = rid;
+      this.$store.commit("goreply", { depth, rid });
+    },
 
-      postReply (pid, rid) {
-        this.parentid = rid;
-        axios
-          .post("v1/comment", { replytext: this.reply,
-                                replyemail: this.$store.state.userInfo.email,
-                                replynickname: this.$store.state.userInfo.nickname,
-                                pid, parentid: this.parentid,
-          })
-          .then(() => {
-            this.$store.dispatch('getCommentList', pid);
-            this.reply = '';
-            this.inputNum = -1
-          })
-          .catch(exp => alert("댓글 작성에 실패했습니다" + exp))
-      },
-    }
-  };
+    postComment(pid) {
+      axios
+        .post("v1/comment", {
+          replytext: this.text,
+          replyemail: this.$store.state.userInfo.email,
+          replynickname: this.$store.state.userInfo.nickname,
+          pid,
+        })
+        .then(() => {
+          this.$store.dispatch("getCommentList", pid);
+          this.text = "";
+        })
+        .catch((exp) => alert("댓글 작성에 실패했습니다" + exp));
+    },
+
+    postReply(pid, rid) {
+      this.parentid = rid;
+      axios
+        .post("v1/comment", {
+          replytext: this.reply,
+          replyemail: this.$store.state.userInfo.email,
+          replynickname: this.$store.state.userInfo.nickname,
+          pid,
+          parentid: this.parentid,
+        })
+        .then(() => {
+          this.$store.dispatch("getCommentList", pid);
+          this.reply = "";
+          this.inputNum = -1;
+        })
+        .catch((exp) => alert("댓글 작성에 실패했습니다" + exp));
+    },
+    getTags() {
+      //서버로 부터 해당 포스트에 등록된 태그 받아옴
+      axios
+        .get("v1/tag/all/" + this.$store.state.pid)
+        .then((response) => {
+          this.tags = response.data;
+        })
+        .catch((exp) => alert("태그 불러오기 실패" + exp));
+    },
+  },
+};
 </script>
 
 <style scoped>
-    #container {
-        width : 65%;/* 반응형으로 수정 필요 */
-        margin : 70px auto 0 auto;
-    }
+#container {
+  width: 65%; /* 반응형으로 수정 필요 */
+  margin: 70px auto 0 auto;
+}
 </style>
