@@ -48,11 +48,7 @@ public class RepositoryController {
 
     @ApiOperation(value = "깃헙 히든 정보", notes = "깃헙 히든 정보를 가져온다.")
     @GetMapping(value = "github/hidden")
-    public SingleResult<String> githubHiddenSingleResult (
-            @ApiParam(value = "깃헙 이메일", required = true) @RequestParam String email,
-            @ApiParam(value = "깃헙 토큰", required = true) @RequestParam String accessToken) {
-        User user = userJpaRepo.findByEmailAndProvider(email,"github").orElseThrow(CUserNotFoundException::new);
-
+    public SingleResult<String> githubHiddenSingleResult (@ApiParam(value = "깃헙 토큰", required = true) @RequestParam String accessToken) {
         GithubProfile githubProfile = githubService.getGithubProfile(accessToken);
         String hiddenInfo = githubService.getHiddenInfo(githubProfile.getLogin());
 
