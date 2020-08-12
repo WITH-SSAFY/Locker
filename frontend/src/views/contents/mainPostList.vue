@@ -73,7 +73,7 @@ export default {
       var expanded  = false;
       var open = function() {
 
-        var tile = $('.strips__strip');
+        var tile = $(this).parent();
         
           if (!expanded) {
             tile.addClass('strips__strip--expanded');
