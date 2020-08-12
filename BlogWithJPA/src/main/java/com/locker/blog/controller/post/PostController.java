@@ -117,9 +117,9 @@ public class PostController {
     }
 
     @ApiOperation(value = "일반 검색", notes = "해당 검색어를 가진 모든 포스트를 조회한다.")
-    @GetMapping("/search/common")
-    public ResponseEntity<List<Post>> commonSearch(@ApiParam(value = "검색어", required = true) @RequestParam String content) {
-        List<Post> list = service.commonSearch(content);
+    @GetMapping("/search")
+    public ResponseEntity<List<Post>> commonSearch(@ApiParam(value = "검색어", required = true) @RequestParam String q) {
+        List<Post> list = service.commonSearch(q);
         if(list.size()>0){
             return new ResponseEntity<List<Post>>(list, HttpStatus.OK);
         }else{

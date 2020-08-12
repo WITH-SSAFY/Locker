@@ -51,8 +51,8 @@ public class PostDAOImpl implements PostDAO {
     }
 
     @Override
-    public List<Post> commonSearch(String content) {
-        return session.selectList("post.commonSearch",content);
+    public List<Post> commonSearch(String q) {
+        return session.selectList("post.commonSearch",q);
     }
 
 

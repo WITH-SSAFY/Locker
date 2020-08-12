@@ -46,6 +46,8 @@
     <select id="commonSearch" parameterType="String" resultType="Post">
         select *
         from post
-        where content like concat('%',#{content},'%')
+        where content like concat('%',#{q},'%')
+        or title like concat('%',#{q},'%')
+        order by updated
     </select>
 </mapper>
