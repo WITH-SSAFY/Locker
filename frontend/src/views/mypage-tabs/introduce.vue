@@ -1,10 +1,8 @@
 <template>
   <div>
     introduce test
-    <!-- {{ intro }} -->
-    <div style="height: 1000px;">
-      <viewer :initialValue="intro" height="100%" />
-    </div>
+    <!-- initialValue는 초기에만 설정되므로 data를 ajax로 받기 전까진 Viewer가 실행되지 않도록 해야 -->
+    <viewer v-if="axiosFlag" :initialValue="intro" height="100%" />
 
   </div>
 </template>
@@ -19,6 +17,7 @@ export default {
   data() {
     return {
       intro: '',
+      axiosFlag: false,
     }
   },
   created () {
@@ -37,10 +36,10 @@ export default {
       // let token = localStorage.getItem("github_token");
       // test
       let accessToken = '055bcf6a87cfd6b760b67a2150cfb5948b5b9385';
-      console.log(accessToken)
       axios.get("/v1/github/hidden?accessToken=" + accessToken)
         .then((response) => {
           this.intro = response.data.data
+          this.axiosFlag = true
         })
         .catch((exp) => alert("소개글 불러오기 실패" + exp))
     }
