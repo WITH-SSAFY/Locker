@@ -111,18 +111,11 @@ const routes = [
         /* webpackChunkName: "verifySuccess" */ "../views/verifySuccess.vue"
       ),
   },
-  // {
-  //   // path: "/githublogin",
-  //   path: "/api/social/login/github",
-  //   // path: "/login/github",
-  //   name: "githublogin",
-  //   component: GithubLogin,
-  // },
   {
     path: "/login/github",
     name: "githublogin",
     component: () =>
-      import(/* webpackChunkName: "verifySuccess" */ "../views/Github.vue"),
+      import(/* webpackChunkName: "Github" */ "../views/Github.vue"),
   },
 ];
 

@@ -65,4 +65,15 @@ public class TagController {
         }
         return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
     }
+
+    @ApiOperation(value = "해당 포스트의 모든 태그 출력", notes = "해당 포스트의 모든 태그를 출력한다.")
+    @GetMapping(value = "/all/{pid}")
+    public ResponseEntity<List<Tag>> getTags(@PathVariable Long pid) throws Exception {
+        List<Tag> list = tagService.getTags(pid);
+        if(list != null) {
+            return new ResponseEntity<List<Tag>>(list, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<List<Tag>>(list, HttpStatus.NO_CONTENT);
+        }
+    }
 }

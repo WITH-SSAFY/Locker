@@ -127,21 +127,8 @@ export default {
     },
 
     loginWithGithub() {
-      // window.location.href = "/oauth2/authorization/github";
-      // test.location.href = "/oauth2/authorization/github";
-      // window.open("http://i3a606.p.ssafy.io:8000/oauth2/authorization/github");
       window.location.href =
         "http://i3a606.p.ssafy.io:8000/oauth2/authorization/github";
-      // window.open("http://localhost:8080/oauth2/authorization/github");
-      // axois
-      //   .get("")
-      //   .then(function(resp) {
-      //     // alert(resp.data + "! login success!");
-      //   })
-      //   .catch(function(err) {
-      //     // console.log(err);
-      //     // redirect("/");
-      //   });
     }
   },
   created() {
