@@ -79,10 +79,6 @@ export default new Vuex.Store({
       state.parentid = payload.rid;
       state.depth = payload.depth;
     },
-    showreply(state, payload) {
-      state.parentid = payload.rid;
-      console.log(state.parentid);
-    },
   },
   //비즈니스 로직
   actions: {
