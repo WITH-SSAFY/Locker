@@ -12,11 +12,12 @@ export default {
     axios
       .get("/social/github/token")
       .then(function(res) {
-        console.log("token", res.data.data);
+        let github_token = res.data.data;
+        console.log("github_token", github_token);
+        localStorage.setItem("github_token", github_token);
         axios
-          .post("/v1/signin/github?accessToken=" + res.data.data)
+          .post("/v1/signin/github?accessToken=" + github_token)
           .then(res => {
-            console.log("axios.post 들어감");
             console.log(res.data);
             let token = res.data.data;
             localStorage.setItem("temp", token);
@@ -25,6 +26,7 @@ export default {
           .catch(err => {
             console.log("err", err);
           });
+        next();
       })
       .catch(function(err) {
         console.log("err", err);
@@ -33,10 +35,10 @@ export default {
   created() {
     let temp = localStorage.getItem("temp");
     console.log("created - temp", temp);
-    this.signinWithSocial({ access_token: temp });
+    this.getMemberInfo();
   },
   methods: {
-    ...mapActions(["signinWithSocial"])
+    ...mapActions(["getMemberInfo"])
   }
 };
 </script>

@@ -146,7 +146,7 @@ export default new Vuex.Store({
         },
       });
     },
-    signinWithGithub({ dispatch }, authObj) {
+    signinWithSocial({ dispatch }, authObj) {
       console.log("signinWithSocial!!!");
       dispatch;
       console.log("authObj 값 확인 : ", authObj);
@@ -154,7 +154,12 @@ export default new Vuex.Store({
       // -> 성공하면, getMemberInfo를 dispatch하기
       // -> 없는 사용자의 경우 -> 서버에서 아예 signup 해줌
       axios
-        .post("/v1/signin/github?accessToken=" + authObj.access_token)
+        .post(
+          "/v1/signin/" +
+            authObj.provider +
+            "?accessToken=" +
+            authObj.access_token
+        )
         .then((response) => {
           console.log(response.data);
           let token = response.data.data;
@@ -207,12 +212,6 @@ export default new Vuex.Store({
       //로컬 스토리지에 저장되어있는 토큰을 불러온다.
       let token = localStorage.getItem("access_token");
       if (token !== null) {
-        // let config = {
-        //   headers: {
-        //     Accept: "*/*",
-        //     "X-AUTH-TOKEN": token,
-        //   },
-        // };
         //반환된 토큰을 가지고 유저정보를 반환
         //새로고침을 하면 state 날라감 -> 토큰만 가지고 멤버정보 요청 가능 : localStorage에 토큰 저장
         axios //config : 보안과 관련된 헤더나 옵션 등을 설정해줄 수 있는 파일
