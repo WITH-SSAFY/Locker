@@ -6,6 +6,8 @@ import com.locker.blog.domain.social.RetAuth;
 import com.locker.blog.domain.user.GoogleProfile;
 import com.locker.blog.domain.user.KakaoProfile;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.*;
@@ -19,6 +21,7 @@ import java.net.URI;
 @RequiredArgsConstructor
 @Service
 public class GoogleService {
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final RestTemplate restTemplate;
     private final Environment env;
@@ -41,6 +44,7 @@ public class GoogleService {
 
         // Request profile
         ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
+        //logger.info(response.getBody());
 
         try {
             if (response.getStatusCode() == HttpStatus.OK)

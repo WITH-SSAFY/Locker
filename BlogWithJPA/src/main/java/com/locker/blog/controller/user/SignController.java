@@ -123,58 +123,63 @@ public class SignController {
         String picture = null;
 
         // get profile
-        if(provider.equals("kakao")) {
-            kakaoProfile = kakaoService.getKakaoProfile(accessToken);
-            uid = String.valueOf(kakaoProfile.getId());
-            email = String.valueOf(kakaoProfile.getKakao_account().getEmail());
-            name = String.valueOf(kakaoProfile.getProperties().getNickname());
-            nickname = name;
-            picture = String.valueOf(kakaoProfile.getProperties().getProfile_image());
+        switch (provider) {
+            case "kakao":
+                kakaoProfile = kakaoService.getKakaoProfile(accessToken);
+                uid = String.valueOf(kakaoProfile.getId());
+                email = String.valueOf(kakaoProfile.getKakao_account().getEmail());
+                name = String.valueOf(kakaoProfile.getProperties().getNickname());
+                nickname = name;
+                picture = String.valueOf(kakaoProfile.getProperties().getProfile_image());
 
-            // logger
-            logger.info(kakaoProfile.toString());
-        }
-        else if(provider.equals("google")) {
-            googleProfile = googleService.getGoogleProfile(accessToken);
-            uid = String.valueOf(googleProfile.getId());
-            email = String.valueOf(googleProfile.getEmail());
-            name = String.valueOf(googleProfile.getName());
-            nickname = name;
-            picture = String.valueOf(googleProfile.getPicture());
-        }
-        else if(provider.equals("github")) {
-            githubProfile = githubService.getGithubProfile(accessToken);
-            uid = String.valueOf(githubProfile.getId());
-            email = String.valueOf(githubProfile.getEmail());
-            name = String.valueOf(githubProfile.getName());
-            nickname = name;
-            picture = String.valueOf(githubProfile.getAvatar_url());
-        }
-        else if(provider.equals("facebook")) {
-            facebookProfile = facebookService.getFacebookProfile(accessToken);
-            uid = String.valueOf(facebookProfile.getId());
-            email = String.valueOf(facebookProfile.getEmail());
-            name = String.valueOf(facebookProfile.getName());
-            nickname = name;
-            picture = String.valueOf(facebookProfile.getPicture().getData().getUrl());
-        }
-        else if(provider.equals("naver")) {
-            naverProfile = naverService.getNaverProfile(accessToken);
-            uid = String.valueOf(naverProfile.getResponse().getId());
-            email = String.valueOf(naverProfile.getResponse().getEmail());
-            nickname = String.valueOf(naverProfile.getResponse().getNickname());
-            name = String.valueOf(naverProfile.getResponse().getName());
+                break;
+            case "google":
+                googleProfile = googleService.getGoogleProfile(accessToken);
+                uid = String.valueOf(googleProfile.getId());
+                email = String.valueOf(googleProfile.getEmail());
+                name = String.valueOf(googleProfile.getName());
+                nickname = name;
+                picture = String.valueOf(googleProfile.getPicture());
+
+                break;
+            case "github":
+                githubProfile = githubService.getGithubProfile(accessToken);
+                uid = String.valueOf(githubProfile.getId());
+                email = String.valueOf(githubProfile.getEmail());
+                name = String.valueOf(githubProfile.getName());
+                nickname = name;
+                picture = String.valueOf(githubProfile.getAvatar_url());
+
+                break;
+            case "facebook":
+                facebookProfile = facebookService.getFacebookProfile(accessToken);
+                uid = String.valueOf(facebookProfile.getId());
+                email = String.valueOf(facebookProfile.getEmail());
+                name = String.valueOf(facebookProfile.getName());
+                nickname = name;
+                picture = String.valueOf(facebookProfile.getPicture().getData().getUrl());
+
+                break;
+            case "naver":
+                naverProfile = naverService.getNaverProfile(accessToken);
+                uid = String.valueOf(naverProfile.getResponse().getId());
+                email = String.valueOf(naverProfile.getResponse().getEmail());
+                nickname = String.valueOf(naverProfile.getResponse().getNickname());
+                name = String.valueOf(naverProfile.getResponse().getName());
+
+                break;
         }
 
-        logger.info("uid : " + uid + " name : " + name + " picture : " + picture + " email : " + email + " provider : " + provider);
+        // logger
+        logger.info("\n < --- Login Information --- > \n" + "uid : " + uid +"\n" + "email : " + email + "\n" + "name : " + name + "\n" + "nickname : " + nickname + "\n < --- Login Information --- >  \n" );
 
-        Optional<User> user = userJpaRepo.findByUidAndProvider(Long.parseLong(uid),provider);
+        Optional<User> user = userJpaRepo.findByUidAndProvider(uid,provider);
         if(user.isPresent()) {
             return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.get().getId()), user.get().getRoles()));
         }
 
-        userService.insert(Long.parseLong(uid),email,provider,name,nickname,picture);
-        User findUser = userJpaRepo.findByUidAndProvider(Long.parseLong(uid),provider).orElseThrow(CUserNotFoundException::new);
+        userService.insert(uid,email,provider,name,nickname,picture);
+        User findUser = userJpaRepo.findByUidAndProvider(uid,provider).orElseThrow(CUserNotFoundException::new);
         return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(findUser.getId()), findUser.getRoles()));
     }
 

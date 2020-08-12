@@ -17,7 +17,7 @@ public class UserService {
     private final UserJpaRepo userJpaRepo;
     private final ResponseService responseService;
 
-    public void insert(Long uid, String email, String provider, String name, String nickname, String picture) {
+    public void insert(String uid, String email, String provider, String name, String nickname, String picture) {
         userJpaRepo.save(User.builder()
                 .uid(uid)
                 .email(email)
