@@ -115,7 +115,7 @@ const routes = [
     path: "/login/github",
     name: "githublogin",
     component: () =>
-      import(/* webpackChunkName: "verifySuccess" */ "../views/Github.vue"),
+      import(/* webpackChunkName: "Github" */ "../views/Github.vue"),
   },
 ];
 
