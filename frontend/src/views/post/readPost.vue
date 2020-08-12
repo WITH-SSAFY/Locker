@@ -33,7 +33,7 @@
           class="p-0"
         >
           <div class="mx-5 py-3">
-            <div class="row post_title ml-1" >{{ title }} {{ pid }}
+            <div class="row post_title ml-1" >{{ title }}
             </div>
             <div class="under-line"></div>
             <div class="my-6">
@@ -114,8 +114,8 @@
                   <!-- 댓글 보기 오른쪽 -->
                   <div class="ml-auto">
                     <small class="mr-5">{{ comment.created }}</small>
-                    <button class="btn btn-sm btn-light mr-2" v-if="showButton" @click="goEditComment(pid, comment.rid, comment.replytext)">edit</button>
-                    <button class="btn btn-sm btn-light mr-2" v-if="showButton" @click="deleteComment(pid, comment.rid)">delete</button>
+                    <button class="btn btn-sm btn-light mr-2" @click="goEditComment(pid, comment.rid, comment.replytext)">edit</button>
+                    <button class="btn btn-sm btn-light mr-2" @click="deleteComment(pid, comment.rid)">delete</button>
                     <button v-if="!comment.depth" @click="goReply(comment.rid, comment.depth)">
                       <v-icon>mdi-reply</v-icon>
                     </button>
@@ -156,8 +156,8 @@
                   <!-- 댓글 보기 오른쪽 -->
                   <div class="ml-auto">
                     <small class="mr-5">{{ comment.created }}</small>
-                    <button class="btn btn-sm btn-light mr-2" v-if="showButton" @click="goEditComment(pid, comment.rid, comment.replytext)">edit</button>
-                    <button class="btn btn-sm btn-light mr-2" v-if="showButton" @click="deleteComment(pid, comment.rid)">delete</button>
+                    <button class="btn btn-sm btn-light mr-2" @click="goEditComment(pid, comment.rid, comment.replytext)">edit</button>
+                    <button class="btn btn-sm btn-light mr-2" @click="deleteComment(pid, comment.rid)">delete</button>
                     <button>
                       <div v-if="!comment.depth" @click="goReply(comment.rid, comment.parentid, comment.depth)">
                         <v-icon>mdi-reply</v-icon>
@@ -270,7 +270,6 @@
       return {
         tags: ["java", "login", "cookie"],
         btnNum: null,
-        showButton: true,
         editComment: null,
         inputNum: null,
         showList: false,
@@ -313,7 +312,6 @@
       goEditComment (pid, rid, text) {
         // TODO: 본인 댓글만 수정 가능 조건 추가
         this.btnNum = rid
-        this.showButton = false;
         this.editComment = text;
       },
       deleteComment (pid, rid) {
@@ -333,7 +331,6 @@
             this.btnNum = null
             this.$router.push('/readPost');
             this.$store.dispatch('getCommentList', pid)
-            this.showButton = true;
           })
           .catch(
             exp => alert("내 댓글 수정에 실패했습니다 " + exp)
@@ -341,7 +338,6 @@
       },
       goReply (rid, depth) {
         this.inputNum = rid;
-        this.showButton = false;
         this.$store.commit('goreply', { depth, rid })   
       },
 
