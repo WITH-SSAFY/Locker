@@ -11,19 +11,8 @@
       </v-text-field>
     </div>
     <div class="input-group-append ml-5" >
-      <div v-if="parentid == 0">
-        <v-btn 
-          dark
-          @click="postComment(pid)"
-          height="65%"
-        >
-        작성
-        </v-btn>
-      </div>
-
-      <!-- 대댓글 -->
-      <div v-if="parentid != 0">
-        <v-btn 
+      <div>
+        <v-btn
           dark
           @click="postReply(pid, parentid)"
           height="65%"
@@ -31,8 +20,6 @@
         작성
         </v-btn>
       </div>
-
-
     </div>
   </div>
   
@@ -68,7 +55,6 @@ export default {
   },
   methods: {
     postComment (pid) {
-      
       axios
         .post("v1/comment", { replytext: this.text,
                               replyemail: this.$store.state.userInfo.email,
@@ -76,7 +62,6 @@ export default {
                               pid
         })
         .then(() => {
-
           this.$store.dispatch('getCommentList', pid);
           this.text = '';
         })
@@ -94,7 +79,7 @@ export default {
 
           this.$store.dispatch('getCommentList', pid);
           this.text = '';
-          this.$store.state.parentid = null;
+          // this.$store.state.parentid = null;
           // 대댓 작성 창 없애는 로직 필요
         })
         .catch(exp => alert("댓글 작성에 실패했습니다" + exp))

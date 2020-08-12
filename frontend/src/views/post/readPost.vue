@@ -77,22 +77,6 @@
             </div>
           </div>
 
-          <!-- 댓글 보기 창 -->
-          <!-- <ul>
-            <li
-              v-for="comment in viewerComment"
-              :key="comment.rid"
-            >
-              <div v-if="!comment.depth">
-                {{ comment.replytext }}
-              </div>
-              <div v-if="comment.depth" class="px-5">
-                {{ comment.replytext }}
-              </div>
-            </li>
-          </ul> -->
-
-
           <v-row>
             <v-col
               cols="12"
@@ -132,7 +116,7 @@
                     <small class="mr-5">{{ comment.created }}</small>
                     <button class="btn btn-sm btn-light mr-2" v-if="showButton" @click="goEditComment(pid, comment.rid, comment.replytext)">edit</button>
                     <button class="btn btn-sm btn-light mr-2" v-if="showButton" @click="deleteComment(pid, comment.rid)">delete</button>
-                    <button v-if="!comment.depth" @click="goReply(comment.rid, comment.parentid, comment.depth)">
+                    <button v-if="!comment.depth" @click="goReply(comment.rid, comment.depth)">
                       <v-icon>mdi-reply</v-icon>
                     </button>
                     <button v-if="comment.depth" @click="showReply(comment.rid)">
@@ -188,12 +172,29 @@
                 
                 <!-- 대댓글 없을 시 대댓글 작성 창 보이기-->
                 <div v-if="comment.rid === inputNum" class="px-5 py-2">
-                  <commentCreate/>
-                </div>
-                
-                <!-- 대댓글 있으면 해당 parentid에 대한 댓글리스트 불러오기 -->
-                <div v-if="comment.rid === listNum" class="px-5 py-2">
-                  <!-- <commentList/> -->
+                  
+                  <!-- 대댓글 작성 창 -->
+                  <div class="d-flex">
+                    <div class="input-group">
+                      <v-text-field
+                        label="대댓글"
+                        outlined
+                        v-model="reply"
+                      >
+                      </v-text-field>
+                    </div>
+                    <div class="input-group-append ml-5" >
+                      <div>
+                        <v-btn
+                          dark
+                          @click="postReply(pid, comment.rid)"
+                          height="65%"
+                        >
+                        작성
+                        </v-btn>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
               </v-card>
@@ -203,7 +204,30 @@
           <!-- 댓글 작성 창 -->
           <div class="row">
             <div class="col-md-10">
-              <commentCreate/>
+
+              <!-- 댓글 작성 창 -->
+              <div class="d-flex">
+                <div class="input-group">
+                  <v-text-field
+                    label="댓글"
+                    outlined
+                    v-model="text"
+                  >
+                  </v-text-field>
+                </div>
+                <div class="input-group-append ml-5" >
+                  <div>
+                    <v-btn
+                      dark
+                      @click="postComment(pid)"
+                      height="65%"
+                    >
+                    작성
+                    </v-btn>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
 
@@ -225,8 +249,6 @@
 <script>
   // import SideBar from "../SideBar.vue"
   import { mapState } from "vuex"
-  import commentCreate from "../commentCreate.vue"
-  // import commentList from "../commentList.vue"
   import { Viewer } from '@toast-ui/vue-editor';
   import('../../assets/css/read-post.css')
   import('../../assets/css/side-style.css')
@@ -242,8 +264,6 @@
     },
     components: {
       Viewer,
-      commentCreate,
-      // commentList,
       // SideBar
     },
     data(){
@@ -252,12 +272,13 @@
         btnNum: null,
         showButton: true,
         editComment: null,
-        rid: null,
-        showInput: false,
         inputNum: null,
         showList: false,
         listNum: null,
         depth: null,
+        text: '',
+        reply: '',
+        parentid: null,
       }
     },
     computed : {
@@ -318,18 +339,40 @@
             exp => alert("내 댓글 수정에 실패했습니다 " + exp)
           );
       },
-      goReply (rid, parentid, depth) {
+      goReply (rid, depth) {
         this.inputNum = rid;
         this.showButton = false;
-        this.showInput = !this.showInput;
-        this.$store.commit('goreply', { parentid, depth, rid })   
+        this.$store.commit('goreply', { depth, rid })   
       },
-      showReply (rid, parentid) {
-        this.$store.commit('showreply', { parentid, rid })
-        console.log(this.$store.state.parentid)
-        this.listNum = rid;
-        this.showButton = false;
-        this.showList = !this.showList;
+
+      postComment (pid) {
+            axios
+              .post("v1/comment", { replytext: this.text,
+                                    replyemail: this.$store.state.userInfo.email,
+                                    replynickname: this.$store.state.userInfo.nickname,
+                                    pid
+              })
+              .then(() => {
+                this.$store.dispatch('getCommentList', pid);
+                this.text = '';
+              })
+              .catch(exp => alert("댓글 작성에 실패했습니다" + exp))
+      },
+
+      postReply (pid, rid) {
+        this.parentid = rid;
+        axios
+          .post("v1/comment", { replytext: this.reply,
+                                replyemail: this.$store.state.userInfo.email,
+                                replynickname: this.$store.state.userInfo.nickname,
+                                pid, parentid: this.parentid,
+          })
+          .then(() => {
+            this.$store.dispatch('getCommentList', pid);
+            this.reply = '';
+            this.inputNum = -1
+          })
+          .catch(exp => alert("댓글 작성에 실패했습니다" + exp))
       },
     }
   };
