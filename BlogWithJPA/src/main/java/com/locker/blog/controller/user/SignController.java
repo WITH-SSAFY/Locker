@@ -168,13 +168,13 @@ public class SignController {
 
         logger.info("uid : " + uid + " name : " + name + " picture : " + picture + " email : " + email + " provider : " + provider);
 
-        Optional<User> user = userJpaRepo.findByEmailAndProvider(email, provider);
+        Optional<User> user = userJpaRepo.findByUidAndProvider(Long.parseLong(uid),provider);
         if(user.isPresent()) {
             return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(user.get().getId()), user.get().getRoles()));
         }
 
-        userService.insert(email,provider,name,nickname,picture);
-        User findUser = userJpaRepo.findByEmailAndProvider(email,provider).orElseThrow(CUserNotFoundException::new);
+        userService.insert(Long.parseLong(uid),email,provider,name,nickname,picture);
+        User findUser = userJpaRepo.findByUidAndProvider(Long.parseLong(uid),provider).orElseThrow(CUserNotFoundException::new);
         return responseService.getSingleResult(jwtTokenProvider.createToken(String.valueOf(findUser.getId()), findUser.getRoles()));
     }
 
