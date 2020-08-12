@@ -146,7 +146,7 @@ export default new Vuex.Store({
         },
       });
     },
-    signinWithSocial({ dispatch }, authObj) {
+    signinWithGithub({ dispatch }, authObj) {
       console.log("signinWithSocial!!!");
       dispatch;
       console.log("authObj 값 확인 : ", authObj);
@@ -154,16 +154,15 @@ export default new Vuex.Store({
       // -> 성공하면, getMemberInfo를 dispatch하기
       // -> 없는 사용자의 경우 -> 서버에서 아예 signup 해줌
       axios
-        .post(
-          "/v1/signin/" +
-            authObj.provider +
-            "?accessToken=" +
-            authObj.access_token
-        )
+        .post("/v1/signin/github?accessToken=" + authObj.access_token)
         .then((response) => {
           console.log(response.data);
           let token = response.data.data;
           localStorage.setItem("access_token", token); //key, value
+          let temp = localStorage.getItem("temp");
+          if (temp !== null) {
+            localStorage.removeItem("temp");
+          }
           dispatch("getMemberInfo");
         })
         .catch((err) => {

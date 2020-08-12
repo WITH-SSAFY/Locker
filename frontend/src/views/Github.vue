@@ -19,7 +19,7 @@ export default {
             console.log("axios.post 들어감");
             console.log(res.data);
             let token = res.data.data;
-            localStorage.setItem("access_token", token);
+            localStorage.setItem("temp", token);
             next();
           })
           .catch(err => {
@@ -30,10 +30,10 @@ export default {
         console.log("err", err);
       });
   },
-  create() {
-    let token = localStorage.getItem("access_token");
-    console.log("token", token);
-    this.signinWithSocial({ provider: "github", access_token: token });
+  created() {
+    let temp = localStorage.getItem("temp");
+    console.log("created - temp", temp);
+    this.signinWithSocial({ access_token: temp });
   },
   methods: {
     ...mapActions(["signinWithSocial"])
