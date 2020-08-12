@@ -15,17 +15,17 @@ export default {
         let github_token = res.data.data;
         console.log("github_token", github_token);
         localStorage.setItem("github_token", github_token);
-        axios
-          .post("/v1/signin/github?accessToken=" + github_token)
-          .then(res => {
-            console.log(res.data);
-            let token = res.data.data;
-            localStorage.setItem("temp", token);
-            next();
-          })
-          .catch(err => {
-            console.log("err", err);
-          });
+        // axios
+        //   .post("/v1/signin/github?accessToken=" + github_token)
+        //   .then(res => {
+        //     console.log(res.data);
+        //     let token = res.data.data;
+        //     localStorage.setItem("temp", token);
+        //     next();
+        //   })
+        //   .catch(err => {
+        //     console.log("err", err);
+        //   });
         next();
       })
       .catch(function(err) {
@@ -33,12 +33,12 @@ export default {
       });
   },
   created() {
-    let temp = localStorage.getItem("temp");
-    console.log("created - temp", temp);
-    this.getMemberInfo();
+    let github_token = localStorage.getItem("github_token");
+    console.log("created - github_token", github_token);
+    this.signinWithSocial({ access_token: github_token, provider: "github" });
   },
   methods: {
-    ...mapActions(["getMemberInfo"])
+    ...mapActions(["signinWithSocial"])
   }
 };
 </script>
