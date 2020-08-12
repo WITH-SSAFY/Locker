@@ -4,7 +4,7 @@
 
 <script>
 import axios from "../lib/axios-common.js";
-import { mapActions } from "vuex";
+// import { mapActions } from "vuex";
 
 export default {
   data() {
@@ -12,10 +12,7 @@ export default {
       token: null
     };
   },
-  methods: {
-    ...mapActions(["signinWithSocial"])
-  },
-  beforeRouteUpdate(to, from, next) {
+  beforeRouteEnter(to, from, next) {
     console.log("to, from, next", { to, from, next });
     axios
       .get("/social/github/token")
