@@ -113,6 +113,7 @@ export default new Vuex.Store({
         commit("logout");
         console.log("로그아웃 합니다!");
         localStorage.removeItem("access_token");
+        localStorage.removeItem("github_token");
         router.push({ name: "home" });
       }
     },
