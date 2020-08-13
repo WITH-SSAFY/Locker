@@ -43,11 +43,12 @@
         delete from post where pid=#{pid}
     </delete>
 
-    <select id="commonSearch" parameterType="String" resultType="Post">
+    <select id="commonSearch" parameterType="Map" resultType="Post">
         select *
         from post
         where content like concat('%',#{q},'%')
         or title like concat('%',#{q},'%')
         order by updated
+        limit #{startPage}, #{endPage}
     </select>
 </mapper>

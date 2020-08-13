@@ -51,8 +51,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> commonSearch(String q) {
-        return dao.commonSearch(q);
+    public List<Post> commonSearch(Map pageMap) {
+        return dao.commonSearch(pageMap);
     }
 
 }
