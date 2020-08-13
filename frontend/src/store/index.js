@@ -298,31 +298,52 @@ export default new Vuex.Store({
       } 
     },
 
-    findPassword({commit}, email){
+    findPassword(email){
       console.log("비번찾기 -> email: ", email)
 
       axios
-        .put("/v1/user/find/password?email="+email)
-        .then((res) =>{
-          console.log("find pw - res", res.data)
-          alert("입력하신 이메일의 메일함을 확인해주세요!")
-          router.push({ name: "home" })
+      .put("/v1/user/find/password?email="+email)
+      .then((res) =>{
+        console.log("find pw - res", res.data)
+        alert("입력하신 이메일의 메일함을 확인해주세요!")
+        router.push({ name: "home" })
+      })
+      .catch((err) => {
+        console.log("find pw - err.response.data: ", err.response.data);
+        if(err.response){
+          if(err.response.data.code === -1000){
+            alert("존재하지 않는 회원입니다! 이메일을 확인해주세요!")
+            window.location.reload();
+          } else{
+            alert("오류 발생 : "+err.response.data.msg)
+            window.location.reload();
+          }
+        } else {
+          alert("오류 발생 : ", err);
+        }
+      })
+    },
+    
+    changePassword({commit}, userInfo){
+      commit
+      console.log("change PW - userInfo : ", userInfo);
+      const token = localStorage.getItem("access_token");
+      //token=&password=1111&newPassword=jane
+      axios
+        .put("/v1/user/password?token="+token+"&password="+userInfo.oldPw+"&newPassword="+userInfo.password)
+        .then((res)=>{
+          console.log("change PW - res", res.data);
+          alert("비밀번호 변경을 성공하였습니다!");
+          router.push({name: "userSetting"})
         })
         .catch((err) => {
-          console.log("find pw - err.response.data: ", err.response.data);
+          console.log("change pw - err", err.response);
           if(err.response){
             if(err.response.data.code === -1000){
-              alert("존재하지 않는 회원입니다! 이메일을 확인해주세요!")
-              window.location.reload();
-            } else{
-              alert("오류 발생 : "+err.response.data.msg)
-              window.location.reload();
+              alert("현재 비밀번호를 확인해주세요!");
             }
-          } else {
-            alert("오류 발생 : ", err);
           }
         })
-      commit
     },
 
     changePassword({commit}, userInfo){

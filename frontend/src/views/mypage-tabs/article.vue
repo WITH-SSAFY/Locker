@@ -1,11 +1,10 @@
 <template>
   <div class="article">
-    article test
     <!-- 포스트 리스트 -->
-    <v-row>
+    <v-row class="justify-content-center">
       <v-col
         cols="12"
-        md="10"
+        md="11"
         v-for="(myPost, index) in myPostList"
         :key="myPost.pid"
         style="padding: 2% 8%;"

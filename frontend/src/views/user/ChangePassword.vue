@@ -29,7 +29,7 @@
                       
                       <v-btn 
                         v-if="password === checkPw"
-                        depresss
+                        depress
                         large
                         block
                         color="#7C4DFF"

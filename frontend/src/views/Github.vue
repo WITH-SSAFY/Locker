@@ -1,5 +1,5 @@
 <template>
-  <div>hello</div>
+  <div></div>
 </template>
 
 <script>
@@ -15,17 +15,6 @@ export default {
         let github_token = res.data.data;
         console.log("github_token", github_token);
         localStorage.setItem("github_token", github_token);
-        // axios
-        //   .post("/v1/signin/github?accessToken=" + github_token)
-        //   .then(res => {
-        //     console.log(res.data);
-        //     let token = res.data.data;
-        //     localStorage.setItem("temp", token);
-        //     next();
-        //   })
-        //   .catch(err => {
-        //     console.log("err", err);
-        //   });
         next();
       })
       .catch(function(err) {
