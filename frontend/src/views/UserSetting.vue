@@ -146,6 +146,7 @@
                     elevation="0"
                     color="#C62828"
                     dark
+                    @click="deleteUserInfo({id: userInfo.id})"
                   >
                   회원 탈퇴</v-btn>
                 </v-col>
@@ -179,7 +180,7 @@ export default {
      ...mapState(["userInfo"])
    },
    methods: {
-     ...mapActions(["updateUserInfo"]),
+     ...mapActions(["updateUserInfo", "deleteUserInfo"]),
 
      showForm(){
        this.curName = false;
@@ -209,14 +210,6 @@ export default {
 
      handleChange(event) {
       let file = event.target.files[0]
-
-      // let token = localStorage.getItem("access_token");
-      // let config = {  
-      //   headers: {
-      //     "Accept": "*/*",
-      //     "X-AUTH-TOKEN": token
-      //   }
-      // }
 
       if (file && file.type.match(/^image\/(png|jpeg)$/)) {
         this.preview = window.URL.createObjectURL(file)

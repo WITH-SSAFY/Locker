@@ -259,6 +259,39 @@ export default new Vuex.Store({
           console.log("exp", exp);
         });
     },
+    
+    deleteUserInfo({commit}, userInfo){
+      console.log("delete - userInfo : ", userInfo)
+      
+      var result = confirm("정말 탈퇴하실 건가요?");
+      if (result) { //예를 선택하면
+        let token = localStorage.getItem("access_token");
+        if(token !== null){ //token이 있을 때, axios.delete 실행
+          let config = {
+            "Accept": "*/*",
+            "X-AUTH-TOKEN": token
+          }
+          axios
+            .delete("/v1/user/"+userInfo.id, config)
+            .then((res) => {
+              console.log("delete - res: ", res.data)
+              //삭제 성공하면 값, localStorage 초기화 
+              commit("logout");
+              localStorage.removeItem("access_token");
+              localStorage.removeItem("github_token");
+              router.push({ name: "home" });
+            })
+            .catch((err) => {
+              console.log("delete - err: ", err.data)
+              window.location.reload()
+            })
+
+        } else {
+          alert("인증되지 않은 사용자입니다!")
+          router.push({ name: "home"})
+        }
+      } 
+    },
 
     getMyPostList({ commit }, email) {
       // 내가 쓴 포스트 리스트 받아옴
