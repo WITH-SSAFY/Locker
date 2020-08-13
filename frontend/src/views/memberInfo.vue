@@ -43,11 +43,11 @@
 
 <script>
 import $ from 'jquery'
-import '../assets/css/main_post.scss'
+import '../assets/css/member_info.scss'
 import { mapState } from "vuex"
 
 export default {
-  name: 'mainPostList',
+  name: 'memberInfo',
   components: {
 
   },
