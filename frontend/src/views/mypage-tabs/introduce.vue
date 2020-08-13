@@ -1,9 +1,6 @@
 <template>
-  <div>
-    introduce test
-    <!-- initialValue는 초기에만 설정되므로 data를 ajax로 받기 전까진 Viewer가 실행되지 않도록 해야 -->
+  <div class="d-flex justify-content-center" style="margin: 5rem 0;">
     <viewer v-if="axiosFlag" :initialValue="intro" height="100%" />
-
   </div>
 </template>
 
