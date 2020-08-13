@@ -4,7 +4,7 @@
       <v-row>
         <v-col
           cols="12"
-          md="10"
+          md="12"
           class="p-0"
         >
           <div class="row align-items-center mx-5 mb-5">
@@ -48,44 +48,25 @@
               <div class="d-flex align-items-center justify-content-between p-0">
                 <p class="lead d-inline my-0" style="font-size: 3rem;"><strong>{{ userInfo.nickname }}</strong></p>
                 <!-- <a href="" class="d-inline btn btn-outline-dark btn-sm">Edit Profile</a> -->
-                <!-- <div class="d-inline-flex ml-5">
-                  <v-icon size="60" style="color: #EDE7F6;">mdi-arm-flex</v-icon>
-                  <p class="d-inline"><small>1F_병아리</small></p>
-                </div> -->
               </div>
               <p class="ml-2">{{ userInfo.introduction }}</p>
               <div class="d-inline">
                 <a><v-icon size="35" style="color: black; padding-right: 1rem;">mdi-github</v-icon></a>
                 <a><v-icon size="35" style="color: black;">mdi-google-plus</v-icon></a>
               </div>
-              <!-- <div>
-                <strong class="d-inline ml-2"></strong><p class="d-inline mr-4">posts</p>
-                <a href="" class="d-inline text-decoration-none text-reset" data-toggle="modal" data-target="#followerModal">
-                  <strong class="d-inline px-1"></strong>
-                  <p class="d-inline mr-4">followers</p>
-                </a>
-                <a href="" class="d-inline text-decoration-none text-reset" data-toggle="modal" data-target="#followingModal">
-                  <strong class="d-inline px-1"></strong>
-                  <p class="d-inline mr-4">following</p>
-                </a>
-              </div> -->
             </div>
           </div>
           <hr>
         </v-col>
 
-        <!-- 사이드바 -->
-        <!-- <v-col>
-          <side-bar class="side" text-align="left"></side-bar>
-        </v-col> -->
       </v-row>
 
 
       <!-- 중첩 라우터 -->
-      <p>
-        <router-link to="article" class="p-3">article</router-link>
-        <router-link to="repository" class="p-3">repository</router-link>
-        <router-link to="introduce" class="p-3">introduce</router-link>
+      <p class="d-flex justify-content-around">
+        <router-link to="article" class="p-3 text-decoration-none"><span class="tab">article</span></router-link>
+        <router-link to="repository" class="p-3 text-decoration-none"><span class="tab">repository</span></router-link>
+        <router-link to="introduce" class="p-3 text-decoration-none"><span class="tab">introduce</span></router-link>
       </p>
       <router-view></router-view>
 
@@ -207,6 +188,18 @@ export default {
     
 }
 </script>
-<style>
+<style scoped>
+@import url('https://fonts.googleapis.com/css?family=Oswald');
+
+.tabs {
+  
+}
+
+.tab {
+  color: black;
+  font-family: 'Oswald', sans-serif;
+  font-size: 20px;
+  text-decoration: none;
+}
 
 </style>

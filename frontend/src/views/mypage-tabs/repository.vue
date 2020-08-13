@@ -13,12 +13,12 @@
         <ul class="nacc">
           <li class="active">
             <div>
-    
+              <p>개인 블로그로 시작하기</p>
             </div>
           </li>
           <li>
             <div>
-
+              <p>팀 블로그로 시작하기</p>
             </div>
           </li>
         </ul>
