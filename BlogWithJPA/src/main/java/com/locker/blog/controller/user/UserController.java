@@ -145,4 +145,26 @@ public class UserController {
         }
         return responseService.getSuccessResult();
     }
+
+
+    @ApiOperation(value = "회원 이미지 삭제", notes = "회원 이미지를 삭제한다.")
+    @DeleteMapping(value = "/user/img/delete")
+    public CommonResult deleteUserImg(
+            @ApiParam(value = "회원 JWT 토큰", required = true) @RequestParam String token) {
+        String pk = jwtTokenProvider.getUserPk(token);
+        userService.deletePicture(Long.parseLong(pk));
+
+        return responseService.getSuccessResult();
+    }
+
+    @ApiOperation(value = "회원 이미지 등록", notes = "회원 이미지를 등록한다.")
+    @PutMapping(value = "/user/img/update")
+    public CommonResult updateUserImg(
+            @ApiParam(value = "회원 JWT 토큰", required = true) @RequestParam String token,
+            @ApiParam(value = "회원 이미지", required = true) @RequestParam String picture) {
+        String pk = jwtTokenProvider.getUserPk(token);
+        userService.updatePicture(Long.parseLong(pk), picture);
+
+        return responseService.getSuccessResult();
+    }
 }
