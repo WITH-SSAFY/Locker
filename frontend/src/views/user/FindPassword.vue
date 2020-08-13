@@ -10,6 +10,7 @@
                         <v-text-field
                             v-model="email"
                             label="이메일을 입력하세요"
+                            @keyup.enter="findPassword(email)"
                         ></v-text-field>
                         <v-btn 
                           depress
