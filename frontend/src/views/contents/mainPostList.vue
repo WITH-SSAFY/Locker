@@ -1,50 +1,136 @@
 <template>
-  <div>
-    <div>
-      <section class="strips">
-
-        <article
-          class="strips__strip"
-          v-for="post in postList"
-          :key="post.pid"
-        >
-          <div class="strip__content">
-            <h1 class="strip__title">{{ post.title }}</h1>
-            <div class="strip__inner-text">
-              <h2>{{ post.title }}</h2>
-              <p>{{ post.nickname }}</p>
-              <p>{{ post.content }}</p>
-              <p>
-                <a href="https://twitter.com/ettrics" target="_blank"></a>
-              </p>
+  <div class="locker-container">
+    <!-- <div class="">
+      <h1 style="margin: 0 3rem; font-size: 3.3rem;"><strong>LOCKER</strong></h1>
+      <div class="main-under-line my-3" style="margin: 0 3rem;"></div>
+    </div> -->
+    <p class="head-title">The 5 Best Repositories</p>
+    
+    <div class="cont s--inactive">
+      <!-- cont inner start -->
+      <div class="cont__inner">
+        <!-- el start -->
+        <div class="el">
+          <div class="el__overflow">
+            <div class="el__inner">
+              <div class="el__bg"></div>
+              <div class="el__preview-cont">
+                <h2 class="el__heading">Section 1</h2>
+              </div>
+              <div class="el__content">
+                <div class="el__text">Whatever</div>
+                <div class="el__close-btn"></div>
+              </div>
             </div>
           </div>
-        </article>
-
-        <v-icon class="strip__close" color="white">mdi-close</v-icon>
-      </section>
-    </div>
-
-    <div style="height: 6rem; z-index: -1;"></div>
-
-    <!-- test -->
-    <div class="el">
-      <div class="el__index">
-        <div class="el__index-back">1</div>
-        <div class="el__index-front">
-          <div class="el__index-overlay" data-index="1">1</div>
+          <div class="el__index">
+            <div class="el__index-back">1</div>
+            <div class="el__index-front">
+              <div class="el__index-overlay" data-index="1">1</div>
+            </div>
+          </div>
         </div>
+        <!-- el end -->
+        <!-- el start -->
+        <div class="el">
+          <div class="el__overflow">
+            <div class="el__inner">
+              <div class="el__bg"></div>
+              <div class="el__preview-cont">
+                <h2 class="el__heading">Section 2</h2>
+              </div>
+              <div class="el__content">
+                <div class="el__text">Whatever</div>
+                <div class="el__close-btn"></div>
+              </div>
+            </div>
+          </div>
+          <div class="el__index">
+            <div class="el__index-back">2</div>
+            <div class="el__index-front">
+              <div class="el__index-overlay" data-index="2">2</div>
+            </div>
+          </div>
+        </div>
+        <!-- el end -->
+        <!-- el start -->
+        <div class="el">
+          <div class="el__overflow">
+            <div class="el__inner">
+              <div class="el__bg"></div>
+              <div class="el__preview-cont">
+                <h2 class="el__heading">Section 3</h2>
+              </div>
+              <div class="el__content">
+                <div class="el__text">Whatever</div>
+                <div class="el__close-btn"></div>
+              </div>
+            </div>
+          </div>
+          <div class="el__index">
+            <div class="el__index-back">3</div>
+            <div class="el__index-front">
+              <div class="el__index-overlay" data-index="3">3</div>
+            </div>
+          </div>
+        </div>
+        <!-- el end -->
+        <!-- el start -->
+        <div class="el">
+          <div class="el__overflow">
+            <div class="el__inner">
+              <div class="el__bg"></div>
+              <div class="el__preview-cont">
+                <h2 class="el__heading">Section 4</h2>
+              </div>
+              <div class="el__content">
+                <div class="el__text">Whatever</div>
+                <div class="el__close-btn"></div>
+              </div>
+            </div>
+          </div>
+          <div class="el__index">
+            <div class="el__index-back">4</div>
+            <div class="el__index-front">
+              <div class="el__index-overlay" data-index="4">4</div>
+            </div>
+          </div>
+        </div>
+        <!-- el end -->
+        <!-- el start -->
+        <div class="el">
+          <div class="el__overflow">
+            <div class="el__inner">
+              <div class="el__bg"></div>
+              <div class="el__preview-cont">
+                <h2 class="el__heading">Section 5</h2>
+              </div>
+              <div class="el__content">
+                <div class="el__text">Whatever</div>
+                <div class="el__close-btn"></div>
+              </div>
+            </div>
+          </div>
+          <div class="el__index">
+            <div class="el__index-back">5</div>
+            <div class="el__index-front">
+              <div class="el__index-overlay" data-index="5">5</div>
+            </div>
+          </div>
+        </div>
+        <!-- el end -->
       </div>
+      <!-- cont inner end -->
+      
     </div>
-
   </div>
+  
 
 </template>
 
 <script>
-import $ from 'jquery'
+// import $ from 'jquery'
 import '../../assets/css/main_post.scss'
-import { mapState } from "vuex"
 
 export default {
   name: 'mainPostList',
@@ -52,7 +138,7 @@ export default {
 
   },
   computed: {
-    ...mapState(["postList"])
+
   },
   data: function () {
     return {
@@ -60,67 +146,41 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('getPostList', 1)
-    this.postList
+
   },
   mounted() {
-    var Expand = (function() {
-      var tile = $('.strips__strip');
-      var tileLink = $('.strips__strip > .strip__content');
-      var tileText = tileLink.find('.strip__inner-text');
-      var stripClose = $('.strip__close');
-      
-      var expanded  = false;
-      var open = function() {
+    var $cont = document.querySelector('.cont');
+    var $elsArr = [].slice.call(document.querySelectorAll('.el'));
+    var $closeBtnsArr = [].slice.call(document.querySelectorAll('.el__close-btn'));
 
-        var tile = $(this).parent();
-        
-          if (!expanded) {
-            tile.addClass('strips__strip--expanded');
-            // add delay to inner text
-            tileText.css('transition', 'all .5s .3s cubic-bezier(0.23, 1, 0.32, 1)');
-            stripClose.addClass('strip__close--show');
-            stripClose.css('transition', 'all .6s 1s cubic-bezier(0.23, 1, 0.32, 1)');
-            expanded = true;
-          } 
-        };
-      
-      var close = function() {
-        if (expanded) {
-          tile.removeClass('strips__strip--expanded');
-          // remove delay from inner text
-          tileText.css('transition', 'all 0.15s 0 cubic-bezier(0.23, 1, 0.32, 1)');
-          stripClose.removeClass('strip__close--show');
-          stripClose.css('transition', 'all 0.2s 0s cubic-bezier(0.23, 1, 0.32, 1)')
-          expanded = false;
-        }
-      }
+    setTimeout(function() {
+      $cont.classList.remove('s--inactive');
+    }, 200);
 
-        var bindActions = function() {
-          tileLink.on('click', open);
-          stripClose.on('click', close);
-        };
+    $elsArr.forEach(function($el) {
+      $el.addEventListener('click', function() {
+        if (this.classList.contains('s--active')) return;
+        $cont.classList.add('s--el-active');
+        this.classList.add('s--active');
+      });
+    });
 
-        var init = function() {
-          bindActions();
-        };
-
-        return {
-          init: init
-        };
-
-      }());
-
-    Expand.init();
+    $closeBtnsArr.forEach(function($btn) {
+      $btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        $cont.classList.remove('s--el-active');
+        document.querySelector('.el.s--active').classList.remove('s--active');
+      });
+    });
   },
 }
 </script>
 
-<style>
-.box {
-  box-sizing: border-box;
-  border: 5px solid transparent;
-  background-clip: padding-box;
-  background-color: #333;
+<style scoped>
+.head-title {
+  position: relative;
+  font-size: 1.4rem;
+  text-align: center;
+  padding-bottom: 5rem;
 }
 </style>
