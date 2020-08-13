@@ -8,7 +8,6 @@
     background: #1f1f1f;
     font-family: 'Open Sans', Helvetica, Arial, sans-serif;
   }
-  
   $vertPad: 80px;
   $sidePad: 70px;
   
@@ -56,8 +55,10 @@
   .cont {
     position: relative;
     overflow: hidden;
-    height: 100vh;
+    height: 60vh;
     padding: $vertPad $sidePad;
+    padding-top: 0;
+    padding-bottom: 0;
   
     &__inner {
       position: relative;
@@ -77,7 +78,7 @@
     left: 0;
     top: 0;
     width: $elW;
-    height: 100%;
+    height: 90%;
     background: #252525;
     transition: transform $moveAT $expandAT, width $expandAT, opacity $moveAT $expandAT, z-index 0s $moveAT + $expandAT;
     will-change: transform, width, opacity;
