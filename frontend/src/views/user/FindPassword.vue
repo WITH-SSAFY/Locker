@@ -22,7 +22,6 @@
                         >
                           비밀번호 찾기
                         </v-btn>
-                        {{ email }}
                     </div>
                 </v-card>
             </v-flex>
