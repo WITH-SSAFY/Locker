@@ -11,14 +11,24 @@
     <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Material+Icons">
     <link rel="stylesheet" href="https://unpkg.com/fullpage.js/dist/fullpage.min.css">
+    <script src="https://unpkg.com/vue-fullpage.js/dist/vue-fullpage.min.js"></script>
     
     <!-- 텍스트 에디터 -->
-    <link rel="stylesheet" href="./github-md.css"></link>
-    <link rel="stylesheet" href="./line.css"></link>
-    <link rel="stylesheet" href="./md.css"></link>
+    <link rel="stylesheet" href="@/assets/text_editor/github-md.css"></link>
+    <link rel="stylesheet" href="@/assets/text_editor/line.css"></link>
+    <link rel="stylesheet" href="@/assets/text_editor/md.css"></link>
     <link href="https://fonts.googleapis.com/css?family=Cousine:400,700,400italic,700italic" rel="stylesheet">
 
-    <script src="https://unpkg.com/vue-fullpage.js/dist/vue-fullpage.min.js"></script>
+    <!-- Highlight.js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/github-gist.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.js"></script>
+    
+    <!-- 텍스트 에디터 -->
+    <script src="@/assets/text_editor/line.js"></script>
+    <script src="@/assets/text_editor/md.js"></script>
+
     <script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script>
   </head>
   <body>
