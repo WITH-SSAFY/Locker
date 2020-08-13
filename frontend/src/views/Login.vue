@@ -86,6 +86,12 @@
           <small>아직 LOCKER의 회원이 아니라면?</small>
           <v-btn depressed router :to="{ name: 'register' }" color="white" class="float-right">
             <strong style="color: #6200EA">회원가입</strong>
+          </v-btn><br>
+        </div>
+        <div class="pa-2">
+          <small>비밀번호를 잊어버렸다면?</small>
+          <v-btn depressed router :to="{ name: 'findPassword' }" color="white" class="float-right">
+            <strong style="color: #6200EA">비밀번호 찾기</strong>
           </v-btn>
         </div>
       </v-flex>

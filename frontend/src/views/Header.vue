@@ -110,17 +110,16 @@
           <v-btn
             icon
             router :to="{name: 'login'}"
-            class="ml-2"
+            class="ml-3 mr-4"
           >
-            LOGIN
+            SIGNIN
           </v-btn>
           <v-btn
             icon
-            router :to="{name: 'findPassword'}"
-            class="mx-8"
-            text
+            router :to="{name: 'register'}"
+            class="ml-4"
           >
-            비번찾기
+            SIGNUP
           </v-btn>
         </div>
 
