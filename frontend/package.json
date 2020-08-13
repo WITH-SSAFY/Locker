@@ -19,6 +19,8 @@
     "vue": "^2.6.11",
     "vue-fullpage.js": "^0.1.5",
     "vue-google-oauth2": "^1.5.5",
+    "vue-infinite-loading": "^2.4.5",
+    "vue-infinite-scroll": "^2.0.2",
     "vue-router": "^3.2.0",
     "vue2-content-editor": "https://github.com/tui2tone/vue2-medium-editor",
     "vuetify": "^2.2.11",
