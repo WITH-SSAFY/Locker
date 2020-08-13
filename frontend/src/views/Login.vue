@@ -41,7 +41,7 @@
               <strong>로그인</strong>
             </v-btn>
             <v-btn depressed dark block color="rgba(0,0,0)" class="mb-2" @click="loginWithGithub">
-              <v-icon dark size="30" class="mr-2">mdi-github</v-icon>
+              <v-icon dark size="30" class="mr-2 icons">mdi-github</v-icon>
               <strong>github</strong>
             </v-btn>
             <v-btn
@@ -52,9 +52,13 @@
               color="rgba(219, 68, 55)"
               class="mb-2"
             >
-              <v-icon dark size="30" class="mr-2">mdi-google-plus</v-icon>
+              <v-icon dark size="30" class="mr-2 icons">mdi-google-plus</v-icon>
               <strong>google</strong>
             </v-btn>
+            <!-- <button type="button" class="mb-2 v-btn--block v-btn-- depressed theme--dark v-size--default" color="red">
+              <v-icon dark size="30" class="mr-2 icons">mdi-google-plus</v-icon>
+              <strong>google</strong>
+            </button> -->
             <v-btn
               depressed
               dark
@@ -63,9 +67,17 @@
               color="rgb(255, 204, 0)"
               class="mb-2"
             >
-              <v-icon dark size="30" class="mr-2">mdi-chat</v-icon>
+              <v-icon dark size="30" class="mr-2 icons">mdi-chat</v-icon>
               <strong>kakao</strong>
             </v-btn>
+            <!-- <button type="button" class="mb-2 v-btn--block v-btn-- depressed theme--dark v-size--default" style="">
+              <v-icon size="40">mdi-alpha-n</v-icon>
+              <strong>naver</strong>
+            </button> -->
+            <!-- <div >
+              <v-icon size="50">mdi-alpha-n</v-icon>
+              <strong>naver</strong>
+            </div> -->
             <v-btn depressed dark block color="rgb(45, 180, 0)" class="mb-2">
               <v-icon size="50">mdi-alpha-n</v-icon>
               <strong>naver</strong>
@@ -152,3 +164,15 @@ export default {
   }
 };
 </script>
+<style scoped>
+  #icons {
+    position: relative;
+    top: 0px;
+    left: 0px;
+  }
+
+  button {
+    /* background-color: rgb(45, 180, 0); */
+    /* border-color: rgb(45, 180, 0); */
+  }
+</style>
