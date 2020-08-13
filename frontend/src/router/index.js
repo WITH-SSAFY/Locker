@@ -122,6 +122,12 @@ const routes = [
     name: "findPassword",
     component: () =>
       import(/* webpackChunkName: "Github" */ "../views/user/FindPassword.vue"),
+  },
+  {
+    path: "/changePassword",
+    name: "changePassword",
+    component: () =>
+      import(/* webpackChunkName: "changePassword" */ "../views/user/ChangePassword.vue"),
   }
 ];
 

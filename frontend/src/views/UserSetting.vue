@@ -125,11 +125,16 @@
                 </v-col>
                 <v-col md="8">
                   <v-btn
+                    v-if="userInfo.provider === null"
                     elevation="0"
                     color="#2E7D32"
                     dark
+                    router :to="{ name: 'changePassword' }"
                   >
-                  비번 변경</v-btn>
+                  비밀번호 변경</v-btn>
+                  <div v-else style="margin-top: 5px;">
+                    소셜 로그인 회원은 비밀번호를 변경할 수 없습니다!
+                  </div>
                 </v-col>
               </v-row>
             </div>
