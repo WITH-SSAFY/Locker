@@ -1,12 +1,11 @@
 <template>
-  <div class="">
+  <div class="locker-container">
     <!-- <div class="">
       <h1 style="margin: 0 3rem; font-size: 3.3rem;"><strong>LOCKER</strong></h1>
       <div class="main-under-line my-3" style="margin: 0 3rem;"></div>
     </div> -->
-    <!-- <div class="m-5">
-      <p style="positon: relative; font-size: 1.5rem;">The 5 Best Repositories</p>
-    </div> -->
+    <p class="head-title">The 5 Best Repositories</p>
+    
     <div class="cont s--inactive">
       <!-- cont inner start -->
       <div class="cont__inner">
@@ -177,6 +176,11 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.head-title {
+  position: relative;
+  font-size: 1.4rem;
+  text-align: center;
+  padding-bottom: 5rem;
+}
 </style>

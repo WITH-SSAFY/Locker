@@ -52,10 +52,30 @@
     }
   }
   
+//   .locker-container {
+//     position: relative;
+//     display: flex;
+//     flex-direction: column;
+//     min-height: 100vh;
+//     background-color: rgba(0, 0, 0, 0.7);
+  
+//     &:before {
+//       content: '';
+//       position: absolute;
+//       left: -150%;
+//       top: 0;
+//       width: 300%;
+//       height: 100%;
+//       background-color: rgba(0, 0, 0, 0.7);
+//       transform: rotate(-45deg);
+//       z-index: -1;
+//     }
+//   }
+
   .cont {
     position: relative;
     overflow: hidden;
-    height: 60vh;
+    height: 65vh;
     padding: $vertPad $sidePad;
     padding-top: 0;
     padding-bottom: 0;
@@ -78,7 +98,7 @@
     left: 0;
     top: 0;
     width: $elW;
-    height: 90%;
+    height: 88%;
     background: #252525;
     transition: transform $moveAT $expandAT, width $expandAT, opacity $moveAT $expandAT, z-index 0s $moveAT + $expandAT;
     will-change: transform, width, opacity;
