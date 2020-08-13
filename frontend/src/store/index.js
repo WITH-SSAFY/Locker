@@ -216,16 +216,21 @@ export default new Vuex.Store({
           .then((response) => {
             let res = response.data.data;
             let pic = res.picture;
+            let prov = res.provider;
             let userInfo = {
               id: res.id,
               email: res.email,
               name: res.name,
               nickname: res.nickname,
               picture: pic,
+              provider: prov,
               introduction: res.introduction,
             };
             if (pic === "null") {
               userInfo.picture = null;
+            }
+            if (prov === "null"){
+              userInfo.provider = null;
             }
             console.log("가지고 온 유저 정보 : ", res);
             commit("loginSuccess", userInfo);
