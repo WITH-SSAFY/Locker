@@ -4,7 +4,7 @@
         <v-row>
           <v-col
             cols="12"
-            md="10"
+            md="9"
             class="p-0"
           >
             <div class="row align-items-center ml-16 mr-5 mb-5">
@@ -13,10 +13,7 @@
                   <v-icon v-if="userInfo.picture==null"
                     size="180" style="z-index: 1;">mdi-account-circle-outline</v-icon>
                   <v-avatar v-else  size="180" style="z-index: 1;">
-                    <!-- <div id="showPicture"></div> -->
-                    <!-- <div v-if="preview" style="border-radius: 50%; width: 8rem;"><img v-bind:src="preview"></div> -->
                     <div style="border-radius: 50%; width: 8rem;" id="picture"><img :src="userInfo.picture"></div>
-                    <!-- <img v-else :src="userInfo.picture"> -->
                   </v-avatar>
                 </div>
                 <div>
@@ -40,12 +37,10 @@
                   >
                     이미지 삭제 
                   </v-btn>
-
-                  
                 </div>
               </div>
 
-              <!-- 텍스트 섹션 -->
+              <!-- 닉네임, 한줄 소개 수정 섹션 -->
               <div class="col-md-8 d-flex-wrap align-self-start ml-8">
                 <div class="d-flex align-items-center justify-content-between p-0">
                   <p v-if="curName" class="lead d-inline my-3" style="font-size: 3rem; font-weight: bold;">{{ userInfo.nickname }}</p>
@@ -85,38 +80,25 @@
                 
               </div>
             </div>
+
+            <!-- 회원 정보 섹션 -->
             <div class="ml-16 mr-3 mt-16">
               <v-row class="mx-1">
-                <v-col cols="12" md="3">
-                  <div style="font-size: 1.5rem; font-weight:bold;" calss="pt-4"><br>나의 레벨</div>
-                </v-col>
-                <v-col md="9" class="mt-2">
-                  <!-- <div style="font-size: 1.3">locker_test</div> -->
-                  <div  class="mt-2">
-                    <v-icon size="60" style="color: #EDE7F6;">mdi-arm-flex</v-icon>
-                    <p class="d-inline"><small>1F_병아리</small></p>
-                  </div>
-                </v-col>
-              </v-row>
-            </div>
-            <hr>
-            <div class="ml-16 mr-3 mt-5">
-              <v-row class="mx-1">
-                <v-col cols="12" md="3">
+                <v-col cols="12" md="4" style="text-align: right;">
                   <div style="font-size: 1.5rem; font-weight:bold;">내 라커 이름</div>
                 </v-col>
-                <v-col md="9" class="mt-2">
-                  <div style="font-size: 1.3">locker_test</div>
+                <v-col md="8" class="mt-1">
+                  <div style="font-size: 1.3">locker</div>
                 </v-col>
               </v-row>
             </div>
             <hr>
             <div class="ml-16 mr-3 mt-5">
               <v-row class="mx-1">
-                <v-col cols="12" md="3">
+                <v-col cols="12" md="4" style="text-align: right;">
                   <div style="font-size: 1.5rem; font-weight:bold;">소셜 정보</div>
                 </v-col>
-                <v-col md="9" class="mt-2">
+                <v-col md="8">
                   <div class="d-inline">
                     <a><v-icon size="35" style="color: black; padding-right: 1rem;">mdi-github</v-icon></a>
                     <a><v-icon size="35" style="color: black;">mdi-google-plus</v-icon></a>
@@ -127,10 +109,10 @@
             <hr>
             <div class="ml-16 mr-3 mt-5">
               <v-row class="mx-1">
-                <v-col cols="12" md="3">
+                <v-col cols="12" md="4" style="text-align: right;">
                   <div style="font-size: 1.5rem; font-weight:bold;">이메일 주소</div>
                 </v-col>
-                <v-col md="9" class="mt-2">
+                <v-col md="8" class="mt-1">
                   <div style="font-size: 1.3">{{userInfo.email}}</div>
                 </v-col>
               </v-row>
@@ -138,21 +120,36 @@
             <hr>
             <div class="ml-16 mr-3 mt-5">
               <v-row class="mx-1">
-                <v-col cols="12" md="3">
+                <v-col cols="12" md="4" style="text-align: right;">
+                  <div style="font-size: 1.5rem; font-weight:bold;">비밀번호 변경</div>
+                </v-col>
+                <v-col md="8">
+                  <v-btn
+                    elevation="0"
+                    color="#2E7D32"
+                    dark
+                  >
+                  비번 변경</v-btn>
+                </v-col>
+              </v-row>
+            </div>
+            <hr>
+            <div class="ml-16 mr-3 mt-5">
+              <v-row class="mx-1">
+                <v-col cols="12" md="4" style="text-align: right;">
                   <div style="font-size: 1.5rem; font-weight:bold;">회원 탈퇴</div>
                 </v-col>
-                <v-col md="9">
+                <v-col md="8">
                   <v-btn
                     elevation="0"
                     color="#C62828"
                     dark
+                    class="mb-3"
                     @click="deleteUserInfo({id: userInfo.id})"
                   >
-                  회원 탈퇴</v-btn>
+                  회원 탈퇴</v-btn><br>
+                  탈퇴 시 작성하신 포스트 및 댓글이 모두 삭제되며<br>복구되지 않습니다.
                 </v-col>
-              </v-row>
-              <v-row class="ml-4 mb-16">
-                <p>탈퇴 시 작성하신 포스트 및 댓글이 모두 삭제되며 복구되지 않습니다.</p>
               </v-row>
             </div>
           </v-col>
@@ -214,6 +211,7 @@ export default {
       if (file && file.type.match(/^image\/(png|jpeg)$/)) {
         this.preview = window.URL.createObjectURL(file)
         console.log("picture!!!", window.URL.createObjectURL(file))
+        
       }
 
       let reader = new FileReader();

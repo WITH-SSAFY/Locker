@@ -18,7 +18,7 @@
       </router-link>
       
       <!-- 버튼 그룹 -->
-      <div class="button_group">
+      <div class="button_group" >
         <v-btn
           color="#7C4DFF"
           text
@@ -106,13 +106,23 @@
         </v-menu>
         
         <!-- 로그인버튼 -->
-        <v-btn
-          v-else
-          icon
-          router :to="{name: 'login'}"
-        >
-          Login
-        </v-btn>
+        <div v-else style="display: inline;">
+          <v-btn
+            icon
+            router :to="{name: 'login'}"
+            class="ml-2"
+          >
+            LOGIN
+          </v-btn>
+          <v-btn
+            icon
+            router :to="{name: 'findPassword'}"
+            class="mx-8"
+            text
+          >
+            비번찾기
+          </v-btn>
+        </div>
 
       </div>
     </div>
@@ -127,8 +137,7 @@ import('../assets/css/header-style.css')
   export default {
     name: 'Header',
     computed: {
-      ...mapState(["isLogin"]),
-      ...mapState(["userInfo"])
+      ...mapState(["isLogin", "userInfo"]),
     },
     props: {
       source: String,

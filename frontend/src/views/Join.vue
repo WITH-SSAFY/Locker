@@ -108,8 +108,9 @@
                 block
                 id="request_btn"
                 @click="requestJoin"
-                color="#EDE7F6"
+                color="#7C4DFF"
                 class="mb-2"
+                dark
               >
                 <strong>회원가입</strong>
               </v-btn>

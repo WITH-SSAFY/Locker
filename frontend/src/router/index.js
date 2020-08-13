@@ -117,6 +117,12 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "Github" */ "../views/Github.vue"),
   },
+  {
+    path: "/findPassword",
+    name: "findPassword",
+    component: () =>
+      import(/* webpackChunkName: "Github" */ "../views/user/FindPassword.vue"),
+  }
 ];
 
 const router = new VueRouter({

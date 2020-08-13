@@ -293,6 +293,33 @@ export default new Vuex.Store({
       } 
     },
 
+    findPassword({commit}, email){
+      console.log("비번찾기 -> email: ", email)
+
+      axios
+        .put("/v1/user/find/password?email="+email)
+        .then((res) =>{
+          console.log("find pw - res", res.data)
+          alert("입력하신 이메일의 메일함을 확인해주세요!")
+          router.push({ name: "home" })
+        })
+        .catch((err) => {
+          console.log("find pw - err.response.data: ", err.response.data);
+          if(err.response){
+            if(err.response.data.code === -1000){
+              alert("존재하지 않는 회원입니다! 이메일을 확인해주세요!")
+              window.location.reload();
+            } else{
+              alert("오류 발생 : "+err.response.data.msg)
+              window.location.reload();
+            }
+          } else {
+            alert("오류 발생 : ", err);
+          }
+        })
+      commit
+    },
+
     getMyPostList({ commit }, email) {
       // 내가 쓴 포스트 리스트 받아옴
       axios
