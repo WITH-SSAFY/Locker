@@ -135,6 +135,7 @@
                   <div v-else style="margin-top: 5px;">
                     소셜 로그인 회원은 비밀번호를 변경할 수 없습니다!
                   </div>
+
                 </v-col>
               </v-row>
             </div>

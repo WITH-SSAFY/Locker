@@ -229,7 +229,7 @@ export default new Vuex.Store({
             if (pic === "null") {
               userInfo.picture = null;
             }
-            if(prov === "null"){
+            if (prov === "null"){
               userInfo.provider = null;
             }
             console.log("가지고 온 유저 정보 : ", res);
@@ -344,6 +344,33 @@ export default new Vuex.Store({
             }
           }
         })
+    },
+
+    changePassword({commit}, userInfo){
+      commit
+      console.log("change PW - userInfo : ", userInfo);
+      const token = localStorage.getItem("access_token");
+      axios
+        .put("/v1/user/password?token="+token+"&password="+userInfo.oldPw+"&newPassword="+userInfo.password)
+        .then((res)=>{
+          console.log("change PW - res", res.data);
+          alert("비밀번호 변경을 성공하였습니다!");
+          router.push({name: "userSetting"})
+        })
+        .catch((err) => {
+          console.log("find pw - err.response.data: ", err.response.data);
+          if(err.response){
+            if(err.response.data.code === -1000){
+              alert("현재 비밀번호를 확인해주세요!");
+            } else{
+              alert("오류 발생 : "+err.response.data.msg)
+              alert("현재 비밀번호를 확인해주세요!");
+            }
+          } else {
+            alert("오류 발생 : ", err);
+          }
+        })
+      commit
     },
 
     getMyPostList({ commit }, email) {
