@@ -113,6 +113,12 @@
         >
           Login
         </v-btn>
+        <v-btn
+          icon
+          router :to="{name: 'findPassword'}"
+        >
+          비번찾기
+        </v-btn>
 
       </div>
     </div>
@@ -127,8 +133,7 @@ import('../assets/css/header-style.css')
   export default {
     name: 'Header',
     computed: {
-      ...mapState(["isLogin"]),
-      ...mapState(["userInfo"])
+      ...mapState(["isLogin", "userInfo"]),
     },
     props: {
       source: String,

@@ -2,9 +2,6 @@
     <v-container fill-height style="max-width:450px;">
         <v-layout align-center row wrap>
             <v-flex xs12>
-                <v-alert type="error">
-                    비밀번호가 일치하지 않습니다.
-                </v-alert>
                 <v-card>
                     <v-toolbar flat color="indigo lighten-3">
                         <v-toolbar-title>Registration</v-toolbar-title>
@@ -32,7 +29,8 @@
                             depress
                             large
                             block
-                            color="indigo lighten-5"
+                            color="#7C4DFF"
+                            dark
                         >
                             가입
                         </v-btn>
