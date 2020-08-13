@@ -118,8 +118,18 @@ public class PostController {
 
     @ApiOperation(value = "일반 검색", notes = "해당 검색어를 가진 모든 포스트를 조회한다.")
     @GetMapping("/search")
-    public ResponseEntity<List<Post>> commonSearch(@ApiParam(value = "검색어", required = true) @RequestParam String q) {
-        List<Post> list = service.commonSearch(q);
+    public ResponseEntity<List<Post>> commonSearch(@ApiParam(value = "검색어", required = true) @RequestParam String q,
+        @ApiParam(value="페이지",required=true) @RequestParam Long page) {
+        Long sizePerPage = 10L;
+        Long startPage = (page-1)*sizePerPage;
+        Long endPage = sizePerPage;
+
+        Map pageMap = new HashMap<>();
+        pageMap.put("q",q);
+        pageMap.put("startPage",startPage);
+        pageMap.put("endPage",endPage);
+
+        List<Post> list = service.commonSearch(pageMap);
         if(list.size()>0){
             return new ResponseEntity<List<Post>>(list, HttpStatus.OK);
         }else{
