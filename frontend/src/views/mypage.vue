@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="background-color: #fff; min-height: 100vh">
     <v-container class="mt-md-6">
       <v-row>
         <v-col
@@ -9,7 +9,7 @@
         >
           <div class="row align-items-center mx-5 mb-5">
             <div class="col-md-4 d-none d-sm-block align-self-start">
-              <div class="d-flex justify-content-center" style="background-color: #f2f3f4;">
+              <div class="d-flex justify-content-center">
                 <v-icon v-if="userInfo.picture==null"
                     size="250" class="mb-5" style="z-index: 1;">mdi-account-circle-outline</v-icon>
                   <v-avatar v-else size="250" class="mb-5" style="z-index: 1;">
@@ -46,12 +46,12 @@
             <!-- 텍스트 섹션 -->
             <div class="col-md-8 d-flex-wrap align-self-start">
               <div class="d-flex align-items-center justify-content-between p-0">
-                <p class="lead d-inline my-0" style="font-size: 5rem;"><strong>{{ userInfo.nickname }}</strong></p>
+                <p class="lead d-inline my-0" style="font-size: 3rem;"><strong>{{ userInfo.nickname }}</strong></p>
                 <!-- <a href="" class="d-inline btn btn-outline-dark btn-sm">Edit Profile</a> -->
-                <div class="d-inline-flex ml-5">
+                <!-- <div class="d-inline-flex ml-5">
                   <v-icon size="60" style="color: #EDE7F6;">mdi-arm-flex</v-icon>
                   <p class="d-inline"><small>1F_병아리</small></p>
-                </div>
+                </div> -->
               </div>
               <p class="ml-2">{{ userInfo.introduction }}</p>
               <div class="d-inline">
@@ -75,9 +75,9 @@
         </v-col>
 
         <!-- 사이드바 -->
-        <v-col>
+        <!-- <v-col>
           <side-bar class="side" text-align="left"></side-bar>
-        </v-col>
+        </v-col> -->
       </v-row>
 
 
@@ -148,7 +148,7 @@
 
 <script>
 import { mapState } from "vuex"
-import SideBar from "./SideBar.vue"
+// import SideBar from "./SideBar.vue"
 import('../assets/css/side-style.css')
 
 export default {
@@ -182,7 +182,7 @@ export default {
       }
     },
     components: {
-      SideBar,
+      // SideBar,
       // category,
     },
     methods:{

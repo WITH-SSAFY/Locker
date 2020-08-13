@@ -1,78 +1,63 @@
 <template>
-  <div class="row category-back">
-    <div class="top-left-box">
-      <div class="category-title">
-        <div class="under-line" style="width: 2.5rem;"></div>
-        <h1 class="my-3" style="font-size: 1.5rem;"><strong>category</strong></h1>
+  <div class="repo">
+    <div class="naccs">
+      <div class="grid">
+      <div class="gc gc--1-of-3">
+        <div class="py-5" style="color: #7C4DFF; font-size: 3rem;"><span>Continue with</span></div>
+        <div class="menu">
+          <div class="active"><span class="light"></span><span>My Repository</span></div>
+          <div><span class="light"></span><span>Organization</span></div>
+        </div>
+      </div>
+      <div class="gc gc--2-of-3">
+        <ul class="nacc">
+          <li class="active">
+            <div>
+    
+            </div>
+          </li>
+          <li>
+            <div>
+
+            </div>
+          </li>
+        </ul>
+      </div>
       </div>
     </div>
 
-    <div class="category-content">
-      <div class="">
-        <v-row class="no-gutters">
-          <v-col sm="6">
-            <v-card
-              style="height: 14rem;"
-              tile
-              flat
-              color="#fff"
-            >
-            </v-card>
-          </v-col>
-          <v-col
-            sm="6"
-            offset-sm="6"
-          >
-            <v-card
-              style="height: 14rem;"
-              tile
-              flat
-              color="#fff"
-            >
-            </v-card>
-          </v-col>
-        </v-row>
-      </div>
-    </div>
+
+
   </div>
   
 </template>
 
 <script>
-export default {
+import $ from 'jquery'
+import '../../assets/css/repository.scss'
 
+export default {
+  mounted () {
+    $(document).on("click", ".naccs .menu div", function() {
+    var numberIndex = $(this).index();
+
+    if (!$(this).is("active")) {
+        $(".naccs .menu div").removeClass("active");
+        $(".naccs ul li").removeClass("active");
+
+        $(this).addClass("active");
+        $(".naccs ul").find("li:eq(" + numberIndex + ")").addClass("active");
+
+        var listItemHeight = $(".naccs ul")
+            .find("li:eq(" + numberIndex + ")")
+            .innerHeight();
+        $(".naccs ul").height(listItemHeight + "px");
+    }
+});
+  }
 }
 </script>
 
 <style>
-.category-back {
-  height: 100vh;
-  background-color: rgb(237, 231, 224);
-  margin-top: 5rem;
-}
-
-.top-left-box {
-  position: relative;
-  background-color: #fff;
-  height: 60%;
-  width: 30%;
-  z-index: 1;
-}
-
-.right-box {
-  width: 60%;
-}
-
-.category-title {
-  position: absolute;
-  top: 50%;
-  right: 1rem;
-}
-
-.category-content {
-  width: 70%;
-  height: 60%;
-  padding: 10%;
-}
 
 </style>
