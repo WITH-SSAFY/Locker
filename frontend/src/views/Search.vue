@@ -63,11 +63,10 @@ export default {
 
       if (this.q != "") {
         axios
-          .get("v1/post/search", {
+          .get("/v1/post/search", {
             params: {
               q: this.q,
               page: 1,
-              busy: false,
             },
           })
           .then((response) => {
@@ -85,7 +84,7 @@ export default {
 
       if (this.q != "") {
         axios
-          .get("v1/post/search", {
+          .get("/v1/post/search", {
             params: {
               q: this.q,
               page: this.page,

@@ -1,7 +1,11 @@
 <template>
   <div id="container">
     <div id="title_container">
-      <v-text-field id="title" v-model="title" placeholder="제목을 입력해주세요"></v-text-field>
+      <v-text-field
+        id="title"
+        v-model="title"
+        placeholder="제목을 입력해주세요"
+      ></v-text-field>
     </div>
 
     <div id="tag_list">
@@ -12,7 +16,8 @@
         color="#EDE7F6"
         small
         @click="deleteTag(index)"
-      >{{ tag }}</v-chip>
+        >{{ tag }}</v-chip
+      >
     </div>
 
     <div id="tag_container">
@@ -35,7 +40,9 @@
     />
     <div id="buttons">
       <v-btn id="temp_save" class="save_button" color="#c7c9c5">임시저장</v-btn>
-      <v-btn id="save" class="save_button" color="#7C4DFF" @click="postContent">작성완료</v-btn>
+      <v-btn id="save" class="save_button" color="#7C4DFF" @click="postContent"
+        >작성완료</v-btn
+      >
     </div>
   </div>
 </template>
@@ -75,11 +82,11 @@ import "@toast-ui/editor/dist/toastui-editor.css";
 //import 'highlight.js/styles/github.css';
 
 import { Editor } from "@toast-ui/vue-editor";
-import axios from "../../lib/axios-common.js"; //axios : 서버와 통신하기 위함
+//import axios from "../../lib/axios-common.js"; //axios : 서버와 통신하기 위함
 
 export default {
   components: {
-    editor: Editor
+    editor: Editor,
   },
   data() {
     return {
@@ -90,11 +97,8 @@ export default {
       email: "",
       editorOptions: {
         hideModeSwitch: true, //모드 설정(markdown, wysiwyg) 안보이게함
-        placeholder: "내용을 입력해주세요"
+        placeholder: "내용을 입력해주세요",
       },
-      pid: 0, //새로 등록되는 포스트의 pid
-      tagid: 0, //tagid
-      tagelem: ""
     };
   },
   methods: {
@@ -104,22 +108,17 @@ export default {
     },
     postContent() {
       this.content = this.$refs.toastuiEditor.invoke("getMarkdown");
-      axios
-        .post("/v1/post", {
-          title: this.title,
-          email: this.$store.state.userInfo.email,
-          content: this.content,
-          nickname: this.$store.state.userInfo.nickname
-        })
-        .then(response => {
-          //alert("작성자: "+this.$store.state.userInfo.nickname);
-          this.pid = response.data;
-          this.checkDupTag(); //태그 중복 확인
 
-          this.$store.dispatch("getMyPostList");
-          this.$router.push("/mypage"); //어디로 이동해야할지 정해야할듯?
-        })
-        .catch(exp => alert("글 작성에 실패했습니다" + exp));
+      this.$store.state.myPost = {
+        title: this.title,
+        email: this.$store.state.userInfo.email,
+        content: this.content,
+        nickname: this.$store.state.userInfo.nickname,
+      };
+
+      this.$store.state.myTags = this.tags;
+
+      this.$router.push({ name: "afterPost" });
     },
     createTag() {
       //태그 생성
@@ -143,54 +142,7 @@ export default {
       //태그 삭제
       this.tags.splice(index, 1); //splice(p1,p2,p3) p1: 시작 index, p2: 삭제 or 수정할 요소 개수, p3 바꿀 내용
     },
-    async checkDupTag() {
-      //서버로 부터 이미 등록된 태그인지 검사(태그 중복 검사)
-      for (let i = 0; i < this.tags.length; i++) {
-        this.tagelem = this.tags[i];
-        let response = await axios.get("v1/tag/" + this.tagelem); //서버로 부터 응답이 올때까지 대기
-        let data = response.data;
-        if (data == 0) {
-          //중복이 없다
-          this.registNewTag();
-        } else {
-          this.tagid = data;
-          this.connectTag();
-        }
-
-        // axios.get("v1/tag/" + this.tagelem).then(response => {
-        //   var data = response.data;
-        //   console.log("tag: " + this.tagelem);
-        //   if (data == 0) {
-        //     //중복이 없다
-        //     this.registNewTag(); //새로운 태그이므로 등록  해야한다.
-        //   } else {
-        //     //이미 있는 태그
-        //     this.tagid = data;
-        //     //이 포스트에 해당 태그가 있다는 것을 알려줌(pid와 tagid연결)
-        //     this.connectTag();
-        //   }
-        // });
-      }
-    },
-    registNewTag() {
-      //새로운 태그 등록
-      console.log("registTag: " + this.tagelem);
-      axios
-        .post("/v1/tag", { tagname: this.tagelem })
-        .then(response => {
-          this.tagid = response.data;
-          console.log("new tagid: " + this.tagid);
-          this.connectTag(); //이 포스트에 해당 태그가 있다는 것을 알려줌(pid와 tagid연결)
-        })
-        .catch(exp => alert(this.tagelem + "태그 등록 실패" + exp));
-    },
-    connectTag() {
-      //pid와 tagid 연결
-      axios
-        .post("v1/tag/connect", { pid: this.pid, tagid: this.tagid })
-        .catch(exp => alert("태그 연결 실패" + exp));
-    }
-  }
+  },
 };
 </script>
 

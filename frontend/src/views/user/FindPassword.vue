@@ -8,9 +8,10 @@
                     </v-toolbar>
                     <div class="pa-3">
                         <v-text-field
-                            v-model="email"
-                            label="이메일을 입력하세요"
-                            @keyup.enter="findPassword(email)"
+                          autofocus
+                          v-model="email"
+                          label="이메일을 입력하세요"
+                          @keyup.enter="findPassword(email)"
                         ></v-text-field>
                         <v-btn 
                           depress
@@ -22,7 +23,6 @@
                         >
                           비밀번호 찾기
                         </v-btn>
-                        {{ email }}
                     </div>
                 </v-card>
             </v-flex>

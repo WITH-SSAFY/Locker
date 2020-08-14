@@ -36,4 +36,7 @@ public class Post {
     private LocalDate updated;
 
     private Long likes;
+
+    private String thumbnail;
+    private String description;
 }
