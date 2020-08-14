@@ -1,18 +1,8 @@
 <template>
-  <div class="d-flex justify-content-center mb-5" style="margin: 5rem 0;">
-
-    <a href="#" id="raw-switch" class="raw-switch">Raw: <span></span></a>
-    <aside id="markdown" contenteditable>
-``` java
-
-int a = 1
-
-```
-
-# 바보
-    </aside>
-    <section id="output-html" class="markdown-body"></section>
-    <!-- <viewer v-if="axiosFlag" :initialValue="intro" height="100%" /> -->
+  <div class="d-flex mb-5" style="margin: 5rem 0;">
+    <aside id="markdown" contenteditable style="display: none;">{{ intro }}</aside>
+    <section id="output-html" class="markdown-body" style="display: none;"></section>
+    <div id="page"></div>
   </div>
 </template>
 
@@ -27,7 +17,7 @@ export default {
   name: 'introcduce',
   data() {
     return {
-      intro: '',
+      intro: null,
       axiosFlag: false,
     }
   },
@@ -40,9 +30,9 @@ export default {
   methods: {
     // access token을 로컬스토리지에서 가져와서 넘겨주기
     getIntro () {
-      // let token = localStorage.getItem("github_token");
+      // let accessToken = localStorage.getItem("github_token");
       // test
-      let accessToken = '055bcf6a87cfd6b760b67a2150cfb5948b5b9385';
+      let accessToken = '0f585a129c21cb9c8e71e5e7a36a076eee99498d';
       axios.get("/v1/github/hidden?accessToken=" + accessToken)
         .then((response) => {
           this.intro = response.data.data
@@ -51,8 +41,17 @@ export default {
         .catch((exp) => alert("소개글 불러오기 실패" + exp))
     },
   },
+  created () {
+    this.getIntro();
 
+  },
   mounted () {
+
+    // hljs.initHighlightingOnLoad();
+    // hljs.highlightBlock(code);
+
+  },
+  updated () {
     function parseMd(md){
 
       //ul
@@ -103,39 +102,20 @@ export default {
       
     }
 
-    var rawMode = true;
     var mdEl = document.querySelector('#markdown')
     var outputEl = document.querySelector('#output-html')
     var parse = function(){
-      outputEl[rawMode ? "innerText" : "innerHTML"] = parseMd(mdEl.innerText);
+      outputEl["innerText"] = parseMd(mdEl.innerText);
+      
       };
 
     parse();
-    mdEl.addEventListener('keyup', parse, false);
-
-    // Raw mode trigger btn
-    (function(){
-
-      var trigger = document.getElementById('raw-switch'),
-          status = trigger.getElementsByTagName('span')[0],
-          updateStatus = function(){
-            status.innerText = rawMode ? 'On' : 'Off';
-          };
-
-      updateStatus();
-      trigger.addEventListener('click', function(e){
-        e.preventDefault();
-        rawMode = rawMode ? false : true;
-        updateStatus();
-        parse();
-      }, false);
-    }());
-
-    // hljs.initHighlightingOnLoad();
-    hljs.highlightBlock(code);
+    document.querySelector('page').innerHTML = document.querySelector('#output-html').innerText
 
   },
+
 }
+
 </script>
 
 <style>
