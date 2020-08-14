@@ -1,14 +1,14 @@
 <template>
-  <div class="d-flex mb-5" style="margin: 5rem 0;">
+  <div class="d-flex justify-content-center mb-5" style="margin: 5rem 0;">
     <aside id="markdown" contenteditable style="display: none;">{{ intro }}</aside>
     <section id="output-html" class="markdown-body" style="display: none;"></section>
-    <div id="page"></div>
+    <div id="page" class="markdown-body width: 75%;"></div>
   </div>
 </template>
 
 <script>
 import axios from "../../lib/axios-common.js";
-import '@/assets/text_editor/md.css'
+// import '@/assets/text_editor/md.css'
 import '@/assets/text_editor/github-md.css'
 
 export default {
