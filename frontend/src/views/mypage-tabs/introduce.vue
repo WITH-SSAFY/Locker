@@ -10,11 +10,9 @@
 import axios from "../../lib/axios-common.js";
 import '@/assets/text_editor/md.css'
 import '@/assets/text_editor/github-md.css'
-// import { Viewer } from '@toast-ui/vue-editor';
-// import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 
 export default {
-  name: 'introcduce',
+  name: 'introduce',
   data() {
     return {
       intro: null,
@@ -46,11 +44,10 @@ export default {
 
   },
   mounted () {
-
     // hljs.initHighlightingOnLoad();
     // hljs.highlightBlock(code);
-
   },
+
   updated () {
     function parseMd(md){
 
@@ -106,11 +103,10 @@ export default {
     var outputEl = document.querySelector('#output-html')
     var parse = function(){
       outputEl["innerText"] = parseMd(mdEl.innerText);
-      
       };
 
     parse();
-    document.querySelector('page').innerHTML = document.querySelector('#output-html').innerText
+    document.querySelector('#page').innerHTML = document.querySelector('#output-html').innerText
 
   },
 
