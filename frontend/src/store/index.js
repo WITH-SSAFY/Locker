@@ -24,6 +24,8 @@ export default new Vuex.Store({
     parentid: null, //댓글 부모번호
     depth: null, //댓글 깊이
     rid: null, //댓글 번호
+
+    myPost: {}, //작성한 포스트
   },
   //state 값 변화
   mutations: {
@@ -78,6 +80,10 @@ export default new Vuex.Store({
     goreply(state, payload) {
       state.parentid = payload.rid;
       state.depth = payload.depth;
+    },
+    getMyPost(state, payload) {
+      state.myPost = payload.myPost;
+      router.push({ name: "afterPost" }); //글 작성 후 화면으로 이동
     },
   },
   //비즈니스 로직
@@ -264,38 +270,39 @@ export default new Vuex.Store({
           console.log("exp", exp);
         });
     },
-    
-    deleteUserInfo({commit}, userInfo){
-      console.log("delete - userInfo : ", userInfo)
-      
+
+    deleteUserInfo({ commit }, userInfo) {
+      console.log("delete - userInfo : ", userInfo);
+
       var result = confirm("정말 탈퇴하실 건가요?");
-      if (result) { //예를 선택하면
+      if (result) {
+        //예를 선택하면
         let token = localStorage.getItem("access_token");
-        if(token !== null){ //token이 있을 때, axios.delete 실행
+        if (token !== null) {
+          //token이 있을 때, axios.delete 실행
           let config = {
-            "Accept": "*/*",
-            "X-AUTH-TOKEN": token
-          }
+            Accept: "*/*",
+            "X-AUTH-TOKEN": token,
+          };
           axios
-            .delete("/v1/user/"+userInfo.id, config)
+            .delete("/v1/user/" + userInfo.id, config)
             .then((res) => {
-              console.log("delete - res: ", res.data)
-              //삭제 성공하면 값, localStorage 초기화 
+              console.log("delete - res: ", res.data);
+              //삭제 성공하면 값, localStorage 초기화
               commit("logout");
               localStorage.removeItem("access_token");
               localStorage.removeItem("github_token");
               router.push({ name: "home" });
             })
             .catch((err) => {
-              console.log("delete - err: ", err.data)
-              window.location.reload()
-            })
-
+              console.log("delete - err: ", err.data);
+              window.location.reload();
+            });
         } else {
-          alert("인증되지 않은 사용자입니다!")
-          router.push({ name: "home"})
+          alert("인증되지 않은 사용자입니다!");
+          router.push({ name: "home" });
         }
-      } 
+      }
     },
 
     findPassword({commit}, email){
@@ -391,7 +398,6 @@ export default new Vuex.Store({
           commit("goEditDetail", { myDetail: response.data });
         })
         .catch((exp) => alert("내 에디터로 이동 실패 " + exp));
-      commit;
     },
     deleteDetail({ commit }, pid) {
       axios
@@ -403,6 +409,15 @@ export default new Vuex.Store({
         })
         .catch((exp) => alert("내 글 삭제 실패 " + exp));
       commit;
+    },
+    getMyPost({ commit }, pid) {
+      //글 작성후, 해당 pid를 가진 포스트의 정보 받아옴
+      axios
+        .get("/v1/post/" + pid)
+        .then((response) => {
+          commit("getMyPost", { myPost: response.data });
+        })
+        .catch((exp) => alert("포스트 데이터 받기 실패 " + exp));
     },
   },
 });

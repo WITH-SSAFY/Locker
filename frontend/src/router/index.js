@@ -98,6 +98,13 @@ const routes = [
       import(/* webpackChunkName: "editPost" */ "../views/post/editPost.vue"),
   },
   {
+    path: "/afterPost",
+    name: "afterPost",
+    component: () =>
+      import(/* webpackChunkName: "afterPost" */ "../views/post/afterPost.vue"),
+  },
+
+  {
     path: "/userSetting",
     name: "userSetting",
     component: () =>

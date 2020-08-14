@@ -1,7 +1,11 @@
 <template>
   <div id="container">
     <div id="title_container">
-      <v-text-field id="title" v-model="title" placeholder="제목을 입력해주세요"></v-text-field>
+      <v-text-field
+        id="title"
+        v-model="title"
+        placeholder="제목을 입력해주세요"
+      ></v-text-field>
     </div>
 
     <div id="tag_list">
@@ -12,7 +16,8 @@
         color="#EDE7F6"
         small
         @click="deleteTag(index)"
-      >{{ tag }}</v-chip>
+        >{{ tag }}</v-chip
+      >
     </div>
 
     <div id="tag_container">
@@ -35,7 +40,9 @@
     />
     <div id="buttons">
       <v-btn id="temp_save" class="save_button" color="#c7c9c5">임시저장</v-btn>
-      <v-btn id="save" class="save_button" color="#7C4DFF" @click="postContent">작성완료</v-btn>
+      <v-btn id="save" class="save_button" color="#7C4DFF" @click="postContent"
+        >작성완료</v-btn
+      >
     </div>
   </div>
 </template>
@@ -79,7 +86,7 @@ import axios from "../../lib/axios-common.js"; //axios : 서버와 통신하기 
 
 export default {
   components: {
-    editor: Editor
+    editor: Editor,
   },
   data() {
     return {
@@ -90,11 +97,11 @@ export default {
       email: "",
       editorOptions: {
         hideModeSwitch: true, //모드 설정(markdown, wysiwyg) 안보이게함
-        placeholder: "내용을 입력해주세요"
+        placeholder: "내용을 입력해주세요",
       },
       pid: 0, //새로 등록되는 포스트의 pid
       tagid: 0, //tagid
-      tagelem: ""
+      tagelem: "",
     };
   },
   methods: {
@@ -109,17 +116,18 @@ export default {
           title: this.title,
           email: this.$store.state.userInfo.email,
           content: this.content,
-          nickname: this.$store.state.userInfo.nickname
+          nickname: this.$store.state.userInfo.nickname,
         })
-        .then(response => {
+        .then((response) => {
           //alert("작성자: "+this.$store.state.userInfo.nickname);
           this.pid = response.data;
           this.checkDupTag(); //태그 중복 확인
 
-          this.$store.dispatch("getMyPostList");
-          this.$router.push("/mypage"); //어디로 이동해야할지 정해야할듯?
+          this.$store.dispatch("getMyPost", this.pid); //state에포스트 정보 업데이트
+          //this.$store.dispatch("getMyPostList");
+          //this.$router.push("/mypage"); //어디로 이동해야할지 정해야할듯?
         })
-        .catch(exp => alert("글 작성에 실패했습니다" + exp));
+        .catch((exp) => alert("글 작성에 실패했습니다" + exp));
     },
     createTag() {
       //태그 생성
@@ -177,20 +185,20 @@ export default {
       console.log("registTag: " + this.tagelem);
       axios
         .post("/v1/tag", { tagname: this.tagelem })
-        .then(response => {
+        .then((response) => {
           this.tagid = response.data;
           console.log("new tagid: " + this.tagid);
           this.connectTag(); //이 포스트에 해당 태그가 있다는 것을 알려줌(pid와 tagid연결)
         })
-        .catch(exp => alert(this.tagelem + "태그 등록 실패" + exp));
+        .catch((exp) => alert(this.tagelem + "태그 등록 실패" + exp));
     },
     connectTag() {
       //pid와 tagid 연결
       axios
         .post("v1/tag/connect", { pid: this.pid, tagid: this.tagid })
-        .catch(exp => alert("태그 연결 실패" + exp));
-    }
-  }
+        .catch((exp) => alert("태그 연결 실패" + exp));
+    },
+  },
 };
 </script>
 
