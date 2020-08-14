@@ -5,15 +5,37 @@
         <div id="thumbnail">
           <h4>포스트 미리보기</h4>
           <div id="post-preview">
-            <div id="no-picture" v-if="myPost.picture == null">
-              <v-icon id="no-image" size="120" style="z-index: 1;"
-                >image</v-icon
-              >
-              <br />
-              <v-btn depressed>이미지 업로드</v-btn>
-            </div>
-            <div v-else></div>
+            <v-icon
+              v-if="myPost.thumbnail == null"
+              id="no-image"
+              size="200"
+              style="z-index: 1; margin-top: 50px"
+              >image</v-icon
+            >
+            <img
+              v-else
+              id="image"
+              :src="myPost.thumbnail"
+              style="z-index: 1;"
+            />
           </div>
+          <div id="buttons">
+            <v-btn id="upload" color="#EDE7F6" depressed @click="uploadThumnail"
+              >이미지 업로드</v-btn
+            >
+            <v-btn id="delete" depressed @click="removeThumbnail"
+              >이미지 삭제</v-btn
+            >
+          </div>
+
+          <input
+            ref="uploader"
+            class="d-none"
+            type="file"
+            id="picture"
+            @change="handleChange"
+            accept="image/*"
+          />
         </div>
         <div id="description">
           <h5>{{ myPost.title }}</h5>
@@ -23,11 +45,12 @@
             auto-grow
             outlined
             row-height="20"
+            counter="150"
             v-model="description"
           ></v-textarea>
         </div>
         <div id="buttons">
-          <v-btn @click="postContent">출간하기</v-btn>
+          <v-btn color="#7C4DFF" @click="postContent">출간하기</v-btn>
         </div>
       </v-col>
     </v-row>
@@ -35,8 +58,11 @@
 </template>
 
 <script>
+import AWS from "aws-sdk";
 import axios from "../../lib/axios-common.js";
-
+const s3Dir = "thumbnails/";
+const s3Path =
+  "https://locker-beaver-image.s3.ap-northeast-2.amazonaws.com/" + s3Dir; //s3 프로필 이미지 폴더 경로
 export default {
   created() {
     this.myPost = this.$store.state.myPost;
@@ -50,6 +76,10 @@ export default {
       tagname: "",
       pid: 0,
       tagid: 0,
+      file: null, //프로필 이미지 파일
+      albumBucketName: "locker-beaver-image", //s3세팅
+      bucketRegion: "ap-northeast-2", //s3세팅
+      IdentityPoolId: "ap-northeast-2:59ec49b1-e859-4beb-a30e-b8a11a7341b8", //s3세팅
     };
   },
   methods: {
@@ -60,6 +90,8 @@ export default {
           email: this.myPost.email,
           content: this.myPost.content,
           nickname: this.myPost.nickname,
+          description: this.description,
+          thumbnail: this.myPost.thumbnail,
         })
         .then((response) => {
           this.pid = response.data;
@@ -105,6 +137,108 @@ export default {
         .post("v1/tag/connect", { pid: this.pid, tagid: this.tagid })
         .catch((exp) => alert("태그 연결 실패" + exp));
     },
+    uploadThumnail() {
+      // this.isSelecting = true;
+      // window.addEventListener(
+      //   "focus",
+      //   () => {
+      //     this.isSelecting = false;
+      //   },
+      //   { once: true }
+      // );
+
+      this.$refs.uploader.click(); //handleChange() 실행
+    },
+    handleChange(event) {
+      this.file = event.target.files[0];
+      console.log("file", this.file);
+      if (!this.file.type.match(/^image\/(png|jpeg)$/)) {
+        //이미지 아닌 경우
+        alert("이미지 파일을 선택해주세요");
+      } else if (this.file) {
+        const imageExtension = this.file.name.split(".")[1]; //확장자
+        const imageFileName =
+          "thumbnail_" + this.myPost.pid + "." + imageExtension; //이미지파일명
+        const imagePath = s3Path + imageFileName; //이미지 경로
+        const photoKey = s3Dir + imageFileName; //s3 업로드용 key
+        //s3에 이미지 업로드
+        this.uploadThumbnail(photoKey);
+        this.myPost.thumbnail = imagePath;
+      }
+    },
+    uploadThumbnail(photoKey) {
+      AWS.config.update({
+        region: this.bucketRegion,
+        credentials: new AWS.CognitoIdentityCredentials({
+          IdentityPoolId: this.IdentityPoolId,
+        }),
+      });
+
+      var s3 = new AWS.S3({
+        apiVersion: "2006-03-01",
+        params: {
+          Bucket: this.albumBucketName,
+        },
+      });
+
+      //s3에 실제로 이미지 업로드
+      s3.upload(
+        //실제 업로드
+        {
+          Key: photoKey,
+          Body: this.file,
+          ACL: "public-read",
+        },
+        (err, data) => {
+          if (err) {
+            console.log(err);
+            return alert(
+              "There was an error uploading your photo: ",
+              err.message
+            );
+          }
+          console.log(data);
+        }
+      );
+    },
+    removeThumbnail() {
+      //프로필 이미지 삭제
+      const imageFileName = this.myPost.thumbnail; //이미지파일명
+      //const imagePath = s3Path + imageFileName; //이미지 경로
+      const photoKey = s3Dir + imageFileName; //s3 key
+
+      //s3에서 이미지 삭제
+      this.deleteThumbnail(photoKey);
+      this.myPost.thumbnail = null;
+    },
+    deleteThumbnail(photoKey) {
+      AWS.config.update({
+        region: this.bucketRegion,
+        credentials: new AWS.CognitoIdentityCredentials({
+          IdentityPoolId: this.IdentityPoolId,
+        }),
+      });
+
+      var s3 = new AWS.S3({
+        apiVersion: "2006-03-01",
+        params: {
+          Bucket: this.albumBucketName,
+        },
+      });
+
+      //s3에서 이미지 삭제
+      s3.deleteObject(
+        {
+          Key: photoKey,
+        },
+        (err, data) => {
+          if (err) {
+            throw err;
+          }
+          console.log(data);
+        }
+      );
+    },
   },
 };
 </script>
@@ -115,13 +249,19 @@ export default {
 }
 
 #post-preview {
-  padding-top: 15px;
-  width: 300px;
-  height: 200px;
-  background-color: grey;
+  height: 300px;
   margin: 0 auto;
+  background-color: silver;
 }
+#image {
+  height: 300px;
+}
+
 #description {
   margin-top: 50px;
+}
+#buttons {
+  margin-top: 15px;
+  text-align: center;
 }
 </style>

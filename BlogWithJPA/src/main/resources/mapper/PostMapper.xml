@@ -51,4 +51,9 @@
         order by updated
         limit #{startPage}, #{endPage}
     </select>
+    
+    <select id="getNextpid" resultType="java.lang.Long">
+        select max(pid)
+        from post;
+    </select>
 </mapper>
