@@ -55,4 +55,9 @@ public class PostServiceImpl implements PostService {
         return dao.commonSearch(pageMap);
     }
 
+    @Override
+    public Long getNextpid() {
+        return dao.getNextpid();
+    }
+
 }

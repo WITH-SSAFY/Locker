@@ -136,7 +136,17 @@ public class PostController {
             return new ResponseEntity<List<Post>>(list, HttpStatus.NO_CONTENT);
         }
     }
-
+    @ApiOperation(value = "다음 포스트 번호", notes = "다음 포스트 번호를 조회한다.")
+    @GetMapping("/nextpid")
+    public ResponseEntity<Long> getNextpid () {
+        Long pid = service.getNextpid()+1;
+        System.out.println("nextPid: "+pid);
+        if(pid>0){
+            return new ResponseEntity<Long>(pid, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<Long>(0L, HttpStatus.NO_CONTENT);
+        }
+    }
 
 
 }
