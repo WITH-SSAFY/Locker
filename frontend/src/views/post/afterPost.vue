@@ -6,7 +6,9 @@
           <h4>포스트 미리보기</h4>
           <div id="post-preview">
             <div id="no-picture" v-if="myPost.picture == null">
-              <v-icon id="no-image" size="120" style="z-index: 1;">image</v-icon>
+              <v-icon id="no-image" size="120" style="z-index: 1;"
+                >image</v-icon
+              >
               <br />
               <v-btn depressed>이미지 업로드</v-btn>
             </div>
@@ -16,7 +18,13 @@
         <div id="description">
           <h5>{{ myPost.title }}</h5>
 
-          <v-textarea label="description" auto-grow outlined row-height="20" v-model="description"></v-textarea>
+          <v-textarea
+            label="description"
+            auto-grow
+            outlined
+            row-height="20"
+            v-model="description"
+          ></v-textarea>
         </div>
         <div id="buttons">
           <v-btn @click="postContent">출간하기</v-btn>
@@ -41,7 +49,7 @@ export default {
       description: "",
       tagname: "",
       pid: 0,
-      tagid: 0
+      tagid: 0,
     };
   },
   methods: {
@@ -51,10 +59,9 @@ export default {
           title: this.myPost.title,
           email: this.myPost.email,
           content: this.myPost.content,
-          nickname: this.myPost.nickname
+          nickname: this.myPost.nickname,
         })
-        .then(response => {
-          alert("작성자: " + this.$store.state.userInfo.nickname);
+        .then((response) => {
           this.pid = response.data;
           this.checkDupTag(); //태그 중복 확인
 
@@ -62,7 +69,7 @@ export default {
           this.$store.dispatch("getMyPostList");
           this.$router.push("/mypage");
         })
-        .catch(exp => alert("글 작성에 실패했습니다" + exp));
+        .catch((exp) => alert("글 작성에 실패했습니다" + exp));
     },
     async checkDupTag() {
       //서버로 부터 이미 등록된 태그인지 검사(태그 중복 검사)
@@ -85,20 +92,20 @@ export default {
       console.log("registTag: " + this.tagname);
       axios
         .post("/v1/tag", { tagname: this.tagname })
-        .then(response => {
+        .then((response) => {
           this.tagid = response.data;
           console.log("new tagid: " + this.tagid);
           this.connectTag(); //이 포스트에 해당 태그가 있다는 것을 알려줌(pid와 tagid연결)
         })
-        .catch(exp => alert(this.tagname + "태그 등록 실패" + exp));
+        .catch((exp) => alert(this.tagname + "태그 등록 실패" + exp));
     },
     connectTag() {
       //pid와 tagid 연결
       axios
         .post("v1/tag/connect", { pid: this.pid, tagid: this.tagid })
-        .catch(exp => alert("태그 연결 실패" + exp));
-    }
-  }
+        .catch((exp) => alert("태그 연결 실패" + exp));
+    },
+  },
 };
 </script>
 
