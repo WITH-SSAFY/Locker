@@ -26,6 +26,7 @@ export default new Vuex.Store({
     rid: null, //댓글 번호
 
     myPost: {}, //작성한 포스트
+    myTags: [], //글 작성시 등록한 태그
   },
   //state 값 변화
   mutations: {
