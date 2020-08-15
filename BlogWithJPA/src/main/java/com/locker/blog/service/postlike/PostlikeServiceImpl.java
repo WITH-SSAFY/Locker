@@ -36,4 +36,9 @@ public class PostlikeServiceImpl implements PostlikeService{
     public Long getLikes(Long pid) {
         return postlikeRepo.getLikes(pid);
     }
+
+    @Override
+    public int checkUserLiked(Map ids) {
+        return postlikeRepo.checkUserLiked(ids);
+    }
 }

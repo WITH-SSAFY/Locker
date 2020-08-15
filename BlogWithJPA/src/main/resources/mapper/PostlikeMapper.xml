@@ -18,4 +18,7 @@
     <select id="getLikes" resultType="java.lang.Long">
         select likes from post where pid=#{pid}
     </select>
+    <select id="checkUserLiked" resultType="Integer">
+        select count(*) from postlike where pid=#{pid} and id=#{id}
+    </select>
 </mapper>
