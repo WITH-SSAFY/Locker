@@ -33,7 +33,7 @@ public class PostlikeServiceImpl implements PostlikeService{
     }
 
     @Override
-    public Postlike getLikes(Long pid) {
+    public Long getLikes(Long pid) {
         return postlikeRepo.getLikes(pid);
     }
 }

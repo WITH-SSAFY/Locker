@@ -15,7 +15,7 @@
     <delete id="deleteUserLikePost">
         delete from postlike where id=#{id} and pid=#{pid}
     </delete>
-    <select id="getLike" resultType="java.lang.Long">
-        select p.likes from post p where pid=#{pid}
+    <select id="getLikes" resultType="java.lang.Long">
+        select likes from post where pid=#{pid}
     </select>
 </mapper>
