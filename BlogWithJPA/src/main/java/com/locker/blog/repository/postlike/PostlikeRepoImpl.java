@@ -33,7 +33,7 @@ public class PostlikeRepoImpl implements PostlikeRepo{
     }
 
     @Override
-    public Postlike getLikes(Long pid) {
+    public Long getLikes(Long pid) {
         return sqlSession.selectOne("postlike.getLikes",pid);
     }
 }

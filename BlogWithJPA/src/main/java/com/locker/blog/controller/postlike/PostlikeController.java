@@ -69,12 +69,13 @@ public class PostlikeController {
 
     @ApiOperation(value = "해당 포스트의 좋아요 수 출력", notes = "해당 포스트의 좋아요 수 출력한다.")
     @GetMapping(value = "/all/{pid}")
-    public ResponseEntity<Postlike> getLikes(@PathVariable Long pid) throws Exception {
-        Postlike result = postlikeService.getLikes(pid);
+    public ResponseEntity<Long> getLikes(@PathVariable Long pid) throws Exception {
+        System.out.println("getLikes");
+        Long result = postlikeService.getLikes(pid);
         if(result !=null) {
-            return new ResponseEntity<Postlike>(result, HttpStatus.OK);
+            return new ResponseEntity<Long>(result, HttpStatus.OK);
         }
-        return new ResponseEntity<Postlike>(result, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<Long>(result, HttpStatus.NO_CONTENT);
     }
 
 }
