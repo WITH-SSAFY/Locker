@@ -24,6 +24,7 @@ export default new Vuex.Store({
     parentid: null, //댓글 부모번호
     depth: null, //댓글 깊이
     rid: null, //댓글 번호
+    email: null,
 
     myPost: {}, //작성한 포스트
     myTags: [], //글 작성시 등록한 태그
@@ -69,6 +70,7 @@ export default new Vuex.Store({
       state.nickname = payload.myDetail.nickname;
       state.pid = payload.myDetail.pid;
       state.created = payload.myDetail.created;
+      state.email = payload.myDetail.email;
       router.push({ name: "readPost" });
     },
     goEditDetail(state, payload) {
@@ -236,7 +238,7 @@ export default new Vuex.Store({
             if (pic === "null") {
               userInfo.picture = null;
             }
-            if (prov === "null"){
+            if (prov === "null") {
               userInfo.provider = null;
             }
             console.log("가지고 온 유저 정보 : ", res);
@@ -306,52 +308,59 @@ export default new Vuex.Store({
       }
     },
 
-    findPassword({commit}, email){
-      commit
-      console.log("비번찾기 -> email: ", email)
+    findPassword({ commit }, email) {
+      commit;
+      console.log("비번찾기 -> email: ", email);
 
       axios
-      .put("/v1/user/find/password?email="+email)
-      .then((res) =>{
-        console.log("find pw - res", res.data)
-        alert("입력하신 이메일의 메일함을 확인해주세요!")
-        router.push({ name: "home" })
-      })
-      .catch((err) => {
-        console.log("find pw - err.response.data: ", err.response.data);
-        if(err.response){
-          if(err.response.data.code === -1000){
-            alert("존재하지 않는 회원입니다! 이메일을 확인해주세요!")
-            window.location.reload();
-          } else{
-            alert("오류 발생 : "+err.response.data.msg)
-            window.location.reload();
+        .put("/v1/user/find/password?email=" + email)
+        .then((res) => {
+          console.log("find pw - res", res.data);
+          alert("입력하신 이메일의 메일함을 확인해주세요!");
+          router.push({ name: "home" });
+        })
+        .catch((err) => {
+          console.log("find pw - err.response.data: ", err.response.data);
+          if (err.response) {
+            if (err.response.data.code === -1000) {
+              alert("존재하지 않는 회원입니다! 이메일을 확인해주세요!");
+              window.location.reload();
+            } else {
+              alert("오류 발생 : " + err.response.data.msg);
+              window.location.reload();
+            }
+          } else {
+            alert("오류 발생 : ", err);
           }
-        } else {
-          alert("오류 발생 : ", err);
-        }
-      })
+        });
     },
-    
-    changePassword({commit}, userInfo){
-      commit
+
+    changePassword({ commit }, userInfo) {
+      commit;
       console.log("change PW - userInfo : ", userInfo);
       const token = localStorage.getItem("access_token");
       axios
-        .put("/v1/user/password?token="+token+"&password="+userInfo.oldPw+"&newPassword="+userInfo.password)
-        .then((res)=>{
+        .put(
+          "/v1/user/password?token=" +
+            token +
+            "&password=" +
+            userInfo.oldPw +
+            "&newPassword=" +
+            userInfo.password
+        )
+        .then((res) => {
           console.log("change PW - res", res.data);
           alert("비밀번호 변경을 성공하였습니다!");
-          router.push({name: "userSetting"})
+          router.push({ name: "userSetting" });
         })
         .catch((err) => {
           console.log("change pw - err", err.response);
-          if(err.response){
-            if(err.response.data.code === -1000){
+          if (err.response) {
+            if (err.response.data.code === -1000) {
               alert("현재 비밀번호를 확인해주세요!");
             }
           }
-        })
+        });
     },
 
     getMyPostList({ commit }, email) {
