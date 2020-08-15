@@ -8,10 +8,12 @@
         <package name="com.locker.blog.domain.post"/>
         <package name="com.locker.blog.domain.comment"/>
         <package name="com.locker.blog.domain.tag"/>
+        <package name="com.locker.blog.domain.postlike"/>
     </typeAliases>
     <mappers>
         <mapper resource="mapper/PostMapper.xml"/>
         <mapper resource="mapper/CommentMapper.xml"/>
         <mapper resource="mapper/TagMapper.xml"/>
+        <mapper resource="mapper/PostlikeMapper.xml"/>
     </mappers>
 </configuration>
