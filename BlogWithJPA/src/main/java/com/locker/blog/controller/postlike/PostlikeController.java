@@ -31,7 +31,6 @@ public class PostlikeController {
     @ApiOperation(value = "포스트에 좋아요 추가", notes = "포스트에 좋아요 추가한다.")
     @PutMapping(value = "/add")
     public ResponseEntity<String> addLikePost(@RequestParam Long pid) throws Exception {
-
         if(postlikeService.addLikePost(pid) > 0) {
             return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
         }
