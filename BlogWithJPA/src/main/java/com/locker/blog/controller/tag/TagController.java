@@ -23,7 +23,7 @@ import java.util.List;
 public class TagController {
     private static final String SUCCESS = "success";
     private static final String FAIL = "fail";
-    private static  final Logger logger = LoggerFactory.getLogger(PostController.class);
+    private static  final Logger logger = LoggerFactory.getLogger(TagController.class);
 
     @Autowired
     TagService tagService;
