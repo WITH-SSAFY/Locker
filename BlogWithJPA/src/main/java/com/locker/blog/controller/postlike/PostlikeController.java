@@ -23,7 +23,7 @@ import java.util.Map;
 public class PostlikeController {
     private static final String SUCCESS = "success";
     private static final String FAIL = "fail";
-    private static  final Logger logger = LoggerFactory.getLogger(PostController.class);
+    private static  final Logger logger = LoggerFactory.getLogger(PostlikeController.class);
 
     @Autowired
     PostlikeService postlikeService;
