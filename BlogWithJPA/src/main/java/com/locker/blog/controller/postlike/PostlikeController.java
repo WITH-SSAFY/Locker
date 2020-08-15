@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-@Api(tags = {"6. Postlike"})
+@Api(tags = {"7. Postlike"})
 @RestController
 @RequestMapping("/api/v1/postlike")
 @CrossOrigin
