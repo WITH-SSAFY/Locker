@@ -1,5 +1,5 @@
 <template>
-  <v-content style="background-color: #EDE7F6;">
+  <v-content style="background-color: #eceffc;">
     <v-container fill-height>
       <v-layout align-center row wrap>
         <v-card style="min-width: 50vw; padding: 3rem;">

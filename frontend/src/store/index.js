@@ -381,8 +381,8 @@ export default new Vuex.Store({
       axios
         .get("/v1/post/all/page/" + page)
         .then((response) => {
-          // console.log('들어옴 ', response.data)
           commit("getPostList", { postList: response.data });
+          console.log('들어옴')
         })
         .catch((exp) => alert("전체 글 리스트 불러오기 실패" + exp));
     },
