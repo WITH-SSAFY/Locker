@@ -71,8 +71,7 @@ public class PostController {
     //글 수정
     @ApiOperation(value = "글 수정", notes = "기존 글을 수정한다.")
     @PutMapping
-    public ResponseEntity<String> update(
-            @ApiParam(value = "글", required = true) @RequestBody Post post) {
+    public ResponseEntity<String> update(@RequestBody Post post) {
 
         if(service.update(post) == 0) { //insert 실패
             return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);

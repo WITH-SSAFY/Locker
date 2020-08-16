@@ -24,7 +24,10 @@ export default new Vuex.Store({
     parentid: null, //댓글 부모번호
     depth: null, //댓글 깊이
     rid: null, //댓글 번호
-    email: null,
+    email: null, //이메일
+    thumbnail: null,
+    description: null,
+    isNewPost: true,
 
     myPost: {}, //작성한 포스트
     myTags: [], //글 작성시 등록한 태그
@@ -71,6 +74,8 @@ export default new Vuex.Store({
       state.pid = payload.myDetail.pid;
       state.created = payload.myDetail.created;
       state.email = payload.myDetail.email;
+      state.thumbnail = payload.myDetail.thumbnail;
+      state.description = payload.myDetail.description;
       router.push({ name: "readPost" });
     },
     goEditDetail(state, payload) {

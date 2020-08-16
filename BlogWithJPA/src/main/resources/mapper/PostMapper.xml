@@ -29,7 +29,7 @@
 
     <update id="update" parameterType="Post">
         update post
-        set title=#{title}, content=#{content}, updated=curdate()
+        set title=#{title}, content=#{content}, description=#{description}, thumbnail=#{thumbnail}, updated=curdate()
         where pid=#{pid}
     </update>
 
