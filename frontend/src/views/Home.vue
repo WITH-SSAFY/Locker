@@ -1,7 +1,10 @@
 <template>
   <v-main class="full-screen">
     <full-page :options="options" id="fullpage">
-      <div v-if="isLogin" class="section"><mainPostList/></div>
+      <div v-if="isLogin">
+        <div class="section"><mainPostList/></div>
+        <div class="section"><mainPostList2/></div>
+      </div>
       <div v-if="!isLogin">
         <div class="section"><contents1/></div>
         <div class="section"><contents2/></div>
@@ -19,6 +22,7 @@
   import contents2 from './contents/contents-2.vue'
   import contents3 from './contents/contents-3.vue'
   import mainPostList from './contents/mainPostList.vue'
+  import mainPostList2 from './contents/mainPostList-2.vue'
 
   export default {
     name:"Home",
@@ -26,7 +30,8 @@
       contents1,
       contents2,
       contents3,
-      mainPostList
+      mainPostList,
+      mainPostList2,
     },
     data() {
       return {
