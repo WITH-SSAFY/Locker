@@ -2,6 +2,18 @@
   <div class="locker-container">
     <div class="row">
       <div class="col-md-4">
+        <div style="margin-left: 4.5rem;">
+          <p class="bold" style="font-size: 1.5rem;"><strong>LOCKER </strong>의 공지사항</p>
+          <div class="under-line"></div>
+        </div>
+        <section id="container">
+          <ul>
+            <li>공지 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+            <li>공지 2. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+            <li>공지 3. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+            <li>공지 4. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+          </ul>
+        </section>
 
       </div>
       <div class="col-md-8">
@@ -89,7 +101,7 @@
 </template>
 
 <script>
-// import $ from 'jquery'
+import $ from 'jquery'
 import '../../assets/css/main_post.scss'
 
 export default {
@@ -132,6 +144,17 @@ export default {
         document.querySelector('.el.s--active').classList.remove('s--active');
       });
     });
+
+    // 공지사항
+    function rotator() {
+		
+		$('ul li:first-child').slideUp(1000, function() {
+			$(this).appendTo($('ul'));
+		});
+		
+	}
+
+ 	setInterval(rotator, 3000);
   },
 }
 </script>
@@ -143,4 +166,35 @@ export default {
     margin-bottom: 3rem;
     background-color: #7C4DFF;
   }
+
+  body {
+    background: #0E0D26;
+    color: #D9D7BA;
+    padding: 50px;
+    font-family: 'Lato', sans-serif;
+  }
+
+  section#container {
+    overflow: hidden;
+    border: solid 3px #eceffc;
+    width: 500px;
+    margin-left: 4rem;
+    padding: 10px 20px;
+    height: 130px;
+
+  }
+
+  ul {
+    margin: 0;
+    padding: 0; 
+  }
+
+  li {
+    list-style: none;
+    height: 45px;
+    margin: 15px 0;
+    border-bottom: solid 1px #7C4DFF;
+    padding-bottom: 10px;
+  }
+  
 </style>
