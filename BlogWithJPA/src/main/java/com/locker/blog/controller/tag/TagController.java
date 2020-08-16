@@ -75,6 +75,18 @@ public class TagController {
             return new ResponseEntity<List<String>>(list, HttpStatus.NO_CONTENT);
         }
     }
+
+    @ApiOperation(value = "해당 포스트의 모든 태그정보 출력", notes = "해당 포스트의 모든 태그정보를 출력한다.")
+    @GetMapping(value = "/allitem")
+    public ResponseEntity<List<Tag>> getAllTags(@RequestParam Long pid) throws Exception {
+        List<Tag> list = tagService.getAllTags(pid);
+        if(list != null) {
+            return new ResponseEntity<List<Tag>>(list, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<List<Tag>>(list, HttpStatus.NO_CONTENT);
+        }
+    }
+
     @ApiOperation(value = "해당 포스트의 태그 모두 삭제", notes = "해당 포스트의 태그 모두 삭제한다.")
     @DeleteMapping
     public ResponseEntity<Integer> deleteTag(@RequestParam Long pid) throws Exception {
