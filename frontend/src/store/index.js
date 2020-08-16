@@ -28,6 +28,7 @@ export default new Vuex.Store({
     thumbnail: null,
     description: null,
     isNewPost: true,
+    tagname: "", //태그 클릭시 검색용
 
     myPost: {}, //작성한 포스트
     myTags: [], //글 작성시 등록한 태그

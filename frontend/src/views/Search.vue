@@ -64,7 +64,7 @@
         </v-card>-->
         <div
           v-infinite-scroll="loadMore"
-          infinite-scroll-disabled="busy"
+          :infinite-scroll-disabled="busy"
           infinite-scroll-distance="10"
         ></div>
       </v-col>
@@ -79,95 +79,151 @@ import infiniteScroll from "vue-infinite-scroll";
 export default {
   created() {
     //this.tags;
+    this.q = this.$store.state.tagname;
+    this.$store.state.tagname = "";
+    this.busy = false;
+    this.initialize(); //초기 세팅
   },
   data() {
     return {
       q: "", //검색어
       searchList: [],
       page: 1,
-      tags: []
+      tags: [],
+      busy: false
     };
   },
   directives: { infiniteScroll },
   methods: {
-    search() {
+    initialize() {
+      //초기 세팅(태그버튼 )
+      if (this.q != "") {
+        this.q = "#" + this.q;
+      }
+    },
+    async search() {
+      console.log("search");
       this.page = 1;
 
       if (this.q != "") {
         if (!this.q.startsWith("#")) {
-          axios
-            .get("/v1/post/search/common", {
-              params: {
-                q: this.q,
-                page: 1
-              }
-            })
-            .then(response => {
-              this.searchList = response.data;
-              this.page += 1;
-            })
-            .catch(exp => alert("검색 실패" + exp));
+          let response = await axios.get("/v1/post/search/common", {
+            params: {
+              q: this.q,
+              page: 1
+            }
+          });
+          this.searchList = response.data;
+          this.page++;
+
+          // axios
+          //   .get("/v1/post/search/common", {
+          //     params: {
+          //       q: this.q,
+          //       page: 1
+          //     }
+          //   })
+          //   .then(response => {
+          //     this.searchList = response.data;
+          //     this.page += 1;
+          //   })
+          //   .catch(exp => alert("검색 실패" + exp));
         } else {
           let tagname = this.q.split("#")[1];
-          axios
-            .get("/v1/post/search/tag", {
-              params: {
-                tagname: tagname,
-                page: 1
-              }
-            })
-            .then(response => {
-              this.searchList = response.data;
-              this.page += 1;
-            })
-            .catch(exp => alert("검색 실패" + exp));
+          let response = await axios.get("/v1/post/search/tag", {
+            params: {
+              tagname: tagname,
+              page: 1
+            }
+          });
+
+          this.searchList = response.data;
+          this.page++;
+          // axios
+          //   .get("/v1/post/search/tag", {
+          //     params: {
+          //       tagname: tagname,
+          //       page: 1
+          //     }
+          //   })
+          //   .then(response => {
+          //     this.searchList = response.data;
+          //     this.page += 1;
+          //   })
+          //   .catch(exp => alert("검색 실패" + exp));
         }
       }
     },
     readPost(pid) {
       this.$store.dispatch("showMyDetail", pid);
     },
-    loadMore() {
-      this.busy = true;
-
+    async loadMore() {
+      console.log("loadmore");
       if (this.q != "") {
         if (!this.q.startsWith("#")) {
-          axios
-            .get("/v1/post/search/common", {
-              params: {
-                q: this.q,
-                page: this.page
-              }
-            })
-            .then(response => {
-              setTimeout(() => {
-                if (response.data.length > 0) {
-                  this.searchList = this.searchList.concat(response.data);
-                  this.page += 1;
-                }
-              }, 700);
-            })
-            .catch(exp => alert("로딩 실패" + exp));
+          this.busy = true;
+
+          let response = await axios.get("/v1/post/search/common", {
+            params: {
+              q: this.q,
+              page: this.page
+            }
+          });
+          if (response.data.length > 0) {
+            this.searchList = this.searchList.concat(response.data);
+            this.page += 1;
+          }
           this.busy = false;
+          // axios
+          //   .get("/v1/post/search/common", {
+          //     params: {
+          //       q: this.q,
+          //       page: this.page
+          //     }
+          //   })
+          //   .then(response => {
+          //     setTimeout(() => {
+          //       if (response.data.length > 0) {
+          //         this.searchList = this.searchList.concat(response.data);
+          //         this.page += 1;
+          //       }
+          //     }, 700);
+          //     this.busy = false;
+          //   })
+          //   .catch(exp => alert("로딩 실패" + exp));
         } else {
+          this.busy = true;
           let tagname = this.q.split("#")[1];
-          axios
-            .get("/v1/post/search/tag", {
-              params: {
-                tagname: tagname,
-                page: this.page
-              }
-            })
-            .then(response => {
-              setTimeout(() => {
-                if (response.data.length > 0) {
-                  this.searchList = this.searchList.concat(response.data);
-                  this.page += 1;
-                }
-              }, 700);
-            })
-            .catch(exp => alert("로딩 실패" + exp));
+
+          let response = await axios.get("/v1/post/search/tag", {
+            params: {
+              tagname: tagname,
+              page: this.page
+            }
+          });
+
+          if (response.data.length > 0) {
+            this.searchList = this.searchList.concat(response.data);
+            this.page += 1;
+          }
           this.busy = false;
+          // axios
+          //   .get("/v1/post/search/tag", {
+          //     params: {
+          //       tagname: tagname,
+          //       page: this.page
+          //     }
+          //   })
+          //   .then(response => {
+          //     setTimeout(() => {
+          //       if (response.data.length > 0) {
+          //         this.searchList = this.searchList.concat(response.data);
+          //         this.page += 1;
+          //       }
+          //     }, 700);
+          //     this.busy = false;
+          //   })
+          //   .catch(exp => alert("로딩 실패" + exp));
         }
       }
     },
