@@ -1,102 +1,111 @@
 <template>
-  <v-container fill-height style="max-width:450px;" name="test">
-    <v-layout align-center row wrap>
-      <v-flex xs12>
-        <v-card>
-          <v-toolbar flat>
-            <v-toolbar-title>
-              <strong>Login</strong>
-            </v-toolbar-title>
-          </v-toolbar>
-          <div class="px-5 py-3">
-            <div class="form-inline form-group">
-              <v-icon large>mdi-email</v-icon>
-              <v-text-field
-                v-model="id"
-                label="이메일을 입력하세요"
-                class="ml-2"
-                @keyup.enter="login({ id, password })"
-              ></v-text-field>
+  <v-content style="background-color: #EDE7F6;">
+    <v-container fill-height>
+      <v-layout align-center row wrap>
+        <v-card style="min-width: 50vw; padding: 3rem;">
+          <p class="bolder my-5" style="font-size: 1.5rem;">로그인</p>
+          <div class="under-line"></div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <p class="bold py-3"><span style="color: #7C4DFF;">LOCKER </span>계정으로 로그인하기</p>
+              <div class="form-inline form-group">
+                <v-icon>mdi-email</v-icon>
+                <v-text-field
+                  v-model="id"
+                  label="이메일을 입력하세요"
+                  class="ml-2"
+                  @keyup.enter="login({ id, password })"
+                >
+                </v-text-field>
+              </div>
+              <div class="form-inline form-group">
+                <v-icon>mdi-lock</v-icon>
+                <v-text-field
+                  v-model="password"
+                  type="password"
+                  label="패스워드를 입력하세요"
+                  class="ml-2"
+                  @keyup.enter="login({ id, password })"
+                >
+                </v-text-field>
+              </div>
+
+              <v-btn
+                depressed
+                block
+                @click="login({ id, password })"
+                style="margin-bottom: 2.5rem;"
+              >
+                <span class="bolder" style="font-size: 1rem;">로그인</span>
+              </v-btn>
             </div>
-            <div class="form-inline form-group">
-              <v-icon large>mdi-lock</v-icon>
-              <v-text-field
-                v-model="password"
-                type="password"
-                label="패스워드를 입력하세요"
-                class="ml-2"
-                @keyup.enter="login({ id, password })"
-              ></v-text-field>
+              
+            <div class="col-md-6">
+              <p class="bold py-3"><span style="color: #7C4DFF;">소셜로그인</span>으로 간편하게 시작하기</p>
+              <div>
+                <!-- 깃헙 로그인 -->
+                <button
+                  @click="loginWithGithub"
+                  style="color: #fff; background-color: rgba(66, 66, 66); width: 15rem;"
+                  class="btn m-1 d-flex justify-content-between"
+                >
+                  <v-icon dark size="25" class="mr-2">mdi-github</v-icon>
+                  <strong>Continue with github</strong>
+                </button>
+                <p class="regular mb-5" style="font-size: 0.8rem;">LOCKER를 가장 효과적으로 이용하려면 !</p>
+
+                <!-- 카카오 로그인 -->
+                <button
+                  @click="signinWithKakao"
+                  style="color: #fff; background-color: rgb(255, 204, 0); width: 15rem;"
+                  class="btn m-1 d-flex justify-content-between"
+                >
+                  <v-icon dark size="25" class="mr-2">mdi-chat</v-icon>
+                  <strong>Continue with kakao</strong>
+                </button>
+
+                <!-- 구글 로그인 -->
+                <button
+                  @click="handleClickSignIn"
+                  style="color: #fff; background-color: rgba(219, 68, 55); width: 15rem;"
+                  class="btn m-1 d-flex justify-content-between"
+                >
+                  <v-icon dark size="25" class="mr-2">mdi-google-plus</v-icon>
+                  <strong>Continue with google</strong>
+                </button>
+
+                <!-- 네이버 로그인 -->
+                <button
+                  style="color: #fff; background-color: rgb(45, 180, 0); width: 15rem;"
+                  class="btn m-1 d-flex justify-content-between"
+                >
+                  <v-icon size="25">mdi-alpha-n</v-icon>
+                  <strong>Continue with naver</strong>
+                </button>
+              </div>
             </div>
-            <v-btn
-              depressed
-              dark
-              block
-              @click="login({ id, password })"
-              color="#7C4DFF"
-              class="mb-2"
-            >
-              <strong>로그인</strong>
-            </v-btn>
-            <v-btn depressed dark block color="rgba(0,0,0)" class="mb-2" @click="loginWithGithub">
-              <v-icon dark size="30" class="mr-2 icons">mdi-github</v-icon>
-              <strong>github</strong>
-            </v-btn>
-            <v-btn
-              depressed
-              dark
-              block
-              @click="handleClickSignIn"
-              color="rgba(219, 68, 55)"
-              class="mb-2"
-            >
-              <v-icon dark size="30" class="mr-2 icons">mdi-google-plus</v-icon>
-              <strong>google</strong>
-            </v-btn>
-            <!-- <button type="button" class="mb-2 v-btn--block v-btn-- depressed theme--dark v-size--default" color="red">
-              <v-icon dark size="30" class="mr-2 icons">mdi-google-plus</v-icon>
-              <strong>google</strong>
-            </button> -->
-            <v-btn
-              depressed
-              dark
-              block
-              @click="signinWithKakao"
-              color="rgb(255, 204, 0)"
-              class="mb-2"
-            >
-              <v-icon dark size="30" class="mr-2 icons">mdi-chat</v-icon>
-              <strong>kakao</strong>
-            </v-btn>
-            <!-- <button type="button" class="mb-2 v-btn--block v-btn-- depressed theme--dark v-size--default" style="">
-              <v-icon size="40">mdi-alpha-n</v-icon>
-              <strong>naver</strong>
-            </button> -->
-            <!-- <div >
-              <v-icon size="50">mdi-alpha-n</v-icon>
-              <strong>naver</strong>
-            </div> -->
-            <v-btn depressed dark block color="rgb(45, 180, 0)" class="mb-2">
-              <v-icon size="50">mdi-alpha-n</v-icon>
-              <strong>naver</strong>
-            </v-btn>
           </div>
+
         </v-card>
-        <div class="pa-2">
-          <small>아직 LOCKER의 회원이 아니라면?</small>
-          <v-btn depressed router :to="{ name: 'register' }" color="white" class="float-right">
-            <strong style="color: #6200EA">회원가입</strong>
-          </v-btn><br>
-        </div>
-        <div class="pa-2">
-          <small>비밀번호를 잊어버렸다면?</small>
-          <v-btn depressed router :to="{ name: 'findPassword' }" color="white" class="float-right">
-            <strong style="color: #6200EA">비밀번호 찾기</strong>
-          </v-btn>
-        </div>
-      </v-flex>
-    </v-layout>
-  </v-container>
+        
+      </v-layout>
+
+      <div style="margin-top: 7rem;">
+        <p class="bold" style="color: #424242">아직 LOCKER의 회원이 아니라면?</p>
+        <v-btn router :to="{ name: 'register' }" color="#424242" class="mb-5">
+          <v-icon size="25" class="mr-2">mdi-arrow-right-thick</v-icon>
+          <strong style="color: #fff;">회원가입 하기</strong>
+        </v-btn>
+
+        <p class="bold mt-5" style="color: #424242">비밀번호를 잊어버렸다면?</p>
+        <v-btn router :to="{ name: 'findPassword' }" color="#424242">
+          <v-icon size="25" class="mr-2">mdi-arrow-right-thick</v-icon>
+          <strong style="color: #fff;">비밀번호 찾기</strong>
+        </v-btn>
+      </div>
+    </v-container>
+  </v-content>
 </template>
 
 <script>
@@ -169,14 +178,14 @@ export default {
 };
 </script>
 <style scoped>
-  #icons {
-    position: relative;
-    top: 0px;
-    left: 0px;
-  }
+.under-line {
+  height: 0.3rem;
+  width: 3.5rem;
+  margin-bottom: 3rem;
+  background-color: #7C4DFF;
+}
 
-  button {
-    /* background-color: rgb(45, 180, 0); */
-    /* border-color: rgb(45, 180, 0); */
-  }
+.body {
+  background-color: #EDE7F6;
+}
 </style>

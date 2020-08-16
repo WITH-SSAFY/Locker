@@ -62,8 +62,8 @@
 
         <!-- 로그인버튼 -->
         <div v-else style="display: inline;">
-          <v-btn icon router :to="{name: 'login'}" class="ml-3 mr-4">SIGNIN</v-btn>
-          <v-btn icon router :to="{name: 'register'}" class="ml-4">SIGNUP</v-btn>
+          <v-btn icon router :to="{name: 'login'}" class="bold mx-3">로그인</v-btn>
+          <v-btn icon router :to="{name: 'register'}" class="bold mx-3">회원가입</v-btn>
         </div>
       </div>
     </div>
