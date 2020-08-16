@@ -21,6 +21,14 @@
         where p.pid=#{pid}
         and p.tagid = t.tagid
     </select>
+
+    <select id="getAllTags" resultType="Tag">
+       select t.tagname, t.tagid
+        from posttag p, tag t
+        where p.pid=#{pid}
+        and p.tagid = t.tagid
+    </select>
+
     <delete id="deleteTag">
         delete from posttag where pid=#{pid}
     </delete>

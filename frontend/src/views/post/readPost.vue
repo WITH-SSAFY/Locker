@@ -36,12 +36,13 @@
             </div>
             <div id="tag_list">
               <v-chip
-                v-for="(tag, index) in tags"
-                :key="index"
+                v-for="tag in tags"
+                :key="tag.tagid"
                 class="mx-1"
                 color="#EDE7F6"
                 small
-              >{{ tag }}</v-chip>
+                @click="searchTag(tag.tagid,tag.tagname)"
+              >{{ tag.tagname }}</v-chip>
             </div>
           </div>
           <hr />
@@ -353,7 +354,9 @@ export default {
     },
     async getTags() {
       //서버로 부터 해당 포스트에 등록된 태그 받아옴
-      let response = await axios.get("/v1/tag/all/" + this.$store.state.pid);
+      let response = await axios.get(
+        "/v1/tag/allitem?pid=" + this.$store.state.pid
+      );
       this.tags = response.data;
       // axios
       //   .get("/v1/tag/all/" + this.$store.state.pid)
