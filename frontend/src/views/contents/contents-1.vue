@@ -8,10 +8,12 @@
             <p class="bold" style="font-size: 3rem;">LOCKER</p>
             <div class="under-line mb-5"></div>
           </v-flex>
-          <v-btn large color="#7C4DFF" class="my-3"><span class="bold" style="color: #fff; font-size: 1.5rem;">Getting Started</span></v-btn>
+          <v-btn router :to="{ name: 'register' }" large color="#7C4DFF" class="my-3" style="text-decoration: none;">
+            <span class="bold" style="color: #fff; font-size: 1.5rem;">Getting Started</span>
+          </v-btn>
           <v-flex style="margin-top: 2.2rem;">
-            <p class="medium" style="font-size: 1.1rem;">이미 LOCKER 계정이 있으신가요?</p>
-            <a><p class="bold" style="color: #7C4DFF; font-size: 1.1rem;">로그인하기</p></a>
+            <p class="medium" style="font-size: 1.3rem;">이미 LOCKER 계정이 있으신가요?</p>
+            <button router :to="{ name: 'login' }"><p class="bold" style="color: #7C4DFF; font-size: 1.3rem; text-decoration: none;">로그인하기</p></button>
           </v-flex>
         </div>
 

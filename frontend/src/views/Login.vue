@@ -53,13 +53,15 @@
                   <v-icon dark size="25" class="mr-2">mdi-github</v-icon>
                   <strong>Continue with github</strong>
                 </button>
-                <p class="regular mb-5" style="font-size: 0.8rem;">LOCKER를 가장 효과적으로 이용하려면 !</p>
+                
+                <v-icon color="#7C4DFF" class="mr-2">mdi-menu-up</v-icon>
+                <p class="regular mb-5 d-inline" style="font-size: 0.8rem;"><strong>LOCKER</strong>를 가장 효과적으로 이용할 수 있는 방법!</p>
 
                 <!-- 카카오 로그인 -->
                 <button
                   @click="signinWithKakao"
                   style="color: #fff; background-color: rgb(255, 204, 0); width: 15rem;"
-                  class="btn m-1 d-flex justify-content-between"
+                  class="btn m-1 mt-4 d-flex justify-content-between"
                 >
                   <v-icon dark size="25" class="mr-2">mdi-chat</v-icon>
                   <strong>Continue with kakao</strong>
