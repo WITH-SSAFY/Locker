@@ -8,7 +8,7 @@
 
           <div class="row">
             <div class="col-md-6">
-              <p class="bold py-3"><span style="color: #7C4DFF;">LOCKER </span>계정으로 로그인하기</p>
+              <p class="bold py-3" style="font-size: 1.3rem;"><span style="color: #7C4DFF;">LOCKER </span>계정으로 로그인하기</p>
               <div class="form-inline form-group">
                 <v-icon>mdi-email</v-icon>
                 <v-text-field
@@ -42,7 +42,7 @@
             </div>
               
             <div class="col-md-6">
-              <p class="bold py-3"><span style="color: #7C4DFF;">소셜로그인</span>으로 간편하게 시작하기</p>
+              <p class="bold py-3" style="font-size: 1.3rem;"><span style="color: #7C4DFF;">소셜로그인</span>으로 간편하게 시작하기</p>
               <div>
                 <!-- 깃헙 로그인 -->
                 <button
