@@ -4,7 +4,7 @@
       <h1 style="margin: 0 3rem; font-size: 3.3rem;"><strong>LOCKER</strong></h1>
       <div class="main-under-line my-3" style="margin: 0 3rem;"></div>
     </div> -->
-    <p class="head-title">The 5 Best Repositories</p>
+    <p class="head-title bolder">The 5 Best Repositories</p>
     
     <div class="cont s--inactive">
       <!-- cont inner start -->

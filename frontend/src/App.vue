@@ -51,3 +51,13 @@ import BlogHeader from  "./views/Header.vue"
     }
   }
 </script>
+<style>
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+body        { font: 24px/30px 'Noto Sans CJK KR', Noto Sans KR, sans-serif }
+.thin       { font-weight: 100 }
+.light      { font-weight: 300 }
+.regular    { font-weight: 400 }
+.medium     { font-weight: 500 }
+.bold       { font-weight: 700 }
+.bolder     { font-weight: 900 }
+</style>
