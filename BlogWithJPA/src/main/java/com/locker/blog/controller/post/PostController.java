@@ -116,7 +116,7 @@ public class PostController {
     }
 
     @ApiOperation(value = "일반 검색", notes = "해당 검색어를 가진 모든 포스트를 조회한다.")
-    @GetMapping("/search")
+    @GetMapping("/search/common")
     public ResponseEntity<List<Post>> commonSearch(@ApiParam(value = "검색어", required = true) @RequestParam String q,
         @ApiParam(value="페이지",required=true) @RequestParam Long page) {
         Long sizePerPage = 10L;
@@ -135,6 +135,28 @@ public class PostController {
             return new ResponseEntity<List<Post>>(list, HttpStatus.NO_CONTENT);
         }
     }
+
+    @ApiOperation(value = "태그 검색", notes = "해당 태그를 가진 모든 포스트를 조회한다.")
+    @GetMapping("/search/tag")
+    public ResponseEntity<List<Post>> tagSearch(@ApiParam(value = "검색어", required = true) @RequestParam String tagname,
+                                                   @ApiParam(value="페이지",required=true) @RequestParam Long page) {
+        Long sizePerPage = 10L;
+        Long startPage = (page-1)*sizePerPage;
+        Long endPage = sizePerPage;
+
+        Map pageMap = new HashMap<>();
+        pageMap.put("tagname",tagname);
+        pageMap.put("startPage",startPage);
+        pageMap.put("endPage",endPage);
+
+        List<Post> list = service.tagSearch(pageMap);
+        if(list.size()>0){
+            return new ResponseEntity<List<Post>>(list, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<List<Post>>(list, HttpStatus.NO_CONTENT);
+        }
+    }
+
     @ApiOperation(value = "다음 포스트 번호", notes = "다음 포스트 번호를 조회한다.")
     @GetMapping("/nextpid")
     public ResponseEntity<Long> getNextpid () {

@@ -56,6 +56,11 @@ public class PostDAOImpl implements PostDAO {
     }
 
     @Override
+    public List<Post> tagSearch(Map pageMap) {
+        return session.selectList("post.tagSearch",pageMap);
+    }
+
+    @Override
     public Long getNextpid() {
         return session.selectOne("post.getNextpid");
     }
