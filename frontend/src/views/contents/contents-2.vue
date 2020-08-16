@@ -16,7 +16,9 @@
           <p class="bold" style="font-size: 1.7rem; color: #fff; background-color: rgba(0,0,0,0.6); padding: 1rem;"><span style="color: #7C4DFF;">코드와 포스트를 병행</span>하여 보여줄 수 있습니다</p>    
           <p class="bold" style="font-size: 1.7rem; color: #fff; background-color: rgba(0,0,0,0.6); padding: 1rem;"><span style="color: #7C4DFF;">언어 비율과 스탯</span>은 블로거의 신뢰도를 확인하는 지표가 됩니다</p>
           <p class="bold" style="font-size: 1.7rem; color: #fff; background-color: rgba(0,0,0,0.6); padding: 1rem;"><span style="color: #7C4DFF;">커밋 타임라인과 글을 함께</span> 확인할 수 있습니다</p>
-          <v-btn large color="#1a1a1a" style="margin-top: 2.3rem;"><span class="bold" style="color: #7C4DFF; font-size: 1.5rem;">Getting Started</span></v-btn>
+          <v-btn router :to="{ name: 'register' }" large color="#1a1a1a" style="margin-top: 2.3rem; text-decoration: none;">
+            <span class="bold" style="color: #7C4DFF; font-size: 1.5rem;">Getting Started</span>
+          </v-btn>
       </div>
 
       <div class="lockers-back">
