@@ -56,6 +56,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public List<Post> tagSearch(Map pageMap) {
+        return dao.tagSearch(pageMap);
+    }
+
+    @Override
     public Long getNextpid() {
         return dao.getNextpid();
     }
