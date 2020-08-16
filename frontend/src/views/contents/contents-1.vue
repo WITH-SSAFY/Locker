@@ -8,7 +8,7 @@
             <p class="bold" style="font-size: 3rem;">LOCKER</p>
             <div class="under-line mb-5"></div>
           </v-flex>
-          <v-btn large color="#7C4DFF" class="my-3"><span class="bold" style="color: #EDE7F6; font-size: 1.5rem;">Getting Started</span></v-btn>
+          <v-btn large color="#7C4DFF" class="my-3"><span class="bold" style="color: #fff; font-size: 1.5rem;">Getting Started</span></v-btn>
           <v-flex style="margin-top: 2.2rem;">
             <p class="medium" style="font-size: 1.1rem;">이미 LOCKER 계정이 있으신가요?</p>
             <a><p class="bold" style="color: #7C4DFF; font-size: 1.1rem;">로그인하기</p></a>
@@ -23,7 +23,6 @@
         <div style="position: relative; top: 11.5vh; z-index: 1; text-align: right;">
           <p class="bolder" style="font-size: 3.5rem;">깃헙과 가장 긴밀하게 연결되는</p>
           <p class="bolder" style="font-size: 3.5rem;">새로운 솔루션, <span style="color: #7C4DFF">LOCKER</span></p>
-          <!-- <div class="box-over"></div> -->
         </div>
 
       </v-layout>

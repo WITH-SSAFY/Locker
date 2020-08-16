@@ -122,6 +122,7 @@
 
 .text-section {
   position: absolute;
+  top: 22vh;
 }
 
 .contents-2 .logo {
@@ -152,7 +153,7 @@
 }
 
 .contents-2 .locker {
-  background-color: #777;
+  background-color: #424242;
   height: 30vh;
 }
 
@@ -170,7 +171,7 @@
   transform: translate(-50%, -50%);
   width: 0.1rem;
   height: 5rem;
-  background-color: #666;
+  background-color: #424242;
   transform: rotate(45deg);
 }
 
@@ -181,7 +182,7 @@
   transform: translate(-50%, -50%);
   width: 0.1rem;
   height: 5rem;
-  background-color: #777;
+  background-color: #424242;
   transform: rotate(45deg);
 }
 
