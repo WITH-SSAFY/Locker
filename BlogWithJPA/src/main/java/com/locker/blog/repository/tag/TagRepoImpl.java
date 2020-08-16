@@ -30,8 +30,14 @@ public class TagRepoImpl implements TagRepo{
     }
 
     @Override
-    public List<Tag> getTags(Long pid) {
+    public List<String> getTags(Long pid) {
         return sqlSession.selectList("tag.getTags",pid);
     }
+
+    @Override
+    public int deleteTag(Long pid) {
+        return sqlSession.delete("tag.deleteTag",pid);
+    }
+
 
 }

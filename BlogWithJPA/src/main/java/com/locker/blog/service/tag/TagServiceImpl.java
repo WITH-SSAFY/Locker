@@ -30,7 +30,13 @@ public class TagServiceImpl implements TagService{
     }
 
     @Override
-    public List<Tag> getTags(Long pid) {
+    public List<String> getTags(Long pid) {
         return tagRepo.getTags(pid);
     }
+
+    @Override
+    public int deleteTag(Long pid) {
+        return tagRepo.deleteTag(pid);
+    }
+
 }
