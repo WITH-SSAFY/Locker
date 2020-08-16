@@ -41,7 +41,7 @@
                 class="mx-1"
                 color="#EDE7F6"
                 small
-                @click="searchTag(tag.tagid,tag.tagname)"
+                @click="searchTag(tag.tagname)"
               >{{ tag.tagname }}</v-chip>
             </div>
           </div>
@@ -417,6 +417,11 @@ export default {
       await axios.delete(
         "/v1/postlike?pid=" + this.pid + "&id=" + this.userInfo.id
       );
+    },
+    searchTag(tagname) {
+      tagname;
+      this.$store.state.tagname = tagname;
+      this.$router.push({ name: "search" });
     }
   }
 };
