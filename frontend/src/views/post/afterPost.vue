@@ -10,22 +10,12 @@
               id="no-image"
               size="200"
               style="z-index: 1; margin-top: 50px"
-              >image</v-icon
-            >
-            <img
-              v-else
-              id="image"
-              :src="myPost.thumbnail"
-              style="z-index: 1;"
-            />
+            >image</v-icon>
+            <img v-else id="image" :src="myPost.thumbnail" style="z-index: 1;" />
           </div>
           <div id="buttons">
-            <v-btn id="upload" color="#EDE7F6" depressed @click="uploadThumnail"
-              >이미지 업로드</v-btn
-            >
-            <v-btn id="delete" depressed @click="removeThumbnail"
-              >이미지 삭제</v-btn
-            >
+            <v-btn id="upload" color="#EDE7F6" depressed @click="uploadThumnail">이미지 업로드</v-btn>
+            <v-btn id="delete" depressed @click="removeThumbnail">이미지 삭제</v-btn>
           </div>
 
           <input
@@ -67,6 +57,7 @@ export default {
   created() {
     this.myPost = this.$store.state.myPost;
     this.myTags = this.$store.state.myTags;
+    this.description = this.myPost.description;
   },
   data() {
     return {
@@ -79,29 +70,42 @@ export default {
       file: null, //프로필 이미지 파일
       albumBucketName: "locker-beaver-image", //s3세팅
       bucketRegion: "ap-northeast-2", //s3세팅
-      IdentityPoolId: "ap-northeast-2:59ec49b1-e859-4beb-a30e-b8a11a7341b8", //s3세팅
+      IdentityPoolId: "ap-northeast-2:59ec49b1-e859-4beb-a30e-b8a11a7341b8" //s3세팅
     };
   },
   methods: {
-    postContent() {
-      axios
-        .post("/v1/post", {
+    async postContent() {
+      if (this.$store.state.isNewPost) {
+        //글 새로 작성시
+        let response = await axios.post("/v1/post", {
           title: this.myPost.title,
           email: this.myPost.email,
           content: this.myPost.content,
           nickname: this.myPost.nickname,
           description: this.description,
-          thumbnail: this.myPost.thumbnail,
-        })
-        .then((response) => {
-          this.pid = response.data;
-          this.checkDupTag(); //태그 중복 확인
+          thumbnail: this.myPost.thumbnail
+        });
+        this.pid = response.data;
+        await this.checkDupTag(); //태그 중복 확인
 
-          //this.$store.dispatch("getMyPost", this.pid); //state에포스트 정보 업데이트
-          this.$store.dispatch("getMyPostList");
-          this.$router.push("/mypage");
-        })
-        .catch((exp) => alert("글 작성에 실패했습니다" + exp));
+        this.$store.dispatch("getMyPostList");
+        this.$router.push("/mypage");
+      } else {
+        //글 수정시
+        await axios.put("/v1/post", {
+          pid: this.myPost.pid,
+          title: this.myPost.title,
+          content: this.myPost.content,
+          description: this.description,
+          thumbnail: this.myPost.thumbnail
+        });
+        this.pid = this.myPost.pid;
+        await this.deletePostAllTag(); //포스트가 가자고 있는 모든 태그 삭제
+        await this.checkDupTag(); //나머지 로직은 글 생성 과 같음
+
+        this.$store.dispatch("getMyPostList");
+        this.$router.push("/mypage");
+      }
     },
     async checkDupTag() {
       //서버로 부터 이미 등록된 태그인지 검사(태그 중복 검사)
@@ -111,47 +115,37 @@ export default {
         let data = response.data;
         if (data == 0) {
           //중복이 없다
-          this.registNewTag();
+          await this.registNewTag(); //응답이 올 때 까지 기다림
         } else {
           this.tagid = data;
-          this.connectTag();
         }
+        await this.connectTag(); //응답이 올때 까지 기다림
       }
     },
 
-    registNewTag() {
-      //새로운 태그 등록
-      console.log("registTag: " + this.tagname);
-      axios
-        .post("/v1/tag", { tagname: this.tagname })
-        .then((response) => {
-          this.tagid = response.data;
-          console.log("new tagid: " + this.tagid);
-          this.connectTag(); //이 포스트에 해당 태그가 있다는 것을 알려줌(pid와 tagid연결)
-        })
-        .catch((exp) => alert(this.tagname + "태그 등록 실패" + exp));
-    },
-    connectTag() {
-      //pid와 tagid 연결
-      axios
-        .post("v1/tag/connect", { pid: this.pid, tagid: this.tagid })
-        .catch((exp) => alert("태그 연결 실패" + exp));
-    },
-    uploadThumnail() {
-      // this.isSelecting = true;
-      // window.addEventListener(
-      //   "focus",
-      //   () => {
-      //     this.isSelecting = false;
-      //   },
-      //   { once: true }
-      // );
+    async registNewTag() {
+      // //새로운 태그 등록
+      let response = await axios.post("/v1/tag", { tagname: this.tagname });
 
+      this.tagid = response.data;
+    },
+    async connectTag() {
+      //pid와 tagid 연결
+      await axios.post("v1/tag/connect", {
+        pid: this.pid,
+        tagid: this.tagid
+      });
+    },
+    async deletePostAllTag() {
+      //포스트에 등록된 모든 태그 삭제
+      await axios.delete("v1/tag?pid=" + this.myPost.pid); //서버로 부터 응답이 올때까지 대기
+    },
+
+    uploadThumnail() {
       this.$refs.uploader.click(); //handleChange() 실행
     },
     handleChange(event) {
       this.file = event.target.files[0];
-      console.log("file", this.file);
       if (!this.file.type.match(/^image\/(png|jpeg)$/)) {
         //이미지 아닌 경우
         alert("이미지 파일을 선택해주세요");
@@ -170,15 +164,15 @@ export default {
       AWS.config.update({
         region: this.bucketRegion,
         credentials: new AWS.CognitoIdentityCredentials({
-          IdentityPoolId: this.IdentityPoolId,
-        }),
+          IdentityPoolId: this.IdentityPoolId
+        })
       });
 
       var s3 = new AWS.S3({
         apiVersion: "2006-03-01",
         params: {
-          Bucket: this.albumBucketName,
-        },
+          Bucket: this.albumBucketName
+        }
       });
 
       //s3에 실제로 이미지 업로드
@@ -187,17 +181,13 @@ export default {
         {
           Key: photoKey,
           Body: this.file,
-          ACL: "public-read",
+          ACL: "public-read"
         },
         (err, data) => {
           if (err) {
-            console.log(err);
-            return alert(
-              "There was an error uploading your photo: ",
-              err.message
-            );
+            throw err;
           }
-          console.log(data);
+          data;
         }
       );
     },
@@ -215,31 +205,31 @@ export default {
       AWS.config.update({
         region: this.bucketRegion,
         credentials: new AWS.CognitoIdentityCredentials({
-          IdentityPoolId: this.IdentityPoolId,
-        }),
+          IdentityPoolId: this.IdentityPoolId
+        })
       });
 
       var s3 = new AWS.S3({
         apiVersion: "2006-03-01",
         params: {
-          Bucket: this.albumBucketName,
-        },
+          Bucket: this.albumBucketName
+        }
       });
 
       //s3에서 이미지 삭제
       s3.deleteObject(
         {
-          Key: photoKey,
+          Key: photoKey
         },
         (err, data) => {
           if (err) {
             throw err;
           }
-          console.log(data);
+          data;
         }
       );
-    },
-  },
+    }
+  }
 };
 </script>
 
