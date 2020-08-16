@@ -10,8 +10,8 @@
           </v-flex>
           <v-btn large color="#7C4DFF" class="my-3"><span class="bold" style="color: #fff; font-size: 1.5rem;">Getting Started</span></v-btn>
           <v-flex style="margin-top: 2.2rem;">
-            <p class="medium" style="font-size: 1.1rem;">이미 LOCKER 계정이 있으신가요?</p>
-            <a><p class="bold" style="color: #7C4DFF; font-size: 1.1rem;">로그인하기</p></a>
+            <p class="medium" style="font-size: 1.3rem;">이미 LOCKER 계정이 있으신가요?</p>
+            <a><p class="bold" style="color: #7C4DFF; font-size: 1.3rem;">로그인하기</p></a>
           </v-flex>
         </div>
 

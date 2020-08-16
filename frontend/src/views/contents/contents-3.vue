@@ -12,11 +12,11 @@
         </v-flex>
 
         <v-flex style="margin-top: 7rem; width: 60vw;">
-          <p class="bolder" style="font-size: 3rem;">개발자를 가장 잘 아는 개발자</p>
-          <p class="bolder" style="font-size: 3rem; margin-bottom: 5rem;">이들이 만든 블로그,  <span style="color: #7C4DFF; font-size: 3.5rem;">LOCKER</span></p>
+          <p class="bolder" style="font-size: 2.7rem;">개발자를 가장 잘 아는 개발자</p>
+          <p class="bolder" style="font-size: 2.7rem; margin-bottom: 5rem;">이들이 만든 블로그,  <span style="color: #7C4DFF; font-size: 3.5rem;">LOCKER</span></p>
           <v-btn large color="#1a1a1a" style="padding: 2rem; margin-bottom: 2rem;"><span class="bold" style="color: #fff; font-size: 1.5rem;">Getting Started</span></v-btn>
           <div class="wrapper">
-              <div class="typing-demo bolder" style="color: #7C4DFF; font-size: 3.5rem;">이제, 당신의 LOCKER를 여세요</div>
+              <div class="typing-demo bolder" style="color: #7C4DFF; font-size: 3.3rem;">이제, 당신의 LOCKER를 여세요</div>
           </div>
 
         </v-flex>
