@@ -2,32 +2,6 @@
   <div>
     <v-container class="mt-md-6">
       <v-row>
-        <!-- <v-col
-          cols="1"
-        >
-          <div style="position: fixed; top: 40vh; height: 155px; width: 70px; border-radius: 2em; background-color: #E0E0E0; text-align: center;">
-            <div style="position: fixed; left: 13.45rem; top: 19.6rem; height: 50px; width: 50px; border-radius:2rem; background-color: #EDE7F6;">
-              <v-icon
-                style="position: fixed; left: 13.9rem; top: 20rem;"
-                size="35"
-              >
-              mdi-heart</v-icon>
-            </div>
-              <div
-                style="position: fixed; top: 22.7rem; left: 14.8%"
-              >
-                num
-              </div>
-            <div style="position: fixed; left: 13.45rem; top: 24.5rem; height: 50px; width: 50px; border-radius:2rem; background-color: #EDE7F6;">
-              <v-icon
-                style="position: fixed; left: 14rem; top: 25rem;"
-                size="35"
-              >
-              mdi-share-variant</v-icon>
-            </div>
-          </div>
-        </v-col>-->
-        <!-- cols="12" -->
         <v-col cols="9" class="p-0">
           <div class="mx-5 py-3">
             <div class="row post_title ml-1">{{ title }}</div>
@@ -67,7 +41,7 @@
                 class="mx-1"
                 color="#EDE7F6"
                 small
-              >{{ tag.tagname }}</v-chip>
+              >{{ tag }}</v-chip>
             </div>
           </div>
           <hr />
