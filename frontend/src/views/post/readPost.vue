@@ -26,7 +26,7 @@
               mdi-share-variant</v-icon>
             </div>
           </div>
-        </v-col> -->
+        </v-col>-->
         <!-- cols="12" -->
         <v-col cols="9" class="p-0">
           <div class="mx-5 py-3">
@@ -36,15 +36,24 @@
               <div id="nick">{{ nickname }}</div>
               <div id="dash">/</div>
               <div id="wdate">{{ created }}</div>
+              <v-btn v-if="isUserLiked" icon @click="deleteLike()" style="margin-left: 5px;">
+                <v-icon color="red">mdi-heart</v-icon>
+              </v-btn>
+              <v-btn v-else icon @click="addLike()" style="margin-left: 5px;">
+                <v-icon>mdi-heart</v-icon>
+              </v-btn>
+              <span>{{likes}}</span>
             </div>
             <div class="float-right">
               <button
+                v-if="this.userInfo.email == email"
                 class="btn btn-light badge-pill mr-2"
                 @click="goEditDetail(pid)"
               >
                 <span>edit</span>
               </button>
               <button
+                v-if="this.userInfo.email == email"
                 class="btn btn-light badge-pill"
                 @click="deleteDetail(pid)"
               >
@@ -58,8 +67,7 @@
                 class="mx-1"
                 color="#EDE7F6"
                 small
-                >{{ tag.tagname }}</v-chip
-              >
+              >{{ tag.tagname }}</v-chip>
             </div>
           </div>
           <hr />
@@ -75,9 +83,7 @@
               <div class="mx-2">
                 <p class="d-inline" style="font-size: 1.8rem">
                   {{ nickname }}
-                  <v-icon size="30" class="ml-1" color="#7C4DFF"
-                    >mdi-arm-flex</v-icon
-                  >
+                  <v-icon size="30" class="ml-1" color="#7C4DFF">mdi-arm-flex</v-icon>
                 </p>
               </div>
               <p class="ml-2">{{ userInfo.introduction }}</p>
@@ -85,23 +91,15 @@
           </div>
 
           <v-row>
-            <v-col
-              cols="12"
-              md="10"
-              v-for="comment in viewerComment"
-              :key="comment.rid"
-            >
+            <v-col cols="12" md="10" v-for="comment in viewerComment" :key="comment.rid">
               <v-card flat>
                 <!-- 대댓글 없는 경우 -->
-                <div
-                  v-if="!comment.depth"
-                  class="d-flex justify-content-between"
-                >
+                <div v-if="!comment.depth" class="d-flex justify-content-between">
                   <div>
                     <!-- 댓글 보기 왼쪽 -->
-                    <span class="mr-5"
-                      ><strong>{{ comment.replynickname }}</strong></span
-                    >
+                    <span class="mr-5">
+                      <strong>{{ comment.replynickname }}</strong>
+                    </span>
                     <span>{{ comment.replytext }}</span>
 
                     <!-- 댓글 수정 -->
@@ -110,16 +108,13 @@
                       v-if="comment.rid === btnNum"
                       v-model="editComment"
                       required
-                    >
-                    </v-text-field>
+                    ></v-text-field>
                     <v-btn
                       v-if="comment.rid === btnNum"
                       dark
                       elevation="0"
                       @click="fetchComment(pid, comment.rid, editComment)"
-                    >
-                      수정
-                    </v-btn>
+                    >수정</v-btn>
                   </div>
 
                   <!-- 댓글 보기 오른쪽 -->
@@ -130,25 +125,15 @@
                       @click="
                         goEditComment(pid, comment.rid, comment.replytext)
                       "
-                    >
-                      edit
-                    </button>
+                    >edit</button>
                     <button
                       class="btn btn-sm btn-light mr-2"
                       @click="deleteComment(pid, comment.rid)"
-                    >
-                      delete
-                    </button>
-                    <button
-                      v-if="!comment.depth"
-                      @click="goReply(comment.rid, comment.depth)"
-                    >
+                    >delete</button>
+                    <button v-if="!comment.depth" @click="goReply(comment.rid, comment.depth)">
                       <v-icon>mdi-reply</v-icon>
                     </button>
-                    <button
-                      v-if="comment.depth"
-                      @click="showReply(comment.rid)"
-                    >
+                    <button v-if="comment.depth" @click="showReply(comment.rid)">
                       <v-icon>mdi-chevron-up</v-icon>
                     </button>
                   </div>
@@ -156,15 +141,12 @@
 
                 <!-- 대댓글 있는 경우 -->
 
-                <div
-                  v-if="comment.depth"
-                  class="pl-5 d-flex justify-content-between"
-                >
+                <div v-if="comment.depth" class="pl-5 d-flex justify-content-between">
                   <div>
                     <!-- 댓글 보기 왼쪽 -->
-                    <span class="mr-5"
-                      ><strong>{{ comment.replynickname }}</strong></span
-                    >
+                    <span class="mr-5">
+                      <strong>{{ comment.replynickname }}</strong>
+                    </span>
                     <span>{{ comment.replytext }}</span>
 
                     <!-- 댓글 수정 -->
@@ -173,16 +155,13 @@
                       v-if="comment.rid === btnNum"
                       v-model="editComment"
                       required
-                    >
-                    </v-text-field>
+                    ></v-text-field>
                     <v-btn
                       v-if="comment.rid === btnNum"
                       dark
                       elevation="0"
                       @click="fetchComment(pid, comment.rid, editComment)"
-                    >
-                      수정
-                    </v-btn>
+                    >수정</v-btn>
                   </div>
 
                   <!-- 댓글 보기 오른쪽 -->
@@ -193,15 +172,11 @@
                       @click="
                         goEditComment(pid, comment.rid, comment.replytext)
                       "
-                    >
-                      edit
-                    </button>
+                    >edit</button>
                     <button
                       class="btn btn-sm btn-light mr-2"
                       @click="deleteComment(pid, comment.rid)"
-                    >
-                      delete
-                    </button>
+                    >delete</button>
                     <button>
                       <div
                         v-if="!comment.depth"
@@ -223,18 +198,11 @@
                   <!-- 대댓글 작성 창 -->
                   <div class="d-flex">
                     <div class="input-group">
-                      <v-text-field label="대댓글" outlined v-model="reply">
-                      </v-text-field>
+                      <v-text-field label="대댓글" outlined v-model="reply"></v-text-field>
                     </div>
                     <div class="input-group-append ml-5">
                       <div>
-                        <v-btn
-                          dark
-                          @click="postReply(pid, comment.rid)"
-                          height="65%"
-                        >
-                          작성
-                        </v-btn>
+                        <v-btn dark @click="postReply(pid, comment.rid)" height="65%">작성</v-btn>
                       </div>
                     </div>
                   </div>
@@ -249,14 +217,11 @@
               <!-- 댓글 작성 창 -->
               <div class="d-flex">
                 <div class="input-group">
-                  <v-text-field label="댓글" outlined v-model="text">
-                  </v-text-field>
+                  <v-text-field label="댓글" outlined v-model="text"></v-text-field>
                 </div>
                 <div class="input-group-append ml-5">
                   <div>
-                    <v-btn dark @click="postComment(pid)" height="65%">
-                      작성
-                    </v-btn>
+                    <v-btn dark @click="postComment(pid)" height="65%">작성</v-btn>
                   </div>
                 </div>
               </div>
@@ -270,7 +235,7 @@
         cols="2"
       >
         <side-bar class="side" text-align="left"></side-bar>
-      </v-col> -->
+      </v-col>-->
     </v-container>
   </div>
 </template>
@@ -291,9 +256,11 @@ export default {
     this.$store.dispatch("getCommentList", this.$store.state.pid);
     this.viewerComment;
     this.getTags();
+    this.getLikes();
+    this.checkUserLiked();
   },
   components: {
-    Viewer,
+    Viewer
     // SideBar
   },
   data() {
@@ -308,6 +275,8 @@ export default {
       text: "",
       reply: "",
       parentid: null,
+      likes: 0, //좋아요 수
+      isUserLiked: false //유저가 좋아요를 표시 했는가
     };
   },
   computed: {
@@ -321,6 +290,10 @@ export default {
     pid() {
       return this.$store.state.pid;
     },
+    email() {
+      return this.$store.state.email;
+    },
+
     created() {
       return this.$store.state.created;
     },
@@ -329,7 +302,10 @@ export default {
     },
     viewerComment() {
       return this.$store.state.commentList;
-    },
+    }
+  },
+  watch: {
+    wlikes() {}
   },
   methods: {
     goEditDetail(pid) {
@@ -347,22 +323,22 @@ export default {
     deleteComment(pid, rid) {
       // TODO: 본인 댓글만 삭제 가능 조건 추가
       axios
-        .delete("v1/comment/" + pid + "/" + rid)
+        .delete("/v1/comment/" + pid + "/" + rid)
         .then(() => {
           this.$store.dispatch("getCommentList", pid);
         })
-        .catch((exp) => alert("내 댓글 삭제에 실패했습니다" + exp));
+        .catch(exp => alert("내 댓글 삭제에 실패했습니다" + exp));
     },
     fetchComment(pid, rid, editComment) {
       axios
-        .put("v1/comment", { pid, rid, replytext: editComment })
+        .put("/v1/comment", { pid, rid, replytext: editComment })
         .then(() => {
           alert("댓글 등록이 완료되었습니다");
           this.btnNum = null;
           this.$router.push("/readPost");
           this.$store.dispatch("getCommentList", pid);
         })
-        .catch((exp) => alert("내 댓글 수정에 실패했습니다 " + exp));
+        .catch(exp => alert("내 댓글 수정에 실패했습니다 " + exp));
     },
     goReply(rid, depth) {
       this.inputNum = rid;
@@ -371,46 +347,101 @@ export default {
 
     postComment(pid) {
       axios
-        .post("v1/comment", {
+        .post("/v1/comment", {
           replytext: this.text,
           replyemail: this.$store.state.userInfo.email,
           replynickname: this.$store.state.userInfo.nickname,
-          pid,
+          pid
         })
         .then(() => {
           this.$store.dispatch("getCommentList", pid);
           this.text = "";
         })
-        .catch((exp) => alert("댓글 작성에 실패했습니다" + exp));
+        .catch(exp => alert("댓글 작성에 실패했습니다" + exp));
     },
 
     postReply(pid, rid) {
       this.parentid = rid;
       axios
-        .post("v1/comment", {
+        .post("/v1/comment", {
           replytext: this.reply,
           replyemail: this.$store.state.userInfo.email,
           replynickname: this.$store.state.userInfo.nickname,
           pid,
-          parentid: this.parentid,
+          parentid: this.parentid
         })
         .then(() => {
           this.$store.dispatch("getCommentList", pid);
           this.reply = "";
           this.inputNum = -1;
         })
-        .catch((exp) => alert("댓글 작성에 실패했습니다" + exp));
+        .catch(exp => alert("댓글 작성에 실패했습니다" + exp));
     },
-    getTags() {
+    async getTags() {
       //서버로 부터 해당 포스트에 등록된 태그 받아옴
-      axios
-        .get("v1/tag/all/" + this.$store.state.pid)
-        .then((response) => {
-          this.tags = response.data;
-        })
-        .catch((exp) => alert("태그 불러오기 실패" + exp));
+      let response = await axios.get("/v1/tag/all/" + this.$store.state.pid);
+      this.tags = response.data;
+      // axios
+      //   .get("/v1/tag/all/" + this.$store.state.pid)
+      //   .then(response => {
+      //     this.tags = response.data;
+      //   })
+      //   .catch(exp => alert("태그 불러오기 실패" + exp));
     },
-  },
+    async getLikes() {
+      //서버로 부터 해당 포스트의 좋아요 수 받아옴
+      let response = await axios.get(
+        "/v1/postlike/all/" + this.$store.state.pid
+      );
+      this.likes = response.data;
+    },
+    async checkUserLiked() {
+      //포스트 상세포기 실행시 유저가 해당 포스트에 좋아요를 눌렀는지 검사
+      let response = await axios.get(
+        "/v1/postlike/check?pid=" + this.pid + "&id=" + this.userInfo.id
+      );
+
+      if (response.data == 1) {
+        this.isUserLiked = true;
+      }
+    },
+    addLike() {
+      //포스트에 좋아요수 +1 해줌
+      this.addLikePost();
+      //유저가 포스트에 좋아요 해준 사실 추가
+      this.addUserLikePost();
+      //좋아요 수 +1
+      this.likes++;
+      //좋아요 하트 색 변경
+      this.isUserLiked = true;
+    },
+    async addLikePost() {
+      //포스트에 좋아요수 +1 해줌
+      await axios.put("/v1/postlike/add?pid=" + this.pid);
+    },
+    async addUserLikePost() {
+      await axios.post("/v1/postlike", { pid: this.pid, id: this.userInfo.id });
+    },
+
+    deleteLike() {
+      //포스트에 좋아요수 -1해줌
+      this.deleteLikePost();
+      //유저가 포스트에 좋아요해준 사실 삭제
+      this.deleteUserLikePost();
+      //좋아요 수 하나 뺌
+      this.likes--;
+      //좋아요 하트 색 변경
+      this.isUserLiked = false;
+    },
+    async deleteLikePost() {
+      await axios.put("/v1/postlike/delete?pid=" + this.pid);
+    },
+    async deleteUserLikePost() {
+      await axios.delete(
+        "/v1/postlike?pid=" + this.pid + "&id=" + this.userInfo.id
+      );
+    }
+  }
 };
 </script>
 

@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -50,7 +51,6 @@ public class PostlikeController {
     @ApiOperation(value = "포스트에 좋아요 삭제", notes = "포스트에 좋아요를 삭제한다.")
     @PutMapping(value = "/delete")
     public ResponseEntity<String> deleteLikePost(@RequestParam Long pid) throws Exception {
-
         if(postlikeService.deleteLikePost(pid) > 0) {
             return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
         }
@@ -59,7 +59,10 @@ public class PostlikeController {
 
     @ApiOperation(value = "사용자가 해당 포스트에 좋아요 한 것 삭제", notes = "사용자가 해당 포스트에 좋아요 한 것을 삭제한다.")
     @DeleteMapping
-    public ResponseEntity<String> deleteUserLikePost(@RequestBody Map<String,Long> ids) throws Exception {
+    public ResponseEntity<String> deleteUserLikePost(@RequestParam Long pid, @RequestParam Long id) throws Exception {
+        Map<String, Long> ids = new HashMap<>();
+        ids.put("pid",pid);
+        ids.put("id",id);
 
         if(postlikeService.deleteUserLikePost(ids) > 0) {
             return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
@@ -70,12 +73,25 @@ public class PostlikeController {
     @ApiOperation(value = "해당 포스트의 좋아요 수 출력", notes = "해당 포스트의 좋아요 수 출력한다.")
     @GetMapping(value = "/all/{pid}")
     public ResponseEntity<Long> getLikes(@PathVariable Long pid) throws Exception {
-        System.out.println("getLikes");
         Long result = postlikeService.getLikes(pid);
         if(result !=null) {
             return new ResponseEntity<Long>(result, HttpStatus.OK);
         }
         return new ResponseEntity<Long>(result, HttpStatus.NO_CONTENT);
+    }
+
+    @ApiOperation(value = "유저가 해당 포스트에 좋아요를 눌렀는지 확인", notes = "유저가 해당 포스트에 좋아요를 눌렀는지 확인한다.")
+    @GetMapping(value = "/check")
+    public ResponseEntity<Integer> checkUserLiked(@RequestParam Long pid, @RequestParam Long id) throws Exception {
+        Map<String, Long> ids = new HashMap<>();
+        ids.put("pid",pid);
+        ids.put("id",id);
+
+        int count = postlikeService.checkUserLiked(ids);
+        if(count>0) {
+            return new ResponseEntity<Integer>(count, HttpStatus.OK);
+        }
+        return new ResponseEntity<Integer>(count, HttpStatus.NO_CONTENT);
     }
 
 }

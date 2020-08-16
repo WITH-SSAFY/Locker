@@ -36,4 +36,9 @@ public class PostlikeRepoImpl implements PostlikeRepo{
     public Long getLikes(Long pid) {
         return sqlSession.selectOne("postlike.getLikes",pid);
     }
+
+    @Override
+    public int checkUserLiked(Map ids) {
+        return sqlSession.selectOne("postlike.checkUserLiked",ids);
+    }
 }
