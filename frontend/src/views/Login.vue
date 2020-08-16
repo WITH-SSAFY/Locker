@@ -110,7 +110,6 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
-// import axios from "axios";
 
 export default {
   data() {
@@ -120,7 +119,6 @@ export default {
       github: "github",
       google: "google",
       isInit: false,
-      // isSignIn: false
     };
   },
   computed: {

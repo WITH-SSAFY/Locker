@@ -77,7 +77,7 @@ export default {
       // md = md.replace(/^(.+)\n---+/gm, '<h2>$1</h2>');
       
       //images
-      md = md.replace(/![([^]]+)](([^)]+))/g, '<img src="$2" alt="$1" />');
+      // md = md.replace(/![([^]]+)](([^)]+))/g, '<img src="$2" alt="$1" />');
       // md = md.replace(/\!\[([^\]]+)\]\(([^\)]+)\)/g, '<br><br><img src="$2" alt="$1" style="display: table; margin-left: auto; margin-right: auto;"/><br>');
       // md = md.replace(/![([^]]+)](([^)]+))/g, '<img src="$2" alt="$1" />');
       md = md.replace(/\!\[([^\]]+)\]\(([^\)]+)\)/g, '<img src="$2" alt="$1" />');
