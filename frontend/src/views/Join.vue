@@ -170,7 +170,8 @@
 </template>
 
 <script>
-import axios from "../lib/axios-common.js"; //axios : 서버와 통신하기 위함
+import { mapState, mapActions } from "vuex";
+import axios from "../lib/axios-common.js";
 
 export default {
   data: () => ({
@@ -213,10 +214,16 @@ export default {
     inputAuth: "", //사용자가 입력한 인증번호
     auth: "", //서버로 부터 받아온 인증번호
     getAuthFlag: false, //인증 번호를 받았는가?
-    sendAuthFlag: false //인증 보내서 인증을 완료 하였는가?
+    sendAuthFlag: false, //인증 보내서 인증을 완료 하였는가?
+
+    github: "github",
+    google: "google",
+    isInit: false,
   }),
 
   computed: {
+    ...mapState(["isLogin", "isLoginError"]),
+
     passwordConfirmRules() {
       if (this.passwordConfirm != this.passwordConfirm) {
         return "비밀번호가 일치하지 않습니다";
@@ -235,6 +242,12 @@ export default {
   },
 
   methods: {
+    ...mapActions([
+      // "login",
+      "signinWithKakao",
+      "handleClickLogin",
+      "signinWithSocial"
+    ]),
     validate() {
       this.$refs.form.validate();
     },
@@ -327,7 +340,36 @@ export default {
             .catch(exp => alert("회원 가입 처리에 실패했습니다" + exp));
         }
       }
+    },
+    async handleClickSignIn() {
+      try {
+        const googleUser = await this.$gAuth.signIn();
+        let token = googleUser.getAuthResponse().access_token;
+        console.log(
+          "google - access_token : ",
+          googleUser.getAuthResponse().access_token
+        );
+        this.isSignIn = this.$gAuth.isAuthorized;
+        this.signinWithSocial({ access_token: token, provider: this.google });
+      } catch (error) {
+        console.error(error);
+        alert("구글 로그인 도중 문제가 발생했습니다!", error);
+      }
+    },
+
+    loginWithGithub() {
+      window.location.href =
+        "http://i3a606.p.ssafy.io:8000/oauth2/authorization/github";
     }
+  },
+  created () {
+    let that = this;
+    let checkGauthLoad = setInterval(function() {
+      console.log("setInterval!!!");
+      that.isInit = that.$gAuth.isInit;
+      that.isSignIn = that.$gAuth.isAuthorized;
+      if (that.isInit) clearInterval(checkGauthLoad);
+    }, 1000);
   }
 };
 </script>
