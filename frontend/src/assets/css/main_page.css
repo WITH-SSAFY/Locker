@@ -54,7 +54,7 @@
 }
 
 .under-line {
-  height: 0.3rem;
+  height: 0.4rem;
   width: 20%;
   background-color: #7C4DFF;
 }
@@ -71,6 +71,7 @@
 .contents-1 .logo {
   color: black;
   width: 20vw;
+  margin-bottom: 3.7rem;
 }
 
 .contents-1 .sentence {
@@ -81,7 +82,7 @@
   position: absolute;
   background-color: #EDE7F6;
   left: 60%;
-  top: 7rem;
+  bottom: 60rem;
   width: 40%;
   height: 1.5rem;
 }
@@ -90,9 +91,19 @@
   position: absolute;
   background-color: #EDE7F6;
   left: 60%;
-  bottom: 0;
+  bottom: 12rem;
   width: 40%;
   height: 45vh;
+}
+
+.contents-1 .box-center {
+  position: absolute;
+  background-color: #fff;
+  left: 70%;
+  bottom: 36rem;
+  z-index: 1;
+  width: 20%;
+  height: 1.1rem;
 }
 
 .box-over {
