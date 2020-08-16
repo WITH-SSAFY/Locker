@@ -1,11 +1,7 @@
 <template>
   <div id="container">
     <div id="title_container">
-      <v-text-field
-        id="title"
-        v-model="title"
-        placeholder="제목을 입력해주세요"
-      ></v-text-field>
+      <v-text-field id="title" v-model="title" placeholder="제목을 입력해주세요"></v-text-field>
     </div>
 
     <div id="tag_list">
@@ -16,8 +12,7 @@
         color="#EDE7F6"
         small
         @click="deleteTag(index)"
-        >{{ tag }}</v-chip
-      >
+      >{{ tag }}</v-chip>
     </div>
 
     <div id="tag_container">
@@ -40,9 +35,7 @@
     />
     <div id="buttons">
       <v-btn id="temp_save" class="save_button" color="#c7c9c5">임시저장</v-btn>
-      <v-btn id="save" class="save_button" color="#7C4DFF" @click="postContent"
-        >작성완료</v-btn
-      >
+      <v-btn id="save" class="save_button" color="#7C4DFF" @click="postContent">작성완료</v-btn>
     </div>
   </div>
 </template>
@@ -86,7 +79,7 @@ import axios from "../../lib/axios-common.js"; //axios : 서버와 통신하기 
 
 export default {
   components: {
-    editor: Editor,
+    editor: Editor
   },
   data() {
     return {
@@ -97,9 +90,9 @@ export default {
       email: "",
       editorOptions: {
         hideModeSwitch: true, //모드 설정(markdown, wysiwyg) 안보이게함
-        placeholder: "내용을 입력해주세요",
+        placeholder: "내용을 입력해주세요"
       },
-      pid: 0,
+      pid: 0
     };
   },
   methods: {
@@ -111,22 +104,21 @@ export default {
       this.content = this.$refs.toastuiEditor.invoke("getMarkdown");
       axios
         .get("/v1/post/nextpid")
-        .then((response) => {
+        .then(response => {
           this.pid = response.data;
-          console.log("nextPid: " + this.pid);
           this.$store.state.myPost = {
             pid: this.pid,
             title: this.title,
             email: this.$store.state.userInfo.email,
             content: this.content,
-            nickname: this.$store.state.userInfo.nickname,
+            nickname: this.$store.state.userInfo.nickname
           };
 
           this.$store.state.myTags = this.tags;
-
+          this.$store.state.isNewPost = true;
           this.$router.push({ name: "afterPost" });
         })
-        .catch((exp) => alert("pid 가져오기 실패" + exp));
+        .catch(exp => alert("pid 가져오기 실패" + exp));
     },
     createTag() {
       //태그 생성
@@ -149,8 +141,8 @@ export default {
     deleteTag(index) {
       //태그 삭제
       this.tags.splice(index, 1); //splice(p1,p2,p3) p1: 시작 index, p2: 삭제 or 수정할 요소 개수, p3 바꿀 내용
-    },
-  },
+    }
+  }
 };
 </script>
 
