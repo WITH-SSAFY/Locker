@@ -94,18 +94,34 @@ export default {
       this.page = 1;
 
       if (this.q != "") {
-        axios
-          .get("/v1/post/search", {
-            params: {
-              q: this.q,
-              page: 1
-            }
-          })
-          .then(response => {
-            this.searchList = response.data;
-            this.page += 1;
-          })
-          .catch(exp => alert("검색 실패" + exp));
+        if (!this.q.startsWith("#")) {
+          axios
+            .get("/v1/post/search/common", {
+              params: {
+                q: this.q,
+                page: 1
+              }
+            })
+            .then(response => {
+              this.searchList = response.data;
+              this.page += 1;
+            })
+            .catch(exp => alert("검색 실패" + exp));
+        } else {
+          let tagname = this.q.split("#")[1];
+          axios
+            .get("/v1/post/search/tag", {
+              params: {
+                tagname: tagname,
+                page: 1
+              }
+            })
+            .then(response => {
+              this.searchList = response.data;
+              this.page += 1;
+            })
+            .catch(exp => alert("검색 실패" + exp));
+        }
       }
     },
     readPost(pid) {
@@ -115,23 +131,44 @@ export default {
       this.busy = true;
 
       if (this.q != "") {
-        axios
-          .get("/v1/post/search", {
-            params: {
-              q: this.q,
-              page: this.page
-            }
-          })
-          .then(response => {
-            setTimeout(() => {
-              if (response.data.length > 0) {
-                this.searchList = this.searchList.concat(response.data);
-                this.page += 1;
+        if (!this.q.startsWith("#")) {
+          axios
+            .get("/v1/post/search/common", {
+              params: {
+                q: this.q,
+                page: this.page
               }
-            }, 700);
-          })
-          .catch(exp => alert("로딩 실패" + exp));
-        this.busy = false;
+            })
+            .then(response => {
+              setTimeout(() => {
+                if (response.data.length > 0) {
+                  this.searchList = this.searchList.concat(response.data);
+                  this.page += 1;
+                }
+              }, 700);
+            })
+            .catch(exp => alert("로딩 실패" + exp));
+          this.busy = false;
+        } else {
+          let tagname = this.q.split("#")[1];
+          axios
+            .get("/v1/post/search/tag", {
+              params: {
+                tagname: tagname,
+                page: this.page
+              }
+            })
+            .then(response => {
+              setTimeout(() => {
+                if (response.data.length > 0) {
+                  this.searchList = this.searchList.concat(response.data);
+                  this.page += 1;
+                }
+              }, 700);
+            })
+            .catch(exp => alert("로딩 실패" + exp));
+          this.busy = false;
+        }
       }
     },
     async getTags(pid) {
