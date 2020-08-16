@@ -15,7 +15,7 @@
               <li class="tags">
                 <ul>
                   <li v-for="tag in tags" :key="tag.tagid">
-                    <a href="#">{{tag.tagname}}</a>
+                    <a href="#">{{tag}}</a>
                   </li>
                   <!-- <li>
                     <a href="#">Learn</a>
@@ -92,7 +92,6 @@ export default {
   methods: {
     search() {
       this.page = 1;
-      console.log("search", this.q);
 
       if (this.q != "") {
         axios
