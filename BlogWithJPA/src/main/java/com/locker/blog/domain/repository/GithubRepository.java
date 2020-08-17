@@ -1,4 +1,4 @@
-package com.locker.blog.domain.user;
+package com.locker.blog.domain.repository;
 
 import com.google.gson.annotations.Expose;
 import lombok.Getter;

@@ -1,6 +1,7 @@
 package com.locker.blog.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.locker.blog.domain.repository.MyRepository;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.security.core.GrantedAuthority;
@@ -44,6 +45,10 @@ public class User implements UserDetails {
     private String introduction;
     @Column(columnDefinition = "boolean default false")
     private Boolean verify;
+
+    @OneToMany
+    @JoinColumn(name = "repoid")
+    private List<MyRepository> repositories = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default

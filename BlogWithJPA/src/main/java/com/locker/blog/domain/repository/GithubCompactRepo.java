@@ -1,4 +1,4 @@
-package com.locker.blog.domain.user;
+package com.locker.blog.domain.repository;
 
 import lombok.Getter;
 import lombok.Setter;
