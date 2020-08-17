@@ -1,8 +1,7 @@
 package com.locker.blog.service.auth;
 
 import com.google.gson.Gson;
-import com.locker.blog.domain.user.GithubRepository;
-import com.locker.blog.service.auth.GithubService;
+import com.locker.blog.domain.repository.GithubRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
