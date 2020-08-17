@@ -98,13 +98,10 @@ export default new Vuex.Store({
       router.push({ name: "afterPost" }); //글 작성 후 화면으로 이동
     },
     getRepos(state, payload){
-      console.log("payload", payload);
-      console.log("arrGitRepo", state.arrGitRepo);
-      console.log("payload", payload[0].name)
       let temp = [];
       for(var i=0; i < payload.length; i++){
         var imgSrc = "https://github-readme-stats.vercel.app/api/pin/?username="+payload[i].name+"&repo="+payload[i].repoName
-        temp[i] = { src: imgSrc, repoUrl: payload[i].repoUrl }
+        temp[i] = { name: payload[i].name, src: imgSrc, repoUrl: payload[i].repoUrl }
       }
       console.log("temp",temp);
       state.arrGitRepo = temp
@@ -256,12 +253,18 @@ export default new Vuex.Store({
               picture: pic,
               provider: prov,
               introduction: res.introduction,
+              login: null
             };
+            
             if (pic === "null") {
               userInfo.picture = null;
             }
             if (prov === "null") {
               userInfo.provider = null;
+            } else {
+              if(prov === 'github'){
+                userInfo.login = res.login;
+              }
             }
             console.log("가지고 온 유저 정보 : ", res);
             commit("loginSuccess", userInfo);

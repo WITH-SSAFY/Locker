@@ -10,6 +10,7 @@
     </v-row>
     <!-- {{ arrGitRepo }} -->
     <!-- token: {{token}}<br> access_token: {{ accessToken }} -->
+    <!-- {{ repoInfo }} / {{ userInfo.login }}/ -->
     <v-row>
       <v-col>
         <div class="p-2 alert-secondary" style="border-radius: 10px;">
@@ -20,7 +21,7 @@
           <hr />
           <draggable
             class="list-group kanban-colum"
-            :list="arrGitRepo"
+            :list="repoInfo"
             group="tasks"
             style="text-align: center;"
           >
@@ -29,7 +30,7 @@
             </a> -->
             <a
               class="list-group-item mb-2"
-              v-for="element in arrGitRepo"
+              v-for="element in repoInfo"
               :key="element.repoUrl"
               style="border-radius: 10px;"
               :href="element.repoUrl"
@@ -49,14 +50,13 @@
           <hr />
           <draggable class="list-group kanban-colum" :list="arrMyRepo" group="tasks">
             <a
-              :href="element.href"
               class="list-group-item mb-2"
               v-for="element in arrMyRepo"
               :key="element.repoUrl"
               style="border-radius: 10px;"
+              :href="element.repoUrl"
             >
-              <!-- <img align="left" :src="element.src" /> -->
-              <!-- {{element.name}}/{{element.repoName}}/<br>{{element.repoUrl}} -->
+              <img alt="left" id="stat" :src="element.src">
             </a>
           </draggable>
         </div>
@@ -66,7 +66,7 @@
 </template>
 <script>
 import draggable from "vuedraggable";
-import { mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   name: "kanban-board",
@@ -78,14 +78,20 @@ export default {
     this.arrGitRepo;
     // let token = localStorage.getItem("access_token");
     // this.token = token;
-    this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNCIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE1OTc2NTg4NzIsImV4cCI6MTU5NzY2MjQ3Mn0.X8vtjM8dQGbN7VDgUILt2o3PyHPWVYWLn5SU2MxU-fk"
+    this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNCIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE1OTc2NjI2OTMsImV4cCI6MTU5NzY2NjI5M30.8JUjNudKn8MfVEGxB8_8IEW287ORXUXU-f171b52YI4"
     // let accessToken = localStorage.getItem("github_token");
     // this.accessToken = accessToken;
-    this.accessToken = "fc7d0df55cd3d746c7d71b1fc7a3eeb0a9059046"
+    this.accessToken = "01f6d998d01ec81bf8aee089a72f808064ffc519"
     console.log("arrGitRepo", this.arrGitRepo)
     this.getRepos({ token: this.token, accessToken: this.accessToken})
-  },
-  mounted() {
+    this.userInfo.login = 'jane399';
+    var temp = [];
+    for(var i=0; i < this.arrGitRepo.length; i++){
+      if(this.arrGitRepo[i].name !== this.userInfo.login){
+        temp[i]= { repoUrl: this.arrGitRepo[i].repoUrl, src: this.arrGitRepo[i].src}
+      }
+    }
+    this.repoInfo = temp;
   },
   computed: {
     showRepo() {
@@ -97,9 +103,11 @@ export default {
   },
   data() {
     return {
+      ...mapState(["userInfo"]),
       token: "",
       accessToken: "",
       arrMyRepo: [],
+      repoInfo: [],
     };
   },
   methods: {
