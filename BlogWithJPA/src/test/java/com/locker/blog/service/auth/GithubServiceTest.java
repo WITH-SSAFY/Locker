@@ -83,4 +83,24 @@ public class GithubServiceTest {
           // then
           myRepositoryJpaRepo.delete(myRepositoryJpaRepo.findByNameAndRepoName(name,repoName).orElseThrow(ClassNotFoundException::new));
        }
+
+       @Test
+       public void findAllMyRepository() throws Exception {
+           // given
+           String name = "junhok82";
+           String repoName = "BOJ";
+
+           // when
+           myRepositoryJpaRepo.save(MyRepository.builder()
+                   .name(name)
+                   .repoName(repoName)
+                   .build());
+
+           // then
+           List<MyRepository> myRepositories = myRepositoryJpaRepo.findAll();
+           for (int i = 0; i < myRepositories.size(); i++) {
+               if(myRepositories.get(i).getName().equals(name) && myRepositories.get(i).getRepoName().equals(repoName)) break;
+               else if(myRepositories.size() == i - 1)  Assertions.fail("조회 불가");
+           }
+        }
 }
