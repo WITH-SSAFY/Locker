@@ -8,7 +8,9 @@
           class="p-0"
         >
           <div class="row align-items-center mx-5 mb-5">
-            <div class="col-md-4 d-none d-sm-block align-self-start">
+
+            <!-- 프로필사진 섹션 -->
+            <div class="col-md-3 d-none d-sm-block align-self-start">
               <div class="d-flex justify-content-center">
                 <v-icon v-if="userInfo.picture==null"
                     size="150" class="mb-5" style="z-index: 1;">mdi-account-circle-outline</v-icon>
@@ -19,16 +21,23 @@
             </div>
 
             <!-- 텍스트 섹션 -->
-            <div class="col-md-8 d-flex-wrap align-self-start">
+            <div class="col-md-4 d-flex-wrap align-self-start">
               <div class="d-flex align-items-center justify-content-between p-0">
-                <p class="lead d-inline my-0" style="font-size: 2.3rem;"><strong>{{ userInfo.nickname }}</strong></p>
-                <!-- <a href="" class="d-inline btn btn-outline-dark btn-sm">Edit Profile</a> -->
+                <p class="light d-inline my-0" style="font-size: 2.3rem;"><strong>{{ userInfo.nickname }}</strong></p>
               </div>
-              <p class="ml-2">{{ userInfo.introduction }}</p>
+              <p class="thin" style="font-size: 1.1rem;">{{ userInfo.introduction }}</p>
               <div class="d-inline">
                 <a><v-icon size="35" style="color: black; padding-right: 1rem;">mdi-github</v-icon></a>
                 <a><v-icon size="35" style="color: black;">mdi-google-plus</v-icon></a>
               </div>
+            </div>
+
+            <!-- 스탯 섹션 -->
+            <div class="col-md-5">
+              <a href="https://github.com/anuraghazra/github-readme-stats">
+                <img align="left" src="https://github-readme-stats.vercel.app/api?username=YNNJN&show_icons=true&theme=buefy" />
+              </a>
+
             </div>
           </div>
           <hr>
