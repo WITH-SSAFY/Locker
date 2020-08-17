@@ -1,11 +1,10 @@
 package com.locker.blog.service.auth;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.locker.blog.advice.exception.CCommunicationException;
 import com.locker.blog.domain.social.GithubRetAuth;
-import com.locker.blog.domain.social.RetAuth;
+import com.locker.blog.domain.social.Languages;
 import com.locker.blog.domain.user.*;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -131,5 +130,41 @@ public class GithubService {
             throw new CCommunicationException();
         }
         throw new CCommunicationException();
+    }
+
+    public Languages getGithubLang(String name, String repo) {
+        URI uri = URI.create("https://api.github.com/repos/" + name + "/" + repo + "/languages");
+        ResponseEntity<String> response = restTemplate.getForEntity(uri,String.class);
+        // logger.info(response.getBody());
+
+        try {
+            if(response.getStatusCode() == HttpStatus.OK) return codeToRatio(gson.fromJson(response.getBody(),Languages.class));
+        } catch (Exception e) {
+            throw new CCommunicationException();
+        }
+        throw new CCommunicationException();
+    }
+
+    private Languages codeToRatio(Languages beforeLang) {
+        int cpp = Integer.parseInt(beforeLang.getCpp() == null ? "0" : beforeLang.getCpp());
+        int c = Integer.parseInt(beforeLang.getC() == null ? "0" : beforeLang.getC());
+        int css = Integer.parseInt(beforeLang.getCss() == null ? "0" : beforeLang.getCss());
+        int vue = Integer.parseInt(beforeLang.getVue() == null ? "0" : beforeLang.getVue());
+        int javascript = Integer.parseInt(beforeLang.getJavascript() == null ? "0" : beforeLang.getJavascript());
+        int html = Integer.parseInt(beforeLang.getHtml() == null ? "0" : beforeLang.getHtml());
+        int java = Integer.parseInt(beforeLang.getJava() == null ? "0" : beforeLang.getJava());
+
+        int total = c + cpp + css + vue + javascript + html + java;
+        Languages languages = new Languages();
+
+        languages.setC(String.valueOf(c * 100 / total));
+        languages.setCpp(String.valueOf((double)(cpp * 100 / total)));
+        languages.setCss(String.valueOf(css * 100 / total));
+        languages.setVue(String.valueOf(vue * 100 / total));
+        languages.setJavascript(String.valueOf(javascript * 100 / total));
+        languages.setHtml(String.valueOf(html * 100 / total));
+        languages.setJava(String.valueOf((double)(java * 100 / total)));
+
+        return languages;
     }
 }
