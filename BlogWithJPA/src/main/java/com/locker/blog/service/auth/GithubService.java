@@ -5,9 +5,11 @@ import com.google.gson.reflect.TypeToken;
 import com.locker.blog.advice.exception.CCommunicationException;
 import com.locker.blog.domain.repository.GithubCompactRepo;
 import com.locker.blog.domain.repository.GithubRepository;
+import com.locker.blog.domain.repository.MyRepository;
 import com.locker.blog.domain.social.GithubRetAuth;
 import com.locker.blog.domain.social.Languages;
 import com.locker.blog.domain.user.*;
+import com.locker.blog.repository.github.MyRepositoryJpaRepo;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +31,7 @@ public class GithubService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final RestTemplate restTemplate;
+    private final MyRepositoryJpaRepo myRepositoryJpaRepo;
     private final Environment env;
     private final Gson gson;
 
@@ -167,6 +170,13 @@ public class GithubService {
         }
 
         return githubCompactRepoList;
+    }
+
+    public void insert(String name, String repoName) {
+        myRepositoryJpaRepo.save(MyRepository.builder()
+                .name(name)
+                .repoName(repoName)
+                .build());
     }
 
     private Languages codeToRatio(Languages beforeLang) {

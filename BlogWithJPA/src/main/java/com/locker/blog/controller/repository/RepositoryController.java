@@ -2,6 +2,7 @@ package com.locker.blog.controller.repository;
 
 import com.locker.blog.advice.exception.CUserNotFoundException;
 import com.locker.blog.config.security.JwtTokenProvider;
+import com.locker.blog.domain.response.CommonResult;
 import com.locker.blog.domain.response.ListResult;
 import com.locker.blog.domain.response.SingleResult;
 import com.locker.blog.domain.social.Languages;
@@ -9,6 +10,7 @@ import com.locker.blog.domain.repository.GithubCompactRepo;
 import com.locker.blog.domain.user.GithubProfile;
 import com.locker.blog.domain.repository.GithubRepository;
 import com.locker.blog.domain.user.User;
+import com.locker.blog.repository.github.MyRepositoryJpaRepo;
 import com.locker.blog.repository.user.UserJpaRepo;
 import com.locker.blog.service.auth.GithubService;
 import com.locker.blog.service.response.ResponseService;
@@ -33,6 +35,7 @@ public class RepositoryController {
     private final JwtTokenProvider jwtTokenProvider;
     private final GithubService githubService;
     private final UserJpaRepo userJpaRepo;
+    private final MyRepositoryJpaRepo myRepositoryJpaRepo;
     private final ResponseService responseService;
 
     @ApiOperation(value = "깃헙 모든 레파지토리 축약 정보", notes = "깃헙 모든 레파지토리 축약된 정보를 가져온다.")
@@ -66,5 +69,19 @@ public class RepositoryController {
         Languages languages = githubService.getGithubLang(name,repo);
         logger.info(languages.toString());
         return responseService.getSingleResult(languages);
+    }
+
+    @ApiOperation(value = "깃헙 레포 추가", notes = "내 깃헙 레포를 추가한다.")
+    @PostMapping(value = "github")
+    public CommonResult insertMyRepository(
+                                            @ApiParam(value = "유저 or 팀 이름") @RequestParam String name,
+                                            @ApiParam(value = "레포 이름") @RequestParam String repoName) {
+        try {
+            githubService.insert(name,repoName);
+        } catch (Exception e) {
+            throw new CUserNotFoundException();
+        }
+
+        return responseService.getSuccessResult();
     }
 }
