@@ -13,7 +13,9 @@
           </v-btn>
           <v-flex style="margin-top: 2.2rem;">
             <p class="medium" style="font-size: 1.3rem;">이미 LOCKER 계정이 있으신가요?</p>
-            <button router :to="{ name: 'login' }"><p class="bold" style="color: #7C4DFF; font-size: 1.3rem; text-decoration: none;">로그인하기</p></button>
+            <v-btn depressed text color="white" router :to="{ name: 'login' }" class="p-0">
+              <p class="bold" style="color: #7C4DFF; font-size: 1.3rem; text-decoration: none;">로그인하기</p>
+            </v-btn>
           </v-flex>
         </div>
 

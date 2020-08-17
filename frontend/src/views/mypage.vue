@@ -4,7 +4,9 @@
       <v-row>
         <v-col cols="12" md="12" class="p-0">
           <div class="row align-items-center mx-5 mb-5">
-            <div class="col-md-4 d-none d-sm-block align-self-start">
+
+            <!-- 프로필사진 섹션 -->
+            <div class="col-md-3 d-none d-sm-block align-self-start">
               <div class="d-flex justify-content-center">
                 <v-icon
                   v-if="userInfo.picture==null"
@@ -19,22 +21,38 @@
             </div>
 
             <!-- 텍스트 섹션 -->
-            <div class="col-md-8 d-flex-wrap align-self-start">
+            <div class="col-md-4 d-flex-wrap align-self-start">
               <div class="d-flex align-items-center justify-content-between p-0">
-                <p class="lead d-inline my-0" style="font-size: 2.3rem;">
-                  <strong>{{ userInfo.nickname }}</strong>
-                </p>
-                <!-- <a href="" class="d-inline btn btn-outline-dark btn-sm">Edit Profile</a> -->
+                <p class="light d-inline my-0" style="font-size: 2.3rem;"><strong>{{ userInfo.nickname }}</strong></p>
               </div>
-              <p class="ml-2">{{ userInfo.introduction }}</p>
-              <div class="d-inline">
-                <a>
-                  <v-icon size="35" style="color: black; padding-right: 1rem;">mdi-github</v-icon>
-                </a>
-                <a>
-                  <v-icon size="35" style="color: black;">mdi-google-plus</v-icon>
-                </a>
+              <p class="thin" style="font-size: 1.1rem;">{{ userInfo.introduction }}</p>
+              
+              <div class="d-inline mt-5">
+                <a><v-icon size="35" style="color: black; padding-right: 1rem;">mdi-github</v-icon></a>
+                <a><v-icon size="35" style="color: black;">mdi-google-plus</v-icon></a>
               </div>
+            </div>
+
+            <!-- 스탯 섹션 -->
+            <div class="col-md-5">
+              <a href="https://github.com/anuraghazra/github-readme-stats">
+                <img align="left" src="https://github-readme-stats.vercel.app/api?username=YNNJN&show_icons=true&theme=buefy" />
+              </a>
+              <!-- TODO: 서버 수정되면 깃헙 아이디 받아와서 적용하기 -->
+
+              <!-- 깃헙과 연동되지 않았을 때의 화면 디자인 -->
+              <!-- <div style="min-height: 10rem; background-color: #eceffc; padding: 2rem;">
+                <div class="text-center">
+                  <p class="medium">깃헙과 연동하면 당신의 <strong style="color: #7C4DFF">stats</strong>을</p>
+                  <p class="medium"><strong style="color: #7C4DFF">LOCKER</strong>에서 확인할 수 있어요</p>
+                  <v-icon color="#7C4DFF" class="mr-2">mdi-menu-up</v-icon>
+                  <v-btn depressed text color="#252525" router :to="{ name: 'register' }" style="text-decoration: none;">
+                    <v-icon size="23" style="color: black; padding-right: 1rem;">mdi-github</v-icon>
+                    <span class="bolder" style="font-size: 1rem;">깃헙 연동 바로가기</span>
+                  </v-btn>
+                </div>
+              </div> -->
+
             </div>
           </div>
           <hr />
