@@ -72,10 +72,6 @@ export default {
       md = md.replace(/[\#]{2}\s(.+)/g, '<h2>$1</h2>');
       md = md.replace(/[\#]{1}\s(.+)/g, '<h1>$1</h1>');
       
-      //alt h
-      // md = md.replace(/^(.+)\n\=\=\=+/gm, '<h1>$1</h1>');
-      // md = md.replace(/^(.+)\n\-\-\-+/gm, '<h2>$1</h2>');
-      
       //images
       md = md.replace(/\!\[([^\]]+)\]\(([^\)]+)\)/g, '<img src="$2" alt="$1" />');
       
