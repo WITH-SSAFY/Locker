@@ -1,11 +1,16 @@
 package com.locker.blog.controller.post;
 
+import com.locker.blog.advice.exception.CCommunicationException;
 import com.locker.blog.domain.post.PagingPost;
 import com.locker.blog.domain.post.Post;
+import com.locker.blog.domain.response.ListResult;
+import com.locker.blog.repository.post.PostJpaRepo;
 import com.locker.blog.service.post.PostService;
+import com.locker.blog.service.response.ResponseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +28,15 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1/post")
 @CrossOrigin
+@RequiredArgsConstructor
 public class PostController {
     private static final String SUCCESS = "success";
     private static final String FAIL = "fail";
     private static  final Logger logger = LoggerFactory.getLogger(PostController.class);
 
-    @Autowired
-    PostService service;
+    final private PostService service;
+    final private ResponseService responseService;
+    final private PostJpaRepo postJpaRepo;
 
     @ApiOperation(value = "특정 사용자가 작성한 모든 글 조회", notes = "특정 id가 작성한 모든 글을 조회한다.")
     @GetMapping(value = "/all/{email}")
@@ -118,7 +125,7 @@ public class PostController {
     @ApiOperation(value = "일반 검색", notes = "해당 검색어를 가진 모든 포스트를 조회한다.")
     @GetMapping("/search/common")
     public ResponseEntity<List<Post>> commonSearch(@ApiParam(value = "검색어", required = true) @RequestParam String q,
-        @ApiParam(value="페이지",required=true) @RequestParam Long page) {
+                                                   @ApiParam(value="페이지",required=true) @RequestParam Long page) {
         Long sizePerPage = 10L;
         Long startPage = (page-1)*sizePerPage;
         Long endPage = sizePerPage;
@@ -139,7 +146,7 @@ public class PostController {
     @ApiOperation(value = "태그 검색", notes = "해당 태그를 가진 모든 포스트를 조회한다.")
     @GetMapping("/search/tag")
     public ResponseEntity<List<Post>> tagSearch(@ApiParam(value = "검색어", required = true) @RequestParam String tagname,
-                                                   @ApiParam(value="페이지",required=true) @RequestParam Long page) {
+                                                @ApiParam(value="페이지",required=true) @RequestParam Long page) {
         Long sizePerPage = 10L;
         Long startPage = (page-1)*sizePerPage;
         Long endPage = sizePerPage;
@@ -169,5 +176,11 @@ public class PostController {
         }
     }
 
-
+    @ApiOperation(value = "전체 리스트 조회", notes = "전체 리스트를 조회한다.")
+    @GetMapping(value = "/all/list")
+    public ListResult<Post> findAll() {
+        List<Post> postList = postJpaRepo.findAllByOrderByLikesDesc().orElseThrow(CCommunicationException::new);
+        ;
+        return responseService.getListResult(postList);
+    }
 }
