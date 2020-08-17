@@ -54,8 +54,8 @@ public class GithubServiceTest {
      @Test
      public void insertMyRepository() throws Exception {
          // given
-         String name = "junhok82";
-         String repoName = "BOJ";
+         String name = "test1234";
+         String repoName = "test1234";
 
          // when
          myRepositoryJpaRepo.save(MyRepository.builder()
@@ -71,8 +71,8 @@ public class GithubServiceTest {
       @Test
       public void delteMyRepository() throws Exception {
           // given
-          String name = "junhok82";
-          String repoName = "BOJ";
+          String name = "test1234";
+          String repoName = "test1234";
 
           // when
           myRepositoryJpaRepo.save(MyRepository.builder()
@@ -87,8 +87,8 @@ public class GithubServiceTest {
        @Test
        public void findAllMyRepository() throws Exception {
            // given
-           String name = "junhok82";
-           String repoName = "BOJ";
+           String name = "test1234";
+           String repoName = "test1234";
 
            // when
            myRepositoryJpaRepo.save(MyRepository.builder()
