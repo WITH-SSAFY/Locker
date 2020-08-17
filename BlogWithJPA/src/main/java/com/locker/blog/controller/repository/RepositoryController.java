@@ -5,6 +5,7 @@ import com.locker.blog.config.security.JwtTokenProvider;
 import com.locker.blog.domain.response.ListResult;
 import com.locker.blog.domain.response.SingleResult;
 import com.locker.blog.domain.social.Languages;
+import com.locker.blog.domain.user.GithubCompactRepo;
 import com.locker.blog.domain.user.GithubProfile;
 import com.locker.blog.domain.user.GithubRepository;
 import com.locker.blog.domain.user.User;
@@ -34,9 +35,9 @@ public class RepositoryController {
     private final UserJpaRepo userJpaRepo;
     private final ResponseService responseService;
 
-    @ApiOperation(value = "깃헙 레파지토리 정보", notes = "깃헙 레파지토리 정보를 가져온다.(전반적인 데이터)")
+    @ApiOperation(value = "깃헙 모든 레파지토리 축약 정보", notes = "깃헙 모든 레파지토리 축약된 정보를 가져온다.")
     @GetMapping(value = "github/repos")
-    public ListResult<GithubRepository> githubRepositoryListResult (
+    public ListResult<GithubCompactRepo> githubRepositoryListResult (
             @ApiParam(value = "JWT 토큰", required = true) @RequestParam String token,
             @ApiParam(value = "깃헙 토큰", required = true) @RequestParam String accessToken) {
         String pk = jwtTokenProvider.getUserPk(token);
@@ -44,10 +45,9 @@ public class RepositoryController {
         User user = userJpaRepo.findById(Long.parseLong(pk)).orElseThrow(CUserNotFoundException::new);
         GithubProfile githubProfile = githubService.getGithubProfile(accessToken);
         List<GithubRepository> githubRepositoryList = githubService.getGithubRepo(githubProfile.getSubscriptions_url());
-
         logger.info(githubRepositoryList.toString());
 
-        return responseService.getListResult(githubRepositoryList);
+        return responseService.getListResult(githubService.getGithubCompactRepo(githubRepositoryList));
     }
 
     @ApiOperation(value = "깃헙 히든 정보", notes = "깃헙 히든 정보를 가져온다.")
