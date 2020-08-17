@@ -1,14 +1,21 @@
 package com.locker.blog.controller.post;
 
+import com.locker.blog.advice.exception.CCommunicationException;
 import com.locker.blog.domain.post.PagingPost;
 import com.locker.blog.domain.post.Post;
+import com.locker.blog.domain.response.CommonResult;
+import com.locker.blog.domain.response.ListResult;
+import com.locker.blog.repository.post.PostJpaRepo;
 import com.locker.blog.service.post.PostService;
+import com.locker.blog.service.response.ResponseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,13 +30,15 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1/post")
 @CrossOrigin
+@RequiredArgsConstructor
 public class PostController {
     private static final String SUCCESS = "success";
     private static final String FAIL = "fail";
     private static  final Logger logger = LoggerFactory.getLogger(PostController.class);
 
-    @Autowired
-    PostService service;
+    private final PostService service;
+    private final PostJpaRepo postJpaRepo;
+    private final ResponseService responseService;
 
     @ApiOperation(value = "특정 사용자가 작성한 모든 글 조회", notes = "특정 id가 작성한 모든 글을 조회한다.")
     @GetMapping(value = "/all/{email}")
@@ -137,6 +146,11 @@ public class PostController {
         }
     }
 
-
+    @ApiOperation(value = "전체 리스트 조회", notes = "전체 리스트를 조회한다.")
+    @GetMapping(value = "/all/list")
+    public ListResult<Post> findAll() {
+        List<Post> postList = postJpaRepo.findAllByOrderByLikesDesc().orElseThrow(CCommunicationException::new);;
+        return responseService.getListResult(postList);
+    }
 
 }
