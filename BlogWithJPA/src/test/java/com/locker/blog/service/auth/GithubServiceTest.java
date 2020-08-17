@@ -97,10 +97,6 @@ public class GithubServiceTest {
                    .build());
 
            // then
-           List<MyRepository> myRepositories = myRepositoryJpaRepo.findAll();
-           for (int i = 0; i < myRepositories.size(); i++) {
-               if(myRepositories.get(i).getName().equals(name) && myRepositories.get(i).getRepoName().equals(repoName)) break;
-               else if(myRepositories.size() == i - 1)  Assertions.fail("조회 불가");
-           }
+           List<MyRepository> myRepositories = myRepositoryJpaRepo.findAllByName(name).orElseThrow(CCommunicationException::new);
         }
 }
