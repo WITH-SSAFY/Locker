@@ -8,4 +8,6 @@ import java.util.Optional;
 
 public interface MyRepositoryJpaRepo extends JpaRepository<MyRepository,Long> {
     Optional<MyRepository> findByNameAndRepoName(String name, String repoName);
+
+    Optional<List<MyRepository>> findAllByName(String name);
 }
