@@ -13,6 +13,7 @@ export default new Vuex.Store({
     isLogin: false,
     // isLogin: true,
     isLoginError: false,
+    showRepo: [true, false, false, false],
     myPostList: null, //내가 쓴 포스트 목록
     myDetailTitle: "", //상세보기 제목
     myDetail: "", //상세보기 내용
@@ -383,7 +384,7 @@ export default new Vuex.Store({
         .get("/v1/post/all/page/" + page)
         .then((response) => {
           commit("getPostList", { postList: response.data });
-          console.log('들어옴')
+          console.log("들어옴");
         })
         .catch((exp) => alert("전체 글 리스트 불러오기 실패" + exp));
     },
