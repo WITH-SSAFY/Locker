@@ -63,6 +63,8 @@ ul {
   list-style: none; 
 }
 .squares li { background-color: #ebedf0; }
-.squares li[data-level="1"] { background-color: #c6e48b; }
-.squares li[data-level="2"] { background-color: #7bc96f; }
-.squares li[data-level="3"] { background-color: #196127; }
+.squares li[data-level="1"] { background-color: #CFBBF8; }
+.squares li[data-level="2"] { background-color: #986BFF; }
+.squares li[data-level="3"] { background-color: #7C4DFF; }
+
+/* #c6e48b; #7bc96f; #196127; */
