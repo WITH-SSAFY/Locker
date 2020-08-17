@@ -1,6 +1,7 @@
 package com.locker.blog.service.auth;
 
 import com.google.gson.Gson;
+import com.locker.blog.advice.exception.CCommunicationException;
 import com.locker.blog.domain.repository.GithubRepository;
 import com.locker.blog.domain.repository.MyRepository;
 import com.locker.blog.repository.github.MyRepositoryJpaRepo;
@@ -14,6 +15,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.transaction.Transactional;
 import java.util.List;
+
+import static java.lang.String.*;
 
 @SpringBootTest
 @Transactional
@@ -63,6 +66,21 @@ public class GithubServiceTest {
          // then
          MyRepository myRepository = myRepositoryJpaRepo.findByNameAndRepoName(name,repoName).orElseThrow(ClassNotFoundException::new);
          Assertions.assertEquals(myRepository.getName(),name);
-
       }
+
+      @Test
+      public void delteMyRepository() throws Exception {
+          // given
+          String name = "junhok82";
+          String repoName = "BOJ";
+
+          // when
+          myRepositoryJpaRepo.save(MyRepository.builder()
+                  .name(name)
+                  .repoName(repoName)
+                  .build());
+
+          // then
+          myRepositoryJpaRepo.delete(myRepositoryJpaRepo.findByNameAndRepoName(name,repoName).orElseThrow(ClassNotFoundException::new));
+       }
 }
