@@ -3,6 +3,7 @@ package com.locker.blog.controller.repository;
 import com.locker.blog.advice.exception.CCommunicationException;
 import com.locker.blog.advice.exception.CUserNotFoundException;
 import com.locker.blog.config.security.JwtTokenProvider;
+import com.locker.blog.domain.repository.MyRepository;
 import com.locker.blog.domain.response.CommonResult;
 import com.locker.blog.domain.response.ListResult;
 import com.locker.blog.domain.response.SingleResult;
@@ -73,6 +74,14 @@ public class RepositoryController {
         return responseService.getSingleResult(languages);
     }
 
+    @ApiOperation(value = "내 깃헙 레포 조회", notes = "내 깃헙 레포를 조회한다.")
+    @GetMapping(value = "github")
+    public ListResult<MyRepository> getMyRepository(
+                                    @ApiParam(value = "유저 or 팀 이름") @RequestParam String name,
+                                    @ApiParam(value = "레포 이름") @RequestParam String repoName) {
+        List<MyRepository> myRepositories = myRepositoryJpaRepo.findAll();
+        return responseService.getListResult(myRepositories);
+    }
     @ApiOperation(value = "내 깃헙 레포 추가", notes = "내 깃헙 레포를 추가한다.")
     @PostMapping(value = "github")
     public CommonResult insertMyRepository(
