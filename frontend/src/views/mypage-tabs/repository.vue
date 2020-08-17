@@ -1,63 +1,94 @@
 <template>
-  <div class="repo">
-    <div class="naccs">
-      <div class="grid">
-      <div class="gc gc--1-of-3">
-        <div class="py-5" style="color: #7C4DFF; font-size: 3rem;"><span>Continue with</span></div>
-        <div class="menu">
-          <div class="active"><span class="light"></span><span>My Repository</span></div>
-          <div><span class="light"></span><span>Organization</span></div>
-        </div>
-      </div>
-      <div class="gc gc--2-of-3">
-        <ul class="nacc">
-          <li class="active">
-            <div>
-              <p>개인 블로그로 시작하기</p>
-            </div>
-          </li>
-          <li>
-            <div>
-              <p>팀 블로그로 시작하기</p>
-            </div>
-          </li>
-        </ul>
-      </div>
-      </div>
-    </div>
-
-
-
+  <div style="margin-left:20px;">
+    <!-- {{showRepo}} -->
+    <v-row>
+      <v-col>
+        <v-btn
+          tile
+          class="mx-2"
+          elevation="0"
+          x-large
+          color="#7C4DFF"
+          dark
+          @click="showAction(0)"
+          style="font-size: 1.5rem;"
+        >내 블로그</v-btn>
+        <v-btn
+          @click="showAction(2)"
+          tile
+          class="mx-2"
+          elevation="0"
+          x-large
+          color="#7C4DFF"
+          dark
+          style="font-size: 1.5rem;"
+        >팀 블로그</v-btn>
+      </v-col>
+    </v-row>
+    <v-row v-if="showRepo[0]">
+      <my-repository></my-repository>
+    </v-row>
+    <v-row v-if="showRepo[1]">
+      <add-my-repo></add-my-repo>
+    </v-row>
+    <v-row v-if="showRepo[2]">
+      <team-repository></team-repository>
+    </v-row>
+    <v-row v-if="showRepo[3]">
+      <add-team-repo></add-team-repo>
+    </v-row>
   </div>
-  
 </template>
 
 <script>
-import $ from 'jquery'
-import '../../assets/css/repository.scss'
+import "../../assets/css/repository.scss";
+import MyRepository from "./MyRepository.vue";
+import AddMyRepo from "./AddMyRepo.vue";
+import TeamRepository from "./TeamRepository.vue";
+import AddTeamRepo from "./AddMyRepo.vue";
 
 export default {
-  mounted () {
-    $(document).on("click", ".naccs .menu div", function() {
-    var numberIndex = $(this).index();
-
-    if (!$(this).is("active")) {
-        $(".naccs .menu div").removeClass("active");
-        $(".naccs ul li").removeClass("active");
-
-        $(this).addClass("active");
-        $(".naccs ul").find("li:eq(" + numberIndex + ")").addClass("active");
-
-        var listItemHeight = $(".naccs ul")
-            .find("li:eq(" + numberIndex + ")")
-            .innerHeight();
-        $(".naccs ul").height(listItemHeight + "px");
+  components: {
+    MyRepository,
+    AddMyRepo,
+    TeamRepository,
+    AddTeamRepo
+  },
+  created() {
+    this.showRepo;
+  },
+  computed: {
+    showRepo() {
+      return this.$store.state.showRepo;
     }
-});
+  },
+  data: () => {
+    return {
+      cards: [
+        {
+          herf: "#",
+          src:
+            "https://github-readme-stats.vercel.app/api/pin/?username=junhok82&repo=Algorithm_study"
+        },
+        {
+          herf: "#",
+          src:
+            "https://github-readme-stats.vercel.app/api/pin/?username=junhok82&repo=ITEM"
+        }
+      ],
+      link: ""
+    };
+  },
+  methods: {
+    showAction(num) {
+      for (var i in this.showRepo) {
+        this.showRepo.splice(i, 1, false);
+      }
+      this.showRepo.splice(num, 1, true);
+    }
   }
-}
+};
 </script>
 
 <style>
-
 </style>

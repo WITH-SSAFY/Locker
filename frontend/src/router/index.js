@@ -6,7 +6,7 @@ import mypage from "../views/mypage.vue";
 import article from "../views/mypage-tabs/article.vue";
 import repository from "../views/mypage-tabs/repository.vue";
 import introduce from "../views/mypage-tabs/introduce.vue";
-// import GithubLogin from "../views/GithubLogin.vue";
+// import myRepository from "../views/mypage-tabs/MyRepository.vue";
 
 Vue.use(VueRouter);
 
@@ -53,7 +53,15 @@ const routes = [
     children: [
       { path: "/", component: article },
       { path: "/article", component: article },
-      { path: "/repository", component: repository },
+      {
+        path: "/repository",
+        component: repository,
+        // children: [
+        //   { path: "/", component: myRepository },
+        //   { path: "/myRepository", component: myRepository },
+        //   { path: "/addMyRepository", component: addMyRepository },
+        // ],
+      },
       { path: "/introduce", component: introduce },
     ],
   },
