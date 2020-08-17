@@ -6,7 +6,6 @@ import mypage from "../views/mypage.vue";
 import article from "../views/mypage-tabs/article.vue";
 import repository from "../views/mypage-tabs/repository.vue";
 import introduce from "../views/mypage-tabs/introduce.vue";
-// import myRepository from "../views/mypage-tabs/MyRepository.vue";
 
 Vue.use(VueRouter);
 

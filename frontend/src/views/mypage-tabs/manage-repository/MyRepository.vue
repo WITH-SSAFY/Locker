@@ -1,15 +1,5 @@
 <template>
-  <div class="mt-10" style="width: 100%;">
-    <v-row>
-      <v-col cols="8">
-        <!-- {{showRepo}} -->
-        <h2>개인 블로그</h2>
-      </v-col>
-      <v-col cols="4">
-        <v-btn depressed @click="showAction(1)">Github에서 가져오기</v-btn>
-      </v-col>
-    </v-row>
-    <hr />
+  <div style="width: 100%;">
     <v-row>
       <v-col></v-col>
     </v-row>

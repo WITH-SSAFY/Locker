@@ -25,6 +25,49 @@
         >팀 블로그</v-btn>
       </v-col>
     </v-row>
+    <v-row class="mt-10" v-if="showRepo[0]">
+      <v-col cols="8">
+        <h2>개인 블로그</h2>
+      </v-col>
+      <v-col cols="4">
+        <v-btn
+          style="position:relative; float: right;"
+          depressed
+          @click="showAction(1)"
+        >Github에서 가져오기</v-btn>
+      </v-col>
+    </v-row>
+    <v-row class="mt-10" v-if="showRepo[1]">
+      <v-col cols="8">
+        <h2>개인 블로그</h2>
+      </v-col>
+      <v-col cols="4">
+        <v-btn style="position:relative; float: right;" depressed @click="showAction(0)">뒤로</v-btn>
+      </v-col>
+    </v-row>
+
+    <v-row class="mt-10" v-if="showRepo[2]">
+      <v-col cols="8">
+        <h2>팀 블로그</h2>
+      </v-col>
+      <v-col cols="4">
+        <v-btn
+          style="position:relative; float: right;"
+          depressed
+          @click="showAction(3)"
+        >Github에서 가져오기</v-btn>
+      </v-col>
+    </v-row>
+    <v-row class="mt-10" v-if="showRepo[3]">
+      <v-col cols="8">
+        <h2>팀 블로그</h2>
+      </v-col>
+      <v-col cols="4">
+        <v-btn style="position:relative; float: right;" depressed @click="showAction(2)">뒤로</v-btn>
+      </v-col>
+    </v-row>
+
+    <hr style="margin:5px;" />
     <v-row v-if="showRepo[0]">
       <my-repository></my-repository>
     </v-row>
@@ -42,10 +85,10 @@
 
 <script>
 import "../../assets/css/repository.scss";
-import MyRepository from "./MyRepository.vue";
-import AddMyRepo from "./AddMyRepo.vue";
-import TeamRepository from "./TeamRepository.vue";
-import AddTeamRepo from "./AddMyRepo.vue";
+import MyRepository from "./manage-repository/MyRepository.vue";
+import AddMyRepo from "./manage-repository/AddMyRepo.vue";
+import TeamRepository from "./manage-repository/TeamRepository.vue";
+import AddTeamRepo from "./manage-repository/AddTeamRepo.vue";
 
 export default {
   components: {

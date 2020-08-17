@@ -14,6 +14,8 @@ export default new Vuex.Store({
     // isLogin: true,
     isLoginError: false,
     showRepo: [true, false, false, false],
+    arrGitRepo: [],
+    arrMyRepo: [],
     myPostList: null, //내가 쓴 포스트 목록
     myDetailTitle: "", //상세보기 제목
     myDetail: "", //상세보기 내용
@@ -95,6 +97,19 @@ export default new Vuex.Store({
       state.myPost = payload.myPost;
       router.push({ name: "afterPost" }); //글 작성 후 화면으로 이동
     },
+    getRepos(state, payload){
+      console.log("payload", payload);
+      console.log("arrGitRepo", state.arrGitRepo);
+      console.log("payload", payload[0].name)
+      let temp = [];
+      for(var i=0; i < payload.length; i++){
+        var imgSrc = "https://github-readme-stats.vercel.app/api/pin/?username="+payload[i].name+"&repo="+payload[i].repoName
+        temp[i] = { src: imgSrc, repoUrl: payload[i].repoUrl }
+      }
+      console.log("temp",temp);
+      state.arrGitRepo = temp
+      console.log("arrGitRepo",state.arrGitRepo);
+    }
   },
   //비즈니스 로직
   actions: {
@@ -368,6 +383,21 @@ export default new Vuex.Store({
             }
           }
         });
+    },
+
+    getRepos({commit}, tokens){
+      console.log("tokens 값 확인", tokens);
+      axios
+        .get("/v1/github/repos?token="+tokens.token+"&accessToken="+tokens.accessToken)
+        .then((res) => {
+          console.log("res.data", res.data)
+          // console.log("res.data.list", res.data.list);
+          // state.arrGitRepo = res.data.list;
+          commit('getRepos', res.data.list);
+        })
+        .catch((err) => {
+          console.log("err", err);
+        })
     },
 
     getMyPostList({ commit }, email) {
