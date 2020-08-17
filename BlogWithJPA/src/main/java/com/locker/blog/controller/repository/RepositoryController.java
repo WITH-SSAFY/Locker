@@ -1,5 +1,6 @@
 package com.locker.blog.controller.repository;
 
+import com.locker.blog.advice.exception.CCommunicationException;
 import com.locker.blog.advice.exception.CUserNotFoundException;
 import com.locker.blog.config.security.JwtTokenProvider;
 import com.locker.blog.domain.response.CommonResult;
@@ -18,6 +19,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +42,7 @@ public class RepositoryController {
 
     @ApiOperation(value = "깃헙 모든 레파지토리 축약 정보", notes = "깃헙 모든 레파지토리 축약된 정보를 가져온다.")
     @GetMapping(value = "github/repos")
-    public ListResult<GithubCompactRepo> githubRepositoryListResult (
+    public ListResult<GithubCompactRepo> githubRepositoryListResult(
             @ApiParam(value = "JWT 토큰", required = true) @RequestParam String token,
             @ApiParam(value = "깃헙 토큰", required = true) @RequestParam String accessToken) {
         String pk = jwtTokenProvider.getUserPk(token);
@@ -55,33 +57,42 @@ public class RepositoryController {
 
     @ApiOperation(value = "깃헙 히든 정보", notes = "깃헙 히든 정보를 가져온다.")
     @GetMapping(value = "github/hidden")
-    public SingleResult<String> githubHiddenSingleResult (@ApiParam(value = "깃헙 토큰", required = true) @RequestParam String accessToken) {
+    public SingleResult<String> githubHiddenSingleResult(@ApiParam(value = "깃헙 토큰", required = true) @RequestParam String accessToken) {
         GithubProfile githubProfile = githubService.getGithubProfile(accessToken);
         String hiddenInfo = githubService.getHiddenInfo(githubProfile.getLogin());
 
         return responseService.getSingleResult(hiddenInfo);
     }
 
-    @ApiOperation(value ="깃헙 언어 사용 비율", notes = "깃헙 언어 사용 비율을 가져온다.")
+    @ApiOperation(value = "깃헙 언어 사용 비율", notes = "깃헙 언어 사용 비율을 가져온다.")
     @GetMapping(value = "github/lang")
-    public SingleResult<Languages> languagesListResult (@ApiParam(value = "유저 이름 or orgs 이름") @RequestParam String name,
-                                                      @ApiParam(value = "레파지토리 이름") @RequestParam String repo) {
-        Languages languages = githubService.getGithubLang(name,repo);
+    public SingleResult<Languages> languagesListResult(@ApiParam(value = "유저 이름 or orgs 이름") @RequestParam String name,
+                                                       @ApiParam(value = "레파지토리 이름") @RequestParam String repo) {
+        Languages languages = githubService.getGithubLang(name, repo);
         logger.info(languages.toString());
         return responseService.getSingleResult(languages);
     }
 
-    @ApiOperation(value = "깃헙 레포 추가", notes = "내 깃헙 레포를 추가한다.")
+    @ApiOperation(value = "내 깃헙 레포 추가", notes = "내 깃헙 레포를 추가한다.")
     @PostMapping(value = "github")
     public CommonResult insertMyRepository(
                                             @ApiParam(value = "유저 or 팀 이름") @RequestParam String name,
                                             @ApiParam(value = "레포 이름") @RequestParam String repoName) {
         try {
-            githubService.insert(name,repoName);
+            githubService.insert(name, repoName);
         } catch (Exception e) {
             throw new CUserNotFoundException();
         }
 
+        return responseService.getSuccessResult();
+    }
+
+    @ApiOperation(value = "내 깃헙 레포 삭제", notes = "내 깃헙 레포를 삭제한다.")
+    @DeleteMapping(value = "github")
+    public CommonResult deleteMyRepository(
+                                            @ApiParam(value = "유저 or 팀 이름") @RequestParam String name,
+                                            @ApiParam(value = "레포 이름") @RequestParam String repoName) {
+        myRepositoryJpaRepo.delete(myRepositoryJpaRepo.findByNameAndRepoName(name,repoName).orElseThrow(CCommunicationException::new));
         return responseService.getSuccessResult();
     }
 }
