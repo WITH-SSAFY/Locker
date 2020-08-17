@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.List;
-
 @Setter @Getter @ToString
 public class Languages {
     @SerializedName("C++")
@@ -19,8 +17,16 @@ public class Languages {
     private String c;
     @SerializedName("Css")
     private String css;
-    @SerializedName("Javascript")
+    @SerializedName("JavaScript")
     private String javascript;
     @SerializedName("HTML")
     private String html;
+    @SerializedName("Shell")
+    private String shell;
+    @SerializedName("Python")
+    private String python;
+    @SerializedName("Ruby")
+    private String ruby;
+    @SerializedName("C#")
+    private String cppp;
 }

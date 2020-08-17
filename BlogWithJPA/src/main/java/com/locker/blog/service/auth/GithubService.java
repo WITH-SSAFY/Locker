@@ -153,17 +153,25 @@ public class GithubService {
         int javascript = Integer.parseInt(beforeLang.getJavascript() == null ? "0" : beforeLang.getJavascript());
         int html = Integer.parseInt(beforeLang.getHtml() == null ? "0" : beforeLang.getHtml());
         int java = Integer.parseInt(beforeLang.getJava() == null ? "0" : beforeLang.getJava());
+        int shell = Integer.parseInt(beforeLang.getShell() == null ? "0" : beforeLang.getShell());
+        int python = Integer.parseInt(beforeLang.getPython() == null ? "0" : beforeLang.getPython());
+        int ruby = Integer.parseInt(beforeLang.getRuby() == null ? "0" : beforeLang.getRuby());
+        int cppp = Integer.parseInt(beforeLang.getCppp() == null ? "0" : beforeLang.getCppp());
 
-        int total = c + cpp + css + vue + javascript + html + java;
+        int total = c + cpp + css + vue + javascript + html + java + shell + python + ruby + cppp;
         Languages languages = new Languages();
 
-        languages.setC(String.valueOf(c * 100 / total));
+        languages.setC(String.valueOf((double) (c * 100 / total)));
         languages.setCpp(String.valueOf((double)(cpp * 100 / total)));
-        languages.setCss(String.valueOf(css * 100 / total));
-        languages.setVue(String.valueOf(vue * 100 / total));
-        languages.setJavascript(String.valueOf(javascript * 100 / total));
-        languages.setHtml(String.valueOf(html * 100 / total));
+        languages.setCss(String.valueOf((double) (css * 100 / total)));
+        languages.setVue(String.valueOf((double) (vue * 100 / total)));
+        languages.setJavascript(String.valueOf((double) (javascript * 100 / total)));
+        languages.setHtml(String.valueOf((double) (html * 100 / total)));
         languages.setJava(String.valueOf((double)(java * 100 / total)));
+        languages.setShell(String.valueOf((double)(shell * 100 / total)));
+        languages.setPython(String.valueOf((double)(python * 100 / total)));
+        languages.setRuby(String.valueOf((double)(ruby * 100 / total)));
+        languages.setCppp(String.valueOf((double)(cppp * 100 / total)));
 
         return languages;
     }
