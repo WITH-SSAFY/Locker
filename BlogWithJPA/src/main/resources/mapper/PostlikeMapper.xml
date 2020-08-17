@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="postlike">
+    <update id="addLikePost">
+        update post set likes = likes+1 where pid = #{pid}
+    </update>
+    <insert id="addUserLikePost">
+        insert into postlike values (null, #{pid}, #{id})
+    </insert>
+    <update id="deleteLikePost">
+        update post set likes = likes-1 where pid = #{pid}
+    </update>
+    <delete id="deleteUserLikePost">
+        delete from postlike where id=#{id} and pid=#{pid}
+    </delete>
+    <select id="getLikes" resultType="java.lang.Long">
+        select likes from post where pid=#{pid}
+    </select>
+    <select id="checkUserLiked" resultType="Integer">
+        select count(*) from postlike where pid=#{pid} and id=#{id}
+    </select>
+</mapper>

@@ -1,129 +1,179 @@
 <template>
-  <v-container fill-height style="max-width:450px;">
-    <v-layout align-center row wrap>
-      <v-flex xs12>
-        <v-card>
-          <v-toolbar flat>
-            <v-toolbar-title>
-              <strong>Signup</strong>
-            </v-toolbar-title>
-          </v-toolbar>
+  <v-content style="background-color: #eceffc;">
+    <v-container fill-height>
+      <v-layout align-center row wrap>
+        <v-card style="min-width: 50vw; padding: 2rem;">
+          <p class="bolder my-5" style="font-size: 1.5rem;">회원가입</p>
+          <div class="under-line"></div>
 
-          <div class="px-5 py-3">
-            <v-form ref="form" v-model="valid" lazy-validation>
-              <div class="form-inline form-group">
-                <v-icon large>mdi-email</v-icon>
-                <v-text-field
-                  v-model="email"
-                  :rules="emailRules"
-                  label="이메일"
-                  :disabled="useThisEmail"
-                  class="ml-2"
-                ></v-text-field>&nbsp;&nbsp;&nbsp;&nbsp;
+          <div class="row">
+            <div class="col-md-6">
+              <p class="bold py-3" style="font-size: 1.3rem;"><span style="color: #7C4DFF;">LOCKER </span>계정으로 시작하기</p>
+              <v-form ref="form" v-model="valid" lazy-validation>
+                <div class="form-inline form-group m-0">
+                  <v-icon>mdi-email</v-icon>
+                  <v-text-field
+                    v-model="email"
+                    :rules="emailRules"
+                    label="이메일"
+                    :disabled="useThisEmail"
+                    class="ml-2"
+                  ></v-text-field>&nbsp;&nbsp;&nbsp;&nbsp;
+                  <v-btn
+                    v-show="!useThisEmail"
+                    depressed
+                    id="email_btn"
+                    @click="checkEmail"
+                    class="ml-2"
+                  >중복확인</v-btn>
+                </div>
+
+                <div class="form-inline form-group m-0">
+                  <v-icon>mdi-email</v-icon>
+                  <v-text-field
+                    v-model="inputAuth"
+                    label="인증 번호 입력"
+                    :disabled="!getAuthFlag||sendAuthFlag"
+                    class="ml-2"
+                  ></v-text-field>
+                  <v-btn
+                    v-show="!getAuthFlag"
+                    depressed
+                    id="getAuth_btn"
+                    @click="getAuth"
+                    class="ml-2"
+                  >번호받기</v-btn>
+                  <v-btn
+                    v-show="getAuthFlag&&!sendAuthFlag"
+                    depressed
+                    id="sendAuth_btn"
+                    @click="sendAuth"
+                    color="white"
+                  >인증</v-btn>
+                </div>
+
+                <div class="form-inline form-group m-0">
+                  <v-icon>mdi-account-outline</v-icon>
+                  <v-text-field
+                    v-model="usrName"
+                    :counter="30"
+                    :rules="usrNameRules"
+                    label="이름"
+                    class="ml-2"
+                    required
+                  ></v-text-field>
+                </div>
+
+                <div class="form-inline form-group m-0">
+                  <v-icon>mdi-account-outline</v-icon>
+                  <v-text-field
+                    v-model="nickName"
+                    :counter="30"
+                    :rules="nickNameRules"
+                    label="닉네임"
+                    class="ml-2"
+                    required
+                  ></v-text-field>
+                </div>
+
+                <div class="form-inline form-group m-0">
+                  <v-icon>mdi-lock</v-icon>
+                  <v-text-field
+                    v-model="password"
+                    :counter="50"
+                    :rules="passwordRules"
+                    label="비밀번호"
+                    type="password"
+                    class="ml-2"
+                    required
+                  ></v-text-field>
+                </div>
+
+                <div class="form-inline form-group m-0">
+                  <v-icon>mdi-lock</v-icon>
+                  <v-text-field
+                    v-model="passwordConfirm"
+                    :counter="50"
+                    :rules="passwordConfirmRules"
+                    label="비밀번호 확인"
+                    type="password"
+                    class="ml-2"
+                    required
+                  ></v-text-field>
+                </div>
+
                 <v-btn
-                  v-show="!useThisEmail"
                   depressed
-                  id="email_btn"
-                  @click="checkEmail"
-                  color="white"
-                >중복확인</v-btn>
-              </div>
+                  block
+                   id="request_btn"
+                  @click="requestJoin"
+                  style="margin: 2.5rem 0;"
+                >
+                  <span class="bolder" style="font-size: 1rem;">회원가입</span>
+                </v-btn>
 
-              <div class="form-inline form-group">
-                <v-icon large>mdi-email</v-icon>
-                <v-text-field
-                  v-model="inputAuth"
-                  label="인증 번호 입력"
-                  :disabled="!getAuthFlag||sendAuthFlag"
-                  class="ml-2"
-                ></v-text-field>
-                <v-btn
-                  v-show="!getAuthFlag"
-                  depressed
-                  id="getAuth_btn"
-                  @click="getAuth"
-                  color="white"
-                >번호받기</v-btn>
-                <v-btn
-                  v-show="getAuthFlag&&!sendAuthFlag"
-                  depressed
-                  id="sendAuth_btn"
-                  @click="sendAuth"
-                  color="white"
-                >인증</v-btn>
-              </div>
+              </v-form>
+            </div>
+              
+            <div class="col-md-6">
+              <p class="bold py-3" style="font-size: 1.3rem;"><span style="color: #7C4DFF;">소셜로그인</span>으로 간편하게 시작하기</p>
+              <div>
+                <!-- 깃헙 로그인 -->
+                <button
+                  @click="loginWithGithub"
+                  style="color: #fff; background-color: rgba(66, 66, 66); width: 15rem;"
+                  class="btn m-1 d-flex justify-content-between"
+                >
+                  <v-icon dark size="25" class="mr-2">mdi-github</v-icon>
+                  <strong>Continue with github</strong>
+                </button>
+                
+                <v-icon color="#7C4DFF" class="mr-2">mdi-menu-up</v-icon>
+                <p class="regular mb-5 d-inline" style="font-size: 0.8rem;"><strong>LOCKER</strong>를 가장 효과적으로 이용할 수 있는 방법!</p>
 
-              <div class="form-inline form-group">
-                <v-icon large>mdi-account-outline</v-icon>
-                <v-text-field
-                  v-model="usrName"
-                  :counter="30"
-                  :rules="usrNameRules"
-                  label="이름"
-                  class="ml-2"
-                  required
-                ></v-text-field>
-              </div>
+                <!-- 카카오 로그인 -->
+                <button
+                  @click="signinWithKakao"
+                  style="color: #fff; background-color: rgb(255, 204, 0); width: 15rem;"
+                  class="btn m-1 mt-4 d-flex justify-content-between"
+                >
+                  <v-icon dark size="25" class="mr-2">mdi-chat</v-icon>
+                  <strong>Continue with kakao</strong>
+                </button>
 
-              <div class="form-inline form-group">
-                <v-icon large>mdi-account-outline</v-icon>
-                <v-text-field
-                  v-model="nickName"
-                  :counter="30"
-                  :rules="nickNameRules"
-                  label="닉네임"
-                  class="ml-2"
-                  required
-                ></v-text-field>
-              </div>
+                <!-- 구글 로그인 -->
+                <button
+                  @click="handleClickSignIn"
+                  style="color: #fff; background-color: rgba(219, 68, 55); width: 15rem;"
+                  class="btn m-1 d-flex justify-content-between"
+                >
+                  <v-icon dark size="25" class="mr-2">mdi-google-plus</v-icon>
+                  <strong>Continue with google</strong>
+                </button>
 
-              <div class="form-inline form-group">
-                <v-icon large>mdi-lock</v-icon>
-                <v-text-field
-                  v-model="password"
-                  :counter="50"
-                  :rules="passwordRules"
-                  label="비밀번호"
-                  type="password"
-                  class="ml-2"
-                  required
-                ></v-text-field>
+                <!-- 네이버 로그인 -->
+                <button
+                  style="color: #fff; background-color: rgb(45, 180, 0); width: 15rem;"
+                  class="btn m-1 d-flex justify-content-between"
+                >
+                  <v-icon size="25">mdi-alpha-n</v-icon>
+                  <strong>Continue with naver</strong>
+                </button>
               </div>
-
-              <div class="form-inline form-group">
-                <v-icon large>mdi-lock</v-icon>
-                <v-text-field
-                  v-model="passwordConfirm"
-                  :counter="50"
-                  :rules="passwordConfirmRules"
-                  label="비밀번호 확인"
-                  type="password"
-                  class="ml-2"
-                  required
-                ></v-text-field>
-              </div>
-
-              <v-btn
-                depressed
-                block
-                id="request_btn"
-                @click="requestJoin"
-                color="#7C4DFF"
-                class="mb-2"
-                dark
-              >
-                <strong>회원가입</strong>
-              </v-btn>
-            </v-form>
+            </div>
           </div>
+
         </v-card>
-      </v-flex>
-    </v-layout>
-  </v-container>
+        
+      </v-layout>
+    </v-container>
+  </v-content>
+
 </template>
 
 <script>
-import axios from "../lib/axios-common.js"; //axios : 서버와 통신하기 위함
+import { mapState, mapActions } from "vuex";
+import axios from "../lib/axios-common.js";
 
 export default {
   data: () => ({
@@ -166,10 +216,16 @@ export default {
     inputAuth: "", //사용자가 입력한 인증번호
     auth: "", //서버로 부터 받아온 인증번호
     getAuthFlag: false, //인증 번호를 받았는가?
-    sendAuthFlag: false //인증 보내서 인증을 완료 하였는가?
+    sendAuthFlag: false, //인증 보내서 인증을 완료 하였는가?
+
+    github: "github",
+    google: "google",
+    isInit: false,
   }),
 
   computed: {
+    ...mapState(["isLogin", "isLoginError"]),
+
     passwordConfirmRules() {
       if (this.passwordConfirm != this.passwordConfirm) {
         return "비밀번호가 일치하지 않습니다";
@@ -188,6 +244,12 @@ export default {
   },
 
   methods: {
+    ...mapActions([
+      // "login",
+      "signinWithKakao",
+      "handleClickLogin",
+      "signinWithSocial"
+    ]),
     validate() {
       this.$refs.form.validate();
     },
@@ -280,10 +342,45 @@ export default {
             .catch(exp => alert("회원 가입 처리에 실패했습니다" + exp));
         }
       }
+    },
+    async handleClickSignIn() {
+      try {
+        const googleUser = await this.$gAuth.signIn();
+        let token = googleUser.getAuthResponse().access_token;
+        console.log(
+          "google - access_token : ",
+          googleUser.getAuthResponse().access_token
+        );
+        this.isSignIn = this.$gAuth.isAuthorized;
+        this.signinWithSocial({ access_token: token, provider: this.google });
+      } catch (error) {
+        console.error(error);
+        alert("구글 로그인 도중 문제가 발생했습니다!", error);
+      }
+    },
+
+    loginWithGithub() {
+      window.location.href =
+        "http://i3a606.p.ssafy.io:8000/oauth2/authorization/github";
     }
+  },
+  created () {
+    let that = this;
+    let checkGauthLoad = setInterval(function() {
+      console.log("setInterval!!!");
+      that.isInit = that.$gAuth.isInit;
+      that.isSignIn = that.$gAuth.isAuthorized;
+      if (that.isInit) clearInterval(checkGauthLoad);
+    }, 1000);
   }
 };
 </script>
 
-<style>
+<style scoped>
+.under-line {
+  height: 0.3rem;
+  width: 3.5rem;
+  margin-bottom: 3rem;
+  background-color: #7C4DFF;
+}
 </style>

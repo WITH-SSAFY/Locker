@@ -11,42 +11,17 @@
             <div class="col-md-4 d-none d-sm-block align-self-start">
               <div class="d-flex justify-content-center">
                 <v-icon v-if="userInfo.picture==null"
-                    size="250" class="mb-5" style="z-index: 1;">mdi-account-circle-outline</v-icon>
-                  <v-avatar v-else size="250" class="mb-5" style="z-index: 1;">
+                    size="150" class="mb-5" style="z-index: 1;">mdi-account-circle-outline</v-icon>
+                  <v-avatar v-else size="150" class="mb-5" style="z-index: 1;">
                     <img :src="userInfo.picture">
                   </v-avatar>
-              </div>
-              <!-- 장식 박스 -->
-              <div>
-                <v-row class="no-gutters">
-                  <v-col sm="6">
-                    <v-card
-                      style="height: 7rem;"
-                      tile
-                      color="#7C4DFF"
-                    >
-                    </v-card>
-                  </v-col>
-                  <v-col
-                    sm="6"
-                    offset-sm="6"
-                  >
-                    <v-card
-                      style="height: 7rem;"
-                      tile
-                      color="#7C4DFF"
-                    >
-                    </v-card>
-                  </v-col>
-                </v-row>
-
               </div>
             </div>
 
             <!-- 텍스트 섹션 -->
             <div class="col-md-8 d-flex-wrap align-self-start">
               <div class="d-flex align-items-center justify-content-between p-0">
-                <p class="lead d-inline my-0" style="font-size: 3rem;"><strong>{{ userInfo.nickname }}</strong></p>
+                <p class="lead d-inline my-0" style="font-size: 2.3rem;"><strong>{{ userInfo.nickname }}</strong></p>
                 <!-- <a href="" class="d-inline btn btn-outline-dark btn-sm">Edit Profile</a> -->
               </div>
               <p class="ml-2">{{ userInfo.introduction }}</p>
@@ -70,59 +45,6 @@
       </p>
       <router-view></router-view>
 
-      <!-- 탭
-      <v-row class="no-gutters">
-        <v-col
-          cols="12"
-          md="10"
-        >
-          <v-tabs
-            v-model="activeTab"
-            background-color="transparent"
-            color="#7C4DFF"
-            grow
-          >
-            <v-tab key="" to="/">
-              <p><strong>Article</strong></p>
-            </v-tab>
-            <v-tab key="repository" to="/repository">
-              <p><strong>Repository</strong></p>
-            </v-tab>
-            <v-tab key="" to="/">
-              <p><strong>Introduce</strong></p>
-            </v-tab>
-
-            <v-tab-item id="/repository">
-              <router-view v-if="activeTab === 'repository'"/>
-            </v-tab-item>
-          </v-tabs>
-        </v-col>
-      </v-row> -->
-
-      <!-- 포스트 리스트 -->
-      <!-- <v-row>
-        <v-col
-          cols="12"
-          md="10"
-          v-for="(myPost, index) in myPostList"
-          :key="myPost.pid"
-          style="padding: 2% 8%;"
-        >
-          <v-card>
-            <v-card-title class="title" @click="showMyDetail(myPost.pid)">{{ myPost.title }}</v-card-title>
-            
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn icon @click="like(index)">
-                <v-icon :id="index">mdi-heart</v-icon>
-              </v-btn>
-              <v-btn icon><v-icon>mdi-bookmark</v-icon></v-btn>
-              <v-btn icon><v-icon>mdi-share-variant</v-icon></v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-col>
-      </v-row> -->
-      <!-- <category/> -->
     </v-container>
   </div>
 </template>

@@ -23,7 +23,7 @@ import java.util.List;
 public class TagController {
     private static final String SUCCESS = "success";
     private static final String FAIL = "fail";
-    private static  final Logger logger = LoggerFactory.getLogger(PostController.class);
+    private static  final Logger logger = LoggerFactory.getLogger(TagController.class);
 
     @Autowired
     TagService tagService;
@@ -49,7 +49,6 @@ public class TagController {
     @ApiOperation(value = "새로운 태그 등록", notes = "새로운 태그를 등록한다.")
     @PostMapping
     public ResponseEntity<Long> insertNewTag(@RequestBody Tag tag) throws Exception {
-        System.out.println("tagname"+tag.getTagname());
         if(tagService.insertNewTag(tag) > 0){
             Long newTagid = tag.getTagid();//새로 등록된 태그의 tagid
             return new ResponseEntity<Long>(newTagid, HttpStatus.OK);
@@ -68,12 +67,30 @@ public class TagController {
 
     @ApiOperation(value = "해당 포스트의 모든 태그 출력", notes = "해당 포스트의 모든 태그를 출력한다.")
     @GetMapping(value = "/all/{pid}")
-    public ResponseEntity<List<Tag>> getTags(@PathVariable Long pid) throws Exception {
-        List<Tag> list = tagService.getTags(pid);
+    public ResponseEntity<List<String>> getTags(@PathVariable Long pid) throws Exception {
+        List<String> list = tagService.getTags(pid);
+        if(list != null) {
+            return new ResponseEntity<List<String>>(list, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<List<String>>(list, HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @ApiOperation(value = "해당 포스트의 모든 태그정보 출력", notes = "해당 포스트의 모든 태그정보를 출력한다.")
+    @GetMapping(value = "/allitem")
+    public ResponseEntity<List<Tag>> getAllTags(@RequestParam Long pid) throws Exception {
+        List<Tag> list = tagService.getAllTags(pid);
         if(list != null) {
             return new ResponseEntity<List<Tag>>(list, HttpStatus.OK);
         }else{
             return new ResponseEntity<List<Tag>>(list, HttpStatus.NO_CONTENT);
         }
+    }
+
+    @ApiOperation(value = "해당 포스트의 태그 모두 삭제", notes = "해당 포스트의 태그 모두 삭제한다.")
+    @DeleteMapping
+    public ResponseEntity<Integer> deleteTag(@RequestParam Long pid) throws Exception {
+        int result = tagService.deleteTag(pid);
+        return new ResponseEntity<Integer>(result, HttpStatus.OK);
     }
 }

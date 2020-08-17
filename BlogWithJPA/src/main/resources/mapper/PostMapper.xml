@@ -29,7 +29,7 @@
 
     <update id="update" parameterType="Post">
         update post
-        set title=#{title}, content=#{content}, updated=curdate()
+        set title=#{title}, content=#{content}, description=#{description}, thumbnail=#{thumbnail}, updated=curdate()
         where pid=#{pid}
     </update>
 
@@ -50,5 +50,20 @@
         or title like concat('%',#{q},'%')
         order by updated
         limit #{startPage}, #{endPage}
+    </select>
+
+    <select id="tagSearch" resultType="Post">
+        select p.pid, p.content, p.created, p.description, p.email, p.likes, p.nickname, p.thumbnail, p.title, p.updated
+        from post p, posttag pt, tag t
+        where t.tagname = #{tagname}
+        and t.tagid = pt.tagid
+        and p.pid=pt.pid
+        order by p.updated
+        limit #{startPage}, #{endPage};
+    </select>
+    
+    <select id="getNextpid" resultType="java.lang.Long">
+        select max(pid)
+        from post;
     </select>
 </mapper>

@@ -84,14 +84,6 @@ const routes = [
       import(/* webpackChunkName: "readPost" */ "../views/post/readPost.vue"),
   },
   {
-    path: "/searchPost",
-    name: "searchPost",
-    component: () =>
-      import(
-        /* webpackChunkName: "searchPost" */ "../views/post/searchPost.vue"
-      ),
-  },
-  {
     path: "/editPost",
     name: "editPost",
     component: () =>
@@ -128,14 +120,18 @@ const routes = [
     path: "/findPassword",
     name: "findPassword",
     component: () =>
-      import(/* webpackChunkName: "findPassword" */ "../views/user/FindPassword.vue"),
+      import(
+        /* webpackChunkName: "findPassword" */ "../views/user/FindPassword.vue"
+      ),
   },
   {
     path: "/changePassword",
     name: "changePassword",
     component: () =>
-      import(/* webpackChunkName: "changePassword" */ "../views/user/ChangePassword.vue"),
-  }
+      import(
+        /* webpackChunkName: "changePassword" */ "../views/user/ChangePassword.vue"
+      ),
+  },
 ];
 
 const router = new VueRouter({

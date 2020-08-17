@@ -1,0 +1,26 @@
+mark {
+  --color1: springgreen;
+  --color2: springgreen;
+  --bg-height: 40%;
+    
+  all: unset;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(var(--color1)), to(var(--color2)));
+  background-image: -o-linear-gradient(var(--color1), var(--color2));
+  background-image: linear-gradient(var(--color1), var(--color2));
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0 var(--bg-height);
+  -webkit-animation: highlight 800ms 1 ease-out;
+          animation: highlight 800ms 1 ease-out;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
+}
+
+
+@-webkit-keyframes highlight {
+  to {
+    background-size: 100% var(--bg-height);
+  }
+}

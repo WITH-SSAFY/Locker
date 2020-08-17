@@ -3,7 +3,6 @@ package com.locker.blog.controller.post;
 import com.locker.blog.advice.exception.CCommunicationException;
 import com.locker.blog.domain.post.PagingPost;
 import com.locker.blog.domain.post.Post;
-import com.locker.blog.domain.response.CommonResult;
 import com.locker.blog.domain.response.ListResult;
 import com.locker.blog.repository.post.PostJpaRepo;
 import com.locker.blog.service.post.PostService;
@@ -15,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,9 +34,9 @@ public class PostController {
     private static final String FAIL = "fail";
     private static  final Logger logger = LoggerFactory.getLogger(PostController.class);
 
-    private final PostService service;
-    private final PostJpaRepo postJpaRepo;
-    private final ResponseService responseService;
+    final private PostService service;
+    final private ResponseService responseService;
+    final private PostJpaRepo postJpaRepo;
 
     @ApiOperation(value = "특정 사용자가 작성한 모든 글 조회", notes = "특정 id가 작성한 모든 글을 조회한다.")
     @GetMapping(value = "/all/{email}")
@@ -80,8 +78,7 @@ public class PostController {
     //글 수정
     @ApiOperation(value = "글 수정", notes = "기존 글을 수정한다.")
     @PutMapping
-    public ResponseEntity<String> update(
-            @ApiParam(value = "글", required = true) @RequestBody Post post) {
+    public ResponseEntity<String> update(@RequestBody Post post) {
 
         if(service.update(post) == 0) { //insert 실패
             return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
@@ -126,9 +123,9 @@ public class PostController {
     }
 
     @ApiOperation(value = "일반 검색", notes = "해당 검색어를 가진 모든 포스트를 조회한다.")
-    @GetMapping("/search")
+    @GetMapping("/search/common")
     public ResponseEntity<List<Post>> commonSearch(@ApiParam(value = "검색어", required = true) @RequestParam String q,
-        @ApiParam(value="페이지",required=true) @RequestParam Long page) {
+                                                   @ApiParam(value="페이지",required=true) @RequestParam Long page) {
         Long sizePerPage = 10L;
         Long startPage = (page-1)*sizePerPage;
         Long endPage = sizePerPage;
@@ -146,11 +143,44 @@ public class PostController {
         }
     }
 
+    @ApiOperation(value = "태그 검색", notes = "해당 태그를 가진 모든 포스트를 조회한다.")
+    @GetMapping("/search/tag")
+    public ResponseEntity<List<Post>> tagSearch(@ApiParam(value = "검색어", required = true) @RequestParam String tagname,
+                                                @ApiParam(value="페이지",required=true) @RequestParam Long page) {
+        Long sizePerPage = 10L;
+        Long startPage = (page-1)*sizePerPage;
+        Long endPage = sizePerPage;
+
+        Map pageMap = new HashMap<>();
+        pageMap.put("tagname",tagname);
+        pageMap.put("startPage",startPage);
+        pageMap.put("endPage",endPage);
+
+        List<Post> list = service.tagSearch(pageMap);
+        if(list.size()>0){
+            return new ResponseEntity<List<Post>>(list, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<List<Post>>(list, HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @ApiOperation(value = "다음 포스트 번호", notes = "다음 포스트 번호를 조회한다.")
+    @GetMapping("/nextpid")
+    public ResponseEntity<Long> getNextpid () {
+        Long pid = service.getNextpid()+1;
+        System.out.println("nextPid: "+pid);
+        if(pid>0){
+            return new ResponseEntity<Long>(pid, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<Long>(0L, HttpStatus.NO_CONTENT);
+        }
+    }
+
     @ApiOperation(value = "전체 리스트 조회", notes = "전체 리스트를 조회한다.")
     @GetMapping(value = "/all/list")
     public ListResult<Post> findAll() {
-        List<Post> postList = postJpaRepo.findAllByOrderByLikesDesc().orElseThrow(CCommunicationException::new);;
+        List<Post> postList = postJpaRepo.findAllByOrderByLikesDesc().orElseThrow(CCommunicationException::new);
+        ;
         return responseService.getListResult(postList);
     }
-
 }
