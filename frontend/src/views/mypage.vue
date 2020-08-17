@@ -55,9 +55,39 @@
 
             </div>
           </div>
-          <hr />
-        </v-col>
+          <!-- <hr> -->
+        </v-col>        
       </v-row>
+
+      <!-- 잔디 섹션 -->
+      <div class="jandi">
+        <div class="graph">
+          <ul class="months">
+            <li>Jan</li>
+            <li>Feb</li>
+            <li>Mar</li>
+            <li>Apr</li>
+            <li>May</li>
+            <li>Jun</li>
+            <li>Jul</li>
+            <li>Aug</li>
+            <li>Sep</li>
+            <li>Oct</li>
+            <li>Nov</li>
+            <li>Dec</li>
+          </ul>
+          <ul class="days">
+            <li></li>
+            <li>MON</li>
+            <li></li>
+            <li>WEB</li>
+            <li></li>
+            <li>FRI</li>
+            <li></li>
+          </ul>
+          <ul class="squares"></ul>
+        </div>
+      </div>
 
       <!-- 중첩 라우터 -->
       <p class="d-flex justify-content-around">
@@ -85,6 +115,7 @@
 import { mapState } from "vuex";
 // import SideBar from "./SideBar.vue"
 import("../assets/css/side-style.css");
+import("../assets/css/jandi.css");
 
 export default {
   created() {
@@ -96,6 +127,16 @@ export default {
     for (let i = 0; i < this.size; i++) {
       this.likes.push(false);
     }
+  },
+  mounted () {
+
+    // Add squares
+    const squares = document.querySelector('.squares');
+    for (var i = 1; i < 365; i++) {
+      const level = Math.floor(Math.random() * 4);  
+      squares.insertAdjacentHTML('beforeend', `<li data-level="${level}"></li>`);
+    }
+
   },
   computed: {
     ...mapState(["userInfo", "myPostList"]),
@@ -137,15 +178,16 @@ export default {
 };
 </script>
 <style scoped>
-@import url("https://fonts.googleapis.com/css?family=Oswald");
+/* @import url("https://fonts.googleapis.com/css?family=Oswald"); */
 
 .tabs {
 }
 
 .tab {
   color: black;
-  font-family: "Oswald", sans-serif;
+  /* font-family: "Oswald", sans-serif; */
   font-size: 20px;
   text-decoration: none;
 }
+
 </style>
