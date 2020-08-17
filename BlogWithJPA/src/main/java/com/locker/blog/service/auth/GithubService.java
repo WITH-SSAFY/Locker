@@ -18,6 +18,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -145,6 +146,27 @@ public class GithubService {
         throw new CCommunicationException();
     }
 
+    public List<GithubCompactRepo> getGithubCompactRepo(List<GithubRepository> githubRepositoryList) {
+        List<GithubCompactRepo> githubCompactRepoList = new ArrayList<>();
+
+        for (int i = 0; i < githubRepositoryList.size(); i++) {
+            GithubRepository tempList = githubRepositoryList.get(i);
+            GithubCompactRepo githubCompactRepo = new GithubCompactRepo();
+
+            String[] fullName = tempList.getFull_name().split("/");
+            String name = fullName[0];
+            String repoName = fullName[1];
+
+            githubCompactRepo.setName(name);
+            githubCompactRepo.setRepoName(repoName);
+            githubCompactRepo.setRepoUrl(tempList.getUrl());
+
+            githubCompactRepoList.add(githubCompactRepo);
+        }
+
+        return githubCompactRepoList;
+    }
+
     private Languages codeToRatio(Languages beforeLang) {
         int cpp = Integer.parseInt(beforeLang.getCpp() == null ? "0" : beforeLang.getCpp());
         int c = Integer.parseInt(beforeLang.getC() == null ? "0" : beforeLang.getC());
@@ -175,4 +197,5 @@ public class GithubService {
 
         return languages;
     }
+
 }
