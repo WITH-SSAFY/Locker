@@ -1,7 +1,33 @@
 <template>
   <div id="container">
+
+    <div class="py-5">
+      <p class="bold" style="font-size: 1.3rem;"><span class="bolder">LOCKER </span>에 글 작성</p>
+      <div class="under-line"></div>
+    </div>
+
+    <div id="buttons">
+      <v-btn depressed id="temp_save" class="save_button" color="#eceffc"><span class="bold">임시저장</span></v-btn>
+      <v-btn depressed id="save" class="save_button" color="#7C4DFF" @click="postContent"><span class="bold">작성완료</span></v-btn>
+    </div>
+
     <div id="title_container">
-      <v-text-field id="title" v-model="title" placeholder="제목을 입력해주세요"></v-text-field>
+      <v-icon small>mdi-chevron-right</v-icon>
+      <p class="light d-inline" style="font-size: 1.3rem;">제목</p>
+      <v-text-field autofocus solo id="title" v-model="title" placeholder="제목을 입력해주세요"></v-text-field>
+    </div>
+
+    <div id="tag_container">
+      <v-icon small>mdi-chevron-right</v-icon>
+      <p class="light d-inline" style="font-size: 1.3rem;">태그</p>
+      <v-icon small class="d-inline px-2" color="success">mdi-check-circle</v-icon>
+      <v-text-field
+        solo
+        id="tag"
+        v-model="tag"
+        placeholder="태그를 입력해주세요"
+        @keyup.enter="createTag"
+      ></v-text-field>
     </div>
 
     <div id="tag_list">
@@ -9,20 +35,13 @@
         v-for="(tag, index) in tags"
         :key="index"
         class="mx-1"
-        color="#EDE7F6"
-        small
+        label
+        color="#eceffc"
         @click="deleteTag(index)"
-      >{{ tag }}</v-chip>
-    </div>
-
-    <div id="tag_container">
-      <v-text-field
-        id="tag"
-        v-model="tag"
-        placeholder="태그를 입력해주세요"
-        height="16"
-        @keyup.enter="createTag"
-      ></v-text-field>
+      >
+        {{ tag }}
+        <v-icon small right color="#929292">mdi-close</v-icon>
+      </v-chip>
     </div>
 
     <editor
@@ -32,11 +51,9 @@
       height="90%"
       previewStyle="vertical"
       @change="onEditorChange"
+      class="mt-5"
     />
-    <div id="buttons">
-      <v-btn id="temp_save" class="save_button" color="#c7c9c5">임시저장</v-btn>
-      <v-btn id="save" class="save_button" color="#7C4DFF" @click="postContent">작성완료</v-btn>
-    </div>
+
   </div>
 </template>
 <script>
@@ -146,7 +163,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #container {
   margin: 20px auto 0 auto;
   height: 100%;
@@ -155,14 +172,14 @@ export default {
 }
 
 #title_container {
-  width: 50%;
+  width: 40%;
 }
 #title {
   font-size: 27px;
   font-weight: 800;
 }
 #tag_container {
-  width: 50%;
+  width: 40%;
 }
 #tag_list {
   width: 50%;
@@ -180,14 +197,23 @@ export default {
 }
 
 #buttons {
-  text-align: right;
-  margin-right: 5px;
+  /* text-align: right; */
+  /* margin-right: 5px; */
+  display: inline-block;
+  position: absolute;
+  top: 24rem;
+  right: 4rem;
+  
 }
 .save_button {
   margin-left: 7px;
   margin-bottom: 20px;
   width: 80pgit chx;
   color: rgba(255, 255, 255, 0.904);
+}
+
+.v-text-field {
+  color: #7C4DFF !important;
 }
 
 /*md 사이즈 */
