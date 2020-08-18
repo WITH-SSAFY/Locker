@@ -47,8 +47,8 @@ public class User implements UserDetails {
     private Boolean verify;
 
     @OneToMany(targetEntity = MyRepository.class)
-    @JoinColumn(name = "repoid", referencedColumnName = "id")
-    private MyRepository myRepository;
+    @JoinColumn(name = "repoid", referencedColumnName = "uid")
+    private List<MyRepository> myRepositories;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
