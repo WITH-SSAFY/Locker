@@ -3,10 +3,7 @@ package com.locker.blog.service.github;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.locker.blog.advice.exception.CCommunicationException;
-import com.locker.blog.domain.repository.CommitInfo;
-import com.locker.blog.domain.repository.GithubCompactRepo;
-import com.locker.blog.domain.repository.GithubRepository;
-import com.locker.blog.domain.repository.MyRepository;
+import com.locker.blog.domain.repository.*;
 import com.locker.blog.domain.social.GithubRetAuth;
 import com.locker.blog.domain.social.Languages;
 import com.locker.blog.domain.user.*;
@@ -229,4 +226,23 @@ public class GithubService {
         return languages;
     }
 
+    public List<CommitCompactInfo> getCommitCompactInfo(List<CommitInfo> commitInfos) {
+        List<CommitCompactInfo> temp = new ArrayList<>();
+
+        for (int i = 0; i < commitInfos.size(); i++) {
+            CommitInfo commitInfo = commitInfos.get(i);
+            CommitCompactInfo commitCompactInfo = new CommitCompactInfo();
+            commitCompactInfo.setMessage(commitInfo.getCommit().getMessage());
+            commitCompactInfo.setUrl(apiUrl2Url(commitInfo.getUrl()));
+            commitCompactInfo.setDate(commitInfo.getCommit().getAuthor().getDate());
+
+            temp.add(commitCompactInfo);
+        }
+
+        return temp;
+    }
+
+    private String apiUrl2Url(String url) {
+        return url.replace("commits","commit").replace("api.","").replace("repos/","");
+    }
 }
