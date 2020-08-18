@@ -63,19 +63,19 @@
         <p><v-icon color="white">mdi-chevron-up</v-icon></p>
 
         <router-link to="createPost">
-          <li><span class="bold text-white" style="font-size: 1.3rem;">글쓰기</span></li>
+          <li><span class="bold text-white" style="font-size: 1.1rem;">글쓰기</span></li>
         </router-link>
 
         <router-link to="mypage">
-          <li><span class="bold text-white" style="font-size: 1.3rem;">마이페이지</span></li>
+          <li><span class="bold text-white" style="font-size: 1.1rem;">마이페이지</span></li>
         </router-link>
 
         <router-link to="memberinfo">
-          <li><span class="bold text-white" style="font-size: 1.3rem;">만든이</span></li>
+          <li><span class="bold text-white" style="font-size: 1.1rem;">만든이</span></li>
         </router-link>
 
         <!-- 스크롤 투 탑 구현하기 -->
-        <li>
+        <li @click="scrollToTop">
           <span class="bold text-white" style="font-size: 1.3rem;">
             <v-icon color="white">mdi-chevron-up-circle-outline</v-icon>
           </span>
@@ -108,6 +108,11 @@ export default {
     this.postList
     this.userInfo
   },
+  methods: {
+    scrollToTop: function () {
+      scroll(0,0)
+    },
+  }
 
 }
 </script>
