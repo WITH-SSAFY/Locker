@@ -1,5 +1,5 @@
 <template>
-  <div class="locker-container">
+  <div style="margin-top: 5.5rem;">
     <div class="row">
       <div class="col-md-4">
         <div style="margin-left: 4.5rem;">

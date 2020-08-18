@@ -1,7 +1,7 @@
 <template>
-  <div style="background-color: #eceffc;">
+  <div style="background-color: #eceffc; margin-top: 3.5rem;">
 
-    <div style="margin-left: 3.5rem; margin-top: 3.5rem;">
+    <div style="margin-left: 3.5rem;">
       <p class="bold" style="font-size: 1.5rem;"><strong>LOCKER </strong>유저들이 좋아하는 포스트</p>
       <div class="under-line"></div>
     </div>
@@ -57,12 +57,41 @@
       </v-row>
     </div>
 
+    <!-- 네비게이터 박스 -->
+    <article>
+      <ul class="p-0">
+        <p><v-icon color="white">mdi-chevron-up</v-icon></p>
+
+        <router-link to="createPost">
+          <li><span class="bold text-white" style="font-size: 1.3rem;">글쓰기</span></li>
+        </router-link>
+
+        <router-link to="mypage">
+          <li><span class="bold text-white" style="font-size: 1.3rem;">마이페이지</span></li>
+        </router-link>
+
+        <router-link to="memberinfo">
+          <li><span class="bold text-white" style="font-size: 1.3rem;">만든이</span></li>
+        </router-link>
+
+        <!-- 스크롤 투 탑 구현하기 -->
+        <li>
+          <span class="bold text-white" style="font-size: 1.3rem;">
+            <v-icon color="white">mdi-chevron-up-circle-outline</v-icon>
+          </span>
+        </li>
+
+      </ul>
+    </article>
+
+
 
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex"
+import("../../assets/css/nav_box.scss");
 
 export default {
   name: 'mainPostList2',
@@ -78,7 +107,6 @@ export default {
     this.$store.dispatch('getPostList')
     this.postList
     this.userInfo
-    // console.log(this.postList)
   },
 
 }
