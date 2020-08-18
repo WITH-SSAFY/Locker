@@ -144,7 +144,7 @@ public class SignController {
                 break;
             case "github":
                 githubProfile = githubService.getGithubProfile(accessToken);
-                uid = String.valueOf(githubProfile.getId());
+                uid = String.valueOf(githubProfile.getLogin());
                 email = String.valueOf(githubProfile.getEmail());
                 name = String.valueOf(githubProfile.getName());
                 nickname = name;
