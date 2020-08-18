@@ -3,6 +3,7 @@ package com.locker.blog.controller.repository;
 import com.locker.blog.advice.exception.CCommunicationException;
 import com.locker.blog.advice.exception.CUserNotFoundException;
 import com.locker.blog.config.security.JwtTokenProvider;
+import com.locker.blog.domain.repository.CommitInfo;
 import com.locker.blog.domain.repository.MyRepository;
 import com.locker.blog.domain.response.CommonResult;
 import com.locker.blog.domain.response.ListResult;
@@ -14,13 +15,12 @@ import com.locker.blog.domain.repository.GithubRepository;
 import com.locker.blog.domain.user.User;
 import com.locker.blog.repository.github.MyRepositoryJpaRepo;
 import com.locker.blog.repository.user.UserJpaRepo;
-import com.locker.blog.service.auth.GithubService;
+import com.locker.blog.service.github.GithubService;
 import com.locker.blog.service.response.ResponseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
-import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -102,5 +102,14 @@ public class RepositoryController {
                                             @ApiParam(value = "레포 이름") @RequestParam String repoName) {
         myRepositoryJpaRepo.delete(myRepositoryJpaRepo.findByNameAndRepoName(name,repoName).orElseThrow(CCommunicationException::new));
         return responseService.getSuccessResult();
+    }
+
+    @ApiOperation(value = "내 커밋 조회", notes = "내 커밋 정보를 조회한다.")
+    @GetMapping(value = "github/commits")
+    public ListResult<CommitInfo> getCommitInfo(
+                                        @ApiParam(value = "유저 or 팀 이름") @RequestParam String name,
+                                        @ApiParam(value = "레포 이름") @RequestParam String repoName) {
+        List<CommitInfo> commitInfos = githubService.getCommitInfo(name,repoName);
+        return responseService.getListResult(commitInfos);
     }
 }

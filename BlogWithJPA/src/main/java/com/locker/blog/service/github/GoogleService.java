@@ -1,10 +1,9 @@
-package com.locker.blog.service.auth;
+package com.locker.blog.service.github;
 
 import com.google.gson.Gson;
 import com.locker.blog.advice.exception.CCommunicationException;
 import com.locker.blog.domain.social.RetAuth;
 import com.locker.blog.domain.user.GoogleProfile;
-import com.locker.blog.domain.user.KakaoProfile;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

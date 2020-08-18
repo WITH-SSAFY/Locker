@@ -11,8 +11,7 @@ import java.util.List;
 @Setter @Getter @ToString
 public class CommitInfo {
     private String sha;
-    @SerializedName(value = "node_id")
-    private String nodeId;
+    private String node_id;
     private Commit commit;
 
     @Getter @Setter @ToString
@@ -22,12 +21,11 @@ public class CommitInfo {
         private String message;
         private Tree tree;
         private String url;
-        @SerializedName(value = "comment_count")
-        private String CommentCnt;
+        private String comment_count;
         private Verification verification;
 
         @Getter @Setter @ToString
-        public class UserFrom {
+        public class UserForm {
             private String name;
             private String email;
             private String date;
@@ -49,47 +47,32 @@ public class CommitInfo {
     }
 
     private String url;
-    @SerializedName(value = "html_url")
-    private String htmlUrl;
-    @SerializedName(value = "comments_url")
-    private String commentsUrl;
-    private UserForm author;
-    private UserForm committer;
+    private String html_url;
+    private String comments_url;
+    private CUserForm author;
+    private CUserForm committer;
     private List<Parents> parents;
 
-    public class UserForm {
+    @Setter @Getter @ToString
+    public class CUserForm {
         private String login;
         private Long id;
-        @SerializedName(value = "node_id")
-        private String nodeId;
-        @SerializedName(value = "avatar_url")
-        private String avatarUrl;
-        @SerializedName(value = "gravatar_id")
-        private String gravatarId;
+        private String node_id;
+        private String avatar_url;
+        private String gravatar_id;
         private String url;
-        @SerializedName(value = "html_url")
-        private String htmlUrl;
-        @SerializedName(value = "followers_url")
-        private String followersUrl;
-        @SerializedName(value = "following_url")
-        private String followingUrl;
-        @SerializedName(value = "gists_url")
-        private String gistsUrl;
-        @SerializedName(value = "starred_url")
-        private String starredUrl;
-        @SerializedName(value = "subscriptions_url")
-        private String subscriptionsUrl;
-        @SerializedName(value = "organizations_url")
-        private String organizationsUrl;
-        @SerializedName(value = "repos_url")
-        private String reposUrl;
-        @SerializedName(value = "events_url")
-        private String eventsUrl;
-        @SerializedName(value = "received_events_url")
-        private String receivedEventUrl;
+        private String html_url;
+        private String followers_url;
+        private String following_url;
+        private String gists_url;
+        private String starred_url;
+        private String subscriptions_url;
+        private String organizations_url;
+        private String repos_url;
+        private String events_url;
+        private String received_events_url;
         private String type;
-        @SerializedName(value = "site_admin")
-        private Boolean siteAdmin;
+        private Boolean site_admin;
     }
 
     @Setter @Getter @ToString
@@ -97,6 +80,6 @@ public class CommitInfo {
         private String sha;
         private String url;
         @SerializedName(value = "html_url")
-        private String htmlUrl;
+        private String html_url;
     }
 }

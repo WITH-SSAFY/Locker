@@ -8,7 +8,7 @@ import com.locker.blog.domain.response.SingleResult;
 import com.locker.blog.domain.user.*;
 import com.locker.blog.repository.user.UserJpaRepo;
 import com.locker.blog.config.security.JwtTokenProvider;
-import com.locker.blog.service.auth.*;
+import com.locker.blog.service.github.*;
 import com.locker.blog.service.response.ResponseService;
 import com.locker.blog.service.user.EmailSendService;
 import com.locker.blog.service.user.UserService;

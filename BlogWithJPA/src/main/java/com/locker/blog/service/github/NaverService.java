@@ -1,10 +1,8 @@
-package com.locker.blog.service.auth;
+package com.locker.blog.service.github;
 
 import com.google.gson.Gson;
 import com.locker.blog.advice.exception.CCommunicationException;
 import com.locker.blog.domain.social.NaverRetAuth;
-import com.locker.blog.domain.social.RetAuth;
-import com.locker.blog.domain.user.KakaoProfile;
 import com.locker.blog.domain.user.NaverProfile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
