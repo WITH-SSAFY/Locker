@@ -3,6 +3,7 @@ package com.locker.blog.service.auth;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.locker.blog.advice.exception.CCommunicationException;
+import com.locker.blog.domain.repository.CommitInfo;
 import com.locker.blog.domain.repository.GithubCompactRepo;
 import com.locker.blog.domain.repository.GithubRepository;
 import com.locker.blog.domain.repository.MyRepository;
@@ -171,6 +172,19 @@ public class GithubService {
         }
 
         return githubCompactRepoList;
+    }
+
+    public CommitInfo getCommitInfo(String name, String repoName) {
+        URI uri = URI.create("https://api.github.com/repos/" + name + "/" + repoName + "/commits");
+        ResponseEntity<String> response = restTemplate.getForEntity(uri,String.class);
+        //logger.info(response.getBody());
+
+        try{
+            if(response.getStatusCode() == HttpStatus.OK) return gson.fromJson(response.getBody(),CommitInfo.class);
+        } catch (Exception e) {
+            throw new CCommunicationException("깃헙 커밋 정보 가져오는데 실패했습니다.");
+        }
+        throw new CCommunicationException("알 수 없는 오류가 발생했습니다.");
     }
 
     private String splitUrl(String repoUrl) {
