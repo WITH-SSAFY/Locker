@@ -58,6 +58,11 @@ export default new Vuex.Store({
       state.isLogin = false;
       state.isLoginError = false;
       state.userInfo = null;
+      state.arrGitRepo = null;
+      state.myRepoInfo = null;
+      state.teamRepoInfo = null;
+      state.arrMyRepo = null;
+      state.showRepo = null;
     },
     getMyPostList(state, payload) {
       state.myPostList = payload.myPostList;
@@ -120,7 +125,7 @@ export default new Vuex.Store({
         console.log("payload["+j+"] : ", payload.repos[j])
         console.log("payload["+j+"].name : ", payload.repos[j].name);
 
-        if(payload.repos[j].name !== payload.login){
+        if(payload.repos[j].name !== payload.uid){
           imgSrc = "https://github-readme-stats.vercel.app/api/pin/?username="+payload.repos[j].name+"&repo="+payload.repos[j].repoName
           state.teamRepoInfo[teamCnt] = { name: payload.repos[j].name, repoUrl: payload.repos[j].repoUrl, src: imgSrc};
           teamCnt++;
@@ -279,7 +284,7 @@ export default new Vuex.Store({
               picture: pic,
               provider: prov,
               introduction: res.introduction,
-              login: null
+              uid: null
             };
             
             if (pic === "null") {
@@ -289,7 +294,7 @@ export default new Vuex.Store({
               userInfo.provider = null;
             } else {
               if(prov === 'github'){
-                userInfo.login = res.login;
+                userInfo.uid = res.uid;
               }
             }
             console.log("가지고 온 유저 정보 : ", res);
