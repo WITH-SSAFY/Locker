@@ -29,9 +29,8 @@
               v-for="element in myRepoInfo"
               :key="element.repoUrl"
               style="border-radius: 10px;"
-              :href="element.repoUrl"
             >
-              <img alt="left" id="stat" :src="element.src">
+              <img alt="left" id="stat" :src="element.src" @click="link(element.repoUrl)">
             </a>
           </draggable>
         </div>
@@ -97,6 +96,9 @@ export default {
         this.showRepo.splice(i, 1, false);
       }
       this.showRepo.splice(num, 1, true);
+    },
+    link(url){
+      window.open(url);
     }
   }
 };
