@@ -2,14 +2,12 @@
   <div class="container">
     <!-- 저장 버튼 -->
     <v-row>
-      <v-col></v-col>
       <v-col class="py-0">
         <v-btn @click="saveMine(arrMyRepo)" style="font-size: 1.5rem; float: right;" text color="#7C4DFF">
           내용 저장하기
           <v-icon x-large>save</v-icon>
         </v-btn>
       </v-col>
-      <v-col></v-col>
     </v-row>
     <!-- drag and drop : github에서 가져온 리스트 -->
     <v-row>
@@ -59,24 +57,12 @@
           </draggable>
         </div>
       </v-col>
-      <v-col>
-        <div class="p-2" style="background-color: #EDE7F6; border-radius: 10px;">
-          <div
-            style="font-size: 1.5rem; font-weight: bold;"
-            class="pl-5 pt-2"
-          >My Locker Repository</div>
-          <hr />
-          <div class="list-group kanban-colum" group="tasks" style="text-align: center;">
-            
-          </div>
-        </div>
-      </v-col>
     </v-row>
   </div>
 </template>
 <script>
 import draggable from "vuedraggable";
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import axios from '../../../lib/axios-common';
 
 export default {
@@ -88,7 +74,7 @@ export default {
     this.showRepo;
     this.myRepoInfo;
     console.log("myRepoInfo:", this.myRepoInfo);
-    this.userInfo.id = 17
+    this.userInfo.id = 15
   },
   computed: {
     showRepo() {
@@ -103,10 +89,10 @@ export default {
     return {
       token: "",
       accessToken: "",
-      arrMyRepo: [],
     };
   },
   methods: {
+    ...mapActions([]),
     showAction(num) {
       for (var i in this.showRepo) {
         this.showRepo.splice(i, 1, false);
@@ -127,6 +113,7 @@ export default {
             .catch((err) => {
               console.log("myRepo 추가 - err", err)
             });
+        // this.getLockerRepos( {id: this.userInfo.id} );
       }
     }
   }

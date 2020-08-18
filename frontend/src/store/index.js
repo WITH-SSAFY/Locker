@@ -127,6 +127,10 @@ export default new Vuex.Store({
       }
       console.log("mutations - myRepoInfo", state.myRepoInfo)
       console.log("mutations - teamRepoInfo", state.teamRepoInfo)
+    },
+    getLockerRepos(state, payload){
+      state.arrMyRepo = payload;
+
     }
   },
   //비즈니스 로직
@@ -416,6 +420,19 @@ export default new Vuex.Store({
         .then((res) => {
           console.log("res.data", res.data)
           commit('getRepos', { repos: res.data.list, uid: tokens.uid} );
+        })
+        .catch((err) => {
+          console.log("err", err);
+        })
+    },
+
+    getLockerRepos({commit}, userInfo){
+      console.log("lockerRepo - tokens 값 확인 : ", userInfo);
+      commit
+      axios
+        .get("/v1/github?pk="+userInfo.id)
+        .then((res) => {
+          console.log("res", res.data);
         })
         .catch((err) => {
           console.log("err", err);

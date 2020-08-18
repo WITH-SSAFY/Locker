@@ -18,19 +18,6 @@ export default {
   },
   data: () => {
     return {
-      cards: [
-        {
-          herf: "#",
-          src:
-            "https://github-readme-stats.vercel.app/api/pin/?username=junhok82&repo=Algorithm_study"
-        },
-        {
-          herf: "#",
-          src:
-            "https://github-readme-stats.vercel.app/api/pin/?username=junhok82&repo=ITEM"
-        }
-      ],
-      link: ""
     };
   },
   methods: {

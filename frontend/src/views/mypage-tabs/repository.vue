@@ -1,6 +1,7 @@
 <template>
   <div style="margin-left:20px;">
     <!-- {{showRepo}} -->
+    <v-btn @click="getLockerRepos({id: this.userInfo.id})">testtest!!</v-btn>
     <v-row>
       <v-col>
         <v-btn
@@ -105,16 +106,20 @@ export default {
     // 토큰 값 받아오기
     // let token = localStorage.getItem("access_token");
     // this.token = token;
-    this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNyIsInJvbGVzIjpbXSwiaWF0IjoxNTk3NzUxOTIyLCJleHAiOjE1OTc3NTU1MjJ9.Q7gTuqplq9nBMdFjAKc2WcrnruRS7H6QrKxjz6meQJ8"
+    this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNSIsInJvbGVzIjpbXSwiaWF0IjoxNTk3NzYzNjczLCJleHAiOjE1OTc3NjcyNzN9.YVmuytgwe6TPa1Qzm1yIztdrxr9DkSp6lqyB8hBIEWA"
     // let accessToken = localStorage.getItem("github_token");
     // this.accessToken = accessToken;
-    this.accessToken = "3b1458817f543e57768c1372d2c72723f5597e78"
+    this.accessToken = "9de961928c843d8ca25849595506902008d28579"
 
     // 토큰 값 전달해서 getRepos 실행(Repository 리스트 받아오기)
-    this.userInfo.uid = 'jane399'
+    // this.userInfo.uid = 'jane399'
+    this.userInfo.uid = 'junhok82'
+    this.userInfo.provider = 'github'
     console.log("userInfo.uid: ", this.userInfo.uid)
     this.getRepos({ token: this.token, accessToken: this.accessToken, uid: this.userInfo.uid})
 
+    // locker에 저장된 repository 조회하기
+    
   },
   computed: {
     showRepo() {
@@ -127,13 +132,13 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["getRepos"]),
+    ...mapActions(["getRepos", "getLockerRepos"]),
     showAction(num) {
       for (var i in this.showRepo) {
         this.showRepo.splice(i, 1, false);
       }
       this.showRepo.splice(num, 1, true);
-    }
+    }, 
   }
 };
 </script>
