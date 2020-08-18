@@ -36,7 +36,7 @@
             <!-- 스탯 섹션 -->
             <div class="col-md-5">
               <a href="https://github.com/anuraghazra/github-readme-stats">
-                <img align="left" src="https://github-readme-stats.vercel.app/api?username=YNNJN&show_icons=true&theme=buefy" />
+                <img align="left" :src="statSrc" />
               </a>
               <!-- TODO: 서버 수정되면 깃헙 아이디 받아와서 적용하기 -->
 
@@ -146,6 +146,7 @@ export default {
     this.userInfo;
     this.$store.dispatch("getMyPostList", this.userInfo.email);
     this.myPostList;
+    this.githubId = this.userInfo.login;
     //likes 배열 초기화 작업
     this.likes.length = this.size;
     for (let i = 0; i < this.size; i++) {
@@ -169,12 +170,15 @@ export default {
     },
     likes() {
       return [];
+    },
+    statSrc() {
+      return "https://github-readme-stats.vercel.app/api?username="+ this.githubId +"&show_icons=true&theme=buefy"
     }
+
   },
   data() {
     return {
-      tab: null,
-      items: ["글", "카테고리", "소개"]
+      githubId: null,
     };
   },
   components: {
