@@ -2,12 +2,14 @@
   <div class="container">
     <!-- 저장 버튼 -->
     <v-row>
+      <v-col></v-col>
       <v-col class="py-0">
-        <v-btn style="font-size: 1.5rem; float: right;" text color="#7C4DFF">
+        <v-btn @click="saveMine(arrMyRepo)" style="font-size: 1.5rem; float: right;" text color="#7C4DFF">
           내용 저장하기
           <v-icon x-large>save</v-icon>
         </v-btn>
       </v-col>
+      <v-col></v-col>
     </v-row>
     <!-- drag and drop : github에서 가져온 리스트 -->
     <v-row>
@@ -16,7 +18,7 @@
           <div
             style="font-size: 1.5rem; font-weight: bold;"
             class="pl-5 pt-2"
-          >My Github Organization</div>
+          >My Github Repository</div>
           <hr />
           <draggable
             class="list-group kanban-colum"
@@ -42,7 +44,7 @@
           <div
             style="font-size: 1.5rem; font-weight: bold;"
             class="pl-5 pt-2"
-          >Locker Team Repository</div>
+          >Want To Add</div>
           <hr />
           <draggable class="list-group kanban-colum" :list="arrMyRepo" group="tasks" style="text-align: center;">
             <a
@@ -57,12 +59,25 @@
           </draggable>
         </div>
       </v-col>
+      <v-col>
+        <div class="p-2" style="background-color: #EDE7F6; border-radius: 10px;">
+          <div
+            style="font-size: 1.5rem; font-weight: bold;"
+            class="pl-5 pt-2"
+          >My Locker Repository</div>
+          <hr />
+          <div class="list-group kanban-colum" group="tasks" style="text-align: center;">
+            
+          </div>
+        </div>
+      </v-col>
     </v-row>
   </div>
 </template>
 <script>
 import draggable from "vuedraggable";
 import { mapState } from 'vuex';
+import axios from '../../../lib/axios-common';
 
 export default {
   name: "kanban-board",
@@ -73,6 +88,7 @@ export default {
     this.showRepo;
     this.myRepoInfo;
     console.log("myRepoInfo:", this.myRepoInfo);
+    this.userInfo.id = 17
   },
   computed: {
     showRepo() {
@@ -88,7 +104,6 @@ export default {
       token: "",
       accessToken: "",
       arrMyRepo: [],
-      repoInfo: [],
     };
   },
   methods: {
@@ -97,6 +112,22 @@ export default {
         this.showRepo.splice(i, 1, false);
       }
       this.showRepo.splice(num, 1, true);
+    },
+    saveMine(repos){
+      // console.log("repos여기", repos);
+      for(var i=0; i<repos.length; i++){
+        console.log("repos name여기!", repos[i].name)
+        console.log("repos repoName여기!", repos[i].repoName)
+        console.log("userInfo id여기!", this.userInfo.id)
+        axios
+            .post("/v1/github?name="+repos[i].name+"&repoName="+repos[i].repoName+"&pk="+this.userInfo.id)
+            .then((response) => {
+              console.log("myRepo 추가 - response", response)
+            })
+            .catch((err) => {
+              console.log("myRepo 추가 - err", err)
+            });
+      }
     }
   }
 };

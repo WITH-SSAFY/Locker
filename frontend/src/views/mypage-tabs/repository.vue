@@ -103,15 +103,15 @@ export default {
     this.showRepo;
 
     // 토큰 값 받아오기
-    let token = localStorage.getItem("access_token");
-    this.token = token;
-    // this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNyIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE1OTc3NDMxNTQsImV4cCI6MTU5Nzc0Njc1NH0.UwhOsotmJihBnWdd0EL7ndpJHG5Uckc-PzQ0UuzsHMk"
-    let accessToken = localStorage.getItem("github_token");
-    this.accessToken = accessToken;
-    // this.accessToken = "1de0ff0590e63e61877c2dcc29e381189be8946b"
+    // let token = localStorage.getItem("access_token");
+    // this.token = token;
+    this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNyIsInJvbGVzIjpbXSwiaWF0IjoxNTk3NzUxOTIyLCJleHAiOjE1OTc3NTU1MjJ9.Q7gTuqplq9nBMdFjAKc2WcrnruRS7H6QrKxjz6meQJ8"
+    // let accessToken = localStorage.getItem("github_token");
+    // this.accessToken = accessToken;
+    this.accessToken = "3b1458817f543e57768c1372d2c72723f5597e78"
 
     // 토큰 값 전달해서 getRepos 실행(Repository 리스트 받아오기)
-    // this.userInfo.uid = 'jane399'
+    this.userInfo.uid = 'jane399'
     console.log("userInfo.uid: ", this.userInfo.uid)
     this.getRepos({ token: this.token, accessToken: this.accessToken, uid: this.userInfo.uid})
 

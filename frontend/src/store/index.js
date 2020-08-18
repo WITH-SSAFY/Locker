@@ -14,8 +14,11 @@ export default new Vuex.Store({
     // isLogin: true,
     isLoginError: false,
     showRepo: [true, false, false, false],
-    arrGitRepo: [],
+    //locker 내에 저장된 레포 정보
     arrMyRepo: [],
+    arrMyTemRepo:[],
+    // github에서 레포 정보 가져올때 사용하는 배열
+    arrGitRepo: [],
     myRepoInfo: [],
     teamRepoInfo: [],
     myPostList: null, //내가 쓴 포스트 목록
@@ -100,7 +103,6 @@ export default new Vuex.Store({
       router.push({ name: "afterPost" }); //글 작성 후 화면으로 이동
     },
     getRepos(state, payload){
-
       console.log("mutations - arrGitRepo",state.arrGitRepo);
       console.log("mutations payload.repos값 확인:" , payload.repos)
       console.log("mutations - uid값 확인 : ", payload.uid);
@@ -115,11 +117,11 @@ export default new Vuex.Store({
 
         if(payload.repos[j].name !== payload.uid){
           imgSrc = "https://github-readme-stats.vercel.app/api/pin/?username="+payload.repos[j].name+"&repo="+payload.repos[j].repoName
-          state.teamRepoInfo[teamCnt] = { name: payload.repos[j].name, repoUrl: payload.repos[j].repoUrl, src: imgSrc};
+          state.teamRepoInfo[teamCnt] = { name: payload.repos[j].name, repoName: payload.repos[j].repoName, repoUrl: payload.repos[j].repoUrl, src: imgSrc};
           teamCnt++;
         }else {
           imgSrc = "https://github-readme-stats.vercel.app/api/pin/?username="+payload.repos[j].name+"&repo="+payload.repos[j].repoName
-          state.myRepoInfo[myCnt] = {name: payload.repos[j].name, repoUrl: payload.repos[j].repoUrl, src: imgSrc};
+          state.myRepoInfo[myCnt] = {name: payload.repos[j].name, repoName: payload.repos[j].repoName, repoUrl: payload.repos[j].repoUrl, src: imgSrc};
           myCnt++;
         }
       }
