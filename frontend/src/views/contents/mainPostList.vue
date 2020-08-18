@@ -101,7 +101,7 @@
 </template>
 
 <script>
-import $ from 'jquery'
+// import $ from 'jquery'
 import '../../assets/css/main_post.scss'
 
 export default {
@@ -146,15 +146,15 @@ export default {
     });
 
     // 공지사항
-    function rotator() {
+    // function rotator() {
 		
-		$('ul li:first-child').slideUp(1000, function() {
-			$(this).appendTo($('ul'));
-		});
+		// $('ul li:first-child').slideUp(1000, function() {
+		// 	$(this).appendTo($('ul'));
+		// });
 		
-	}
+	// }
 
- 	setInterval(rotator, 3000);
+ 	// setInterval(rotator, 3000);
   },
 }
 </script>

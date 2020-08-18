@@ -14,6 +14,10 @@ export default new Vuex.Store({
     // isLogin: true,
     isLoginError: false,
     showRepo: [true, false, false, false],
+    arrGitRepo: [],
+    arrMyRepo: [],
+    myRepoInfo: [],
+    teamRepoInfo: [],
     myPostList: null, //내가 쓴 포스트 목록
     myDetailTitle: "", //상세보기 제목
     myDetail: "", //상세보기 내용
@@ -95,6 +99,15 @@ export default new Vuex.Store({
       state.myPost = payload.myPost;
       router.push({ name: "afterPost" }); //글 작성 후 화면으로 이동
     },
+    getRepos(state, payload){
+      let temp = [];
+      for(var i=0; i < payload.length; i++){
+        var imgSrc = "https://github-readme-stats.vercel.app/api/pin/?username="+payload[i].name+"&repo="+payload[i].repoName
+        temp[i] = { name: payload[i].name, src: imgSrc, repoUrl: payload[i].repoUrl }
+      }
+      state.arrGitRepo = temp
+      console.log("mutations - arrGitRepo",state.arrGitRepo);
+    }
   },
   //비즈니스 로직
   actions: {
@@ -241,12 +254,18 @@ export default new Vuex.Store({
               picture: pic,
               provider: prov,
               introduction: res.introduction,
+              login: null
             };
+            
             if (pic === "null") {
               userInfo.picture = null;
             }
             if (prov === "null") {
               userInfo.provider = null;
+            } else {
+              if(prov === 'github'){
+                userInfo.login = res.login;
+              }
             }
             console.log("가지고 온 유저 정보 : ", res);
             commit("loginSuccess", userInfo);
@@ -368,6 +387,19 @@ export default new Vuex.Store({
             }
           }
         });
+    },
+
+    getRepos({commit}, tokens){
+      console.log("tokens 값 확인", tokens);
+      axios
+        .get("/v1/github/repos?token="+tokens.token+"&accessToken="+tokens.accessToken)
+        .then((res) => {
+          console.log("res.data", res.data)
+          commit('getRepos', res.data.list);
+        })
+        .catch((err) => {
+          console.log("err", err);
+        })
     },
 
     getMyPostList({ commit }, email) {

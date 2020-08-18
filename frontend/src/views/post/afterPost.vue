@@ -3,21 +3,31 @@
     <v-row alignment="center" justify="center">
       <v-col cols="12" sm="6">
         <div id="thumbnail">
-          <h4>포스트 미리보기</h4>
+          <h4>썸네일 미리보기</h4>
           <div id="post-preview">
             <v-icon
-              v-if="myPost.thumbnail == null"
+              v-if="thumbnail == null"
               id="no-image"
               size="200"
               style="z-index: 1; margin-top: 50px"
             >image</v-icon>
-            <img v-else id="image" :src="myPost.thumbnail" style="z-index: 1;" />
+            <!-- <v-avatar v-else size="200" style="z-index: 1;"> -->
+            <!-- <div style="border-radius: 100%; width: 8rem;" id="picture"> -->
+            <v-img
+              v-else
+              style="z-index: 1; width"
+              id="image"
+              :aspect-ratio="16/9"
+              max-height="300px"
+              :src="thumbnail"
+            />
+            <!-- </div> -->
+            <!-- </v-avatar> -->
           </div>
-          <div id="buttons">
-            <v-btn id="upload" color="#EDE7F6" depressed @click="uploadThumnail">이미지 업로드</v-btn>
-            <v-btn id="delete" depressed @click="removeThumbnail">이미지 삭제</v-btn>
+          <div id="buttons1">
+            <v-btn id="upload" color="#EDE7F6" depressed @click="uploadThumnail">썸네일 업로드</v-btn>
+            <v-btn style="margin: 0 5px;" id="delete" depressed @click="removeThumbnail">썸네일 삭제</v-btn>
           </div>
-
           <input
             ref="uploader"
             class="d-none"
@@ -39,8 +49,8 @@
             v-model="description"
           ></v-textarea>
         </div>
-        <div id="buttons">
-          <v-btn color="#7C4DFF" @click="postContent">출간하기</v-btn>
+        <div id="buttons2">
+          <v-btn style="color: white;" color="#7C4DFF" @click="postContent">출간하기</v-btn>
         </div>
       </v-col>
     </v-row>
@@ -55,23 +65,31 @@ const s3Path =
   "https://locker-beaver-image.s3.ap-northeast-2.amazonaws.com/" + s3Dir; //s3 프로필 이미지 폴더 경로
 export default {
   created() {
-    this.myPost = this.$store.state.myPost;
-    this.myTags = this.$store.state.myTags;
-    this.description = this.myPost.description;
+    this.myPost;
+    this.myTags;
+    this.description;
+    this.thumbnail = this.$store.state.myPost.thumbnail;
+    this.description = this.$store.state.myPost.description;
   },
   data() {
     return {
-      myPost: {},
-      myTags: [],
+      thumbnail: null,
       description: "",
-      tagname: "",
       pid: 0,
       tagid: 0,
       file: null, //프로필 이미지 파일
       albumBucketName: "locker-beaver-image", //s3세팅
       bucketRegion: "ap-northeast-2", //s3세팅
-      IdentityPoolId: "ap-northeast-2:59ec49b1-e859-4beb-a30e-b8a11a7341b8" //s3세팅
+      IdentityPoolId: "ap-northeast-2:87ba0e75-43e1-4245-96d4-9027f0c262b8" //s3세팅
     };
+  },
+  computed: {
+    myPost() {
+      return this.$store.state.myPost;
+    },
+    myTags() {
+      return this.$store.state.myTags;
+    }
   },
   methods: {
     async postContent() {
@@ -83,7 +101,7 @@ export default {
           content: this.myPost.content,
           nickname: this.myPost.nickname,
           description: this.description,
-          thumbnail: this.myPost.thumbnail
+          thumbnail: this.thumbnail
         });
         this.pid = response.data;
         await this.checkDupTag(); //태그 중복 확인
@@ -97,7 +115,7 @@ export default {
           title: this.myPost.title,
           content: this.myPost.content,
           description: this.description,
-          thumbnail: this.myPost.thumbnail
+          thumbnail: this.thumbnail
         });
         this.pid = this.myPost.pid;
         await this.deletePostAllTag(); //포스트가 가자고 있는 모든 태그 삭제
@@ -145,6 +163,7 @@ export default {
       this.$refs.uploader.click(); //handleChange() 실행
     },
     handleChange(event) {
+      console.log("handleChange");
       this.file = event.target.files[0];
       if (!this.file.type.match(/^image\/(png|jpeg)$/)) {
         //이미지 아닌 경우
@@ -156,11 +175,18 @@ export default {
         const imagePath = s3Path + imageFileName; //이미지 경로
         const photoKey = s3Dir + imageFileName; //s3 업로드용 key
         //s3에 이미지 업로드
+        console.log("new ImagePath: ", imagePath);
+        this.removeThumbnail(this.thumbnail);
         this.uploadThumbnail(photoKey);
-        this.myPost.thumbnail = imagePath;
+        setTimeout(() => {
+          this.thumbnail = imagePath;
+          console.log("new Thumbnail: ", this.thumbnail);
+        }, 2500);
       }
     },
     uploadThumbnail(photoKey) {
+      console.log("uploadThumbnail");
+
       AWS.config.update({
         region: this.bucketRegion,
         credentials: new AWS.CognitoIdentityCredentials({
@@ -192,33 +218,34 @@ export default {
       );
     },
     removeThumbnail() {
+      console.log("removeThumbnail");
       //프로필 이미지 삭제
-      const imageFileName = this.myPost.thumbnail; //이미지파일명
+      //const imageFileName = this.myPost.thumbnail.split(".com/")[1]; //이미지파일명
+      //console.log("imageFileName: ", imageFileName);
       //const imagePath = s3Path + imageFileName; //이미지 경로
-      const photoKey = s3Dir + imageFileName; //s3 key
-
-      //s3에서 이미지 삭제
-      this.deleteThumbnail(photoKey);
-      this.myPost.thumbnail = null;
+      if (this.thumbnail != null) {
+        const photoKey = this.thumbnail.split(".com/")[1]; //s3 key
+        console.log("delete Thumbnail1: ", this.thumbnail);
+        //s3에서 이미지 삭제
+        this.deleteThumbnail(photoKey);
+      }
     },
     deleteThumbnail(photoKey) {
+      console.log("deleteThumbnail");
       AWS.config.update({
         region: this.bucketRegion,
         credentials: new AWS.CognitoIdentityCredentials({
           IdentityPoolId: this.IdentityPoolId
         })
       });
-
       var s3 = new AWS.S3({
-        apiVersion: "2006-03-01",
-        params: {
-          Bucket: this.albumBucketName
-        }
+        apiVersion: "2006-03-01"
       });
 
       //s3에서 이미지 삭제
       s3.deleteObject(
         {
+          Bucket: this.albumBucketName,
           Key: photoKey
         },
         (err, data) => {
@@ -228,6 +255,7 @@ export default {
           data;
         }
       );
+      this.thumbnail = null;
     }
   }
 };
@@ -250,8 +278,12 @@ export default {
 #description {
   margin-top: 50px;
 }
-#buttons {
+#buttons1 {
   margin-top: 15px;
   text-align: center;
+}
+#buttons2 {
+  margin-top: 15px;
+  text-align: right;
 }
 </style>
