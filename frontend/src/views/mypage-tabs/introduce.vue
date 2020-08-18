@@ -28,9 +28,8 @@ export default {
   methods: {
     // access token을 로컬스토리지에서 가져와서 넘겨주기
     getIntro () {
-      // let accessToken = localStorage.getItem("github_token");
-      // test
-      let accessToken = '0f585a129c21cb9c8e71e5e7a36a076eee99498d';
+      let accessToken = localStorage.getItem("github_token");
+      
       axios.get("/v1/github/hidden?accessToken=" + accessToken)
         .then((response) => {
           this.intro = response.data.data
