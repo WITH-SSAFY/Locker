@@ -105,19 +105,12 @@ export default new Vuex.Store({
       router.push({ name: "afterPost" }); //글 작성 후 화면으로 이동
     },
     getRepos(state, payload){
-      // let temp = [];
-      // for(var i=0; i < payload.repos.length; i++){
-      //   var imgSrc = "https://github-readme-stats.vercel.app/api/pin/?username="+payload.repos[i].name+"&repo="+payload.repos[i].repoName
-      //   temp[i] = { name: payload.repos[i].name, src: imgSrc, repoUrl: payload.repos[i].repoUrl }
-      // }
-      // state.arrGitRepo = temp
-
       console.log("mutations - arrGitRepo",state.arrGitRepo);
       
-      // 팀 레포 리스트, 내 레포 리스트 구별하기
       console.log("mutations payload.repos값 확인:" , payload.repos)
       console.log("mutations - login값 확인 : ", payload.login);
-
+      
+      // 팀 레포 리스트, 내 레포 리스트 구별하기
       var myCnt = 0;
       var teamCnt = 0;
       var imgSrc = "";
