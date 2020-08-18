@@ -1,7 +1,5 @@
 <template>
   <div style="margin-left:20px;">
-    <!-- {{showRepo}} -->
-    <v-btn @click="getLockerRepos({id: this.userInfo.id})">testtest!!</v-btn>
     <v-row>
       <v-col>
         <v-btn
@@ -27,7 +25,7 @@
       </v-col>
     </v-row>
     <v-row class="mt-10" v-if="showRepo[0]">
-      <v-col cols="8">
+      <v-col cols="8" style="color: white;">
         <h2>개인 블로그</h2>
       </v-col>
       <v-col cols="4">
@@ -40,7 +38,7 @@
     </v-row>
     <v-row class="mt-10" v-if="showRepo[1]">
       <v-col cols="8">
-        <h2>개인 블로그</h2>
+        <h2 style="color:white;">개인 블로그</h2>
       </v-col>
       <v-col cols="4">
         <v-btn style="position:relative; float: right;" depressed @click="showAction(0)">뒤로</v-btn>
@@ -102,24 +100,28 @@ export default {
   },
   created() {
     this.showRepo;
-
+    this.showAction(0);
     // 토큰 값 받아오기
     // let token = localStorage.getItem("access_token");
     // this.token = token;
-    this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNSIsInJvbGVzIjpbXSwiaWF0IjoxNTk3NzYzNjczLCJleHAiOjE1OTc3NjcyNzN9.YVmuytgwe6TPa1Qzm1yIztdrxr9DkSp6lqyB8hBIEWA"
+    this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE1OTc3NjgxOTgsImV4cCI6MTU5Nzc3MTc5OH0.N_PuhaXkJK6c-jFTja_wGers1XCLXXmcZtlzAYw73c4"
     // let accessToken = localStorage.getItem("github_token");
     // this.accessToken = accessToken;
-    this.accessToken = "9de961928c843d8ca25849595506902008d28579"
+    this.accessToken = "4a27cf906e3d47ea7951203a8d222fcb82f1cb11"
 
     // 토큰 값 전달해서 getRepos 실행(Repository 리스트 받아오기)
     // this.userInfo.uid = 'jane399'
-    this.userInfo.uid = 'junhok82'
+    // this.userInfo.uid = 'junhok82'
+    this.userInfo.uid = 'YNNJN'
     this.userInfo.provider = 'github'
     console.log("userInfo.uid: ", this.userInfo.uid)
     this.getRepos({ token: this.token, accessToken: this.accessToken, uid: this.userInfo.uid})
 
     // locker에 저장된 repository 조회하기
-    
+    // this.userInfo.id = 17
+    // this.userInfo.id = 15
+    this.userInfo.id = 21
+    this.getLockerRepos({id: this.userInfo.id, uid: this.userInfo.uid});
   },
   computed: {
     showRepo() {

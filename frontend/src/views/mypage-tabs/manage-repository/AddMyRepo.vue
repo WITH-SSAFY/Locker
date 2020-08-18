@@ -73,7 +73,6 @@ export default {
     this.showRepo;
     this.myRepoInfo;
     console.log("myRepoInfo:", this.myRepoInfo);
-    this.userInfo.id = 15
   },
   computed: {
     showRepo() {
@@ -88,10 +87,11 @@ export default {
     return {
       token: "",
       accessToken: "",
+      arrMyRepo: [],
     };
   },
   methods: {
-    ...mapActions([]),
+    ...mapActions(["getMyLockerRepos"]),
     showAction(num) {
       for (var i in this.showRepo) {
         this.showRepo.splice(i, 1, false);
