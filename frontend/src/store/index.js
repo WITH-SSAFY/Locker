@@ -14,8 +14,11 @@ export default new Vuex.Store({
     // isLogin: true,
     isLoginError: false,
     showRepo: [true, false, false, false],
-    arrGitRepo: [],
+    //locker 내에 저장된 레포 정보
     arrMyRepo: [],
+    arrMyTemRepo:[],
+    // github에서 레포 정보 가져올때 사용하는 배열
+    arrGitRepo: [],
     myRepoInfo: [],
     teamRepoInfo: [],
     myPostList: null, //내가 쓴 포스트 목록
@@ -438,6 +441,19 @@ export default new Vuex.Store({
         .catch((err) => {
           console.log("err", err);
         });
+    },
+
+    getLockerRepos({commit}, userInfo){
+      console.log("lockerRepo - tokens 값 확인 : ", userInfo);
+      commit
+      axios
+        .get("/v1/github?pk="+userInfo.id)
+        .then((res) => {
+          console.log("res", res.data);
+        })
+        .catch((err) => {
+          console.log("err", err);
+        })
     },
 
     getMyPostList({ commit }, email) {

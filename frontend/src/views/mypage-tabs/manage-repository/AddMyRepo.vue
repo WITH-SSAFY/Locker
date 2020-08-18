@@ -3,7 +3,7 @@
     <!-- 저장 버튼 -->
     <v-row>
       <v-col class="py-0">
-        <v-btn style="font-size: 1.5rem; float: right;" text color="#7C4DFF">
+        <v-btn @click="saveMine(arrMyRepo)" style="font-size: 1.5rem; float: right;" text color="#7C4DFF">
           내용 저장하기
           <v-icon x-large>save</v-icon>
         </v-btn>
@@ -16,7 +16,7 @@
           <div
             style="font-size: 1.5rem; font-weight: bold;"
             class="pl-5 pt-2"
-          >My Github Organization</div>
+          >My Github Repository</div>
           <hr />
           <draggable
             class="list-group kanban-colum"
@@ -41,7 +41,7 @@
           <div
             style="font-size: 1.5rem; font-weight: bold;"
             class="pl-5 pt-2"
-          >Locker Team Repository</div>
+          >Want To Add</div>
           <hr />
           <draggable class="list-group kanban-colum" :list="arrMyRepo" group="tasks" style="text-align: center;">
             <a
@@ -61,7 +61,8 @@
 </template>
 <script>
 import draggable from "vuedraggable";
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
+import axios from '../../../lib/axios-common';
 
 export default {
   name: "kanban-board",
@@ -72,6 +73,7 @@ export default {
     this.showRepo;
     this.myRepoInfo;
     console.log("myRepoInfo:", this.myRepoInfo);
+    this.userInfo.id = 15
   },
   computed: {
     showRepo() {
@@ -86,19 +88,32 @@ export default {
     return {
       token: "",
       accessToken: "",
-      arrMyRepo: [],
-      repoInfo: [],
     };
   },
   methods: {
+    ...mapActions([]),
     showAction(num) {
       for (var i in this.showRepo) {
         this.showRepo.splice(i, 1, false);
       }
       this.showRepo.splice(num, 1, true);
     },
-    link(url){
-      window.open(url);
+    saveMine(repos){
+      // console.log("repos여기", repos);
+      for(var i=0; i<repos.length; i++){
+        console.log("repos name여기!", repos[i].name)
+        console.log("repos repoName여기!", repos[i].repoName)
+        console.log("userInfo id여기!", this.userInfo.id)
+        axios
+            .post("/v1/github?name="+repos[i].name+"&repoName="+repos[i].repoName+"&pk="+this.userInfo.id)
+            .then((response) => {
+              console.log("myRepo 추가 - response", response)
+            })
+            .catch((err) => {
+              console.log("myRepo 추가 - err", err)
+            });
+        // this.getLockerRepos( {id: this.userInfo.id} );
+      }
     }
   }
 };
