@@ -100,13 +100,38 @@ export default new Vuex.Store({
       router.push({ name: "afterPost" }); //글 작성 후 화면으로 이동
     },
     getRepos(state, payload){
-      let temp = [];
-      for(var i=0; i < payload.length; i++){
-        var imgSrc = "https://github-readme-stats.vercel.app/api/pin/?username="+payload[i].name+"&repo="+payload[i].repoName
-        temp[i] = { name: payload[i].name, src: imgSrc, repoUrl: payload[i].repoUrl }
-      }
-      state.arrGitRepo = temp
+      // let temp = [];
+      // for(var i=0; i < payload.repos.length; i++){
+      //   var imgSrc = "https://github-readme-stats.vercel.app/api/pin/?username="+payload.repos[i].name+"&repo="+payload.repos[i].repoName
+      //   temp[i] = { name: payload.repos[i].name, src: imgSrc, repoUrl: payload.repos[i].repoUrl }
+      // }
+      // state.arrGitRepo = temp
+
       console.log("mutations - arrGitRepo",state.arrGitRepo);
+      
+      // 팀 레포 리스트, 내 레포 리스트 구별하기
+      console.log("mutations payload.repos값 확인:" , payload.repos)
+      console.log("mutations - login값 확인 : ", payload.login);
+
+      var myCnt = 0;
+      var teamCnt = 0;
+      var imgSrc = "";
+      for(var j = 0; j < payload.repos.length; j++){
+        console.log("payload["+j+"] : ", payload.repos[j])
+        console.log("payload["+j+"].name : ", payload.repos[j].name);
+
+        if(payload.repos[j].name !== payload.login){
+          imgSrc = "https://github-readme-stats.vercel.app/api/pin/?username="+payload.repos[j].name+"&repo="+payload.repos[j].repoName
+          state.teamRepoInfo[teamCnt] = { name: payload.repos[j].name, repoUrl: payload.repos[j].repoUrl, src: imgSrc};
+          teamCnt++;
+        }else {
+          imgSrc = "https://github-readme-stats.vercel.app/api/pin/?username="+payload.repos[j].name+"&repo="+payload.repos[j].repoName
+          state.myRepoInfo[myCnt] = {name: payload.repos[j].name, repoUrl: payload.repos[j].repoUrl, src: imgSrc};
+          myCnt++;
+        }
+      }
+      console.log("mutations - myRepoInfo", state.myRepoInfo)
+      console.log("mutations - teamRepoInfo", state.teamRepoInfo)
     }
   },
   //비즈니스 로직
@@ -395,7 +420,7 @@ export default new Vuex.Store({
         .get("/v1/github/repos?token="+tokens.token+"&accessToken="+tokens.accessToken)
         .then((res) => {
           console.log("res.data", res.data)
-          commit('getRepos', res.data.list);
+          commit('getRepos', { repos: res.data.list, login: tokens.login} );
         })
         .catch((err) => {
           console.log("err", err);

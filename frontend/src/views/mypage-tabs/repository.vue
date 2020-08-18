@@ -101,50 +101,24 @@ export default {
   },
   created() {
     this.showRepo;
-    this.arrGitRepo;
-    // this.myRepoInfo;
-    // this.teamRepoInfo;
 
     // 토큰 값 받아오기
     let token = localStorage.getItem("access_token");
     this.token = token;
-    // this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0Iiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTU5NzcxNzg5MCwiZXhwIjoxNTk3NzIxNDkwfQ.lkP9dN43Xmtnc9aIZWwJj_ThVP3riufFVQp9apPCBy8"
+    // this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNCIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE1OTc3MzY2NzMsImV4cCI6MTU5Nzc0MDI3M30.2sgnDaCArO1bNMAM9IYUTlPYyb8P4Hyfy_3zj6Q_MSc"
     let accessToken = localStorage.getItem("github_token");
     this.accessToken = accessToken;
-    // this.accessToken = "6c731bf01db740678ed804584fe8b9acf3f777c6"
+    // this.accessToken = "677305b88de533573aa5144c7faf15fe839f7404"
 
     // 토큰 값 전달해서 getRepos 실행(Repository 리스트 받아오기)
-    this.getRepos({ token: this.token, accessToken: this.accessToken})
+    // this.userInfo.login = 'jane399'
+    console.log("userInfo.login: ", this.userInfo.login)
+    this.getRepos({ token: this.token, accessToken: this.accessToken, login: this.userInfo.login})
 
-  },
-  mounted(){
-    console.log("arrGitRepo: ", this.arrGitRepo);
-    this.userInfo.login = 'junhok82';
-    console.log("userInfo:", this.userInfo);
-
-    // 팀 레포 리스트, 내 레포 리스트 구별하기
-    var myCnt = 0;
-    var teamCnt = 0;
-    for(var i=0; i < this.arrGitRepo.length; i++){
-      if(this.arrGitRepo[i].name !== this.userInfo.login){
-        // teamTemp[teamCnt] = { name: this.arrGitRepo[i].name, repoUrl: this.arrGitRepo[i].repoUrl, src: this.arrGitRepo[i].src};
-        this.teamRepoInfo[teamCnt] = { name: this.arrGitRepo[i].name, repoUrl: this.arrGitRepo[i].repoUrl, src: this.arrGitRepo[i].src};
-        teamCnt++;
-      } else {
-        // myTemp[myCnt] = {name: this.arrGitRepo[i].name, repoUrl: this.arrGitRepo[i].repoUrl, src: this.arrGitRepo[i].src};
-        this.myRepoInfo[myCnt] = {name: this.arrGitRepo[i].name, repoUrl: this.arrGitRepo[i].repoUrl, src: this.arrGitRepo[i].src};
-        myCnt++;
-      }
-    }
-    // console.log("mine- repoInfo:", this.myRepoInfo);
-    // console.log("team - repoInfo:", this.teamRepoInfo);
   },
   computed: {
     showRepo() {
       return this.$store.state.showRepo;
-    },
-    arrGitRepo(){
-      return this.$store.state.arrGitRepo;
     },
     ...mapState(["userInfo", "myRepoInfo", "teamRepoInfo"]),
   },

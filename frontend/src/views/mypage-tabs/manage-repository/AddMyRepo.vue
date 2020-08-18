@@ -62,7 +62,7 @@
 </template>
 <script>
 import draggable from "vuedraggable";
-import { mapState, mapActions } from 'vuex';
+import { mapState } from 'vuex';
 
 export default {
   name: "kanban-board",
@@ -73,8 +73,6 @@ export default {
     this.showRepo;
     this.myRepoInfo;
     console.log("myRepoInfo:", this.myRepoInfo);
-  },
-  mounted(){
   },
   computed: {
     showRepo() {
@@ -94,7 +92,6 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["getRepos"]),
     showAction(num) {
       for (var i in this.showRepo) {
         this.showRepo.splice(i, 1, false);
