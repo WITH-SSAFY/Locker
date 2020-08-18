@@ -5,10 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -37,12 +39,9 @@ public class Post {
     private LocalDate created;
     private LocalDate updated;
 
+    @ColumnDefault("0")
     private Long likes;
 
     private String thumbnail;
     private String description;
-
-    @ManyToOne(targetEntity = MyRepository.class)
-    @JoinColumn(name = "repoId", referencedColumnName = "id")
-    private MyRepository myRepository;
 }

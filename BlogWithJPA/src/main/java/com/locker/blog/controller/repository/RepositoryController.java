@@ -10,6 +10,7 @@ import com.locker.blog.domain.response.SingleResult;
 import com.locker.blog.domain.social.Languages;
 import com.locker.blog.domain.user.GithubProfile;
 import com.locker.blog.domain.user.User;
+import com.locker.blog.repository.github.RepoRepository;
 import com.locker.blog.repository.github.MyRepositoryJpaRepo;
 import com.locker.blog.repository.user.UserJpaRepo;
 import com.locker.blog.service.github.GithubService;
@@ -37,6 +38,7 @@ public class RepositoryController {
     private final UserJpaRepo userJpaRepo;
     private final MyRepositoryJpaRepo myRepositoryJpaRepo;
     private final ResponseService responseService;
+    private final RepoRepository repoRepository;
 
     @ApiOperation(value = "깃헙 모든 레파지토리 축약 정보", notes = "깃헙 모든 레파지토리 축약된 정보를 가져온다.")
     @GetMapping(value = "github/repos")
@@ -113,5 +115,13 @@ public class RepositoryController {
         List<CommitInfo> commitInfos = githubService.getCommitInfo(name,repoName);
         List<CommitCompactInfo> commitCompactInfos = githubService.getCommitCompactInfo(commitInfos);
         return responseService.getListResult(commitCompactInfos);
+    }
+
+    @ApiOperation(value = "핫 레파지토리 조회", notes = "핫 레파지토리 3개를 조회한다.")
+    @GetMapping(value = "github/hot")
+    public ListResult<MyRepository> getHotRepository() {
+        List<MyRepository> hotRepositories = repoRepository.findHotRepo();
+        logger.info(hotRepositories.toString());
+        return responseService.getListResult(hotRepositories);
     }
 }
