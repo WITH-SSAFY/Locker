@@ -48,6 +48,7 @@ import TeamRepository from "./TeamRepository.vue";
 import AddTeamRepo from "./AddMyRepo.vue";
 
 export default {
+  name: 'repository',
   components: {
     MyRepository,
     AddMyRepo,

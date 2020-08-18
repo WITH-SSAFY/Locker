@@ -46,6 +46,7 @@ body {
   font-size: 12px;
 }
 .jandi {
+  margin-top: 3rem;
   display: flex;
   flex-direction: column;  
   justify-content: center;

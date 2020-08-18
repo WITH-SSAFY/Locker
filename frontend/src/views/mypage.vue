@@ -89,33 +89,84 @@
         </div>
       </div>
 
+      <!-- <div style="padding-top: 3rem;">
+        <hr>
+      </div> -->
+
       <!-- 중첩 라우터 -->
-      <p class="d-flex justify-content-around">
+      <!-- <p class="d-flex justify-content-around">
         <router-link to="article" class="p-3 text-decoration-none">
-          <span class="tab">article</span>
+          <span class="tab bold">포스트</span>
         </router-link>
         <router-link to="repository" class="p-3 text-decoration-none">
-          <span class="tab">repository</span>
+          <span class="tab bold">레포지토리</span>
         </router-link>
         <router-link to="introduce" class="p-3 text-decoration-none">
-          <span class="tab">introduce</span>
+          <span class="tab bold">소개</span>
         </router-link>
-      </p>
-      <!-- <p>
-        <router-link to="myRepository" class="p-3 text-decoration-none">
-          <span class="tab">MyReo</span>
-        </router-link>
-      </p>-->
-      <router-view></router-view>
+      </p> -->
+
+      <div class="box">
+
+        <div>
+          <p class="bold" style="font-size: 1.5rem;"><strong>LOCKER </strong>열어보기</p>
+          <div class="under-line"></div>
+        </div>
+
+        <div class="tab-wrap">
+         
+          <router-link to="article">
+            <div class="tab__content">
+              <input type="radio" id="tab1" name="tabGroup1" class="tab">
+              <label for="tab1"><span class="bold" style="font-size: 1.1rem;">포스트</span></label>
+            </div>
+            <!-- <div class="tab__content">-->
+          </router-link>
+          
+
+          <router-link to="repository">
+            <div class="tab__content">
+              <input type="radio" id="tab2" name="tabGroup1" class="tab">
+              <label for="tab2"><span class="bold" style="font-size: 1.1rem;">레포지토리</span></label>
+            </div>
+          </router-link>
+          
+
+          <router-link to="introduce">
+            <div class="tab__content">
+              <input type="radio" id="tab3" name="tabGroup1" class="tab">
+              <label for="tab3"><span class="bold" style="font-size: 1.1rem;">소개</span></label>
+            </div>
+          </router-link>
+        </div>
+
+        <div>
+          <router-view></router-view>
+        </div>
+
+
+      </div>
+
     </v-container>
+    
+    <!-- 탭 테스트 -->
+    <v-content class="mt-5">
+      <tabs/>
+    </v-content>
+
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
 // import SideBar from "./SideBar.vue"
+import tabs from "./tabs.vue"
+// import article from "./mypage-tabs/article.vue"
+// import repository from "./mypage-tabs/repository.vue"
+// import introduce from "./mypage-tabs/introduce.vue"
 import("../assets/css/side-style.css");
 import("../assets/css/jandi.css");
+
 
 export default {
   created() {
@@ -156,6 +207,10 @@ export default {
   components: {
     // SideBar,
     // category,
+    tabs,
+    // article,
+    // repository,
+    // introduce,
   },
   methods: {
     showMyDetail(pid) {
@@ -178,16 +233,22 @@ export default {
 };
 </script>
 <style scoped>
-/* @import url("https://fonts.googleapis.com/css?family=Oswald"); */
 
 .tabs {
+  
 }
 
 .tab {
-  color: black;
-  /* font-family: "Oswald", sans-serif; */
-  font-size: 20px;
+  padding: 1rem;
+  color: #424242;
+  font-size: 1.5rem;
   text-decoration: none;
 }
 
+.under-line {
+  height: 0.3rem;
+  width: 3.5rem;
+  margin-bottom: 3rem;
+  background-color: #7C4DFF;
+}
 </style>
