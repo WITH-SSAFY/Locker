@@ -58,11 +58,6 @@ export default new Vuex.Store({
       state.isLogin = false;
       state.isLoginError = false;
       state.userInfo = null;
-      state.arrGitRepo = null;
-      state.myRepoInfo = null;
-      state.teamRepoInfo = null;
-      state.arrMyRepo = null;
-      state.showRepo = null;
     },
     getMyPostList(state, payload) {
       state.myPostList = payload.myPostList;
@@ -105,10 +100,10 @@ export default new Vuex.Store({
       router.push({ name: "afterPost" }); //글 작성 후 화면으로 이동
     },
     getRepos(state, payload){
+
       console.log("mutations - arrGitRepo",state.arrGitRepo);
-      
       console.log("mutations payload.repos값 확인:" , payload.repos)
-      console.log("mutations - login값 확인 : ", payload.login);
+      console.log("mutations - uid값 확인 : ", payload.uid);
       
       // 팀 레포 리스트, 내 레포 리스트 구별하기
       var myCnt = 0;
@@ -163,7 +158,6 @@ export default new Vuex.Store({
         localStorage.removeItem("access_token");
         localStorage.removeItem("github_token");
         router.push({ name: "home" });
-        window.location.reload();
       }
     },
 
@@ -419,7 +413,7 @@ export default new Vuex.Store({
         .get("/v1/github/repos?token="+tokens.token+"&accessToken="+tokens.accessToken)
         .then((res) => {
           console.log("res.data", res.data)
-          commit('getRepos', { repos: res.data.list, login: tokens.login} );
+          commit('getRepos', { repos: res.data.list, uid: tokens.uid} );
         })
         .catch((err) => {
           console.log("err", err);
