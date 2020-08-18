@@ -31,17 +31,20 @@
 </v-container>
 </template>
 <script>
-import { mapState } from 'vuex';
+// import { mapState } from 'vuex';
 export default {
   created() {
     this.showRepo;
+    this.myLockerRepos;
   },
   mounted() {},
   computed: {
     showRepo() {
       return this.$store.state.showRepo;
     },
-    ...mapState(["myLockerRepos"])
+    myLockerRepos(){
+      return this.$store.state.myLockerRepos;
+    }
   },
   data: () => {
     return {

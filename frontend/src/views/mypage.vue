@@ -135,7 +135,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 // import SideBar from "./SideBar.vue"
 import("../assets/css/side-style.css");
 import("../assets/css/jandi.css");
@@ -148,11 +148,26 @@ export default {
     this.$store.dispatch("getMyPostList", this.userInfo.email);
     this.myPostList;
     this.githubId = this.userInfo.login;
+    
+    // 토큰 값 전달해서 getRepos 실행(Repository 리스트 받아오기)
+    // this.userInfo.uid = 'jane399'
+    // this.userInfo.uid = 'junhok82'
+    this.userInfo.uid = 'YNNJN'
+    this.userInfo.provider = 'github'
+    console.log("userInfo.uid: ", this.userInfo.uid)
+
+    // locker에 저장된 repository 조회하기
+    // this.userInfo.id = 17
+    // this.userInfo.id = 15
+    this.userInfo.id = 21
+    this.getLockerRepos({id: this.userInfo.id, uid: this.userInfo.uid});
+
     //likes 배열 초기화 작업
     this.likes.length = this.size;
     for (let i = 0; i < this.size; i++) {
       this.likes.push(false);
     }
+    
   },
   mounted () {
 
@@ -186,6 +201,7 @@ export default {
     // SideBar,
   },
   methods: {
+    ...mapActions(["getLockerRepos"]),
     showMyDetail(pid) {
       this.$store.dispatch("showMyDetail", pid);
       //this.$router.push({name: "readPost"});

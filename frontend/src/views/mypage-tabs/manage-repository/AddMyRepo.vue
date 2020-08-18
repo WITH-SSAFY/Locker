@@ -61,7 +61,7 @@
 </template>
 <script>
 import draggable from "vuedraggable";
-import { mapState, mapActions } from 'vuex';
+import { mapState } from 'vuex';
 import axios from '../../../lib/axios-common';
 
 export default {
@@ -91,7 +91,6 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["getMyLockerRepos"]),
     showAction(num) {
       for (var i in this.showRepo) {
         this.showRepo.splice(i, 1, false);

@@ -120,14 +120,14 @@ export default {
     // locker에 저장된 repository 조회하기
     // this.userInfo.id = 17
     // this.userInfo.id = 15
-    this.userInfo.id = 21
-    this.getLockerRepos({id: this.userInfo.id, uid: this.userInfo.uid});
+    // this.userInfo.id = 21
+    // this.getLockerRepos({id: this.userInfo.id, uid: this.userInfo.uid});
   },
   computed: {
     showRepo() {
       return this.$store.state.showRepo;
     },
-    ...mapState(["userInfo", "myRepoInfo", "teamRepoInfo"]),
+    ...mapState(["userInfo", "myRepoInfo", "teamRepoInfo", "myLockerRepos"]),
   },
   data: () => {
     return {

@@ -493,7 +493,6 @@ export default new Vuex.Store({
       axios
         .get("/v1/github?pk="+userInfo.id)
         .then((res) => {
-          // console.log("저장된 lockerRepo list : ", res.data.list);
           commit('getLockerRepos', {repos: res.data.list, uid: userInfo.uid});
         })
         .catch((err) => {
