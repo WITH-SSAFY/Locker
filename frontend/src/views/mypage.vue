@@ -35,14 +35,14 @@
 
             <!-- 스탯 섹션 -->
             <div class="col-md-5">
-              <div v-if="userInfo.uid !== null">
+              <div v-if="userInfo.provider === 'github'">
                 <a href="https://github.com/anuraghazra/github-readme-stats">
                   <img align="left" :src="statSrc" />
                 </a>
               </div>
 
               <!-- 깃헙과 연동되지 않았을 때의 화면 디자인 -->
-              <div v-if="userInfo.uid === null" style="min-height: 10rem; background-color: #eceffc; padding: 2rem;">
+              <div v-else style="min-height: 10rem; background-color: #eceffc; padding: 2rem;">
                 <div class="text-center">
                   <p class="medium">깃헙과 연동하면 당신의 <strong style="color: #7C4DFF">stats</strong>을</p>
                   <p class="medium"><strong style="color: #7C4DFF">LOCKER</strong>에서 확인할 수 있어요</p>

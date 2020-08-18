@@ -64,4 +64,14 @@ public class PostDAOImpl implements PostDAO {
     public Long getNextpid() {
         return session.selectOne("post.getNextpid");
     }
+
+    @Override
+    public Long getPrevPage(Long pid) {
+        return session.selectOne("post.getPrevPage",pid);
+    }
+
+    @Override
+    public Long getNextPage(Long pid) {
+        return session.selectOne("post.getNextPage",pid);
+    }
 }

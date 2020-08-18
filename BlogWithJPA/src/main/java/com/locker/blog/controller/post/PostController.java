@@ -183,4 +183,28 @@ public class PostController {
         ;
         return responseService.getListResult(postList);
     }
+
+    @ApiOperation(value = "다음 페이지 포스트 번호", notes = "다음 페이지 포스트 번호를 조회한다.")
+    @GetMapping("/nextPage")
+    public ResponseEntity<Long> getNextPage (@RequestParam Long pid) {
+        System.out.println("getNextPage");
+        Long nextpid = service.getNextPage(pid);
+        System.out.println(nextpid);
+        if(nextpid>0){
+            return new ResponseEntity<Long>(nextpid, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<Long>(0L, HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @ApiOperation(value = "이전 페이지 포스트 번호", notes = "이전 페이지 포스트 번호를 조회한다.")
+    @GetMapping("/prevPage")
+    public ResponseEntity<Long> getPrevPage (@RequestParam Long pid) {
+        Long prevpid = service.getPrevPage(pid);
+        if(prevpid>0){
+            return new ResponseEntity<Long>(prevpid, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<Long>(0L, HttpStatus.NO_CONTENT);
+        }
+    }
 }

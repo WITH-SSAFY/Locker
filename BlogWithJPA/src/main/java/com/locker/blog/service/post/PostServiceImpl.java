@@ -65,4 +65,14 @@ public class PostServiceImpl implements PostService {
         return dao.getNextpid();
     }
 
+    @Override
+    public Long getPrevPage(Long pid) {
+        return dao.getPrevPage(pid);
+    }
+
+    @Override
+    public Long getNextPage(Long pid) {
+        return dao.getNextPage(pid);
+    }
+
 }

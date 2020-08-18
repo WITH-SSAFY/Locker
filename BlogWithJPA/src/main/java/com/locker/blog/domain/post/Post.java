@@ -1,5 +1,6 @@
 package com.locker.blog.domain.post;
 
+import com.locker.blog.domain.repository.MyRepository;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -39,4 +41,8 @@ public class Post {
 
     private String thumbnail;
     private String description;
+
+    @ManyToOne(targetEntity = MyRepository.class)
+    @JoinColumn(name = "repoId", referencedColumnName = "id")
+    private MyRepository myRepository;
 }

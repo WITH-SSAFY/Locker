@@ -1,17 +1,22 @@
 <template>
-  <v-main class="full-screen">
-    <full-page :options="options" id="fullpage">
-      <div v-if="isLogin">
-        <div class="section"><mainPostList/></div>
-        <div class="section"><mainPostList2/></div>
-      </div>
-      <div v-if="!isLogin">
-        <div class="section"><contents1/></div>
-        <div class="section"><contents2/></div>
-        <div class="section"><contents3/></div>
-      </div>
-    </full-page>
-  </v-main>
+  <div>
+    
+    <div v-if="isLogin">
+      <div><mainPostList/></div>
+      <div><mainPostList2/></div>
+    </div>
+
+    <div v-if="!isLogin">
+      <v-main class="full-screen">
+        <full-page :options="options" id="fullpage">
+          <div class="section"><contents1/></div>
+          <div class="section"><contents2/></div>
+          <div class="section"><contents3/></div>
+        </full-page>
+      </v-main>
+    </div>
+    
+  </div>
 </template>
  
 <script>

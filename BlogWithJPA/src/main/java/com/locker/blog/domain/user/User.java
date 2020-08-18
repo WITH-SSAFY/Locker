@@ -46,10 +46,6 @@ public class User implements UserDetails {
     @Column(columnDefinition = "boolean default false")
     private Boolean verify;
 
-    @OneToMany
-    @JoinColumn(name = "repoid")
-    private List<MyRepository> repositories = new ArrayList<>();
-
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private List<String> roles = new ArrayList<>();

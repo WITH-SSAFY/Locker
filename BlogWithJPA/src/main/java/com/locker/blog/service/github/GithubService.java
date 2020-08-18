@@ -188,10 +188,11 @@ public class GithubService {
         return repoUrl.replace("api.","").replace("/repos","");
     }
 
-    public void insert(String name, String repoName) {
+    public void insert(String name, String repoName, User user) {
         myRepositoryJpaRepo.save(MyRepository.builder()
                 .name(name)
                 .repoName(repoName)
+                .user(user)
                 .build());
     }
 
