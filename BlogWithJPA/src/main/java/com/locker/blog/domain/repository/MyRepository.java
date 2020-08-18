@@ -1,8 +1,10 @@
 package com.locker.blog.domain.repository;
 
+import com.locker.blog.domain.post.Post;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Builder
@@ -18,5 +20,9 @@ public class MyRepository {
     private String name;
     @Column(nullable = false)
     private String repoName;
+
+    @OneToMany
+    @JoinColumn(name = "repoid")
+    private List<Post> posts;
 }
 
