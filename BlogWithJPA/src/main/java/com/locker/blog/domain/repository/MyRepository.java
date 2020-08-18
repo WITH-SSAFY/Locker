@@ -22,8 +22,10 @@ public class MyRepository {
     @Column(nullable = false)
     private String repoName;
 
-    @ManyToOne(targetEntity = User.class)
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "usrId", referencedColumnName = "id")
     private User user;
+
+    private Long likes;
 }
 
