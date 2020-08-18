@@ -2,7 +2,16 @@
   <div>
     <v-container class="mt-md-6">
       <v-row>
-        <v-col cols="9" class="p-0">
+        <v-col cols="1" class="p-0">
+          <div class="paginate paginate--left" @click="goPrevPage">
+            <a class="paginate__link" href="#">
+              <i></i>
+              <i></i>
+            </a>
+            <span class="paginate__info">Prev</span>
+          </div>
+        </v-col>
+        <v-col cols="10" class="p-0">
           <div class="mx-5 py-3">
             <div class="row post_title ml-1">{{ title }}</div>
             <div class="under-line"></div>
@@ -49,10 +58,10 @@
           <div class="row mx-5 py-3">
             <viewer v-if="flag" :initialValue="viewerText" height="100%" />
           </div>
-          <div>
+          <!-- <div>
             <v-btn @click="goPrevPage">이전</v-btn>
             <v-btn @click="goNextPage">다음</v-btn>
-          </div>
+          </div>-->
           <div class="row mx-5 py-3 writer_info">
             <div class="col-md-2 col-sm-1">
               <v-icon size="80">mdi-account-circle-outline</v-icon>
@@ -206,6 +215,15 @@
             </div>
           </div>
         </v-col>
+        <v-col cols="1" class="p-0">
+          <div class="paginate paginate--right" @click="goNextPage">
+            <a class="paginate__link" href="#">
+              <i></i>
+              <i></i>
+            </a>
+            <span class="paginate__info">Next</span>
+          </div>
+        </v-col>
       </v-row>
 
       <!-- 사이드바 -->
@@ -289,7 +307,6 @@ export default {
 
   async beforeRouteUpdate(from, to, next) {
     this.flag = false;
-    this.pid = to.params.pid;
     this.userInfo;
     this.pid;
     await this.viewerText;
@@ -469,5 +486,133 @@ export default {
 #container {
   width: 65%; /* 반응형으로 수정 필요 */
   margin: 70px auto 0 auto;
+}
+
+body {
+  padding: 40px;
+}
+
+.paginate {
+  position: absolute;
+  margin: 0;
+  top: 40%;
+  width: 80px;
+  height: 80px;
+  cursor: pointer;
+  transform: translate3d(0, 0, 0);
+  background: none;
+  border: 0;
+}
+.paginate__link {
+  display: block;
+}
+.paginate i {
+  position: absolute;
+  top: 38%;
+  left: 0;
+  width: 80px;
+  height: 2px;
+  border-radius: 1px;
+  background: black;
+  transition: all 0.15s ease;
+}
+.paginate__info {
+  display: inline-block;
+  position: absolute;
+  top: 42%;
+  transform: translateY(-50%);
+  text-transform: uppercase;
+  opacity: 0;
+  width: 0%;
+  visability: hidden;
+  overflow: hidden;
+}
+.paginate--left .paginate__info {
+  left: 80px;
+}
+.paginate--right .paginate__info {
+  right: 80px;
+}
+.paginate:hover .paginate__info {
+  opacity: 1;
+  width: auto;
+  visability: visible;
+  transition: width 0ms ease-in-out, opacity 300ms linear;
+}
+.paginate.paginate--left {
+  right: 60px;
+}
+.paginate.paginate--left i {
+  transform-origin: 0% 50%;
+}
+.paginate.paginate--left i:first-child {
+  transform: translate(0, -1px) rotate(52deg);
+}
+.paginate.paginate--left i:last-child {
+  transform: translate(0, 1px) rotate(-52deg);
+}
+.paginate.paginate--left:hover i:first-child {
+  transform: translate(0, -1px) rotate(44deg);
+}
+.paginate.paginate--left:hover i:last-child {
+  transform: translate(0, 1px) rotate(-44deg);
+}
+.paginate.paginate--left:active i:first-child {
+  transform: translate(1px, -1px) rotate(40deg);
+}
+.paginate.paginate--left:active i:last-child {
+  transform: translate(1px, 1px) rotate(-40deg);
+}
+.paginate.paginate--left[data-state="disabled"] i:first-child {
+  transform: translate(-5px, 0) rotate(0deg);
+}
+.paginate.paginate--left[data-state="disabled"] i:last-child {
+  transform: translate(-5px, 0) rotate(0deg);
+}
+.paginate.paginate--left[data-state="disabled"]:hover i:first-child {
+  transform: translate(-5px, 0) rotate(0deg);
+}
+.paginate.paginate--left[data-state="disabled"]:hover i:last-child {
+  transform: translate(-5px, 0) rotate(0deg);
+}
+.paginate.paginate--right {
+  left: 60px;
+}
+.paginate.paginate--right i {
+  transform-origin: 100% 50%;
+}
+.paginate.paginate--right i:first-child {
+  transform: translate(0, 1px) rotate(52deg);
+}
+.paginate.paginate--right i:last-child {
+  transform: translate(0, -1px) rotate(-52deg);
+}
+.paginate.paginate--right:hover i:first-child {
+  transform: translate(0, 1px) rotate(44deg);
+}
+.paginate.paginate--right:hover i:last-child {
+  transform: translate(0, -1px) rotate(-44deg);
+}
+.paginate.paginate--right:active i:first-child {
+  transform: translate(1px, 1px) rotate(40deg);
+}
+.paginate.paginate--right:active i:last-child {
+  transform: translate(1px, -1px) rotate(-40deg);
+}
+.paginate.paginate--right[data-state="disabled"] i:first-child {
+  transform: translate(5px, 0) rotate(0deg);
+}
+.paginate.paginate--right[data-state="disabled"] i:last-child {
+  transform: translate(5px, 0) rotate(0deg);
+}
+.paginate.paginate--right[data-state="disabled"]:hover i:first-child {
+  transform: translate(5px, 0) rotate(0deg);
+}
+.paginate.paginate--right[data-state="disabled"]:hover i:last-child {
+  transform: translate(5px, 0) rotate(0deg);
+}
+.paginate[data-state="disabled"] {
+  opacity: 0.3;
+  cursor: default;
 }
 </style>
