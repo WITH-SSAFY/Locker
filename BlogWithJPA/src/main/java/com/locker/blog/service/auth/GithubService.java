@@ -161,15 +161,20 @@ public class GithubService {
             String[] fullName = tempList.getFull_name().split("/");
             String name = fullName[0];
             String repoName = fullName[1];
+            String url = splitUrl(tempList.getUrl());
 
             githubCompactRepo.setName(name);
             githubCompactRepo.setRepoName(repoName);
-            githubCompactRepo.setRepoUrl(tempList.getUrl());
+            githubCompactRepo.setRepoUrl(url);
 
             githubCompactRepoList.add(githubCompactRepo);
         }
 
         return githubCompactRepoList;
+    }
+
+    private String splitUrl(String repoUrl) {
+        return repoUrl.replace("api.","").replace("/repos","");
     }
 
     public void insert(String name, String repoName) {
