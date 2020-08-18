@@ -5,7 +5,7 @@ import com.locker.blog.domain.social.FacebookRetAuth;
 import com.locker.blog.domain.social.GithubRetAuth;
 import com.locker.blog.domain.social.NaverRetAuth;
 import com.locker.blog.domain.social.RetAuth;
-import com.locker.blog.service.auth.*;
+import com.locker.blog.service.github.*;
 import com.locker.blog.service.response.ResponseService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

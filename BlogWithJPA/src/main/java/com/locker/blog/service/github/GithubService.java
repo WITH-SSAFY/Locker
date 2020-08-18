@@ -1,11 +1,9 @@
-package com.locker.blog.service.auth;
+package com.locker.blog.service.github;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.locker.blog.advice.exception.CCommunicationException;
-import com.locker.blog.domain.repository.GithubCompactRepo;
-import com.locker.blog.domain.repository.GithubRepository;
-import com.locker.blog.domain.repository.MyRepository;
+import com.locker.blog.domain.repository.*;
 import com.locker.blog.domain.social.GithubRetAuth;
 import com.locker.blog.domain.social.Languages;
 import com.locker.blog.domain.user.*;
@@ -161,15 +159,33 @@ public class GithubService {
             String[] fullName = tempList.getFull_name().split("/");
             String name = fullName[0];
             String repoName = fullName[1];
+            String url = splitUrl(tempList.getUrl());
 
             githubCompactRepo.setName(name);
             githubCompactRepo.setRepoName(repoName);
-            githubCompactRepo.setRepoUrl(tempList.getUrl());
+            githubCompactRepo.setRepoUrl(url);
 
             githubCompactRepoList.add(githubCompactRepo);
         }
 
         return githubCompactRepoList;
+    }
+
+    public List<CommitInfo> getCommitInfo(String name, String repoName) {
+        URI uri = URI.create("https://api.github.com/repos/" + name + "/" + repoName + "/commits");
+        ResponseEntity<String> response = restTemplate.getForEntity(uri,String.class);
+        //logger.info(response.getBody());
+
+        try{
+            if(response.getStatusCode() == HttpStatus.OK) return gson.fromJson(response.getBody(), new TypeToken<List<CommitInfo>>(){}.getType());
+        } catch (Exception e) {
+            throw new CCommunicationException("깃헙 커밋 정보 가져오는데 실패했습니다.");
+        }
+        throw new CCommunicationException();
+    }
+
+    private String splitUrl(String repoUrl) {
+        return repoUrl.replace("api.","").replace("/repos","");
     }
 
     public void insert(String name, String repoName) {
@@ -210,4 +226,23 @@ public class GithubService {
         return languages;
     }
 
+    public List<CommitCompactInfo> getCommitCompactInfo(List<CommitInfo> commitInfos) {
+        List<CommitCompactInfo> temp = new ArrayList<>();
+
+        for (int i = 0; i < commitInfos.size(); i++) {
+            CommitInfo commitInfo = commitInfos.get(i);
+            CommitCompactInfo commitCompactInfo = new CommitCompactInfo();
+            commitCompactInfo.setMessage(commitInfo.getCommit().getMessage());
+            commitCompactInfo.setUrl(apiUrl2Url(commitInfo.getUrl()));
+            commitCompactInfo.setDate(commitInfo.getCommit().getAuthor().getDate());
+
+            temp.add(commitCompactInfo);
+        }
+
+        return temp;
+    }
+
+    private String apiUrl2Url(String url) {
+        return url.replace("commits","commit").replace("api.","").replace("repos/","");
+    }
 }

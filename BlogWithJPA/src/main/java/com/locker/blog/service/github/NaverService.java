@@ -1,12 +1,10 @@
-package com.locker.blog.service.auth;
+package com.locker.blog.service.github;
 
 import com.google.gson.Gson;
 import com.locker.blog.advice.exception.CCommunicationException;
-import com.locker.blog.domain.social.RetAuth;
-import com.locker.blog.domain.user.KakaoProfile;
+import com.locker.blog.domain.social.NaverRetAuth;
+import com.locker.blog.domain.user.NaverProfile;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.*;
@@ -15,26 +13,28 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-
 @RequiredArgsConstructor
 @Service
-public class KakaoService {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
+public class NaverService {
     private final RestTemplate restTemplate;
     private final Environment env;
     private final Gson gson;
 
+
     @Value("${spring.url.base}")
     private String baseUrl;
 
-    @Value("${spring.social.kakao.client_id}")
-    private String kakaoClientId;
+    @Value("${spring.social.naver.clientId}")
+    private String naverClientId;
 
-    @Value("${spring.social.kakao.redirect}")
-    private String kakaoRedirect;
+    @Value("${spring.social.naver.clientSecret")
+    private String naverClientSecret;
 
-    public KakaoProfile getKakaoProfile(String accessToken) {
+    @Value("${spring.social.naver.redirectUri}}")
+    private String naverRedirect;
+
+
+    public NaverProfile getNaverProfile(String accessToken) {
         // Set header : Content-type: application/x-www-form-urlencoded
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -42,33 +42,34 @@ public class KakaoService {
 
         // Set http entity
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(null, headers);
-
         try {
             // Request profile
-            ResponseEntity<String> response = restTemplate.postForEntity(env.getProperty("spring.social.kakao.url.profile"), request, String.class);
+            ResponseEntity<String> response = restTemplate.postForEntity(env.getProperty("spring.social.naver.url.profile"), request, String.class);
+            System.out.println("response : " + response.getBody());
             if (response.getStatusCode() == HttpStatus.OK)
-                return gson.fromJson(response.getBody(), KakaoProfile.class);
+                return gson.fromJson(response.getBody(), NaverProfile.class);
         } catch (Exception e) {
             throw new CCommunicationException();
         }
         throw new CCommunicationException();
     }
 
-    public RetAuth getKakaoTokenInfo(String code) {
+    public NaverRetAuth getNaverTokenInfo(String code) {
         // Set header : Content-type: application/x-www-form-urlencoded
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         // Set parameter
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
-        params.add("client_id", kakaoClientId);
-        params.add("redirect_uri", baseUrl + kakaoRedirect);
+        params.add("client_id", naverClientId);
+        params.add("client_secret", naverClientSecret);
         params.add("code", code);
+
         // Set http entity
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
-        ResponseEntity<String> response = restTemplate.postForEntity(env.getProperty("spring.social.kakao.url.token"), request, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity(env.getProperty("spring.social.naver.url.token"), request, String.class);
         if (response.getStatusCode() == HttpStatus.OK) {
-            return gson.fromJson(response.getBody(), RetAuth.class);
+            return gson.fromJson(response.getBody(), NaverRetAuth.class);
         }
         return null;
     }

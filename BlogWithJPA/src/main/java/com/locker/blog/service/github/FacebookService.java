@@ -1,4 +1,4 @@
-package com.locker.blog.service.auth;
+package com.locker.blog.service.github;
 
 import com.google.gson.Gson;
 import com.locker.blog.advice.exception.CCommunicationException;
