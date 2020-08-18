@@ -47,7 +47,7 @@ public class User implements UserDetails {
     private Boolean verify;
 
     @OneToMany
-    @JoinColumn(name = "repoid")
+    @JoinColumn(name = "usrid")
     private List<MyRepository> repositories = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.EAGER)
