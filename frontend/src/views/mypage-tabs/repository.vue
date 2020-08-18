@@ -92,6 +92,7 @@ import AddTeamRepo from "./manage-repository/AddTeamRepo.vue";
 import { mapActions, mapState } from 'vuex';
 
 export default {
+  name: 'repository',
   components: {
     MyRepository,
     AddMyRepo,

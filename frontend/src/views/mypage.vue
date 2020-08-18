@@ -55,29 +55,81 @@
 
             </div>
           </div>
-          <hr />
-        </v-col>
+          <!-- <hr> -->
+        </v-col>        
       </v-row>
 
-      <!-- 중첩 라우터 -->
-      <p class="d-flex justify-content-around">
-        <router-link to="article" class="p-3 text-decoration-none">
-          <span class="tab">article</span>
-        </router-link>
-        <router-link to="repository" class="p-3 text-decoration-none">
-          <span class="tab">repository</span>
-        </router-link>
-        <router-link to="introduce" class="p-3 text-decoration-none">
-          <span class="tab">introduce</span>
-        </router-link>
-      </p>
-      <!-- <p>
-        <router-link to="myRepository" class="p-3 text-decoration-none">
-          <span class="tab">MyReo</span>
-        </router-link>
-      </p>-->
-      <router-view></router-view>
+      <!-- 잔디 섹션 -->
+      <div class="jandi">
+        <div class="graph">
+          <ul class="months">
+            <li>Jan</li>
+            <li>Feb</li>
+            <li>Mar</li>
+            <li>Apr</li>
+            <li>May</li>
+            <li>Jun</li>
+            <li>Jul</li>
+            <li>Aug</li>
+            <li>Sep</li>
+            <li>Oct</li>
+            <li>Nov</li>
+            <li>Dec</li>
+          </ul>
+          <ul class="days">
+            <li></li>
+            <li>MON</li>
+            <li></li>
+            <li>WEB</li>
+            <li></li>
+            <li>FRI</li>
+            <li></li>
+          </ul>
+          <ul class="squares"></ul>
+        </div>
+      </div>
+
+      <!-- 탭 -->
+      <div class="row" style="margin-top: 5rem;">
+
+        <div class="col-md-3">
+          <div>
+            <p class="bold" style="font-size: 1.5rem;"><strong>LOCKER </strong>열어보기</p>
+            <div class="under-line"></div>
+          </div>
+        </div>
+
+        <div class="col-md-9">
+          <article>
+            <ul class="p-0">
+              <v-icon color="white">mdi-chevron-right</v-icon>
+              <li style="cursor: default;">
+                <span class="bold" style="color: #727272; font-size: 1.3rem;">반가워요 :)</span>
+              </li>
+
+              <router-link to="article">
+                <li><span class="bold" style="color: #eceffc;; font-size: 1.3rem;">포스트</span></li>
+              </router-link>
+
+              <router-link to="repository">
+                <li><span class="bold" style="color: #eceffc;; font-size: 1.3rem;">레포지토리</span></li>
+              </router-link>
+
+              <router-link to="introduce">
+                <li><span class="bold" style="color: #eceffc;; font-size: 1.3rem;">소개</span></li>
+              </router-link>
+              
+            </ul>
+          </article>
+        </div>
+      </div>
+
     </v-container>
+
+    <div style="background-color: #242b33;">
+      <router-view></router-view>
+    </div>
+
   </div>
 </template>
 
@@ -85,6 +137,9 @@
 import { mapState } from "vuex";
 // import SideBar from "./SideBar.vue"
 import("../assets/css/side-style.css");
+import("../assets/css/jandi.css");
+import("../assets/css/tab.scss");
+
 
 export default {
   created() {
@@ -96,6 +151,16 @@ export default {
     for (let i = 0; i < this.size; i++) {
       this.likes.push(false);
     }
+  },
+  mounted () {
+
+    // Add squares
+    const squares = document.querySelector('.squares');
+    for (var i = 1; i < 365; i++) {
+      const level = Math.floor(Math.random() * 4);  
+      squares.insertAdjacentHTML('beforeend', `<li data-level="${level}"></li>`);
+    }
+
   },
   computed: {
     ...mapState(["userInfo", "myPostList"]),
@@ -114,7 +179,6 @@ export default {
   },
   components: {
     // SideBar,
-    // category,
   },
   methods: {
     showMyDetail(pid) {
@@ -137,15 +201,10 @@ export default {
 };
 </script>
 <style scoped>
-@import url("https://fonts.googleapis.com/css?family=Oswald");
-
-.tabs {
-}
-
-.tab {
-  color: black;
-  font-family: "Oswald", sans-serif;
-  font-size: 20px;
-  text-decoration: none;
+.under-line {
+  height: 0.3rem;
+  width: 3.5rem;
+  margin-bottom: 3rem;
+  background-color: #7C4DFF;
 }
 </style>
