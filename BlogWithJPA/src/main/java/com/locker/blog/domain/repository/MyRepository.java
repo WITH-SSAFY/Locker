@@ -1,6 +1,7 @@
 package com.locker.blog.domain.repository;
 
 import com.locker.blog.domain.post.Post;
+import com.locker.blog.domain.user.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,8 +22,8 @@ public class MyRepository {
     @Column(nullable = false)
     private String repoName;
 
-    @OneToMany(targetEntity = Post.class)
-    @JoinColumn(name = "repoid", referencedColumnName = "id")
-    private List<Post> posts;
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name = "usrId", referencedColumnName = "id")
+    private User user;
 }
 

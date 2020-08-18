@@ -74,17 +74,21 @@ public class RepositoryController {
     @ApiOperation(value = "내 깃헙 레포 조회", notes = "내 깃헙 레포를 조회한다.")
     @GetMapping(value = "github")
     public ListResult<MyRepository> getMyRepository(
-                                    @ApiParam(value = "유저 or 팀 이름") @RequestParam String name) {
-        List<MyRepository> myRepositories = myRepositoryJpaRepo.findAllByName(name).orElseThrow(CCommunicationException::new);
+                                    @ApiParam(value = "유저 pk") @RequestParam Long pk) {
+        User user = userJpaRepo.findById(pk).orElseThrow(CUserNotFoundException::new);
+        List<MyRepository> myRepositories = myRepositoryJpaRepo.findAllByUser(user).orElseThrow(CCommunicationException::new);
         return responseService.getListResult(myRepositories);
     }
     @ApiOperation(value = "내 깃헙 레포 추가", notes = "내 깃헙 레포를 추가한다.")
     @PostMapping(value = "github")
     public CommonResult insertMyRepository(
                                             @ApiParam(value = "유저 or 팀 이름") @RequestParam String name,
-                                            @ApiParam(value = "레포 이름") @RequestParam String repoName) {
+                                            @ApiParam(value = "레포 이름") @RequestParam String repoName,
+                                            @ApiParam(value = "유저 pk") @RequestParam Long pk) {
+
+        User user = userJpaRepo.findById(pk).orElseThrow(CUserNotFoundException::new);
         try {
-            githubService.insert(name, repoName);
+            githubService.insert(name, repoName, user);
         } catch (Exception e) {
             throw new CUserNotFoundException();
         }
