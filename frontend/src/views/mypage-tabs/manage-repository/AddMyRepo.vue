@@ -60,7 +60,7 @@
 </template>
 <script>
 import draggable from "vuedraggable";
-import { mapState, mapActions } from 'vuex';
+import { mapState } from 'vuex';
 import axios from '../../../lib/axios-common';
 
 export default {
@@ -72,7 +72,6 @@ export default {
     this.showRepo;
     this.myRepoInfo;
     console.log("myRepoInfo:", this.myRepoInfo);
-    this.userInfo.id = 15
   },
   computed: {
     showRepo() {
@@ -91,7 +90,6 @@ export default {
     };
   },
   methods: {
-    ...mapActions([]),
     showAction(num) {
       for (var i in this.showRepo) {
         this.showRepo.splice(i, 1, false);
@@ -99,20 +97,18 @@ export default {
       this.showRepo.splice(num, 1, true);
     },
     saveMine(repos){
-      // console.log("repos여기", repos);
       for(var i=0; i<repos.length; i++){
-        console.log("repos name여기!", repos[i].name)
-        console.log("repos repoName여기!", repos[i].repoName)
-        console.log("userInfo id여기!", this.userInfo.id)
+        // console.log("repos name여기!", repos[i].name)
+        // console.log("repos repoName여기!", repos[i].repoName)
+        // console.log("userInfo id여기!", this.userInfo.id)
         axios
-            .post("/v1/github?name="+repos[i].name+"&repoName="+repos[i].repoName+"&pk="+this.userInfo.id)
-            .then((response) => {
-              console.log("myRepo 추가 - response", response)
-            })
-            .catch((err) => {
-              console.log("myRepo 추가 - err", err)
-            });
-        // this.getLockerRepos( {id: this.userInfo.id} );
+          .post("/v1/github?name="+repos[i].name+"&repoName="+repos[i].repoName+"&pk="+this.userInfo.id)
+          .then((response) => {
+            console.log("myRepo 추가 - response", response)
+          })
+          .catch((err) => {
+            console.log("myRepo 추가 - err", err)
+          });
       }
     },
     link(url){

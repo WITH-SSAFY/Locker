@@ -15,8 +15,8 @@ export default new Vuex.Store({
     isLoginError: false,
     showRepo: [true, false, false, false],
     //locker 내에 저장된 레포 정보
-    arrMyRepo: [],
-    arrMyTemRepo:[],
+    myLockerRepos: [],
+    teamLockerRepos:[],
     // github에서 레포 정보 가져올때 사용하는 배열
     arrGitRepo: [],
     myRepoInfo: [],
@@ -61,6 +61,11 @@ export default new Vuex.Store({
       state.isLogin = false;
       state.isLoginError = false;
       state.userInfo = null;
+      state.myLockerRepos = [];
+      state.teamLockerRepos = [];
+      state.arrGitRepo= [];
+      state.myRepoInfo= [];
+      state.teamRepoInfo= [];
     },
     getMyPostList(state, payload) {
       state.myPostList = payload.myPostList;
@@ -103,17 +108,17 @@ export default new Vuex.Store({
       router.push({ name: "afterPost" }); //글 작성 후 화면으로 이동
     },
     getRepos(state, payload) {
-      console.log("mutations - arrGitRepo", state.arrGitRepo);
-      console.log("mutations payload.repos값 확인:", payload.repos);
-      console.log("mutations - uid값 확인 : ", payload.uid);
+      // console.log("mutations - arrGitRepo", state.arrGitRepo);
+      // console.log("mutations payload.repos값 확인:", payload.repos);
+      // console.log("mutations - uid값 확인 : ", payload.uid);
 
       // 팀 레포 리스트, 내 레포 리스트 구별하기
       var myCnt = 0;
       var teamCnt = 0;
       var imgSrc = "";
       for (var j = 0; j < payload.repos.length; j++) {
-        console.log("payload[" + j + "] : ", payload.repos[j]);
-        console.log("payload[" + j + "].name : ", payload.repos[j].name);
+        // console.log("payload[" + j + "] : ", payload.repos[j]);
+        // console.log("payload[" + j + "].name : ", payload.repos[j].name);
 
         if (payload.repos[j].name !== payload.uid) {
           imgSrc =
@@ -123,6 +128,7 @@ export default new Vuex.Store({
             payload.repos[j].repoName;
           state.teamRepoInfo[teamCnt] = {
             name: payload.repos[j].name,
+            repoName: payload.repos[j].repoName,
             repoUrl: payload.repos[j].repoUrl,
             src: imgSrc,
           };
@@ -135,15 +141,53 @@ export default new Vuex.Store({
             payload.repos[j].repoName;
           state.myRepoInfo[myCnt] = {
             name: payload.repos[j].name,
+            repoName: payload.repos[j].repoName,
             repoUrl: payload.repos[j].repoUrl,
             src: imgSrc,
           };
           myCnt++;
         }
       }
-      console.log("mutations - myRepoInfo", state.myRepoInfo);
-      console.log("mutations - teamRepoInfo", state.teamRepoInfo);
+      // console.log("mutations - myRepoInfo", state.myRepoInfo);
+      // console.log("mutations - teamRepoInfo", state.teamRepoInfo);
     },
+    getLockerRepos(state, payload){
+      // 팀 레포 리스트, 내 레포 리스트 구별하기
+      var myCnt = 0;
+      var teamCnt = 0;
+      var imgSrc = "";
+      for (var j = 0; j < payload.repos.length; j++) {
+        if (payload.repos[j].name !== payload.uid) {
+          imgSrc =
+            "https://github-readme-stats.vercel.app/api/pin/?username=" +
+            payload.repos[j].name +
+            "&repo=" +
+            payload.repos[j].repoName;
+          state.teamLockerRepos[teamCnt] = {
+            name: payload.repos[j].name,
+            repoName: payload.repos[j].repoName,
+            repoUrl: payload.repos[j].repoUrl,
+            src: imgSrc,
+          };
+          teamCnt++;
+        } else {
+          imgSrc =
+            "https://github-readme-stats.vercel.app/api/pin/?username=" +
+            payload.repos[j].name +
+            "&repo=" +
+            payload.repos[j].repoName;
+          state.myLockerRepos[myCnt] = {
+            name: payload.repos[j].name,
+            repoName: payload.repos[j].repoName,
+            repoUrl: payload.repos[j].repoUrl,
+            src: imgSrc,
+          };
+          myCnt++;
+        }
+      }
+      console.log("mutations - myLockerRepos", state.myLockerRepos);
+      console.log("mutations - teamLockerRepos", state.teamLockerRepos);
+    }
   },
   //비즈니스 로직
   actions: {
@@ -444,12 +488,12 @@ export default new Vuex.Store({
     },
 
     getLockerRepos({commit}, userInfo){
-      console.log("lockerRepo - tokens 값 확인 : ", userInfo);
+      console.log("lockerRepo - userInfo 값 확인 : ", userInfo);
       commit
       axios
         .get("/v1/github?pk="+userInfo.id)
         .then((res) => {
-          console.log("res", res.data);
+          commit('getLockerRepos', {repos: res.data.list, uid: userInfo.uid});
         })
         .catch((err) => {
           console.log("err", err);
