@@ -3,7 +3,7 @@
     <v-row alignment="center" justify="center">
       <v-col cols="12" sm="6">
         <div id="thumbnail">
-          <h4>포스트 미리보기</h4>
+          <h4>썸네일 미리보기</h4>
           <div id="post-preview">
             <v-icon
               v-if="thumbnail == null"
@@ -11,15 +11,22 @@
               size="200"
               style="z-index: 1; margin-top: 50px"
             >image</v-icon>
-            <v-avatar v-else size="200" style="z-index: 1;">
-              <div style="border-radius: 50%; width: 8rem;" id="picture">
-                <img id="image" :src="thumbnail" />
-              </div>
-            </v-avatar>
+            <!-- <v-avatar v-else size="200" style="z-index: 1;"> -->
+            <!-- <div style="border-radius: 100%; width: 8rem;" id="picture"> -->
+            <v-img
+              v-else
+              style="z-index: 1; width"
+              id="image"
+              :aspect-ratio="16/9"
+              max-height="300px"
+              :src="thumbnail"
+            />
+            <!-- </div> -->
+            <!-- </v-avatar> -->
           </div>
-          <div id="buttons">
-            <v-btn id="upload" color="#EDE7F6" depressed @click="uploadThumnail">이미지 업로드</v-btn>
-            <v-btn id="delete" depressed @click="removeThumbnail">이미지 삭제</v-btn>
+          <div id="buttons1">
+            <v-btn id="upload" color="#EDE7F6" depressed @click="uploadThumnail">썸네일 업로드</v-btn>
+            <v-btn style="margin: 0 5px;" id="delete" depressed @click="removeThumbnail">썸네일 삭제</v-btn>
           </div>
           <input
             ref="uploader"
@@ -42,8 +49,8 @@
             v-model="description"
           ></v-textarea>
         </div>
-        <div id="buttons">
-          <v-btn color="#7C4DFF" @click="postContent">출간하기</v-btn>
+        <div id="buttons2">
+          <v-btn style="color: white;" color="#7C4DFF" @click="postContent">출간하기</v-btn>
         </div>
       </v-col>
     </v-row>
@@ -271,8 +278,12 @@ export default {
 #description {
   margin-top: 50px;
 }
-#buttons {
+#buttons1 {
   margin-top: 15px;
   text-align: center;
+}
+#buttons2 {
+  margin-top: 15px;
+  text-align: right;
 }
 </style>
