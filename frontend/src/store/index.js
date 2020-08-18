@@ -82,7 +82,7 @@ export default new Vuex.Store({
       state.email = payload.myDetail.email;
       state.thumbnail = payload.myDetail.thumbnail;
       state.description = payload.myDetail.description;
-      router.push({ name: "readPost" });
+      router.push({ name: "readPost", params: { pid: state.pid } });
     },
     goEditDetail(state, payload) {
       state.myDetail = payload.myDetail.content;
@@ -99,33 +99,48 @@ export default new Vuex.Store({
       state.myPost = payload.myPost;
       router.push({ name: "afterPost" }); //글 작성 후 화면으로 이동
     },
-    getRepos(state, payload){
-
-      console.log("mutations - arrGitRepo",state.arrGitRepo);
-      console.log("mutations payload.repos값 확인:" , payload.repos)
+    getRepos(state, payload) {
+      console.log("mutations - arrGitRepo", state.arrGitRepo);
+      console.log("mutations payload.repos값 확인:", payload.repos);
       console.log("mutations - uid값 확인 : ", payload.uid);
-      
+
       // 팀 레포 리스트, 내 레포 리스트 구별하기
       var myCnt = 0;
       var teamCnt = 0;
       var imgSrc = "";
-      for(var j = 0; j < payload.repos.length; j++){
-        console.log("payload["+j+"] : ", payload.repos[j])
-        console.log("payload["+j+"].name : ", payload.repos[j].name);
+      for (var j = 0; j < payload.repos.length; j++) {
+        console.log("payload[" + j + "] : ", payload.repos[j]);
+        console.log("payload[" + j + "].name : ", payload.repos[j].name);
 
-        if(payload.repos[j].name !== payload.uid){
-          imgSrc = "https://github-readme-stats.vercel.app/api/pin/?username="+payload.repos[j].name+"&repo="+payload.repos[j].repoName
-          state.teamRepoInfo[teamCnt] = { name: payload.repos[j].name, repoUrl: payload.repos[j].repoUrl, src: imgSrc};
+        if (payload.repos[j].name !== payload.uid) {
+          imgSrc =
+            "https://github-readme-stats.vercel.app/api/pin/?username=" +
+            payload.repos[j].name +
+            "&repo=" +
+            payload.repos[j].repoName;
+          state.teamRepoInfo[teamCnt] = {
+            name: payload.repos[j].name,
+            repoUrl: payload.repos[j].repoUrl,
+            src: imgSrc,
+          };
           teamCnt++;
-        }else {
-          imgSrc = "https://github-readme-stats.vercel.app/api/pin/?username="+payload.repos[j].name+"&repo="+payload.repos[j].repoName
-          state.myRepoInfo[myCnt] = {name: payload.repos[j].name, repoUrl: payload.repos[j].repoUrl, src: imgSrc};
+        } else {
+          imgSrc =
+            "https://github-readme-stats.vercel.app/api/pin/?username=" +
+            payload.repos[j].name +
+            "&repo=" +
+            payload.repos[j].repoName;
+          state.myRepoInfo[myCnt] = {
+            name: payload.repos[j].name,
+            repoUrl: payload.repos[j].repoUrl,
+            src: imgSrc,
+          };
           myCnt++;
         }
       }
-      console.log("mutations - myRepoInfo", state.myRepoInfo)
-      console.log("mutations - teamRepoInfo", state.teamRepoInfo)
-    }
+      console.log("mutations - myRepoInfo", state.myRepoInfo);
+      console.log("mutations - teamRepoInfo", state.teamRepoInfo);
+    },
   },
   //비즈니스 로직
   actions: {
@@ -272,16 +287,16 @@ export default new Vuex.Store({
               picture: pic,
               provider: prov,
               introduction: res.introduction,
-              uid: null
+              uid: null,
             };
-            
+
             if (pic === "null") {
               userInfo.picture = null;
             }
             if (prov === "null") {
               userInfo.provider = null;
             } else {
-              if(prov === 'github'){
+              if (prov === "github") {
                 userInfo.uid = res.uid;
               }
             }
@@ -407,17 +422,22 @@ export default new Vuex.Store({
         });
     },
 
-    getRepos({commit}, tokens){
+    getRepos({ commit }, tokens) {
       console.log("tokens 값 확인", tokens);
       axios
-        .get("/v1/github/repos?token="+tokens.token+"&accessToken="+tokens.accessToken)
+        .get(
+          "/v1/github/repos?token=" +
+            tokens.token +
+            "&accessToken=" +
+            tokens.accessToken
+        )
         .then((res) => {
-          console.log("res.data", res.data)
-          commit('getRepos', { repos: res.data.list, uid: tokens.uid} );
+          console.log("res.data", res.data);
+          commit("getRepos", { repos: res.data.list, uid: tokens.uid });
         })
         .catch((err) => {
           console.log("err", err);
-        })
+        });
     },
 
     getMyPostList({ commit }, email) {

@@ -85,7 +85,7 @@ const routes = [
       ),
   },
   {
-    path: "/readPost",
+    path: "/readPost/:pid",
     name: "readPost",
     component: () =>
       import(/* webpackChunkName: "readPost" */ "../views/post/readPost.vue"),
