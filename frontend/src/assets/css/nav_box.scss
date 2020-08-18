@@ -1,4 +1,4 @@
-article {
+article#nav_box {
   width: 65px;
   height: 65px;
   background: url("http://cloud.samuel-renault.com/logoMenu@2x.png") 0 0 no-repeat #242b33;
@@ -9,11 +9,11 @@ article {
   right: 4rem;
   cursor: pointer;
 }
-article ul {
+article#nav_box ul {
   width: 200px;
 }
-article li {
-  // display: inline-block;
+article#nav_box li {
+  display: inline-block;
   width: 100px;
   height: 100px;
   text-align: center;
@@ -25,46 +25,46 @@ article li {
   transform: translateY(80px);
 }
 
-article:hover {
+article#nav_box:hover {
   width: 200px;
   height: 240px;
 }
-article:hover li {
+article#nav_box:hover li {
   opacity: 1;
   -moz-transform: translateY(0px);
   -ms-transform: translateY(0px);
   -webkit-transform: translateY(0px);
   transform: translateY(0px);
 }
-article:hover li:hover {
+article#nav_box:hover li:hover {
   background: #394451;
 }
 
-article {
+article#nav_box {
   transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
 }
-article li {
+article#nav_box li {
   transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.6s cubic-bezier(0.19, 1, 0.22, 1);
 }
-article li:nth-child(1) {
+article#nav_box li:nth-child(1) {
   -moz-transition-delay: 0.07s;
   -o-transition-delay: 0.07s;
   -webkit-transition-delay: 0.07s;
   transition-delay: 0.07s;
 }
-article li:nth-child(2) {
+article#nav_box li:nth-child(2) {
   -moz-transition-delay: 0.14s;
   -o-transition-delay: 0.14s;
   -webkit-transition-delay: 0.14s;
   transition-delay: 0.14s;
 }
-article li:nth-child(3) {
+article#nav_box li:nth-child(3) {
   -moz-transition-delay: 0.21s;
   -o-transition-delay: 0.21s;
   -webkit-transition-delay: 0.21s;
   transition-delay: 0.21s;
 }
-article li:nth-child(4) {
+article#nav_box li:nth-child(4) {
   -moz-transition-delay: 0.28s;
   -o-transition-delay: 0.28s;
   -webkit-transition-delay: 0.28s;
