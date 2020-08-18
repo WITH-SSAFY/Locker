@@ -5,16 +5,14 @@
         <v-col cols="12" md="9" class="p-0">
           <div class="row align-items-center ml-16 mr-5 mb-5">
             <div class="col-md-3 d-none d-sm-block align-self-start">
-              <div class="d-flex justify-content-center" style="background-color: #f2f3f4;">
+              <div class="d-flex justify-content-center">
                 <v-icon
                   v-if="userInfo.picture==null"
                   size="180"
                   style="z-index: 1;"
                 >mdi-account-circle-outline</v-icon>
                 <v-avatar v-else size="180" style="z-index: 1;">
-                  <div style="border-radius: 50%; width: 8rem;" id="picture">
-                    <img :src="userInfo.picture" />
-                  </div>
+                  <img :src="userInfo.picture" />
                 </v-avatar>
               </div>
               <div>
