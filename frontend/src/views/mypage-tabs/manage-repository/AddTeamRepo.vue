@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <!-- 저장 버튼 -->
     <v-row>
       <v-col class="py-0">
         <v-btn style="font-size: 1.5rem; float: right;" text color="#7C4DFF">
@@ -8,9 +9,7 @@
         </v-btn>
       </v-col>
     </v-row>
-    <!-- {{ arrGitRepo }} -->
-    <!-- token: {{token}}<br> access_token: {{ accessToken }} -->
-    <!-- {{ repoInfo }} / {{ userInfo.login }}/ -->
+    <!-- drag and drop : github에서 가져온 리스트 -->
     <v-row>
       <v-col>
         <div class="p-2 alert-secondary" style="border-radius: 10px;">
@@ -21,26 +20,23 @@
           <hr />
           <draggable
             class="list-group kanban-colum"
-            :list="repoInfo"
+            :list="teamRepoInfo"
             group="tasks"
             style="text-align: center;"
           >
-            <!-- <a href="https://github.com/anuraghazra/github-readme-stats">
-              <img align="left" src="https://github-readme-stats.vercel.app/api/pin/?username=anuraghazra&repo=github-readme-stats" />
-            </a> -->
             <a
               class="list-group-item mb-2"
-              v-for="element in repoInfo"
+              v-for="element in teamRepoInfo"
               :key="element.repoUrl"
               style="border-radius: 10px;"
               :href="element.repoUrl"
             >
               <img alt="left" id="stat" :src="element.src">
-              <!-- {{element.name}}/{{element.repoName}}/<br>{{element.repoUrl}} -->
             </a>
           </draggable>
         </div>
       </v-col>
+      <!-- drag and drop : locker에 저장된 레포지토리 -->
       <v-col>
         <div class="p-2" style="background-color: #EDE7F6; border-radius: 10px;">
           <div
@@ -48,7 +44,7 @@
             class="pl-5 pt-2"
           >Locker Team Repository</div>
           <hr />
-          <draggable class="list-group kanban-colum" :list="arrMyRepo" group="tasks">
+          <draggable class="list-group kanban-colum" :list="arrMyRepo" group="tasks" style="text-align: center;">
             <a
               class="list-group-item mb-2"
               v-for="element in arrMyRepo"
@@ -66,7 +62,7 @@
 </template>
 <script>
 import draggable from "vuedraggable";
-import { mapState, mapActions } from 'vuex';
+import { mapState } from 'vuex';
 
 export default {
   name: "kanban-board",
@@ -75,30 +71,15 @@ export default {
   },
   created() {
     this.showRepo;
-    this.arrGitRepo;
-    // let token = localStorage.getItem("access_token");
-    // this.token = token;
-    this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNCIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE1OTc2NjI2OTMsImV4cCI6MTU5NzY2NjI5M30.8JUjNudKn8MfVEGxB8_8IEW287ORXUXU-f171b52YI4"
-    // let accessToken = localStorage.getItem("github_token");
-    // this.accessToken = accessToken;
-    this.accessToken = "01f6d998d01ec81bf8aee089a72f808064ffc519"
-    console.log("arrGitRepo", this.arrGitRepo)
-    this.getRepos({ token: this.token, accessToken: this.accessToken})
-    this.userInfo.login = 'jane399';
-    var temp = [];
-    for(var i=0; i < this.arrGitRepo.length; i++){
-      if(this.arrGitRepo[i].name !== this.userInfo.login){
-        temp[i]= { repoUrl: this.arrGitRepo[i].repoUrl, src: this.arrGitRepo[i].src}
-      }
-    }
-    this.repoInfo = temp;
+    this.teamRepoInfo;
+    console.log("teamRepoInfo:", this.teamRepoInfo);
   },
   computed: {
     showRepo() {
       return this.$store.state.showRepo;
     },
-    arrGitRepo(){
-      return this.$store.state.arrGitRepo;
+    teamRepoInfo(){
+      return this.$store.state.teamRepoInfo;
     }
   },
   data() {
@@ -107,11 +88,11 @@ export default {
       token: "",
       accessToken: "",
       arrMyRepo: [],
-      repoInfo: [],
+      myRepoInfo: [],
     };
   },
   methods: {
-    ...mapActions(["getRepos"]),
+    // ...mapActions(["getRepos"]),
     showAction(num) {
       for (var i in this.showRepo) {
         this.showRepo.splice(i, 1, false);

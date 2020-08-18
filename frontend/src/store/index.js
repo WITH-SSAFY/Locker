@@ -16,6 +16,8 @@ export default new Vuex.Store({
     showRepo: [true, false, false, false],
     arrGitRepo: [],
     arrMyRepo: [],
+    myRepoInfo: [],
+    teamRepoInfo: [],
     myPostList: null, //내가 쓴 포스트 목록
     myDetailTitle: "", //상세보기 제목
     myDetail: "", //상세보기 내용
@@ -103,9 +105,8 @@ export default new Vuex.Store({
         var imgSrc = "https://github-readme-stats.vercel.app/api/pin/?username="+payload[i].name+"&repo="+payload[i].repoName
         temp[i] = { name: payload[i].name, src: imgSrc, repoUrl: payload[i].repoUrl }
       }
-      console.log("temp",temp);
       state.arrGitRepo = temp
-      console.log("arrGitRepo",state.arrGitRepo);
+      console.log("mutations - arrGitRepo",state.arrGitRepo);
     }
   },
   //비즈니스 로직
@@ -394,8 +395,6 @@ export default new Vuex.Store({
         .get("/v1/github/repos?token="+tokens.token+"&accessToken="+tokens.accessToken)
         .then((res) => {
           console.log("res.data", res.data)
-          // console.log("res.data.list", res.data.list);
-          // state.arrGitRepo = res.data.list;
           commit('getRepos', res.data.list);
         })
         .catch((err) => {
