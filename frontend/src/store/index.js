@@ -58,6 +58,11 @@ export default new Vuex.Store({
       state.isLogin = false;
       state.isLoginError = false;
       state.userInfo = null;
+      state.arrGitRepo = null;
+      state.myRepoInfo = null;
+      state.teamRepoInfo = null;
+      state.arrMyRepo = null;
+      state.showRepo = null;
     },
     getMyPostList(state, payload) {
       state.myPostList = payload.myPostList;
@@ -100,19 +105,12 @@ export default new Vuex.Store({
       router.push({ name: "afterPost" }); //글 작성 후 화면으로 이동
     },
     getRepos(state, payload){
-      // let temp = [];
-      // for(var i=0; i < payload.repos.length; i++){
-      //   var imgSrc = "https://github-readme-stats.vercel.app/api/pin/?username="+payload.repos[i].name+"&repo="+payload.repos[i].repoName
-      //   temp[i] = { name: payload.repos[i].name, src: imgSrc, repoUrl: payload.repos[i].repoUrl }
-      // }
-      // state.arrGitRepo = temp
-
       console.log("mutations - arrGitRepo",state.arrGitRepo);
       
-      // 팀 레포 리스트, 내 레포 리스트 구별하기
       console.log("mutations payload.repos값 확인:" , payload.repos)
       console.log("mutations - login값 확인 : ", payload.login);
-
+      
+      // 팀 레포 리스트, 내 레포 리스트 구별하기
       var myCnt = 0;
       var teamCnt = 0;
       var imgSrc = "";
@@ -120,7 +118,7 @@ export default new Vuex.Store({
         console.log("payload["+j+"] : ", payload.repos[j])
         console.log("payload["+j+"].name : ", payload.repos[j].name);
 
-        if(payload.repos[j].name !== payload.login){
+        if(payload.repos[j].name !== payload.uid){
           imgSrc = "https://github-readme-stats.vercel.app/api/pin/?username="+payload.repos[j].name+"&repo="+payload.repos[j].repoName
           state.teamRepoInfo[teamCnt] = { name: payload.repos[j].name, repoUrl: payload.repos[j].repoUrl, src: imgSrc};
           teamCnt++;
@@ -280,7 +278,7 @@ export default new Vuex.Store({
               picture: pic,
               provider: prov,
               introduction: res.introduction,
-              login: null
+              uid: null
             };
             
             if (pic === "null") {
@@ -290,7 +288,7 @@ export default new Vuex.Store({
               userInfo.provider = null;
             } else {
               if(prov === 'github'){
-                userInfo.login = res.login;
+                userInfo.uid = res.uid;
               }
             }
             console.log("가지고 온 유저 정보 : ", res);
