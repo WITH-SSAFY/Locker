@@ -17,4 +17,6 @@ public interface PostService {
     public List<Post> commonSearch(Map pageMap);
     public List<Post> tagSearch(Map pageMap);
     public Long getNextpid();
+    public Long getPrevPage(Long pid);
+    public Long getNextPage(Long pid);
 }
