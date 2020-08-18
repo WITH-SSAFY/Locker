@@ -58,7 +58,7 @@
     </div>
 
     <!-- 네비게이터 박스 -->
-    <article>
+    <article id="nav_box">
       <ul class="p-0">
         <p><v-icon color="white">mdi-chevron-up</v-icon></p>
 
@@ -74,7 +74,6 @@
           <li><span class="bold text-white" style="font-size: 1.1rem;">만든이</span></li>
         </router-link>
 
-        <!-- 스크롤 투 탑 구현하기 -->
         <li @click="scrollToTop">
           <span class="bold text-white" style="font-size: 1.3rem;">
             <v-icon color="white">mdi-chevron-up-circle-outline</v-icon>

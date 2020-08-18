@@ -101,7 +101,7 @@
         </div>
 
         <div class="col-md-9">
-          <article>
+          <article id="tab">
             <ul class="p-0">
               <v-icon color="white">mdi-chevron-right</v-icon>
               <li style="cursor: default;">
