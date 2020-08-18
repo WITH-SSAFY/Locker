@@ -64,6 +64,15 @@
     
     <select id="getNextpid" resultType="java.lang.Long">
         select max(pid)
-        from post;
+        from post
     </select>
+
+    <select id="getPrevPage" resultType="java.lang.Long">
+        select max(pid) from post where pid <![CDATA[ < ]]> #{pid}
+    </select>
+
+    <select id="getNextPage" resultType="java.lang.Long">
+        select min(pid) from post where pid <![CDATA[ > ]]> #{pid}
+    </select>
+
 </mapper>
