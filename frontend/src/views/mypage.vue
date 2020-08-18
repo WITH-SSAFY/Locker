@@ -89,49 +89,34 @@
         </div>
       </div>
 
-      <!-- <div style="padding-top: 3rem;">
-        <hr>
-      </div> -->
-
-      <!-- 중첩 라우터 -->
-      <!-- <p class="d-flex justify-content-around">
-        <router-link to="article" class="p-3 text-decoration-none">
-          <span class="tab bold">포스트</span>
-        </router-link>
-        <router-link to="repository" class="p-3 text-decoration-none">
-          <span class="tab bold">레포지토리</span>
-        </router-link>
-        <router-link to="introduce" class="p-3 text-decoration-none">
-          <span class="tab bold">소개</span>
-        </router-link>
-      </p> -->
-
+      <!-- 탭 -->
       <div class="row" style="margin-top: 5rem;">
+
         <div class="col-md-3">
           <div>
             <p class="bold" style="font-size: 1.5rem;"><strong>LOCKER </strong>열어보기</p>
             <div class="under-line"></div>
           </div>
         </div>
+
         <div class="col-md-9">
           <article>
             <ul>
-              <li><span class="bold text-white" style="font-size: 1.3rem;">LOCKER</span></li>
+              <li style="cursor: default;">
+                <span class="bold" style="color: #727272; font-size: 1.3rem;">반가워요 :)</span>
+              </li>
 
               <router-link to="article">
-                <li><span class="bold text-white" style="font-size: 1.3rem;">포스트</span></li>
+                <li><span class="bold" style="color: #eceffc;; font-size: 1.3rem;">포스트</span></li>
               </router-link>
 
               <router-link to="repository">
-                <li><span class="bold text-white" style="font-size: 1.3rem;">레포지토리</span></li>
+                <li><span class="bold" style="color: #eceffc;; font-size: 1.3rem;">레포지토리</span></li>
               </router-link>
 
               <router-link to="introduce">
-                <li><span class="bold text-white" style="font-size: 1.3rem;">소개</span></li>
+                <li><span class="bold" style="color: #eceffc;; font-size: 1.3rem;">소개</span></li>
               </router-link>
-              
-              
-              
               
             </ul>
           </article>
@@ -142,52 +127,7 @@
         <router-view></router-view>
       </div>
 
-      <!-- <div class="box">
-
-        <div>
-          <p class="bold" style="font-size: 1.5rem;"><strong>LOCKER </strong>열어보기</p>
-          <div class="under-line"></div>
-        </div>
-
-        <div class="tab-wrap">
-         
-          <router-link to="article">
-            <div class="tab__content">
-              <input type="radio" id="tab1" name="tabGroup1" class="tab">
-              <label for="tab1"><span class="bold" style="font-size: 1.1rem;">포스트</span></label>
-            </div>
-          </router-link>
-          
-
-          <router-link to="repository">
-            <div class="tab__content">
-              <input type="radio" id="tab2" name="tabGroup1" class="tab">
-              <label for="tab2"><span class="bold" style="font-size: 1.1rem;">레포지토리</span></label>
-            </div>
-          </router-link>
-          
-
-          <router-link to="introduce">
-            <div class="tab__content">
-              <input type="radio" id="tab3" name="tabGroup1" class="tab">
-              <label for="tab3"><span class="bold" style="font-size: 1.1rem;">소개</span></label>
-            </div>
-          </router-link>
-        </div>
-
-        <div>
-          <router-view></router-view>
-        </div>
-
-
-      </div> -->
-
     </v-container>
-    
-    <!-- 탭 테스트 -->
-    <v-content class="mt-5">
-      <tabs/>
-    </v-content>
 
   </div>
 </template>
@@ -195,12 +135,9 @@
 <script>
 import { mapState } from "vuex";
 // import SideBar from "./SideBar.vue"
-import tabs from "./tabs.vue"
-// import article from "./mypage-tabs/article.vue"
-// import repository from "./mypage-tabs/repository.vue"
-// import introduce from "./mypage-tabs/introduce.vue"
 import("../assets/css/side-style.css");
 import("../assets/css/jandi.css");
+import("../assets/css/tab.scss");
 
 
 export default {
@@ -241,11 +178,6 @@ export default {
   },
   components: {
     // SideBar,
-    // category,
-    tabs,
-    // article,
-    // repository,
-    // introduce,
   },
   methods: {
     showMyDetail(pid) {
@@ -268,18 +200,6 @@ export default {
 };
 </script>
 <style scoped>
-
-.tabs {
-  
-}
-
-.tab {
-  padding: 1rem;
-  color: #424242;
-  font-size: 1.5rem;
-  text-decoration: none;
-}
-
 .under-line {
   height: 0.3rem;
   width: 3.5rem;

@@ -1,70 +1,30 @@
 article {
-  width: 80px;
-  height: 80px;
-  // position: fixed;
-  // top: 40px;
-  // left: 40px;
+  width: 120px;
+  height: 120px;
   background: url("http://cloud.samuel-renault.com/logoMenu@2x.png") 0 0 no-repeat #242b33;
-  // -moz-background-size: 80px;
-  // -o-background-size: 80px;
-  // -webkit-background-size: 80px;
-  background-size: 80px;
-  border-radius: 4px;
-  box-shadow: rgba(0, 0, 0, 0.25);
-  // 0 2px 3px 0
+  border-radius: 3px;
+  box-shadow:  0 2px 3px 0 rgba(0, 0, 0, 0.25);
   cursor: pointer;
-  // overflow: hidden;
 }
 article ul {
-  width: 450px;
+  width: 850px;
 }
 article li {
-  // left: 0;
+  display: inline-block;
   width: 200px;
   height: 200px;
-  float: left;
   text-align: center;
   opacity: 0;
-  border-radius: 4px;
+  border-radius: 3px;
   -moz-transform: translateY(80px);
   -ms-transform: translateY(80px);
   -webkit-transform: translateY(80px);
   transform: translateY(80px);
 }
-article a {
-  display: block;
-  width: 100%;
-  height: 100%;
-  color: #fff;
-  font-weight: 400;
-  text-decoration: none;
-}
-article i {
-  display: block;
-  width: 100px;
-  height: 100px;
-  margin: 40px auto 10px;
-  background: center no-repeat;
-  background-size: 100%;
-}
-// article .feed-btn i {
-//   background-image: url("http://cloud.samuel-renault.com/icon-feed.svg");
-// }
-// article .profile-btn i {
-//   background-image: url("http://cloud.samuel-renault.com/icon-profile.svg");
-//   background-size: 115%;
-// }
-// article .draft-btn i {
-//   background-image: url("http://cloud.samuel-renault.com/icon-draft.svg");
-// }
-// article .signout-btn i {
-//   background-image: url("http://cloud.samuel-renault.com/icon-signout.svg");
-// }
 
 article:hover {
-  width: 450px;
-  height: 430px;
-  // background-position: 0 -80px;
+  width: 850px;
+  height: 200px;
 }
 article:hover li {
   opacity: 1;
