@@ -21,8 +21,8 @@ public class MyRepository {
     @Column(nullable = false)
     private String repoName;
 
-    @OneToMany
-    @JoinColumn(name = "repoid")
-    private List<Post> posts;
+    @OneToMany(targetEntity = Post.class)
+    @JoinColumn(name = "repoid", referencedColumnName = "id")
+    private Post post;
 }
 
