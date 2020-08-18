@@ -5,18 +5,13 @@
 
         <article
           class="strips__strip"
-          v-for="post in postList"
-          :key="post.pid"
+          v-for="member in members"
+          :key="member.idx"
         >
           <div class="strip__content">
-            <h1 class="strip__title">{{ post.title }}</h1>
+            <h1 class="strip__title">{{ member }}</h1>
             <div class="strip__inner-text">
-              <h2>{{ post.title }}</h2>
-              <p>{{ post.nickname }}</p>
-              <p>{{ post.content }}</p>
-              <p>
-                <a href="https://twitter.com/ettrics" target="_blank"></a>
-              </p>
+              <p>어쩌고</p>
             </div>
           </div>
         </article>
@@ -24,19 +19,6 @@
         <v-icon class="strip__close" color="white">mdi-close</v-icon>
       </section>
     </div>
-
-    <div style="height: 6rem; z-index: -1;"></div>
-
-    <!-- test -->
-    <div class="el">
-      <div class="el__index">
-        <div class="el__index-back">1</div>
-        <div class="el__index-front">
-          <div class="el__index-overlay" data-index="1">1</div>
-        </div>
-      </div>
-    </div>
-
   </div>
 
 </template>
@@ -44,7 +26,6 @@
 <script>
 import $ from 'jquery'
 import '../assets/css/member_info.scss'
-import { mapState } from "vuex"
 
 export default {
   name: 'memberInfo',
@@ -52,16 +33,15 @@ export default {
 
   },
   computed: {
-    ...mapState(["postList"])
+
   },
   data: function () {
     return {
-
+      members : ['소개', '김윤진', '김준호', '배현석', '윤재원']
     }
   },
   created() {
-    this.$store.dispatch('getPostList', 1)
-    this.postList
+
   },
   mounted() {
     var Expand = (function() {
@@ -117,10 +97,5 @@ export default {
 </script>
 
 <style>
-.box {
-  box-sizing: border-box;
-  border: 5px solid transparent;
-  background-clip: padding-box;
-  background-color: #333;
-}
+
 </style>

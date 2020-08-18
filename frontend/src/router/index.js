@@ -139,6 +139,15 @@ const routes = [
         /* webpackChunkName: "changePassword" */ "../views/user/ChangePassword.vue"
       ),
   },
+  {
+    path: "/memberInfo",
+    name: "memberInfo",
+    component: () =>
+      import(
+        /* webpackChunkName: "changePassword" */ "../views/memberInfo.vue"
+      ),
+  },
+
 ];
 
 const router = new VueRouter({
