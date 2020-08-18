@@ -436,12 +436,11 @@ export default new Vuex.Store({
         })
         .catch((exp) => alert("내 글 리스트 불러오기 실패 " + exp));
     },
-    getPostList({ commit }, page) {
+    getPostList({ commit }) {
       axios
-        .get("/v1/post/all/page/" + page)
+        .get("/v1/post/all/list")
         .then((response) => {
-          commit("getPostList", { postList: response.data });
-          console.log("들어옴");
+          commit("getPostList", { postList: response.data.list });
         })
         .catch((exp) => alert("전체 글 리스트 불러오기 실패" + exp));
     },

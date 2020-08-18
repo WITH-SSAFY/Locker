@@ -7,11 +7,11 @@
           <div class="under-line"></div>
         </div>
         <section id="container">
-          <ul>
-            <li>공지 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
-            <li>공지 2. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
-            <li>공지 3. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
-            <li>공지 4. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+          <ul id="box" class="medium" style="font-size: 1.1rem;">
+            <li>공지 1. Lorem ipsum dolor sit amet.</li>
+            <li>공지 2. Lorem ipsum dolor sit amet.</li>
+            <li>공지 3. Lorem ipsum dolor sit amet.</li>
+            <li>공지 4. Lorem ipsum dolor sit amet.</li>
           </ul>
         </section>
 
@@ -101,7 +101,7 @@
 </template>
 
 <script>
-// import $ from 'jquery'
+import $ from 'jquery'
 import '../../assets/css/main_post.scss'
 
 export default {
@@ -146,15 +146,15 @@ export default {
     });
 
     // 공지사항
-    // function rotator() {
+    function rotator() {
 		
-		// $('ul li:first-child').slideUp(1000, function() {
-		// 	$(this).appendTo($('ul'));
-		// });
+		$('ul#box li:first-child').slideUp(1000, function() {
+			$(this).appendTo($('ul#box'));
+		});
 		
-	// }
+	}
 
- 	// setInterval(rotator, 3000);
+ 	setInterval(rotator, 3000);
   },
 }
 </script>
@@ -167,33 +167,26 @@ export default {
     background-color: #7C4DFF;
   }
 
-  body {
-    background: #0E0D26;
-    color: #D9D7BA;
-    padding: 50px;
-    font-family: 'Lato', sans-serif;
-  }
-
   section#container {
     overflow: hidden;
     border: solid 3px #eceffc;
     width: 500px;
     margin-left: 4rem;
     padding: 10px 20px;
-    height: 130px;
+    height: 150px;
 
   }
 
-  ul {
+  ul#box {
     margin: 0;
     padding: 0; 
   }
 
-  li {
+  ul#box li {
     list-style: none;
     height: 45px;
     margin: 15px 0;
-    border-bottom: solid 1px #7C4DFF;
+    border-bottom: solid 1.3px #7C4DFF;
     padding-bottom: 10px;
   }
   
