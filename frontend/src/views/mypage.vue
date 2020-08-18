@@ -101,7 +101,8 @@
 
         <div class="col-md-9">
           <article>
-            <ul>
+            <ul class="p-0">
+              <v-icon color="white">mdi-chevron-right</v-icon>
               <li style="cursor: default;">
                 <span class="bold" style="color: #727272; font-size: 1.3rem;">반가워요 :)</span>
               </li>
@@ -123,11 +124,11 @@
         </div>
       </div>
 
-      <div>
-        <router-view></router-view>
-      </div>
-
     </v-container>
+
+    <div style="background-color: #242b33;">
+      <router-view></router-view>
+    </div>
 
   </div>
 </template>

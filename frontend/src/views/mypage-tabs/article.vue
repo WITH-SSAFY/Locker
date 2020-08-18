@@ -1,5 +1,7 @@
 <template>
-  <div class="article">
+  <div class="container p-5">
+
+    <p class="bolder p-5 text-white" style="font-size: 1.5rem; margin-left: 5rem;">포스트</p>
     <!-- 포스트 리스트 -->
     <v-row class="justify-content-center">
       <v-col

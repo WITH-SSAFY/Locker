@@ -1,13 +1,13 @@
 article {
-  width: 120px;
-  height: 120px;
+  width: 65px;
+  height: 65px;
   background: url("http://cloud.samuel-renault.com/logoMenu@2x.png") 0 0 no-repeat #242b33;
   border-radius: 3px;
   box-shadow:  0 2px 3px 0 rgba(0, 0, 0, 0.25);
   cursor: pointer;
 }
 article ul {
-  width: 850px;
+  width: 855px;
 }
 article li {
   display: inline-block;
@@ -23,7 +23,7 @@ article li {
 }
 
 article:hover {
-  width: 850px;
+  width: 855px;
   height: 200px;
 }
 article:hover li {
