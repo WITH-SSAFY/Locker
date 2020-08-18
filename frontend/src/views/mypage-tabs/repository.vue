@@ -105,12 +105,12 @@ export default {
     // this.teamRepoInfo;
 
     // 토큰 값 받아오기
-    // let token = localStorage.getItem("access_token");
-    // this.token = token;
-    this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0Iiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTU5NzcxNzg5MCwiZXhwIjoxNTk3NzIxNDkwfQ.lkP9dN43Xmtnc9aIZWwJj_ThVP3riufFVQp9apPCBy8"
-    // let accessToken = localStorage.getItem("github_token");
-    // this.accessToken = accessToken;
-    this.accessToken = "6c731bf01db740678ed804584fe8b9acf3f777c6"
+    let token = localStorage.getItem("access_token");
+    this.token = token;
+    // this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0Iiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTU5NzcxNzg5MCwiZXhwIjoxNTk3NzIxNDkwfQ.lkP9dN43Xmtnc9aIZWwJj_ThVP3riufFVQp9apPCBy8"
+    let accessToken = localStorage.getItem("github_token");
+    this.accessToken = accessToken;
+    // this.accessToken = "6c731bf01db740678ed804584fe8b9acf3f777c6"
 
     // 토큰 값 전달해서 getRepos 실행(Repository 리스트 받아오기)
     this.getRepos({ token: this.token, accessToken: this.accessToken})
