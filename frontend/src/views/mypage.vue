@@ -35,13 +35,14 @@
 
             <!-- 스탯 섹션 -->
             <div class="col-md-5">
-              <a href="https://github.com/anuraghazra/github-readme-stats">
-                <img align="left" :src="statSrc" />
-              </a>
-              <!-- TODO: 서버 수정되면 깃헙 아이디 받아와서 적용하기 -->
+              <div v-if="userInfo.login != null">
+                <a href="https://github.com/anuraghazra/github-readme-stats">
+                  <img align="left" :src="statSrc" />
+                </a>
+              </div>
 
               <!-- 깃헙과 연동되지 않았을 때의 화면 디자인 -->
-              <!-- <div style="min-height: 10rem; background-color: #eceffc; padding: 2rem;">
+              <div v-if="userInfo.login == null" style="min-height: 10rem; background-color: #eceffc; padding: 2rem;">
                 <div class="text-center">
                   <p class="medium">깃헙과 연동하면 당신의 <strong style="color: #7C4DFF">stats</strong>을</p>
                   <p class="medium"><strong style="color: #7C4DFF">LOCKER</strong>에서 확인할 수 있어요</p>
@@ -51,7 +52,7 @@
                     <span class="bolder" style="font-size: 1rem;">깃헙 연동 바로가기</span>
                   </v-btn>
                 </div>
-              </div> -->
+              </div>
 
             </div>
           </div>
