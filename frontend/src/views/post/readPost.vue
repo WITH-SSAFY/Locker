@@ -185,7 +185,12 @@
                   <!-- 대댓글 작성 창 -->
                   <div class="d-flex">
                     <div class="input-group">
-                      <v-text-field label="대댓글" outlined v-model="reply"></v-text-field>
+                      <v-text-field
+                        label="대댓글"
+                        outlined
+                        v-model="reply"
+                        @keyup.enter="postReply(pid, comment.rid)"
+                      ></v-text-field>
                     </div>
                     <div class="input-group-append ml-5">
                       <div>
@@ -204,7 +209,7 @@
               <!-- 댓글 작성 창 -->
               <div class="d-flex">
                 <div class="input-group">
-                  <v-text-field label="댓글" outlined v-model="text"></v-text-field>
+                  <v-text-field label="댓글" outlined v-model="text" @keyup.enter="postComment(pid)"></v-text-field>
                 </div>
                 <div class="input-group-append ml-5">
                   <div>
