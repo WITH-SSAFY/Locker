@@ -47,9 +47,12 @@
           </div>
           <hr />
           <div class="row mx-5 py-3">
-            <viewer :initialValue="viewerText" height="100%" />
+            <viewer v-if="flag" :initialValue="viewerText" height="100%" />
           </div>
-
+          <div>
+            <v-btn @click="goPrevPage">이전</v-btn>
+            <v-btn @click="goNextPage">다음</v-btn>
+          </div>
           <div class="row mx-5 py-3 writer_info">
             <div class="col-md-2 col-sm-1">
               <v-icon size="80">mdi-account-circle-outline</v-icon>
@@ -227,12 +230,15 @@ import axios from "../../lib/axios-common.js";
 export default {
   created() {
     this.userInfo;
+    this.pid;
+    this.flag = false;
     this.viewerText;
-    this.$store.dispatch("getCommentList", this.$store.state.pid);
+    this.$store.dispatch("getCommentList", this.pid);
     this.viewerComment;
     this.getTags();
     this.getLikes();
     this.checkUserLiked();
+    this.flag = true;
   },
   components: {
     Viewer
@@ -241,6 +247,7 @@ export default {
   data() {
     return {
       tags: [],
+      flag: false,
       btnNum: null,
       editComment: null,
       inputNum: null,
@@ -279,9 +286,22 @@ export default {
       return this.$store.state.commentList;
     }
   },
-  watch: {
-    wlikes() {}
+
+  async beforeRouteUpdate(from, to, next) {
+    this.flag = false;
+    this.pid = to.params.pid;
+    this.userInfo;
+    this.pid;
+    await this.viewerText;
+    this.$store.dispatch("getCommentList", this.pid);
+    this.viewerComment;
+    this.getTags();
+    this.getLikes();
+    this.checkUserLiked();
+    this.flag = true;
+    next();
   },
+
   methods: {
     goEditDetail(pid) {
       this.$store.dispatch("goEditDetail", pid);
@@ -354,10 +374,11 @@ export default {
     },
     async getTags() {
       //서버로 부터 해당 포스트에 등록된 태그 받아옴
-      let response = await axios.get(
-        "/v1/tag/allitem?pid=" + this.$store.state.pid
-      );
+      console.log("getTags pid: ", this.pid);
+      let response = await axios.get("/v1/tag/allitem?pid=" + this.pid);
       this.tags = response.data;
+      console.log("getTags pid: ", this.tags);
+
       // axios
       //   .get("/v1/tag/all/" + this.$store.state.pid)
       //   .then(response => {
@@ -367,9 +388,7 @@ export default {
     },
     async getLikes() {
       //서버로 부터 해당 포스트의 좋아요 수 받아옴
-      let response = await axios.get(
-        "/v1/postlike/all/" + this.$store.state.pid
-      );
+      let response = await axios.get("/v1/postlike/all/" + this.pid);
       this.likes = response.data;
     },
     async checkUserLiked() {
@@ -422,6 +441,25 @@ export default {
       tagname;
       this.$store.state.tagname = tagname;
       this.$router.push({ name: "search" });
+    },
+    goNextPage() {
+      axios
+        .get("/v1/post/nextPage?pid=" + this.pid)
+        .then(response => {
+          let nextPid = response.data;
+          console.log("nextPid: ", nextPid);
+          this.$store.dispatch("showMyDetail", nextPid);
+        })
+        .catch(() => alert("마지막 페이지 입니다."));
+    },
+    goPrevPage() {
+      axios
+        .get("/v1/post/prevPage?pid=" + this.pid)
+        .then(response => {
+          let prevPid = response.data;
+          this.$store.dispatch("showMyDetail", prevPid);
+        })
+        .catch(() => alert("첫 페이지 입니다."));
     }
   }
 };
