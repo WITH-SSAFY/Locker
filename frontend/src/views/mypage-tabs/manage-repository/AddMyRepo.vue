@@ -49,7 +49,6 @@
               v-for="element in arrMyRepo"
               :key="element.repoUrl"
               style="border-radius: 10px;"
-              :href="element.repoUrl"
             >
               <img alt="left" id="stat" :src="element.src">
             </a>
@@ -88,6 +87,7 @@ export default {
     return {
       token: "",
       accessToken: "",
+      arrMyRepo: [],
     };
   },
   methods: {
@@ -114,6 +114,9 @@ export default {
             });
         // this.getLockerRepos( {id: this.userInfo.id} );
       }
+    },
+    link(url){
+      window.open(url);
     }
   }
 };
