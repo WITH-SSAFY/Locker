@@ -22,7 +22,7 @@ public class MyRepository {
     private String repoName;
 
     @OneToMany(targetEntity = Post.class)
-    @JoinColumn(name = "repoid", referencedColumnName = "pid")
+    @JoinColumn(name = "repoid", referencedColumnName = "id")
     private List<Post> posts;
 }
 
