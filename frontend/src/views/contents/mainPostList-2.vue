@@ -1,25 +1,22 @@
 <template>
   <div style="background-color: #eceffc; margin-top: 3.5rem;">
-
     <div style="margin-left: 3.5rem;">
-      <p class="bold" style="font-size: 1.5rem;"><strong>LOCKER </strong>유저들이 좋아하는 포스트</p>
+      <p class="bold" style="font-size: 1.5rem;">
+        <strong>LOCKER</strong>유저들이 좋아하는 포스트
+      </p>
       <div class="under-line"></div>
     </div>
 
     <!-- TODO: 무한스크롤 적용하기 -->
     <div class="w-75" style="margin-left: 3.5rem;">
       <v-row>
-        <v-col
-          v-for="post in postList"
-          :key="post.pid"
-          cols="12"
-          lg="4"
-          md="6"
-        >   
+        <v-col v-for="post in postList" :key="post.pid" cols="12" lg="4" md="6">
           <v-card>
-            <!-- TODO: 포스트 썸네일 가져오기 -->
+            <!-- 포스트 썸네일 가져오기 -->
+            <v-img v-if="post.thumbnail!=null" :src="post.thumbnail" max-height="194"></v-img>
             <v-img
-              src="https://cdn.vuetifyjs.com/images/cards/mountain.jpg"
+              v-else
+              src="https://lh3.googleusercontent.com/EbXw8rOdYxOGdXEFjgNP8lh-YAuUxwhOAe2jhrz3sgqvPeMac6a6tHvT35V6YMbyNvkZL4R_a2hcYBrtfUhLvhf-N2X3OB9cvH4uMw=w1064-v0"
               height="194"
             ></v-img>
 
@@ -29,28 +26,41 @@
                 <v-icon
                   v-if="userInfo.picture==null"
                   style="border: solid 2px #fff"
-                >
-                  mdi-account-circle-outline
-                </v-icon>
+                >mdi-account-circle-outline</v-icon>
                 <v-avatar v-else style="border: solid 2px #fff">
                   <img :src="userInfo.picture" />
                 </v-avatar>
               </v-flex>
 
               <v-list-item-content class="pa-5">
-                <v-list-item-title class="bold" style="font-size: 1.5rem; margin-left: 2.3rem;">{{ post.title }}</v-list-item-title>
-                <v-list-item-subtitle class="regular" style="font-size: 0.9rem; margin-left: 2.3rem;">{{ post.nickname }}</v-list-item-subtitle>                
+                <v-list-item-title
+                  class="bold"
+                  style="font-size: 1.5rem; margin-left: 2.3rem;"
+                >{{ post.title }}</v-list-item-title>
+                <v-list-item-subtitle
+                  class="regular"
+                  style="font-size: 0.9rem; margin-left: 2.3rem;"
+                >{{ post.nickname }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
 
-            <v-card-text>
-              <!-- TODO: 컨텐츠 내용 글자 수 제한해서 보여주기 -->
+            <v-card-text
+              id="description"
+              style="display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 3;
+                    overflow: hidden;
+                    line-height: 1.2em;
+                    height: 4.8em;"
+            >
+              <!-- 컨텐츠 내용 글자 수 제한해서 보여주기 -->
               {{ post.description }}
             </v-card-text>
 
             <v-card-actions>
-              <!-- TODO: 좋아요 수 가져오기 -->
+              <!--  좋아요 수 가져오기 -->
               <v-icon small color="#7C4DFF" class="ml-auto">mdi-heart</v-icon>
+              {{post.likes}}
             </v-card-actions>
           </v-card>
         </v-col>
@@ -60,18 +70,26 @@
     <!-- 네비게이터 박스 -->
     <article>
       <ul class="p-0">
-        <p><v-icon color="white">mdi-chevron-up</v-icon></p>
+        <p>
+          <v-icon color="white">mdi-chevron-up</v-icon>
+        </p>
 
         <router-link to="createPost">
-          <li><span class="bold text-white" style="font-size: 1.3rem;">글쓰기</span></li>
+          <li>
+            <span class="bold text-white" style="font-size: 1.3rem;">글쓰기</span>
+          </li>
         </router-link>
 
         <router-link to="mypage">
-          <li><span class="bold text-white" style="font-size: 1.3rem;">마이페이지</span></li>
+          <li>
+            <span class="bold text-white" style="font-size: 1.3rem;">마이페이지</span>
+          </li>
         </router-link>
 
         <router-link to="memberinfo">
-          <li><span class="bold text-white" style="font-size: 1.3rem;">만든이</span></li>
+          <li>
+            <span class="bold text-white" style="font-size: 1.3rem;">만든이</span>
+          </li>
         </router-link>
 
         <!-- 스크롤 투 탑 구현하기 -->
@@ -80,43 +98,36 @@
             <v-icon color="white">mdi-chevron-up-circle-outline</v-icon>
           </span>
         </li>
-
       </ul>
     </article>
-
-
-
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapState } from "vuex";
 import("../../assets/css/nav_box.scss");
 
 export default {
-  name: 'mainPostList2',
-  data: function () {
-    return {
-
-    }
+  name: "mainPostList2",
+  data: function() {
+    return {};
   },
   computed: {
     ...mapState(["postList", "userInfo"])
   },
-  created () {
-    this.$store.dispatch('getPostList')
-    this.postList
-    this.userInfo
-  },
-
-}
+  created() {
+    this.$store.dispatch("getPostList");
+    this.postList;
+    this.userInfo;
+  }
+};
 </script>
 
 <style>
-  .under-line {
-    height: 0.3rem;
-    width: 3.5rem;
-    margin-bottom: 3rem;
-    background-color: #7C4DFF;
-  }
+.under-line {
+  height: 0.3rem;
+  width: 3.5rem;
+  margin-bottom: 3rem;
+  background-color: #7c4dff;
+}
 </style>
