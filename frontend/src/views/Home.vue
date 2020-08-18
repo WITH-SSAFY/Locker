@@ -42,9 +42,7 @@
           scrollBar: false,
           navigation: true,
           navigationPosition: 'right',
-          // navigationTooltips: [],
           menu: '#menu',
-          anchors: ['page1', 'page2', 'page3'],
         }
       }
     },
