@@ -165,6 +165,7 @@ export default new Vuex.Store({
         localStorage.removeItem("access_token");
         localStorage.removeItem("github_token");
         router.push({ name: "home" });
+        window.location.reload();
       }
     },
 
