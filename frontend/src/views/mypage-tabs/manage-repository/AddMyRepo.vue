@@ -49,7 +49,6 @@
               v-for="element in arrMyRepo"
               :key="element.repoUrl"
               style="border-radius: 10px;"
-              :href="element.repoUrl"
             >
               <img alt="left" id="stat" :src="element.src">
             </a>
@@ -98,20 +97,18 @@ export default {
       this.showRepo.splice(num, 1, true);
     },
     saveMine(repos){
-      // console.log("repos여기", repos);
       for(var i=0; i<repos.length; i++){
-        console.log("repos name여기!", repos[i].name)
-        console.log("repos repoName여기!", repos[i].repoName)
-        console.log("userInfo id여기!", this.userInfo.id)
+        // console.log("repos name여기!", repos[i].name)
+        // console.log("repos repoName여기!", repos[i].repoName)
+        // console.log("userInfo id여기!", this.userInfo.id)
         axios
-            .post("/v1/github?name="+repos[i].name+"&repoName="+repos[i].repoName+"&pk="+this.userInfo.id)
-            .then((response) => {
-              console.log("myRepo 추가 - response", response)
-            })
-            .catch((err) => {
-              console.log("myRepo 추가 - err", err)
-            });
-        // this.getLockerRepos( {id: this.userInfo.id} );
+          .post("/v1/github?name="+repos[i].name+"&repoName="+repos[i].repoName+"&pk="+this.userInfo.id)
+          .then((response) => {
+            console.log("myRepo 추가 - response", response)
+          })
+          .catch((err) => {
+            console.log("myRepo 추가 - err", err)
+          });
       }
     }
   }

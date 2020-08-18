@@ -1,5 +1,6 @@
 <template>
-  <div style="margin-left:20px;">
+<div>
+  <div v-if="userInfo.provider === 'github'" style="margin-left:20px;">
     <v-row>
       <v-col>
         <v-btn
@@ -80,6 +81,10 @@
       <add-team-repo></add-team-repo>
     </v-row>
   </div>
+  <div v-else style="margin-left:20px; color: white;">
+    <div style="border-radius: 10px;"><h1>깃헙으로 로그인해주세요!</h1></div>
+  </div>
+</div>
 </template>
 
 <script>
@@ -102,18 +107,19 @@ export default {
     this.showRepo;
     this.showAction(0);
     // 토큰 값 받아오기
-    // let token = localStorage.getItem("access_token");
-    // this.token = token;
-    this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE1OTc3NjgxOTgsImV4cCI6MTU5Nzc3MTc5OH0.N_PuhaXkJK6c-jFTja_wGers1XCLXXmcZtlzAYw73c4"
-    // let accessToken = localStorage.getItem("github_token");
-    // this.accessToken = accessToken;
-    this.accessToken = "4a27cf906e3d47ea7951203a8d222fcb82f1cb11"
+    let token = localStorage.getItem("access_token");
+    this.token = token;
+    // this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNyIsInJvbGVzIjpbXSwiaWF0IjoxNTk3NzcxMzI1LCJleHAiOjE1OTc3NzQ5MjV9.Ta9j0LmMmgKcIN9fYgzFvMLzb4XJBC56ZUJErY-xe7w"
+    let accessToken = localStorage.getItem("github_token");
+    this.accessToken = accessToken;
+    // this.accessToken = "ed8204aafec16cf2f7411c0fe1067c1933a51ab0"
 
     // 토큰 값 전달해서 getRepos 실행(Repository 리스트 받아오기)
     // this.userInfo.uid = 'jane399'
     // this.userInfo.uid = 'junhok82'
-    this.userInfo.uid = 'YNNJN'
-    this.userInfo.provider = 'github'
+    // this.userInfo.uid = 'YNNJN'
+    // this.userInfo.provider = 'github'
+    // this.userInfo.provider = 'google'
     console.log("userInfo.uid: ", this.userInfo.uid)
     this.getRepos({ token: this.token, accessToken: this.accessToken, uid: this.userInfo.uid})
 
@@ -121,20 +127,19 @@ export default {
     // this.userInfo.id = 17
     // this.userInfo.id = 15
     // this.userInfo.id = 21
-    // this.getLockerRepos({id: this.userInfo.id, uid: this.userInfo.uid});
   },
   computed: {
     showRepo() {
       return this.$store.state.showRepo;
     },
-    ...mapState(["userInfo", "myRepoInfo", "teamRepoInfo", "myLockerRepos"]),
+    ...mapState(["userInfo", "myRepoInfo", "teamRepoInfo"]),
   },
   data: () => {
     return {
     };
   },
   methods: {
-    ...mapActions(["getRepos", "getLockerRepos"]),
+    ...mapActions(["getRepos"]),
     showAction(num) {
       for (var i in this.showRepo) {
         this.showRepo.splice(i, 1, false);
