@@ -80,11 +80,11 @@ export default {
     },
     teamRepoInfo(){
       return this.$store.state.teamRepoInfo;
-    }
+    },
+    ...mapState(["userInfo"])
   },
   data() {
     return {
-      ...mapState(["userInfo"]),
       token: "",
       accessToken: "",
       arrMyRepo: [],
@@ -92,7 +92,6 @@ export default {
     };
   },
   methods: {
-    // ...mapActions(["getRepos"]),
     showAction(num) {
       for (var i in this.showRepo) {
         this.showRepo.splice(i, 1, false);

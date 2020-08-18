@@ -1,6 +1,6 @@
 <template>
   <div class="mt-10" style="width: 100%;">
-    <v-row>
+    <v-row style="min-height: 300px;">
       <v-col></v-col>
     </v-row>
   </div>
