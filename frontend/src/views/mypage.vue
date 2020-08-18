@@ -106,7 +106,43 @@
         </router-link>
       </p> -->
 
-      <div class="box">
+      <div class="row" style="margin-top: 5rem;">
+        <div class="col-md-3">
+          <div>
+            <p class="bold" style="font-size: 1.5rem;"><strong>LOCKER </strong>열어보기</p>
+            <div class="under-line"></div>
+          </div>
+        </div>
+        <div class="col-md-9">
+          <article>
+            <ul>
+              <li><span class="bold text-white" style="font-size: 1.3rem;">LOCKER</span></li>
+
+              <router-link to="article">
+                <li><span class="bold text-white" style="font-size: 1.3rem;">포스트</span></li>
+              </router-link>
+
+              <router-link to="repository">
+                <li><span class="bold text-white" style="font-size: 1.3rem;">레포지토리</span></li>
+              </router-link>
+
+              <router-link to="introduce">
+                <li><span class="bold text-white" style="font-size: 1.3rem;">소개</span></li>
+              </router-link>
+              
+              
+              
+              
+            </ul>
+          </article>
+        </div>
+      </div>
+
+      <div>
+        <router-view></router-view>
+      </div>
+
+      <!-- <div class="box">
 
         <div>
           <p class="bold" style="font-size: 1.5rem;"><strong>LOCKER </strong>열어보기</p>
@@ -120,7 +156,6 @@
               <input type="radio" id="tab1" name="tabGroup1" class="tab">
               <label for="tab1"><span class="bold" style="font-size: 1.1rem;">포스트</span></label>
             </div>
-            <!-- <div class="tab__content">-->
           </router-link>
           
 
@@ -145,7 +180,7 @@
         </div>
 
 
-      </div>
+      </div> -->
 
     </v-container>
     
