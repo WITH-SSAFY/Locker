@@ -3,7 +3,7 @@
     <v-row alignment="center" justify="center">
       <v-col cols="12" sm="6">
         <div id="thumbnail">
-          <h4>썸네일 미리보기</h4>
+          <h5>썸네일 미리보기</h5>
           <div id="post-preview">
             <v-icon
               v-if="thumbnail == null"
@@ -28,6 +28,7 @@
             <v-btn id="upload" color="#EDE7F6" depressed @click="uploadThumnail">썸네일 업로드</v-btn>
             <v-btn style="margin: 0 5px;" id="delete" depressed @click="removeThumbnail">썸네일 삭제</v-btn>
           </div>
+
           <input
             ref="uploader"
             class="d-none"
@@ -37,8 +38,12 @@
             accept="image/*"
           />
         </div>
+        <div id="repository" style="margin-top: 40px">
+          <h5>Repository 선택</h5>
+          <v-select :items="items" label="Solo field" solo></v-select>
+        </div>
         <div id="description">
-          <h5>{{ myPost.title }}</h5>
+          <h5>Title: {{ myPost.title }}</h5>
 
           <v-textarea
             label="description"
@@ -80,7 +85,8 @@ export default {
       file: null, //프로필 이미지 파일
       albumBucketName: "locker-beaver-image", //s3세팅
       bucketRegion: "ap-northeast-2", //s3세팅
-      IdentityPoolId: "ap-northeast-2:87ba0e75-43e1-4245-96d4-9027f0c262b8" //s3세팅
+      IdentityPoolId: "ap-northeast-2:87ba0e75-43e1-4245-96d4-9027f0c262b8", //s3세팅
+      items: ["Foo", "Bar", "Fizz", "Buzz"]
     };
   },
   computed: {
@@ -275,9 +281,6 @@ export default {
   height: 300px;
 }
 
-#description {
-  margin-top: 50px;
-}
 #buttons1 {
   margin-top: 15px;
   text-align: center;
