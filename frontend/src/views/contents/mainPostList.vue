@@ -34,7 +34,6 @@
                 v-for="(repo, i) in repoList"
                 @click="openAni($event, i)"
                 :key="repo.repoId"
-
               >
                 <div class="el__overflow">
                   <div class="el__inner">
@@ -49,7 +48,10 @@
                     </div>
                     <!-- 포스트 내부 -->
                     <div class="el__content">
-                      <div class="el__text">Whatever</div>
+                      <div class="el__text">{{ repo.repoName }}</div>
+                      <div class="el__text">{{ repo.name }}</div>
+                      <v-icon color="#424242" class="ml-auto">mdi-heart</v-icon>
+                      <span class="text-white ml-1 medium" style="font-size: 0.9rem; color: #424242;">{{ repo.likes }}</span>
                       <div class="el__close-btn" @click="closeAni($btn, i)"></div>
                     </div>
 
@@ -79,7 +81,7 @@
 
 
 <script>
-// import $ from 'jquery'
+import $ from 'jquery'
 import '../../assets/css/main_post.scss'
 import axios from "../../lib/axios-common.js"
 // import notice1 from '../notice/notice-1.vue'
@@ -139,7 +141,7 @@ export default {
         });
       });
 
-    }
+    },
   },
 
   created() {
@@ -156,9 +158,16 @@ export default {
     this.openAni();
     this.closeAni();
 
-  }, 
+    var $box = $('ul#box li:first-child');
+    (function toggleBox() {
+      $box.slideToggle();
+      setTimeout(function(){
+        toggleBox();
+      },2250);
+    })();
+    }
+  }
 
-}
 </script>
 
 
@@ -172,7 +181,6 @@ export default {
 
   section#container {
     overflow: hidden;
-    /* border: solid 3px #eceffc; */
     width: 500px;
     margin-left: 4rem;
     padding: 10px 20px;
@@ -198,10 +206,12 @@ export default {
   }
 
   ul#box li a {
+    text-decoration: none;
     color:brown;
   }
 
   ul#box li a:hover {
+    text-decoration: none;
     color:crimson;
   }
 
