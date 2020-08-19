@@ -5,10 +5,12 @@ import com.google.gson.reflect.TypeToken;
 import com.locker.blog.advice.exception.CCommunicationException;
 import com.locker.blog.advice.exception.CUserNotFoundException;
 import com.locker.blog.domain.repository.*;
+import com.locker.blog.domain.response.CommonResult;
 import com.locker.blog.domain.social.GithubRetAuth;
 import com.locker.blog.domain.social.Languages;
 import com.locker.blog.domain.user.*;
 import com.locker.blog.repository.github.MyRepositoryJpaRepo;
+import com.locker.blog.service.response.ResponseService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +32,7 @@ import java.util.Optional;
 public class GithubService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    private final ResponseService responseService;
     private final RestTemplate restTemplate;
     private final MyRepositoryJpaRepo myRepositoryJpaRepo;
     private final Environment env;
@@ -190,14 +193,15 @@ public class GithubService {
         return repoUrl.replace("api.","").replace("/repos","");
     }
 
-    public void insert(String name, String repoName, User user) {
-        Optional<MyRepository> myRepository = myRepositoryJpaRepo.findByNameAndRepoName(name,repoName);
-        if(myRepository.isPresent()) throw new CCommunicationException();
+    public CommonResult insert(String name, String repoName, User user) {
+        Optional<MyRepository> myRepository = myRepositoryJpaRepo.findByNameAndRepoName(name, repoName);
+        if (myRepository.isPresent()) return responseService.getFailResult();
         myRepositoryJpaRepo.save(MyRepository.builder()
                 .name(name)
                 .repoName(repoName)
                 .user(user)
                 .build());
+        return responseService.getSuccessResult();
     }
 
     private Languages codeToRatio(Languages beforeLang) {
