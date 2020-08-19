@@ -4,15 +4,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="post">
     <select id="selectAllByWriter" resultType="Post">
-        select p.pid, p.email, p.nickname, p.content, p.title, p.created, p.updated, p.likes
-        from post p, user u
-        where p.email=u.email
-        and u.email=#{email}
+        select *
+        from post
+        where usr_id=#{usr_id}
     </select>
 
     <insert id="insert" parameterType="Post" useGeneratedKeys="true" keyProperty="pid">
-        insert into post(email,nickname,content,title, created, updated, likes,description,thumbnail,repo_id)
-        values(#{email},#{nickname},#{content}, #{title},curdate(), curdate(), 0,#{description},#{thumbnail}, #{repo_id})
+        insert into post(email,nickname,content,title, created, updated, likes,description,thumbnail,repo_id,usr_id)
+        values(#{email},#{nickname},#{content}, #{title},curdate(), curdate(), 0,#{description},#{thumbnail}, #{repo_id},#{usr_id})
     </insert>
 
     <select id="selectAll" resultType="PagingPost">
@@ -61,7 +60,7 @@
         order by p.updated
         limit #{startPage}, #{endPage};
     </select>
-    
+
     <select id="getNextpid" resultType="java.lang.Long">
         select max(pid)
         from post

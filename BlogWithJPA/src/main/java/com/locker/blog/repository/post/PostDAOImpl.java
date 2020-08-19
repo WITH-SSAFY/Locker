@@ -42,8 +42,8 @@ public class PostDAOImpl implements PostDAO {
     }
 
     @Override
-    public List<Post> selectAllByWriter(String email) {
-        return session.selectList("post.selectAllByWriter", email);
+    public List<Post> selectAllByWriter(Long usr_id) {
+        return session.selectList("post.selectAllByWriter", usr_id);
     }
 
     @Override

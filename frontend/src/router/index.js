@@ -147,6 +147,30 @@ const routes = [
         /* webpackChunkName: "changePassword" */ "../views/memberInfo.vue"
       ),
   },
+  {
+    path: "/notice/1",
+    name: "notice1",
+    component: () =>
+      import(
+        /* webpackChunkName: "changePassword" */ "../views/notice/notice-1.vue"
+      ),
+  },
+  {
+    path: "/notice/2",
+    name: "notice2",
+    component: () =>
+      import(
+        /* webpackChunkName: "changePassword" */ "../views/notice/notice-2.vue"
+      ),
+  },
+  {
+    path: "/notice/3",
+    name: "notice3",
+    component: () =>
+      import(
+        /* webpackChunkName: "changePassword" */ "../views/notice/notice-3.vue"
+      ),
+  },
 
 ];
 
