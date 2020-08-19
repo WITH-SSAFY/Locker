@@ -3,6 +3,8 @@ package com.locker.blog.controller.post;
 import com.locker.blog.advice.exception.CCommunicationException;
 import com.locker.blog.domain.post.PagingPost;
 import com.locker.blog.domain.post.Post;
+import com.locker.blog.domain.repository.HotRepository;
+import com.locker.blog.domain.repository.MyRepository;
 import com.locker.blog.domain.response.ListResult;
 import com.locker.blog.repository.post.PostJpaRepo;
 import com.locker.blog.service.post.PostService;
@@ -206,5 +208,12 @@ public class PostController {
         }else{
             return new ResponseEntity<Long>(0L, HttpStatus.NO_CONTENT);
         }
+    }
+
+    @ApiOperation(value = "핫 레파지토리 조회", notes = "핫 레파지토리 3개를 조회한다.")
+    @GetMapping(value = "/hot")
+    public ListResult<HotRepository> getHotRepository() {
+        List<HotRepository> hotRepositories = service.getHotRepos();
+        return responseService.getListResult(hotRepositories);
     }
 }

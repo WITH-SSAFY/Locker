@@ -2,6 +2,7 @@ package com.locker.blog.repository.post;
 
 import com.locker.blog.domain.post.PagingPost;
 import com.locker.blog.domain.post.Post;
+import com.locker.blog.domain.repository.HotRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,4 +21,5 @@ public interface PostDAO {
     public Long getNextpid();
     public Long getPrevPage(Long pid);
     public Long getNextPage(Long pid);
+    public List<HotRepository> getHotRepos();
 }

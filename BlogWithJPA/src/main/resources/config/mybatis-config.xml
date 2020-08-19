@@ -9,6 +9,7 @@
         <package name="com.locker.blog.domain.comment"/>
         <package name="com.locker.blog.domain.tag"/>
         <package name="com.locker.blog.domain.postlike"/>
+        <package name="com.locker.blog.domain.repository"/>
     </typeAliases>
     <mappers>
         <mapper resource="mapper/PostMapper.xml"/>

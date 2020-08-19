@@ -26,6 +26,5 @@ public class MyRepository {
     @JoinColumn(name = "usrId", referencedColumnName = "id")
     private User user;
 
-    private Long likes;
 }
 

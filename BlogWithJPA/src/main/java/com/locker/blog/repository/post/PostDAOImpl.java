@@ -2,6 +2,7 @@ package com.locker.blog.repository.post;
 
 import com.locker.blog.domain.post.PagingPost;
 import com.locker.blog.domain.post.Post;
+import com.locker.blog.domain.repository.HotRepository;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -73,5 +74,10 @@ public class PostDAOImpl implements PostDAO {
     @Override
     public Long getNextPage(Long pid) {
         return session.selectOne("post.getNextPage",pid);
+    }
+
+    @Override
+    public List<HotRepository> getHotRepos() {
+        return session.selectList("post.getHotRepos");
     }
 }
