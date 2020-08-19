@@ -63,7 +63,7 @@
   </div>
 </template>
 <script>
-import axios from "../../lib/axios-common.js" //axios : 서버와 통신하기 위함
+import axios from "../../lib/axios-common.js"
 import '@/assets/text_editor/github-md.css'
 
 export default {
@@ -87,12 +87,9 @@ export default {
       //자동 저장 구현(나중에)
     },
     postContent() {
-      // this.$refs.toastuiEditor.invoke("getMarkdown");
-      // this.content = 
       axios
         .get("/v1/post/nextpid")
         .then(response => {
-          console.log('피아이디', pid)
           this.pid = response.data;
           this.$store.state.myPost = {
             pid: this.pid,
@@ -263,7 +260,6 @@ export default {
   textarea {
     background: #f1f1f1;
     white-space: pre-wrap;
-    /* position: relative; */
     top: 0;
     left: 0;
     bottom: 0;
