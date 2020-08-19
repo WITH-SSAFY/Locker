@@ -8,18 +8,14 @@
         </div>
         <section id="container">
           <ul id="box" class="medium" style="font-size: 1.1rem;">
-            <v-btn depressed text color="white" router :to="{ name: 'notice1' }">
-              <span>[공지사항] - Locker blog 서비스 시작</span>
-            </v-btn>
-            <v-btn depressed text color="white" router :to="{ name: 'notice1' }">
-              <span>[공지사항] - Ver 1.01 업데이트</span>
-            </v-btn>
-            <v-btn depressed text color="white" router :to="{ name: 'notice3' }">
-              <span>[공지사항] - Locker 향후 업데이트 방향</span>
-            </v-btn>
+            <li><router-link to="/notice1">[공지사항] - Locker blog 서비스 시작</router-link></li>
+            <li><router-link to="/notice2">[공지사항] - Locker blog 서비스 시작</router-link></li>
+            <li><router-link to="/notice3">[공지사항] - Locker blog 서비스 시작</router-link></li>
+            
           </ul>
+          <router-view></router-view>
         </section>
-
+        
       </div>
       <div class="col-md-8">
         <div style="margin-left: 4.5rem;">
@@ -97,7 +93,7 @@
             <!-- el end -->
           </div>
           <!-- cont inner end -->
-        </div>  
+        </div>
       </div>
     </div>
   </div>
@@ -105,9 +101,13 @@
 
 </template>
 
+
 <script>
 import $ from 'jquery'
 import '../../assets/css/main_post.scss'
+// import notice1 from '../notice/notice-1.vue'
+// import notice2 from '../notice/notice-1.vue'
+// import notice3 from '../notice/notice-1.vue'
 
 export default {
   name: 'mainPostList',
@@ -150,7 +150,7 @@ export default {
       });
     });
 
-  var $box = $('ul#box span:first-child');
+  var $box = $('ul#box li:first-child');
   (function toggleBox() {
     $box.slideToggle();
     setTimeout(function(){
@@ -162,6 +162,7 @@ export default {
 }
 </script>
 
+
 <style scoped>
   .under-line {
     height: 0.3rem;
@@ -172,7 +173,7 @@ export default {
 
   section#container {
     overflow: hidden;
-    border: solid 3px #eceffc;
+    /* border: solid 3px #eceffc; */
     width: 500px;
     margin-left: 4rem;
     padding: 10px 20px;
@@ -185,16 +186,24 @@ export default {
     padding: 0; 
   }
 
-  ul#box span {
-    /* list-style: none; */
+  ul#box li {
     text-decoration: none;
-    color: #424242;
-    /* height: 45px;
-    margin: 15px 0; */
+    list-style: none;
+    height: 45px;
+    margin: 15px 0;
     border-bottom: solid 1.3px #7C4DFF;
-    /* margin-left: 10px;
+    margin-left: 10px;
     margin-right: 10px;
-    padding-bottom: 10px; */
+    padding-bottom: 10px;
+
   }
-  
+
+  ul#box li a {
+    color:brown;
+  }
+
+  ul#box li a:hover {
+    color:crimson;
+  }
+
 </style>
