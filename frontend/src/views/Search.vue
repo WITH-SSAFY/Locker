@@ -20,18 +20,16 @@
               <li class="author medium">작성자 : {{ post.nickname }}</li>
               <li class="date medium">작성일자 : {{ post.created }}</li>
               <li class="tags">
-   
               <p class="medium">관련 태그</p>
-              <v-chip
-                v-for="tag in tags"
-                :key="tag.tagid"
-                class="mr-1"
-                label
-                color="#eceffc"
-              >
-                <span class="medium">{{ tag }}</span>
-              </v-chip>
-
+                <v-chip
+                  v-for="tag in tags"
+                  :key="tag.tagid"
+                  class="mr-1"
+                  label
+                  color="#eceffc"
+                >
+                  <span class="medium">{{ tag }}</span>
+                </v-chip>
               </li>
             </ul>
 
