@@ -225,13 +225,14 @@ export default {
           "profile_" + this.userInfo.id + "." + imageExtension; //이미지파일명
         const imagePath = s3Path + imageFileName; //이미지 경로
         const photoKey = s3Dir + imageFileName; //s3 업로드용 key
-        //s3에 이미지 업로드
+        //이미지 삭제
         this.deleteProfile();
+        //s3에 이미지 업로드
         this.uploadImage(photoKey);
-        //s3에 업로드 된 이미지 불러오기
-        //await this.loadImage(photoKey);
         //DB에 이미지 경로 등록(수정)
         this.registerImagePath(imagePath);
+        //post의 usr_picture에 경로 수정
+        this.updatePostPicturePath(imagePath);
 
         // let reader = new FileReader();
         // console.log("this.userInfo", this.userInfo)
@@ -305,6 +306,14 @@ export default {
           }, 1500);
         });
     },
+    updatePostPicturePath(imagePath) {
+      //Post의 usr_picture 경로 수정
+      axios.put("/v1/post/picture", {
+        usr_id: this.userInfo.id,
+        usr_picture: imagePath
+      });
+    },
+
     deleteProfile() {
       //프로필 이미지 삭제(경로를 userInfo를 이용해서 받아야함)
       if (this.userInfo.picture != null) {
@@ -314,6 +323,9 @@ export default {
 
         //DB에서 이미지 삭제
         this.deleteImagePath();
+
+        //post에서 usr_picture null로 변경
+        this.deletePostPicturePath();
       }
     },
     deleteImage(photoKey) {
@@ -356,6 +368,12 @@ export default {
       //     this.userInfo.picture = null; //state내 userInfo 이미지 경로 변경s
       //   })
       //   .catch(exp => alert("이미지 경로 삭제 오류" + exp));
+    },
+    deletePostPicturePath() {
+      //post에서 usr_picture null로 변경
+      axios.put("/v1/post/picture", {
+        usr_id: this.userInfo.id
+      });
     }
   },
   created() {
