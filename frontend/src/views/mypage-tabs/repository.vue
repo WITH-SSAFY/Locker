@@ -1,5 +1,5 @@
 <template>
-<div>
+<v-container>
   <div v-if="userInfo.provider === 'github'" style="margin-left:20px;">
     <v-row>
       <v-col>
@@ -84,7 +84,7 @@
   <div v-else style="margin-left:20px; color: white;">
     <div style="border-radius: 10px;"><h1>깃헙으로 로그인해주세요!</h1></div>
   </div>
-</div>
+</v-container>
 </template>
 
 <script>
