@@ -75,4 +75,16 @@
         select min(pid) from post where pid <![CDATA[ > ]]> #{pid}
     </select>
 
+    <select id="getHotRepos" resultType="HotRepository">
+        select
+            r.id as repoId, r.name as name, r.usr_id as usrId, r.repo_name as repoName, sum(p.likes) likes
+        from
+            repository r join post p
+        where
+            p.repo_id = r.id
+        group by r.id
+        order by likes desc
+        limit 3;
+    </select>
+
 </mapper>

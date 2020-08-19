@@ -44,4 +44,5 @@ public class Post {
 
     private String thumbnail;
     private String description;
+    private Long repoId;
 }

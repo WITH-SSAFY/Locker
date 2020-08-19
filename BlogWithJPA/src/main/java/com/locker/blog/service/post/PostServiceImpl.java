@@ -2,6 +2,7 @@ package com.locker.blog.service.post;
 
 import com.locker.blog.domain.post.PagingPost;
 import com.locker.blog.domain.post.Post;
+import com.locker.blog.domain.repository.HotRepository;
 import com.locker.blog.repository.post.PostDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,6 +74,11 @@ public class PostServiceImpl implements PostService {
     @Override
     public Long getNextPage(Long pid) {
         return dao.getNextPage(pid);
+    }
+
+    @Override
+    public List<HotRepository> getHotRepos() {
+        return dao.getHotRepos();
     }
 
 }
