@@ -177,23 +177,23 @@ export default new Vuex.Store({
       }
       state.myGitRepos = temp;
     },
-    // getLockerRepos(state, payload){
-    //   var myLockerCnt = 0;
-    //   var teamLockerCnt = 0;
-    //   for (var j = 0; j < payload.repos.length; j++) {
-    //     var repoList = payload.repos[j];
-    //     var imgSrc = "https://github-readme-stats.vercel.app/api/pin/?username="+payload.repos[j].name + "&repo="+payload.repos[j].repoName;
-    //     if (payload.repos[j].name === payload.uid) {
-    //       state.myLockerRepos[myLockerCnt] = { id: null, name: repoList.name, repoName: repoList.repoName, repoUrl: repoList.repoUrl, src: imgSrc};
-    //       myLockerCnt++;
-    //     } else {
-    //       state.teamLockerRepos[teamLockerCnt] = { id: null, name: repoList.name, repoName: repoList.repoName, repoUrl: repoList.repoUrl, src: imgSrc};
-    //       teamLockerCnt++;
-    //     }
-    //   }
-    //   console.log("mutations - myLockerRepos", state.myLockerRepos);
-    //   console.log("mutations - teamLockerRepos", state.teamLockerRepos);
-    // }
+    getLockerRepos(state, payload){
+      var myLockerCnt = 0;
+      var teamLockerCnt = 0;
+      for (var j = 0; j < payload.repos.length; j++) {
+        var repoList = payload.repos[j];
+        var imgSrc = "https://github-readme-stats.vercel.app/api/pin/?username="+payload.repos[j].name + "&repo="+payload.repos[j].repoName;
+        if (payload.repos[j].name === payload.uid) {
+          state.myLockerRepos[myLockerCnt] = { id: null, name: repoList.name, repoName: repoList.repoName, repoUrl: repoList.repoUrl, src: imgSrc};
+          myLockerCnt++;
+        } else {
+          state.teamLockerRepos[teamLockerCnt] = { id: null, name: repoList.name, repoName: repoList.repoName, repoUrl: repoList.repoUrl, src: imgSrc};
+          teamLockerCnt++;
+        }
+      }
+      console.log("mutations - myLockerRepos", state.myLockerRepos);
+      console.log("mutations - teamLockerRepos", state.teamLockerRepos);
+    }
   },
   //비즈니스 로직
   actions: {
@@ -503,7 +503,18 @@ export default new Vuex.Store({
         })
         .catch((err) => {
           console.log("err", err);
-        });
+        })
+    },
+    getLockerRepos({commit}, userInfo){
+      axios
+        .get("/v1/github?pk="+userInfo.id)
+        .then((res)=>{
+          console.log("res", res);
+          commit('getLockerRepos',{id: userInfo.id, repos: res.data.list })
+        })
+        .catch((err) => {
+          console.log("err", err);
+        })
     },
 
     getMyPostList({ commit }, usr_id) {
