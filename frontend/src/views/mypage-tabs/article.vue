@@ -19,7 +19,7 @@
           <div class="meta">
 
             <!-- hover -->
-            <div @mouseover="getTags(post.pid)" class="photo">
+            <div @mouseover="getTags(myPost.pid)" class="photo">
               <img :src="post.thumbnail" align="center" />
             </div>
             <ul class="details">
@@ -54,40 +54,22 @@
       </v-col>
     </v-row>
 
-    <!-- <p class="bolder p-5 text-white" style="font-size: 1.5rem; margin-left: 5rem;">포스트</p>
-    <v-row class="justify-content-center">
-      <v-col
-        cols="12"
-        md="11"
-        v-for="(myPost, index) in myPostList"
-        :key="myPost.pid"
-        style="padding: 2% 8%;"
-      >
-        <v-card>
-          <v-card-title class="title" @click="showMyDetail(myPost.pid)">{{ myPost.title }}</v-card-title>
-          
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn icon @click="like(index)">
-              <v-icon :id="index">mdi-heart</v-icon>
-            </v-btn>
-            <v-btn icon><v-icon>mdi-bookmark</v-icon></v-btn>
-            <v-btn icon><v-icon>mdi-share-variant</v-icon></v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-col>
-    </v-row> -->
-
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex"
+import axios from "../../lib/axios-common.js"
 
 export default {
   name: 'article',
   components: {
 
+  },
+  data() {
+    return {
+      tags: [],
+    }
   },
   computed: {
     ...mapState(["userInfo","myPostList"]),
@@ -97,6 +79,10 @@ export default {
       this.$store.dispatch('showMyDetail', pid);
       //this.$router.push({name: "readPost"});
     },
+    async getTags(pid) {
+      let response = await axios.get("/v1/tag/all/" + pid);
+      this.tags = response.data;
+    }
   },
   props: {
 
