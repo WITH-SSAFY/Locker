@@ -3,6 +3,7 @@ package com.locker.blog.service.github;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.locker.blog.advice.exception.CCommunicationException;
+import com.locker.blog.advice.exception.CUserNotFoundException;
 import com.locker.blog.domain.repository.*;
 import com.locker.blog.domain.social.GithubRetAuth;
 import com.locker.blog.domain.social.Languages;
@@ -22,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -189,6 +191,8 @@ public class GithubService {
     }
 
     public void insert(String name, String repoName, User user) {
+        Optional<MyRepository> myRepository = myRepositoryJpaRepo.findByNameAndRepoName(name,repoName);
+        if(myRepository.isPresent()) throw new CCommunicationException();
         myRepositoryJpaRepo.save(MyRepository.builder()
                 .name(name)
                 .repoName(repoName)
