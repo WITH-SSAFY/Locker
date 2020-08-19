@@ -118,12 +118,14 @@
                   <div class="ml-auto">
                     <small class="mr-5">{{ comment.created }}</small>
                     <button
+                      v-if="comment.userid === userInfo.id"
                       class="btn btn-sm btn-light mr-2"
                       @click="
                         goEditComment(pid, comment.rid, comment.replytext)
                       "
                     >edit</button>
                     <button
+                      v-if="comment.userid === userInfo.id"
                       class="btn btn-sm btn-light mr-2"
                       @click="deleteComment(pid, comment.rid)"
                     >delete</button>
@@ -165,12 +167,14 @@
                   <div class="ml-auto">
                     <small class="mr-5">{{ comment.created }}</small>
                     <button
+                      v-if="comment.userid === userInfo.id"
                       class="btn btn-sm btn-light mr-2"
                       @click="
                         goEditComment(pid, comment.rid, comment.replytext)
                       "
                     >edit</button>
                     <button
+                      v-if="comment.userid === userInfo.id"
                       class="btn btn-sm btn-light mr-2"
                       @click="deleteComment(pid, comment.rid)"
                     >delete</button>
@@ -378,12 +382,14 @@ export default {
     },
 
     postComment(pid) {
+      //댓글 작성
       axios
         .post("/v1/comment", {
           replytext: this.text,
           replyemail: this.$store.state.userInfo.email,
           replynickname: this.$store.state.userInfo.nickname,
-          pid
+          pid,
+          userid: this.userInfo.id
         })
         .then(() => {
           this.$store.dispatch("getCommentList", pid);
@@ -400,6 +406,7 @@ export default {
           replyemail: this.$store.state.userInfo.email,
           replynickname: this.$store.state.userInfo.nickname,
           pid,
+          userid: this.userInfo.id,
           parentid: this.parentid
         })
         .then(() => {
