@@ -310,7 +310,7 @@ export default {
     getMyRepoList() {
       //내 레포 리스트를 받아옴
       axios
-        .get("/v1/github?pk=" + 15) //일단 준호형 껄로 테스트(this.$store.state.userInfo.id)
+        .get("/v1/github?pk=" + this.$store.state.userInfo.id) //준호형 pk (15)
         .then(response => {
           //console.log("list: ", response.data.list);
           let repoList = response.data.list;
