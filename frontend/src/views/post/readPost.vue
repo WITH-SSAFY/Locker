@@ -518,7 +518,7 @@ body {
   position: absolute;
   top: 38%;
   left: 0;
-  width: 80px;
+  width: 40px;
   height: 2px;
   border-radius: 1px;
   background: black;
