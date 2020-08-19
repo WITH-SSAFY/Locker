@@ -61,12 +61,12 @@ export default {
     this.showRepo;
 
     // 토큰 값 받아오기
-    let token = localStorage.getItem("access_token");
-    this.token = token;
-    // this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNyIsInJvbGVzIjpbXSwiaWF0IjoxNTk3ODUwMjQ2LCJleHAiOjE1OTc4NTM4NDZ9.PD_UdAA0Z7_Js8TKmbdfPyCoW-_m_-UOg1UuM96_Nos"
-    let accessToken = localStorage.getItem("github_token");
-    this.accessToken = accessToken;
-    // this.accessToken = "496102b57db83de386a188179fb1819fdd34b864"
+    // let token = localStorage.getItem("access_token");
+    // this.token = token;
+    // this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNyIsInJvbGVzIjpbXSwiaWF0IjoxNTk3ODU1OTg3LCJleHAiOjE1OTc4NTk1ODd9.8jUyqNT1DHx78ivpLfe1VVPjUS_sVoVN3v7Fe5JwQVQ"
+    // let accessToken = localStorage.getItem("github_token");
+    // this.accessToken = accessToken;
+    // this.accessToken = "959a838fe2e736e24a5a902ab5741c11c49172f0"
     
     // this.userInfo.uid='jane399'
     // this.userInfo.uid='junhok82'
