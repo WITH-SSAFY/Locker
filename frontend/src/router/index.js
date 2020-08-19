@@ -171,6 +171,14 @@ const routes = [
         /* webpackChunkName: "changePassword" */ "../views/notice/notice-3.vue"
       ),
   },
+  {
+    path: "/repoDetail",
+    name: "repoDetail",
+    component: () =>
+      import(
+        /* webpackChunkName: "repoDetail" */ "../views/mypage-tabs/RepoDetail.vue"
+      ),
+  },
 
 ];
 
