@@ -6,12 +6,12 @@
     <select id="selectAllByWriter" resultType="Post">
         select *
         from post
-        where post.usr_id=#{usr_id}
+        where usr_id=#{usr_id}
     </select>
 
     <insert id="insert" parameterType="Post" useGeneratedKeys="true" keyProperty="pid">
         insert into post(email,nickname,content,title, created, updated, likes,description,thumbnail,repo_id,usr_id)
-        values(#{email},#{nickname},#{content}, #{title},curdate(), curdate(), 0,#{description},#{thumbnail}, #{repoId},#{usrId})
+        values(#{email},#{nickname},#{content}, #{title},curdate(), curdate(), 0,#{description},#{thumbnail}, #{repo_id},#{usr_id})
     </insert>
 
     <select id="selectAll" resultType="PagingPost">
@@ -60,7 +60,7 @@
         order by p.updated
         limit #{startPage}, #{endPage};
     </select>
-    
+
     <select id="getNextpid" resultType="java.lang.Long">
         select max(pid)
         from post
