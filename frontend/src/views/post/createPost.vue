@@ -154,7 +154,7 @@ export default {
       md = md.replace(/[\#]{1}\s(.+)/g, '<h1>$1</h1>');
       
       //images
-      md = md.replace(/\!\[([^\]]+)\]\(([^\)]+)\)/g, '<img src="$2" alt="$1" />');
+      md = md.replace(/\!\[([^\]]+)\]\(([^\)]+)\)/g, '<p><img src="$2" alt="$1" /></p>');
       
       //links
       md = md.replace(/[\[]{1}([^\]]+)[\]]{1}[\(]{1}([^\)\"]+)(\"(.+)\")?[\)]{1}/g, '<a href="$2" title="$4">$1</a>');
@@ -164,9 +164,11 @@ export default {
       md = md.replace(/[\*\_]{1}([^\*\_]+)[\*\_]{1}/g, '<i>$1</i>');
       md = md.replace(/[\~]{2}([^\~]+)[\~]{2}/g, '<del>$1</del>');
       
+      
       //pre
-      md = md.replace(/^\s*\n\`\`\`\s(([^\s]+))?/gm, '<pre class="$2">');
-      md = md.replace(/^\`\`\`\s*\n/gm, '</pre>\n\n');
+      md = md.replace(/^\s*\`\`\`\s(([^\s]+))/gm, '<pre class="$2">');
+      md = md.replace(/^\`\`\`/gm, '</pre>\n\n');
+
       
       //code
       md = md.replace(/[\`]{1}([^\`]+)[\`]{1}/g, '<code>$1</code>');
