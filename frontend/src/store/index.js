@@ -143,7 +143,7 @@ export default new Vuex.Store({
       var teamLockerCnt = 0;
       for (var k = 0; k < payload.lockerRepoList.length; k++) {
         repoList = payload.lockerRepoList[k];
-        console.log("repoList", repoList)
+        // console.log("repoList", repoList)
         imgSrc = "https://github-readme-stats.vercel.app/api/pin/?username="+payload.lockerRepoList[k].name + "&repo="+payload.lockerRepoList[k].repoName;
         if (payload.lockerRepoList[k].name === payload.uid) {
           state.myLockerRepos[myLockerCnt] = { id: null, name: repoList.name, repoName: repoList.repoName, repoUrl: repoList.repoUrl, src: imgSrc};
@@ -501,19 +501,6 @@ export default new Vuex.Store({
         .catch((err) => {
           console.log("err", err);
         });
-    },
-
-    getLockerRepos({commit}, userInfo){
-      console.log("lockerRepo - userInfo 값 확인 : ", userInfo);
-      commit
-      axios
-        .get("/v1/github?pk="+userInfo.id)
-        .then((res) => {
-          commit('getLockerRepos', {repos: res.data.list, uid: userInfo.uid});
-        })
-        .catch((err) => {
-          console.log("err", err);
-        })
     },
 
     getMyPostList({ commit }, email) {

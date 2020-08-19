@@ -74,15 +74,15 @@ export default {
 
     // 토큰 값 전달해서 getRepos 실행(Repository 리스트 받아오기)
     // this.userInfo.uid = 'jane399'
-    this.userInfo.uid = 'junhok82'
+    // this.userInfo.uid = 'junhok82'
     // this.userInfo.uid = 'YNNJN'
-    this.userInfo.provider = 'github'
+    // this.userInfo.provider = 'github'
     // this.userInfo.provider = 'google'
     console.log("userInfo.uid: ", this.userInfo.uid)
 
     // locker에 저장된 repository 조회하기
     // this.userInfo.id = 17
-    this.userInfo.id = 15
+    // this.userInfo.id = 15
     // this.userInfo.id = 21
     this.arrMyRepo = this.myLockerRepos;
 
@@ -113,22 +113,8 @@ export default {
     },
     async saveMine(repos){
       for(var i=0; i<repos.length; i++){
-        // console.log("repos name여기!", repos[i].name)
-        // console.log("repos repoName여기!", repos[i].repoName)
-        // console.log("userInfo id여기!", this.userInfo.id)
         await axios.post("/v1/github?name="+repos[i].name+"&repoName="+repos[i].repoName+"&pk="+this.userInfo.id)
-
-        
-        // .then((response) => {
-        //   console.log("myRepo 추가 - response", response)
-        //   console.log("i : ", i)
-        // })
-        // .catch((err) => {
-        //   console.log("myRepo 추가 - err", err)
-        // });
-          // this.$router.push({name: "mypage"});
       }
-      this.getLockerRepos({id: this.userInfo.id, uid: this.userInfo.uid})
       alert("저장되었습니다!")
     },
     link(url){
