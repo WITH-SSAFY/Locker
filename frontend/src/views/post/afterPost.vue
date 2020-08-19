@@ -127,8 +127,8 @@ export default {
             nickname: this.myPost.nickname,
             description: this.description,
             thumbnail: this.thumbnail,
-            usrId: this.$store.state.userInfo.id,
-            repoId: this.repoId
+            usr_id: this.$store.state.userInfo.id,
+            repo_od: this.repoId
           });
           this.pid = response.data;
           await this.checkDupTag(); //태그 중복 확인
