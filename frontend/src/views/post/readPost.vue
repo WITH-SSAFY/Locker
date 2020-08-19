@@ -29,14 +29,14 @@
             </div>
             <div class="float-right">
               <button
-                v-if="this.userInfo.email == email"
+                v-if="this.userInfo.id === usr_id"
                 class="btn btn-light badge-pill mr-2"
                 @click="goEditDetail(pid)"
               >
                 <span>edit</span>
               </button>
               <button
-                v-if="this.userInfo.email == email"
+                v-if="this.userInfo.id === usr_id"
                 class="btn btn-light badge-pill"
                 @click="deleteDetail(pid)"
               >
@@ -257,6 +257,8 @@ export default {
   created() {
     this.userInfo;
     this.pid;
+    this.usr_id;
+    console.log(this.usr_id);
     this.flag = false;
     this.viewerText;
     this.$store.dispatch("getCommentList", this.pid);
@@ -294,6 +296,9 @@ export default {
     },
     nickname() {
       return this.$store.state.nickname;
+    },
+    usr_id() {
+      return this.$store.state.usr_id;
     },
     pid() {
       return this.$store.state.pid;

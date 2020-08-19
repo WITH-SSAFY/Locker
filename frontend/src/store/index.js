@@ -28,6 +28,7 @@ export default new Vuex.Store({
     commentList: [],
     nickname: "", //글쓴이
     pid: null, //글 번호
+    usr_id: null, //post에 저장된 userid
     created: null, //작성일자
     parentid: null, //댓글 부모번호
     depth: null, //댓글 깊이
@@ -86,10 +87,12 @@ export default new Vuex.Store({
       state.myDetailTitle = payload.myDetail.title;
       state.nickname = payload.myDetail.nickname;
       state.pid = payload.myDetail.pid;
+      state.usr_id = payload.myDetail.usr_id;
       state.created = payload.myDetail.created;
       state.email = payload.myDetail.email;
       state.thumbnail = payload.myDetail.thumbnail;
       state.description = payload.myDetail.description;
+      //console.log("userId : ", state.usr_id);
       router.push({ name: "readPost", params: { pid: state.pid } });
     },
     goEditDetail(state, payload) {
@@ -555,7 +558,7 @@ export default new Vuex.Store({
         .delete("/v1/post/" + pid)
         .then((response) => {
           console.log(response);
-          this.dispatch("getMyPostList");
+          this.dispatch("getMyPostList", this.state.userInfo.id);
           router.push({ name: "mypage" });
         })
         .catch((exp) => alert("내 글 삭제 실패 " + exp));
