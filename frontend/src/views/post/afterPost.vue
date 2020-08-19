@@ -40,7 +40,14 @@
         </div>
         <div id="repository" style="margin-top: 40px">
           <h5>Repository 선택</h5>
-          <v-select :items="items" label="Solo field" solo></v-select>
+          <v-select
+            :items="myRepoList"
+            item-text="repoName"
+            item-value="id"
+            label="Solo field"
+            solo
+            @change="selectMyRepo"
+          ></v-select>
         </div>
         <div id="description">
           <h5>Title: {{ myPost.title }}</h5>
@@ -75,6 +82,7 @@ export default {
     this.description;
     this.thumbnail = this.$store.state.myPost.thumbnail;
     this.description = this.$store.state.myPost.description;
+    this.getMyRepoList();
   },
   data() {
     return {
@@ -86,7 +94,7 @@ export default {
       albumBucketName: "locker-beaver-image", //s3세팅
       bucketRegion: "ap-northeast-2", //s3세팅
       IdentityPoolId: "ap-northeast-2:87ba0e75-43e1-4245-96d4-9027f0c262b8", //s3세팅
-      items: ["Foo", "Bar", "Fizz", "Buzz"]
+      myRepoList: []
     };
   },
   computed: {
@@ -99,6 +107,7 @@ export default {
   },
   methods: {
     async postContent() {
+      console.log(this.myPost.content);
       if (this.$store.state.isNewPost) {
         //글 새로 작성시
         let response = await axios.post("/v1/post", {
@@ -107,7 +116,8 @@ export default {
           content: this.myPost.content,
           nickname: this.myPost.nickname,
           description: this.description,
-          thumbnail: this.thumbnail
+          thumbnail: this.thumbnail,
+          usrId: this.$store.state.userInfo.id
         });
         this.pid = response.data;
         await this.checkDupTag(); //태그 중복 확인
@@ -262,6 +272,18 @@ export default {
         }
       );
       this.thumbnail = null;
+    },
+    getMyRepoList() {
+      //내 레포 리스트를 받아옴
+      axios
+        .get("/v1/github?pk=" + 15) //일단 준호형 껄로 테스트(this.$store.state.userInfo.id)
+        .then(response => {
+          this.myRepoList = response.data.list;
+        });
+    },
+    selectMyRepo(id) {
+      //선택한 레포의 id를 받아와서 db에 연결
+      console.log("repoId: ", id);
     }
   }
 };
