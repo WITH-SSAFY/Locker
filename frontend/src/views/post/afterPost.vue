@@ -128,7 +128,8 @@ export default {
             description: this.description,
             thumbnail: this.thumbnail,
             usr_id: this.$store.state.userInfo.id,
-            repo_od: this.repoId
+            repo_id: this.repoId
+            //usr_picture: this.$store.state.userInfo.picture,
           });
           this.pid = response.data;
           await this.checkDupTag(); //태그 중복 확인
@@ -143,6 +144,7 @@ export default {
             content: this.myPost.content,
             description: this.description,
             thumbnail: this.thumbnail
+            //usr_picture: this.$store.state.userInfo.picture,
           });
           this.pid = this.myPost.pid;
           await this.deletePostAllTag(); //포스트가 가자고 있는 모든 태그 삭제
@@ -296,6 +298,7 @@ export default {
     },
     selectMyRepo(id) {
       //선택한 레포의 id를 받아옴
+      console.log("repoid: ", id);
       this.repoId = id;
     }
   }
