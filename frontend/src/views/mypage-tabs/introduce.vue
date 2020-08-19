@@ -1,8 +1,24 @@
 <template>
-  <div class="d-flex justify-content-center mb-5" style="margin: 5rem 0;">
-    <aside id="markdown" contenteditable style="display: none;">{{ intro }}</aside>
-    <section id="output-html" class="markdown-body" style="display: none;"></section>
-    <div id="page" class="markdown-body width: 75%;"></div>
+  <div class="back d-flex justify-content-center mb-5">
+    <!-- 깃헙 소개글 없을 경우 -->
+    <div v-if="!intro">
+      <p class="medium" style="font-size: 1.5rem;">깃헙에서 소개글을 등록해주세요</p>
+      <div class="text-center">
+        <p class="medium">깃헙에서 소개글을 등록하면 당신의 <strong style="color: #7C4DFF">소개글</strong>을</p>
+        <p class="medium"><strong style="color: #7C4DFF;">LOCKER</strong>에서 확인할 수 있어요</p>
+        <v-icon color="#7C4DFF" class="mr-2">mdi-menu-up</v-icon>
+        <a color="#252525" href="javascript:void(window.open('http://www.github.com', 'github', 'width=#, height=#'))" style="text-decoration: none;">
+          <v-icon size="23" style="color: black; padding-right: 1rem;">mdi-github</v-icon>
+          <span class="bolder" style="font-size: 1rem; color: #7C4DFF;">깃헙 페이지 바로가기</span>
+        </a>
+      </div>
+    </div>
+    <!-- 깃헙 소개글 있는 경우 -->
+    <div v-if="intro">
+      <aside id="markdown" contenteditable style="display: none;">{{ intro }}</aside>
+      <section id="output-html" class="markdown-body" style="display: none;"></section>
+      <div id="page" class="markdown-body width: 75%;"></div>
+    </div>
   </div>
 </template>
 
@@ -16,7 +32,6 @@ export default {
   data() {
     return {
       intro: null,
-      axiosFlag: false,
     }
   },
   computed: {
@@ -29,13 +44,13 @@ export default {
     // access token을 로컬스토리지에서 가져와서 넘겨주기
     getIntro () {
       let accessToken = localStorage.getItem("github_token");
-      
-      axios.get("/v1/github/hidden?accessToken=" + accessToken)
-        .then((response) => {
-          this.intro = response.data.data
-          this.axiosFlag = true
-        })
-        .catch((exp) => alert("소개글 불러오기 실패" + exp))
+      if (acceessToken != null) {
+        axios.get("/v1/github/hidden?accessToken=" + accessToken)
+          .then((response) => {
+            this.intro = response.data.data
+          })
+          .catch((err) => console.log(err.data))
+      }
     },
   },
   created () {
@@ -119,6 +134,10 @@ export default {
 
 </script>
 
-<style>
-
+<style scoped>
+.back {
+  background-color: #fff;
+  min-height: 50vh;
+  margin: 5rem 0;
+}
 </style>
