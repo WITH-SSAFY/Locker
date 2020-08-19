@@ -1,5 +1,5 @@
 <template>
-  <div style="background-color: #eceffc; padding: 2.7rem;">
+  <div style="background-color: #eceffc; padding: 4.5rem;">
     <!-- <div style="margin-left: 3.5rem;">
       <p class="bold" style="font-size: 1.5rem; padding-top: 4rem;">
         유저들의 like 포스트

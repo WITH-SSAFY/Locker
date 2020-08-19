@@ -1,16 +1,16 @@
 <template>
-  <div style="margin-top: 3rem;">
+  <div style="margin-top: 3rem; background-color: #222;">
+
     <div class="row">
       <div class="col-md-4">
 
         <v-flex class="logo" style="margin-left: 7rem;">
-          <p class="bolder" style="font-size: 5rem; color: #7C4DFF;">LOCKER</p>
+          <p class="bolder" style="font-size: 5rem; color: #7C4DFF">LOCKER</p>
         </v-flex>
 
         <div style="margin-left: 6.5rem; margin-top: 5rem;">
           <v-icon color="#7C4DFF">mdi-chevron-right</v-icon>
-          <p class="regular d-inline ml-2" style="font-size: 1.7rem;">공지사항</p>
-          <!-- <p class="medium d-inline ml-2" style="font-size: 1.1rem; color: #fff; background-color: rgba(0,0,0,0.8); padding: 0.5rem;"><span style="color: #7C4DFF;">공지사항</span></p> -->
+          <p class="regular d-inline ml-2" style="font-size: 1.7rem; color: #999">공지사항</p>
         </div>
         <section id="container">
           <ul id="box" class="regular" style="font-size: 1.1rem;">
@@ -23,14 +23,12 @@
 
         <div class="float-right" style="margin-top: 5rem;">
           <v-icon color="#7C4DFF">mdi-chevron-right</v-icon>
-          <p class="regular d-inline ml-2" style="font-size: 1.7rem;">이 달의 레포지토리</p>
-          <!-- <p class="medium d-inline ml-2" style="font-size: 1.1rem; color: #fff; background-color: rgba(0,0,0,0.8); padding: 0.5rem;"><span style="color: #7C4DFF;">이 달의 레포지토리</span></p> -->
+          <p class="regular d-inline ml-2" style="font-size: 1.7rem; color: #999">이 달의 레포지토리</p>
         </div>
         
         <div style="margin-left: 6.5rem; margin-top: 12rem;">
           <v-icon color="#7C4DFF">mdi-chevron-down</v-icon>
-          <p class="regular d-inline ml-2" style="font-size: 1.7rem;">유저의 좋아요 컨텐츠</p>
-          <!-- <p class="medium d-inline ml-2" style="font-size: 1.1rem; color: #fff; background-color: rgba(0,0,0,0.8); padding: 0.5rem;"><span style="color: #7C4DFF;">유저의 좋아요 컨텐츠</span></p> -->
+          <p class="regular d-inline ml-2" style="font-size: 1.7rem; color: #999">유저의 좋아요 컨텐츠</p>
         </div>
 
       </div>
