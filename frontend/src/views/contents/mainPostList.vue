@@ -23,20 +23,26 @@
           <div class="under-line"></div>
         </div>
         <div class="cont s--inactive">
-          <!-- cont inner start -->
           <div class="cont__inner">
+
             <!-- el start -->
-            <div class="el">
+            <!-- likes, name, repoId, repoName, usrId -->
+            <div
+              class="el"
+              v-for="repo in repoList" :key="repo.repoId"
+            >
               <div class="el__overflow">
                 <div class="el__inner">
                   <div class="el__bg"></div>
                   <div class="el__preview-cont">
-                    <h2 class="el__heading">Section 1</h2>
+                    <h2 class="el__heading">{{ repo.repoName }}</h2>
                   </div>
+                  <!-- 포스트 내부 -->
                   <div class="el__content">
                     <div class="el__text">Whatever</div>
                     <div class="el__close-btn"></div>
                   </div>
+
                 </div>
               </div>
               <div class="el__index">
@@ -47,53 +53,10 @@
               </div>
             </div>
             <!-- el end -->
-            <!-- el start -->
-            <div class="el">
-              <div class="el__overflow">
-                <div class="el__inner">
-                  <div class="el__bg"></div>
-                  <div class="el__preview-cont">
-                    <h2 class="el__heading">Section 2</h2>
-                  </div>
-                  <div class="el__content">
-                    <div class="el__text">Whatever</div>
-                    <div class="el__close-btn"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="el__index">
-                <div class="el__index-back">2</div>
-                <div class="el__index-front">
-                  <div class="el__index-overlay" data-index="2">2</div>
-                </div>
-              </div>
-            </div>
-            <!-- el end -->
-            <!-- el start -->
-            <div class="el">
-              <div class="el__overflow">
-                <div class="el__inner">
-                  <div class="el__bg"></div>
-                  <div class="el__preview-cont">
-                    <h2 class="el__heading">Section 3</h2>
-                  </div>
-                  <div class="el__content">
-                    <div class="el__text">Whatever</div>
-                    <div class="el__close-btn"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="el__index">
-                <div class="el__index-back">3</div>
-                <div class="el__index-front">
-                  <div class="el__index-overlay" data-index="3">3</div>
-                </div>
-              </div>
-            </div>
-            <!-- el end -->
+    
           </div>
-          <!-- cont inner end -->
         </div>
+
       </div>
     </div>
   </div>
@@ -105,6 +68,7 @@
 <script>
 import $ from 'jquery'
 import '../../assets/css/main_post.scss'
+import axios from "../../lib/axios-common.js"
 // import notice1 from '../notice/notice-1.vue'
 // import notice2 from '../notice/notice-1.vue'
 // import notice3 from '../notice/notice-1.vue'
@@ -119,11 +83,22 @@ export default {
   },
   data: function () {
     return {
-
+      repoList: [],
+    }
+  },
+  methods: {
+    hotRepo () {
+      axios
+        .get("/v1/post/hot")
+        .then(response => {
+          this.repoList = response.data.list
+          console.log(this.repoList)
+        })
+        .catch(exp => alert("핫 레포 가져오기 실패" + exp))
     }
   },
   created() {
-
+    this.hotRepo();
   },
   mounted() {
     var $cont = document.querySelector('.cont');
