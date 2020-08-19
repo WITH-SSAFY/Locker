@@ -1,67 +1,49 @@
 <template>
+
   <v-container>
     <v-row alignment="center" justify="center">
-      <v-col cols="12" sm="8">
-        <v-text-field label="검색어를 입력하세요" v-model="q" @keyup.enter="search"></v-text-field>
+      <v-col cols="12" sm="9">
 
+        <!-- title -->
+        <v-icon small>mdi-chevron-right</v-icon>
+        <p class="light d-inline" style="font-size: 1.3rem;">검색</p>
+        <p class="light ml-4" style="font-size: 0.9rem;">태그로도 검색할 수 있어요 !</p>
+        <v-text-field autofocus solo label="검색어를 입력하세요" v-model="q" @keyup.enter="search"></v-text-field>
+
+        <!-- search list -->
         <div class="blog-card" v-for="post in searchList" :key="post.pid">
           <div class="meta">
             <div @mouseover="getTags(post.pid)" class="photo">
               <img :src="post.thumbnail" align="center" />
             </div>
             <ul class="details">
-              <li class="author">{{post.nickname}}</li>
-              <li class="date">{{post.created}}</li>
+              <li class="author medium">작성자 : {{ post.nickname }}</li>
+              <li class="date medium">작성일자 : {{ post.created }}</li>
               <li class="tags">
-                <ul>
-                  <li v-for="tag in tags" :key="tag.tagid">
-                    <a href="#">{{tag}}</a>
-                  </li>
-                  <!-- <li>
-                    <a href="#">Learn</a>
-                  </li>
-                  <li>
-                    <a href="#">Code</a>
-                  </li>
-                  <li>
-                    <a href="#">HTML</a>
-                  </li>
-                  <li>
-                    <a href="#">CSS</a>
-                  </li>-->
-                </ul>
+   
+              <p class="medium">관련 태그</p>
+              <v-chip
+                v-for="tag in tags"
+                :key="tag.tagid"
+                class="mr-1"
+                label
+                color="#eceffc"
+              >
+                <span class="medium">{{ tag }}</span>
+              </v-chip>
+
               </li>
             </ul>
+
+
           </div>
-          <div class="description">
-            <h1>{{post.title}}</h1>
-            <p>{{post.description}}</p>
-            <p class="read-more">
-              <a @click="readPost(post.pid)">Read More</a>
-            </p>
+          <div @click="readPost(post.pid)" class="description" style="cursor: pointer;">
+            <p class="medium mb-2" style="font-size: 1.5rem;">{{ post.title }}</p>
+            <div class="under-line"></div>
+            <p class="regular" style="font-size: 0.9rem;">{{ post.description }}</p>
           </div>
         </div>
 
-        <!-- <v-card
-          class="mx-auto"
-          outlined
-          v-for="post in searchList"
-          :key="post.pid"
-          @click="readPost(post.pid)"
-          max-height="250px"
-        >
-          <v-card-text>
-            <p class="postNickName">{{ post.nickname }}</p>
-            <p class="display-1 text--primary">
-              {{ post.title }}
-            </p>
-            <div class="postContent text--primary">
-              {{ post.content }}
-            </div>
-            <br />
-            <p class="postUpdated">{{ post.updated }}</p>
-          </v-card-text>
-        </v-card>-->
         <div
           v-infinite-scroll="loadMore"
           :infinite-scroll-disabled="busy"
@@ -70,6 +52,7 @@
       </v-col>
     </v-row>
   </v-container>
+
 </template>
 
 <script>
@@ -102,7 +85,6 @@ export default {
       }
     },
     async search() {
-      console.log("search");
       this.page = 1;
 
       if (this.q != "") {
@@ -240,6 +222,13 @@ export default {
 </script>
 
 <style scoped>
+.under-line {
+  height: 0.3rem;
+  width: 3.5rem;
+  margin-bottom: 3rem;
+  background-color: #7c4dff;
+}
+
 .postContent {
   text-overflow: ellipsis;
 }
@@ -364,7 +353,7 @@ export default {
   text-align: right;
 }
 .blog-card .description .read-more a {
-  color: #5ad67d;
+  color: #7C4DFF;
   display: inline-block;
   position: relative;
 }
@@ -389,13 +378,13 @@ export default {
   margin-top: 1.25rem;
 }
 .blog-card p:first-of-type:before {
-  content: "";
+  /* content: "";
   position: absolute;
-  height: 5px;
-  background: #5ad67d;
-  width: 35px;
-  top: -0.75rem;
-  border-radius: 3px;
+  height: 4.5px;
+  background: #7C4DFF;
+  width: 55px;
+  top: -0.75rem; */
+  /* border-radius: 3px; */
 }
 .blog-card:hover .details {
   left: 0%;
