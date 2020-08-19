@@ -94,8 +94,8 @@ export default {
       albumBucketName: "locker-beaver-image", //s3세팅
       bucketRegion: "ap-northeast-2", //s3세팅
       IdentityPoolId: "ap-northeast-2:87ba0e75-43e1-4245-96d4-9027f0c262b8", //s3세팅
-      myRepoList: [],
-      repoId: 0
+      myRepoList: [{ id: 0, repoName: "선택안함" }], //선택안함 창 출력
+      repoId: -1
     };
   },
   computed: {
@@ -109,38 +109,48 @@ export default {
   methods: {
     async postContent() {
       console.log(this.myPost.content);
-      if (this.$store.state.isNewPost) {
-        //글 새로 작성시
-        let response = await axios.post("/v1/post", {
-          title: this.myPost.title,
-          email: this.myPost.email,
-          content: this.myPost.content,
-          nickname: this.myPost.nickname,
-          description: this.description,
-          thumbnail: this.thumbnail,
-          usrId: this.$store.state.userInfo.id,
-          repoId: this.repoId
-        });
-        this.pid = response.data;
-        await this.checkDupTag(); //태그 중복 확인
-
-        this.$store.dispatch("getMyPostList");
-        this.$router.push("/mypage");
+      if (this.repoId == -1) {
+        //레포 선택 아예 x
+        alert("Repository를 선택해주세요");
       } else {
-        //글 수정시
-        await axios.put("/v1/post", {
-          pid: this.myPost.pid,
-          title: this.myPost.title,
-          content: this.myPost.content,
-          description: this.description,
-          thumbnail: this.thumbnail
-        });
-        this.pid = this.myPost.pid;
-        await this.deletePostAllTag(); //포스트가 가자고 있는 모든 태그 삭제
-        await this.checkDupTag(); //나머지 로직은 글 생성 과 같음
+        if (this.repoId == 0) {
+          //레포 '선택 안함' 으로 선택
+          this.repoId = null;
+        }
 
-        this.$store.dispatch("getMyPostList");
-        this.$router.push("/mypage");
+        if (this.$store.state.isNewPost) {
+          //글 새로 작성시
+          let response = await axios.post("/v1/post", {
+            title: this.myPost.title,
+            email: this.myPost.email,
+            content: this.myPost.content,
+            nickname: this.myPost.nickname,
+            description: this.description,
+            thumbnail: this.thumbnail,
+            usrId: this.$store.state.userInfo.id,
+            repoId: this.repoId
+          });
+          this.pid = response.data;
+          await this.checkDupTag(); //태그 중복 확인
+
+          this.$store.dispatch("getMyPostList");
+          this.$router.push("/mypage");
+        } else {
+          //글 수정시
+          await axios.put("/v1/post", {
+            pid: this.myPost.pid,
+            title: this.myPost.title,
+            content: this.myPost.content,
+            description: this.description,
+            thumbnail: this.thumbnail
+          });
+          this.pid = this.myPost.pid;
+          await this.deletePostAllTag(); //포스트가 가자고 있는 모든 태그 삭제
+          await this.checkDupTag(); //나머지 로직은 글 생성 과 같음
+
+          this.$store.dispatch("getMyPostList");
+          this.$router.push("/mypage");
+        }
       }
     },
     async checkDupTag() {
@@ -280,7 +290,8 @@ export default {
       axios
         .get("/v1/github?pk=" + 15) //일단 준호형 껄로 테스트(this.$store.state.userInfo.id)
         .then(response => {
-          this.myRepoList = response.data.list;
+          console.log("list: ", response.data.list);
+          this.myRepoList = this.myRepoList.concat(response.data.list);
         });
     },
     selectMyRepo(id) {
