@@ -48,22 +48,22 @@ export default {
     this.showRepo;
 
     // 토큰 값 받아오기
-    // let token = localStorage.getItem("access_token");
-    // this.token = token;
-    this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE1OTc4MzY5NTUsImV4cCI6MTU5Nzg0MDU1NX0.e8i9KUGIc1y0-RfUaXGWU3f_M1pyDcs-S8gwTl_JnXg"
-    // let accessToken = localStorage.getItem("github_token");
-    // this.accessToken = accessToken;
-    this.accessToken = "8b0949070511750d5a23aa6d9a81c5a85b67c865"
+    let token = localStorage.getItem("access_token");
+    this.token = token;
+    // this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE1OTc4MzY5NTUsImV4cCI6MTU5Nzg0MDU1NX0.e8i9KUGIc1y0-RfUaXGWU3f_M1pyDcs-S8gwTl_JnXg"
+    let accessToken = localStorage.getItem("github_token");
+    this.accessToken = accessToken;
+    // this.accessToken = "8b0949070511750d5a23aa6d9a81c5a85b67c865"
     
-    this.userInfo.uid = 'YNNJN'
-    this.userInfo.provider = 'github'
+    // this.userInfo.uid = 'YNNJN'
+    // this.userInfo.provider = 'github'
     // this.userInfo.provider = 'google'
     // console.log("userInfo.uid: ", this.userInfo.uid)
 
     // locker에 저장된 repository 조회하기
     // this.userInfo.id = 17
     // this.userInfo.id = 15
-    this.userInfo.id = 21
+    // this.userInfo.id = 21
   },
   computed: {
     showRepo() {
