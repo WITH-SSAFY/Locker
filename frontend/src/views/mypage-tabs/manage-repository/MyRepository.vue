@@ -31,7 +31,7 @@
 </v-container>
 </template>
 <script>
-// import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 export default {
   created() {
     this.showRepo;
@@ -42,15 +42,14 @@ export default {
     showRepo() {
       return this.$store.state.showRepo;
     },
-    myLockerRepos(){
-      return this.$store.state.myLockerRepos;
-    }
+    ...mapState(["myLockerRepos"])
   },
   data: () => {
     return {
     };
   },
   methods: {
+    ...mapActions([""]),
     showAction(num) {
       for (var i in this.showRepo) {
         this.showRepo.splice(i, 1, false);
