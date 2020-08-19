@@ -27,7 +27,7 @@
     </v-row>
     <v-row class="mt-10" v-if="showRepo[0]">
       <v-col cols="8" style="color: white;">
-        <h2>개인 블로그</h2>
+        <h2>내 블로그</h2>
       </v-col>
       <v-col cols="4">
         <v-btn
@@ -39,7 +39,7 @@
     </v-row>
     <v-row class="mt-10" v-if="showRepo[1]">
       <v-col cols="8">
-        <h2 style="color:white;">개인 블로그</h2>
+        <h2 style="color:white;">내 블로그</h2>
       </v-col>
       <v-col cols="4">
         <v-btn style="position:relative; float: right;" depressed @click="showAction(0)">뒤로</v-btn>
@@ -47,7 +47,7 @@
     </v-row>
 
     <v-row class="mt-10" v-if="showRepo[2]">
-      <v-col cols="8">
+      <v-col cols="8" style="color: white;">
         <h2>팀 블로그</h2>
       </v-col>
       <v-col cols="4">
