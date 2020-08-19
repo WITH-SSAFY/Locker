@@ -40,7 +40,7 @@
 </v-container>
 </template>
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import axios from '../../../lib/axios-common';
 
 export default {
@@ -50,11 +50,12 @@ export default {
     // 토큰 값 받아오기
     let token = localStorage.getItem("access_token");
     this.token = token;
-    // this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE1OTc4MzY5NTUsImV4cCI6MTU5Nzg0MDU1NX0.e8i9KUGIc1y0-RfUaXGWU3f_M1pyDcs-S8gwTl_JnXg"
+    // this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNSIsInJvbGVzIjpbXSwiaWF0IjoxNTk3ODQwMDcwLCJleHAiOjE1OTc4NDM2NzB9.vWeAR0vtlfN9dEfDXj3vOj5IL6SAdLfdo2WcO3XKCJw"
     let accessToken = localStorage.getItem("github_token");
     this.accessToken = accessToken;
-    // this.accessToken = "8b0949070511750d5a23aa6d9a81c5a85b67c865"
+    // this.accessToken = "bc090cabb8642b3decfb0c33d7296cc2b16be255"
     
+    // this.userInfo.uid='junhok82'
     // this.userInfo.uid = 'YNNJN'
     // this.userInfo.provider = 'github'
     // this.userInfo.provider = 'google'
@@ -76,7 +77,7 @@ export default {
     };
   },
   methods: {
-    // ...mapActions(["getRepos", "getLockerRepos"]),
+    ...mapActions(["getRepos"]),
     showAction(num) {
       for (var i in this.showRepo) {
         this.showRepo.splice(i, 1, false);
@@ -91,9 +92,8 @@ export default {
           .delete("/v1/github?name="+name+"&repoName="+repoName)
           .then((res)=> {
             console.log("res", res);
-            // this.$store.dispatch('getLockerRepos',{id: this.userInfo.id});
-            // console.log("index", index);
             this.myLockerRepos.splice(index, 1);
+            this.getRepos({ token: this.token, accessToken: this.accessToken, uid: this.userInfo.uid, id: this.userInfo.id})
           })
           .catch((err)=> {
             console.log("err", err);
