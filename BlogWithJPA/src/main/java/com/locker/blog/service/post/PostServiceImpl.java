@@ -81,4 +81,9 @@ public class PostServiceImpl implements PostService {
         return dao.getHotRepos();
     }
 
+    @Override
+    public int updatePicture(Post post) {
+        return dao.updatePicture(post);
+    }
+
 }

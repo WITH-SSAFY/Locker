@@ -80,4 +80,9 @@ public class PostDAOImpl implements PostDAO {
     public List<HotRepository> getHotRepos() {
         return session.selectList("post.getHotRepos");
     }
+
+    @Override
+    public int updatePicture(Post post) {
+        return session.update("post.updatePicture",post);
+    }
 }

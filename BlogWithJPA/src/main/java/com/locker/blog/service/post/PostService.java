@@ -21,4 +21,5 @@ public interface PostService {
     public Long getPrevPage(Long pid);
     public Long getNextPage(Long pid);
     public List<HotRepository> getHotRepos();
+    public int updatePicture(Post post);
 }

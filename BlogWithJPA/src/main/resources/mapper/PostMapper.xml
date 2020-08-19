@@ -32,6 +32,12 @@
         where pid=#{pid}
     </update>
 
+    <update id="updatePicture" >
+        update post
+        set usr_picture=#{usr_picture}
+        where usr_id=#{usr_id}
+    </update>
+
     <update id="addLike">
         update post
         set likes=likes+1
