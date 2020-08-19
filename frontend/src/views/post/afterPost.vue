@@ -94,7 +94,8 @@ export default {
       albumBucketName: "locker-beaver-image", //s3세팅
       bucketRegion: "ap-northeast-2", //s3세팅
       IdentityPoolId: "ap-northeast-2:87ba0e75-43e1-4245-96d4-9027f0c262b8", //s3세팅
-      myRepoList: []
+      myRepoList: [],
+      repoId: 0
     };
   },
   computed: {
@@ -117,7 +118,8 @@ export default {
           nickname: this.myPost.nickname,
           description: this.description,
           thumbnail: this.thumbnail,
-          usrId: this.$store.state.userInfo.id
+          usrId: this.$store.state.userInfo.id,
+          repoId: this.repoId
         });
         this.pid = response.data;
         await this.checkDupTag(); //태그 중복 확인
@@ -282,8 +284,8 @@ export default {
         });
     },
     selectMyRepo(id) {
-      //선택한 레포의 id를 받아와서 db에 연결
-      console.log("repoId: ", id);
+      //선택한 레포의 id를 받아옴
+      this.repoId = id;
     }
   }
 };
