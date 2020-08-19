@@ -1,85 +1,74 @@
 <template>
   <div id="container">
-    <div id="title_container">
-      <v-text-field id="title" v-model="title" placeholder="제목을 입력해주세요"></v-text-field>
+
+    <div class="row">
+      <div class="col-md-6">
+
+        <div id="title_container">
+          <v-icon small>mdi-chevron-right</v-icon>
+          <p class="light d-inline" style="font-size: 1.3rem;">제목</p>
+          <v-text-field autofocus solo id="title" v-model="title" placeholder="제목을 입력해주세요"></v-text-field>
+        </div>
+
+        <div id="tag_container">
+          <v-icon small>mdi-chevron-right</v-icon>
+          <p class="light d-inline" style="font-size: 1.3rem;">태그</p>
+          <v-icon small class="d-inline px-2" color="success">mdi-check-circle</v-icon>
+          <v-text-field
+            solo
+            id="tag"
+            v-model="tag"
+            placeholder="태그를 입력해주세요"
+            @keyup.enter="createTag"
+          ></v-text-field>
+        </div>
+
+        <div id="tag_list">
+          <v-chip
+            v-for="(tag, index) in tags"
+            :key="index"
+            class="mx-1 mb-2"
+            label
+            color="#eceffc"
+            @click="deleteTag(index)"
+          >
+            {{ tag }}
+            <v-icon small right color="#929292">mdi-close</v-icon>
+          </v-chip>
+        </div>
+
+      </div>
+      <div class="col-md-6">
+        <div style="margin-left: 1.5rem;">
+        <p class="bold" style="font-size: 1.3rem;"><span class="bolder">LOCKER </span>에 글 작성</p>
+        <div class="under-line"></div>
+        <div style="margin-top: 6.5rem;">
+          <v-btn depressed id="temp_save" class="save_button" color="#eceffc"><span class="medium">임시저장</span></v-btn>
+          <v-btn depressed id="save" class="save_button ml-2" color="#7C4DFF" @click="postContent"><span class="medium">작성완료</span></v-btn>
+        </div>
+        </div>
+      </div>
     </div>
 
-    <div id="tag_list">
-      <v-chip
-        v-for="(tag, index) in tags"
-        :key="index"
-        class="mx-1"
-        color="#EDE7F6"
-        small
-        @click="deleteTag(index)"
-      >{{ tag }}</v-chip>
+    <v-icon small>mdi-chevron-right</v-icon>
+    <p class="light d-inline" style="font-size: 1.3rem;">내용</p>
+    <!-- 새로운 마크다운 적용 -->
+    <div>
+      <textarea v-model="post"></textarea>
+      <aside id="markdown" contenteditable style="display: none;">{{ post }}</aside>
+      <section id="output-html" class="markdown-body" style="display: none;"></section>
+      <section id="page" class="markdown-body width: 75%;"></section>
     </div>
 
-    <div id="tag_container">
-      <v-text-field
-        id="tag"
-        v-model="tag"
-        placeholder="태그를 입력해주세요"
-        height="16"
-        @keyup.enter="createTag"
-      ></v-text-field>
-    </div>
-
-    <editor
-      ref="toastuiEditor"
-      id="editor"
-      :options="editorOptions"
-      height="90%"
-      previewStyle="vertical"
-      @change="onEditorChange"
-    />
-    <div id="buttons">
-      <v-btn id="temp_save" class="save_button" color="#c7c9c5">임시저장</v-btn>
-      <v-btn id="save" class="save_button" color="#7C4DFF" @click="postContent">작성완료</v-btn>
-    </div>
   </div>
 </template>
 <script>
-// const defaultOptions = {
-//   minHeight: '200px',
-//   language: 'en-US',
-//   useCommandShortcut: true,
-//   useDefaultHTMLSanitizer: true,
-//   usageStatistics: true,
-//   hideModeSwitch: false,
-//   toolbarItems: [
-//     'heading',
-//     'bold',
-//     'italic',
-//     'strike',
-//     'divider',
-//     'hr',
-//     'quote',
-//     'divider',
-//     'ul',
-//     'ol',
-//     'task',
-//     'indent',
-//     'outdent',
-//     'divider',
-//     'table',
-//     'image',
-//     'link',
-//     'divider',
-//     'code',
-//     'codeblock'
-//   ]
-//   };
-import "codemirror/lib/codemirror.css";
-import "@toast-ui/editor/dist/toastui-editor.css";
-//import 'highlight.js/styles/github.css';
-
-import { Editor } from "@toast-ui/vue-editor";
-import axios from "../../lib/axios-common.js"; //axios : 서버와 통신하기 위함
+import axios from "../../lib/axios-common.js"
+import '@/assets/text_editor/github-md.css'
 
 export default {
   components: {
-    editor: Editor
+
   },
   data() {
     return {
@@ -88,11 +77,8 @@ export default {
       tags: [], //전체 태그
       content: "",
       email: "",
-      editorOptions: {
-        hideModeSwitch: true, //모드 설정(markdown, wysiwyg) 안보이게함
-        placeholder: "내용을 입력해주세요"
-      },
-      pid: 0
+      pid: 0,
+      post: null,
     };
   },
   methods: {
@@ -101,7 +87,6 @@ export default {
       //자동 저장 구현(나중에)
     },
     postContent() {
-      this.content = this.$refs.toastuiEditor.invoke("getMarkdown");
       axios
         .get("/v1/post/nextpid")
         .then(response => {
@@ -142,78 +127,163 @@ export default {
       //태그 삭제
       this.tags.splice(index, 1); //splice(p1,p2,p3) p1: 시작 index, p2: 삭제 or 수정할 요소 개수, p3 바꿀 내용
     }
+  },
+  updated () {
+
+    function parseMd(md){
+
+      //ul
+      // md = md.replace(/^\s*\n\-\s/gm, '<ul>\n');
+      // md = md.replace(/^(\-.+)\s*([^\-])/gm, '$1\n</ul>\n\n$2');
+      md = md.replace(/^(\-\s)(.+)/gm, '<li>$2</li>');
+      
+      //ol
+      md = md.replace(/^\s*\n\d\./gm, '<ol>\n1.');
+      md = md.replace(/^(\d\..+)\s*\n([^\d\.])/gm, '$1\n</ol>\n\n$2');
+      md = md.replace(/^\d\.(.+)/gm, '<li>$1</li>');
+      
+      //blockquote
+      md = md.replace(/^\>(.+)/gm, '<blockquote>$1</blockquote>');
+      
+      //h
+      md = md.replace(/[\#]{6}\s(.+)/g, '<h6>$1</h6>');
+      md = md.replace(/[\#]{5}\s(.+)/g, '<h5>$1</h5>');
+      md = md.replace(/[\#]{4}\s(.+)/g, '<h4>$1</h4>');
+      md = md.replace(/[\#]{3}\s(.+)/g, '<h3>$1</h3>');
+      md = md.replace(/[\#]{2}\s(.+)/g, '<h2>$1</h2>');
+      md = md.replace(/[\#]{1}\s(.+)/g, '<h1>$1</h1>');
+      
+      //images
+      md = md.replace(/\!\[([^\]]+)\]\(([^\)]+)\)/g, '<img src="$2" alt="$1" />');
+      
+      //links
+      md = md.replace(/[\[]{1}([^\]]+)[\]]{1}[\(]{1}([^\)\"]+)(\"(.+)\")?[\)]{1}/g, '<a href="$2" title="$4">$1</a>');
+      
+      //font styles
+      md = md.replace(/[\*\_]{2}([^\*\_]+)[\*\_]{2}/g, '<b>$1</b>');
+      md = md.replace(/[\*\_]{1}([^\*\_]+)[\*\_]{1}/g, '<i>$1</i>');
+      md = md.replace(/[\~]{2}([^\~]+)[\~]{2}/g, '<del>$1</del>');
+      
+      //pre
+      md = md.replace(/^\s*\n\`\`\`\s(([^\s]+))?/gm, '<pre class="$2">');
+      md = md.replace(/^\`\`\`\s*\n/gm, '</pre>\n\n');
+      
+      //code
+      md = md.replace(/[\`]{1}([^\`]+)[\`]{1}/g, '<code>$1</code>');
+      
+      //hr
+      md = md.replace(/\-\-\-+/gm, '<hr>')
+
+      //p
+      md = md.replace(/^\s*(\n)?(.+)/gm, function(m){
+        return  /\<(\/)?(h\d|ul|ol|li|blockquote|pre|img)/.test(m) ? m : '<p>'+m+'</p>';
+      });
+      
+      //strip p from pre
+      md = md.replace(/(\<pre.+\>)*\<p\>(.+)\<\/p\>/gm, '$1$2');
+      
+      return md;
+
+    }
+
+    var mdEl = document.querySelector('#markdown')
+    this.content = mdEl
+    var outputEl = document.querySelector('#output-html')
+    var parse = function () {
+      outputEl["innerText"] = parseMd(mdEl.innerText);
+      };
+
+    parse();
+    document.querySelector('#page').innerHTML = document.querySelector('#output-html').innerText
+
+    },
   }
-};
 </script>
 
-<style>
-#container {
-  margin: 20px auto 0 auto;
-  height: 100%;
-  width: 100%;
-  padding: 0 55px 0 62px;
-}
+<style scoped>
+  .under-line {
+    height: 0.3rem;
+    width: 3.5rem;
+    margin-bottom: 3rem;
+    background-color: #7C4DFF;
+  }
 
-#title_container {
-  width: 50%;
-}
-#title {
-  font-size: 27px;
-  font-weight: 800;
-}
-#tag_container {
-  width: 50%;
-}
-#tag_list {
-  width: 50%;
-}
-.mx-1 {
-  margin-top: 3px;
-}
-
-#tag {
-  font-size: 14px;
-}
-
-#editor {
-  margin-bottom: 20px;
-}
-
-#buttons {
-  text-align: right;
-  margin-right: 5px;
-}
-.save_button {
-  margin-left: 7px;
-  margin-bottom: 20px;
-  width: 80pgit chx;
-  color: rgba(255, 255, 255, 0.904);
-}
-
-/*md 사이즈 */
-@media (max-width: 768px) {
-  /* 제목 너비 크기 조정 */
-  #title_container {
+  #container {
+    margin: 20px auto 0 auto;
+    height: 100%;
     width: 100%;
+    padding: 0 55px 0 62px;
+  }
+
+  #title_container {
+    width: 40%;
+  }
+  #title {
+    font-size: 27px;
+    font-weight: 800;
   }
   #tag_container {
-    width: 100%;
+    width: 40%;
   }
   #tag_list {
-    width: 100%;
+    width: 50%;
   }
 
-  /*editor 가운데 줄 안보이게 */
-  .tui-editor .te-preview-style-vertical .te-md-splitter {
-    display: none;
+  #tag {
+    font-size: 14px;
   }
-  /* 오른쪽 결과 창 안보이게 함 */
-  .te-preview {
-    display: none;
+
+  .save_button {
+    margin-bottom: 20px;
+    width: 80pgit chx;
   }
-  /* 왼쪽 에디터 부분 크기 조정*/
-  .tui-editor .te-preview-style-vertical .te-editor {
-    width: 100%;
+
+  /*md 사이즈 */
+  @media (max-width: 768px) {
+    /* 제목 너비 크기 조정 */
+    #title_container {
+      width: 100%;
+    }
+    #tag_container {
+      width: 100%;
+    }
+    #tag_list {
+      width: 100%;
+    }
+
   }
-}
+  textarea, section {
+    width: 50%;
+    min-height: 60vh;
+    padding: 1rem 1.5rem;
+  }
+  textarea {
+    background: #f1f1f1;
+    white-space: pre-wrap;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    overflow-y: scroll;
+    float: left;
+  }
+  textarea:focus {
+    outline: none;
+  }
+  section {
+    height: 100%;
+    margin-left: 50%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  section h1 {
+    font-size: 1.8em;
+  }
+  section b {
+    font-weight: 700;
+  }
+  section pre {
+    overflow-y: scroll;
+  }
+
+
 </style>
