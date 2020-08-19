@@ -1,27 +1,38 @@
 <template>
-  <div style="margin-top: 5.5rem;">
+  <div style="margin-top: 3rem; background-color: #222;">
+
     <div class="row">
       <div class="col-md-4">
-        <div style="margin-left: 4.5rem;">
-          <p class="bold" style="font-size: 1.5rem;"><strong>LOCKER </strong>의 공지사항</p>
-          <div class="under-line"></div>
+
+        <v-flex class="logo" style="margin-left: 7rem;">
+          <p class="bolder" style="font-size: 5rem; color: #7C4DFF">LOCKER</p>
+        </v-flex>
+
+        <div style="margin-left: 6.5rem; margin-top: 5rem;">
+          <v-icon color="#7C4DFF">mdi-chevron-right</v-icon>
+          <p class="regular d-inline ml-2" style="font-size: 1.7rem; color: #999">공지사항</p>
         </div>
         <section id="container">
-          <ul id="box" class="medium" style="font-size: 1.1rem;">
-            <li><router-link to="/notice1">[공지사항] - Locker blog 서비스 시작</router-link></li>
-            <li><router-link to="/notice2">[공지사항] - Locker blog 서비스 시작</router-link></li>
-            <li><router-link to="/notice3">[공지사항] - Locker blog 서비스 시작</router-link></li>
-            
+          <ul id="box" class="regular" style="font-size: 1.1rem;">
+            <li class="medium"><router-link to="/notice1">[공지사항] - Locker blog 서비스 시작</router-link></li>
+            <li class="medium"><router-link to="/notice2">[공지사항] - Ver 1.01 업데이트</router-link></li>
+            <li class="medium"><router-link to="/notice3">[공지사항] - Locker 향후 업데이트 방향</router-link></li>
           </ul>
           <router-view></router-view>
         </section>
-        
-      </div>
-      <div class="col-md-8">
-        <div style="margin-left: 4.5rem;">
-          <p class="bold" style="font-size: 1.5rem;"><strong>LOCKER </strong>가 선정한 이 달의 레포지토리</p>
-          <div class="under-line"></div>
+
+        <div class="float-right" style="margin-top: 5rem;">
+          <v-icon color="#7C4DFF">mdi-chevron-right</v-icon>
+          <p class="regular d-inline ml-2" style="font-size: 1.7rem; color: #999">이 달의 레포지토리</p>
         </div>
+        
+        <div style="margin-left: 6.5rem; margin-top: 12rem;">
+          <v-icon color="#7C4DFF">mdi-chevron-down</v-icon>
+          <p class="regular d-inline ml-2" style="font-size: 1.7rem; color: #999">유저의 좋아요 컨텐츠</p>
+        </div>
+
+      </div>
+      <div class="col-md-8 mt-5">
 
         <div class="cont s--inactive">
           <div class="cont__inner">
@@ -181,11 +192,10 @@ export default {
 
   section#container {
     overflow: hidden;
-    width: 500px;
-    margin-left: 4rem;
-    padding: 10px 20px;
-    height: 150px;
-
+    width: 27.5rem;
+    margin-top: 0;
+    margin-left: 7rem;
+    height: 6rem;
   }
 
   ul#box {
