@@ -538,14 +538,32 @@ export default new Vuex.Store({
               commit('getRepoDetail', { commitList, langList });
             })
             .catch((err)=>{
-              console.log("langList - err", err);
+              console.log("langList - err", err.reponse);
+              if(err.response.data.success == false){
+                commit('getRepoDetail', { commitList, langList });
+              }
             })
         })
         .catch((err) => {
-          console.log("commitList - err", err);
+          console.log("commitList - err", err.response);
+          if(err.response){
+            if(err.response.data.success == false){
+              axios
+                .get("/v1/github/lang?name="+repoInfo.name+"&repo="+repoInfo.repoName)
+                .then((res)=>{
+                  langList = res.data.data;
+                  console.log("langList - res", res.data.data);
+                  commit('getRepoDetail', { commitList, langList });
+                })
+                .catch((err)=>{
+                  console.log("langList - err", err.response);
+                  if(err.response.data.success == false){
+                    commit('getRepoDetail', { commitList, langList });
+                  }
+                })
+            }
+          }
         })
-
-
     },
 
     getMyPostList({ commit }, usr_id) {
