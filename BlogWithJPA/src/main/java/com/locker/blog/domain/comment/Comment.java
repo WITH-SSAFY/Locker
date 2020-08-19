@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 public class Comment {
     private Long pid;
+    private Long userid;
     private Long rid;
     private Long parentid;
     private int depth;
@@ -15,6 +16,10 @@ public class Comment {
 
     public Long getPid() {
         return pid;
+    }
+
+    public Long getUserid() {
+        return userid;
     }
 
     public Long getRid() {
@@ -51,6 +56,10 @@ public class Comment {
 
     public void setPid(Long pid) {
         this.pid = pid;
+    }
+
+    public void setUserid(Long userid) {
+        this.userid = userid;
     }
 
     public void setRid(Long rid) {
