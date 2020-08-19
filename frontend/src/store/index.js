@@ -178,6 +178,26 @@ export default new Vuex.Store({
         }
       }
       state.myGitRepos = temp;
+
+      temp = [];
+      cnt = 0; 
+      for (m = 0; m < teamGitCnt; m++) {
+        flag = false;
+        for (n = 0; n < teamLockerCnt; n++) {
+          if (
+            state.teamGitRepos[m].name === state.teamLockerRepos[n].name &&
+            state.teamGitRepos[m].repoName === state.teamLockerRepos[n].repoName
+          ) {
+            flag = true;
+            break;
+          }
+        }
+        if (!flag) {
+          temp[cnt] = state.teamGitRepos[m];
+          cnt++;
+        }
+      }
+      state.teamGitRepos = temp;
     },
     getLockerRepos(state, payload) {
       var myLockerCnt = 0;

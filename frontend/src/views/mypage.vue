@@ -167,7 +167,6 @@ export default {
     this.$store.dispatch("getMyPostList", this.userInfo.id);
     this.myPostList;
     this.githubId = this.userInfo.login;
-
     
     // 토큰 값 받아오기
     let token = localStorage.getItem("access_token");
@@ -183,7 +182,7 @@ export default {
     // this.userInfo.uid = 'junhok82'
     // this.userInfo.uid = 'YNNJN'
     // this.userInfo.provider = 'github'
-    console.log("userInfo.uid: ", this.userInfo.uid);
+    // console.log("userInfo.uid: ", this.userInfo.uid);
 
     // locker에 저장된 repository 조회하기
     // this.userInfo.id = 17

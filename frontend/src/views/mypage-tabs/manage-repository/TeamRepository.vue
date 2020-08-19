@@ -28,7 +28,7 @@
                 dark
                 rounded
                 style="font-weight: bolder;"
-                @click="getDetail(element.name, element.repoName)"
+                @click="getDetail(element.name, element.repoName, element.id)"
               >
                 <!-- router :to="{ name: 'repoDetail' }" -->
               상세보기
@@ -57,6 +57,26 @@ import axios from '../../../lib/axios-common';
 export default {
   created() {
     this.showRepo;
+
+    // 토큰 값 받아오기
+    let token = localStorage.getItem("access_token");
+    this.token = token;
+    // this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNyIsInJvbGVzIjpbXSwiaWF0IjoxNTk3ODYxODE2LCJleHAiOjE1OTc4NjU0MTZ9.mk-EsUq514DhYqUNvC7-BWc20cOalFjxwfvCq9rVlRw"
+    let accessToken = localStorage.getItem("github_token");
+    this.accessToken = accessToken;
+    // this.accessToken = "32185db40ac90aa9af99dd417b69e7812c52382f"
+    
+    // this.userInfo.uid='jane399'
+    // this.userInfo.uid='junhok82'
+    // this.userInfo.uid = 'YNNJN'
+    // this.userInfo.provider = 'github'
+    // this.userInfo.provider = 'google'
+    // console.log("userInfo.uid: ", this.userInfo.uid)
+
+    // locker에 저장된 repository 조회하기
+    // this.userInfo.id = 17
+    // this.userInfo.id = 15
+    // this.userInfo.id = 21
   },
   computed: {
     showRepo() {
@@ -69,7 +89,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["getRepoDetail"]),
+    ...mapActions(["getRepoDetail", "getRepos"]),
     showAction(num) {
       for (var i in this.showRepo) {
         this.showRepo.splice(i, 1, false);
@@ -91,9 +111,9 @@ export default {
           })
       }
     },
-    getDetail(name, repoName){
+    getDetail(name, repoName, id){
       // alert("name: "+name+"/ repoName : "+repoName);
-      this.getRepoDetail({name, repoName});
+      this.getRepoDetail({name, repoName, id});
     }
   }
 };
