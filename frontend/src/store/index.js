@@ -127,6 +127,7 @@ export default new Vuex.Store({
             "&repo=" +
             payload.repos[j].repoName;
           state.teamRepoInfo[teamCnt] = {
+            id: payload.repos[j].id,
             name: payload.repos[j].name,
             repoName: payload.repos[j].repoName,
             repoUrl: payload.repos[j].repoUrl,
@@ -140,6 +141,7 @@ export default new Vuex.Store({
             "&repo=" +
             payload.repos[j].repoName;
           state.myRepoInfo[myCnt] = {
+            id: payload.repos[j].id,
             name: payload.repos[j].name,
             repoName: payload.repos[j].repoName,
             repoUrl: payload.repos[j].repoUrl,
@@ -153,6 +155,7 @@ export default new Vuex.Store({
     },
     getLockerRepos(state, payload){
       // 팀 레포 리스트, 내 레포 리스트 구별하기
+      console.log("getLockerRepos")
       var myCnt = 0;
       var teamCnt = 0;
       var imgSrc = "";
@@ -164,6 +167,7 @@ export default new Vuex.Store({
             "&repo=" +
             payload.repos[j].repoName;
           state.teamLockerRepos[teamCnt] = {
+            id: payload.repos[j].id,
             name: payload.repos[j].name,
             repoName: payload.repos[j].repoName,
             repoUrl: payload.repos[j].repoUrl,
@@ -177,6 +181,7 @@ export default new Vuex.Store({
             "&repo=" +
             payload.repos[j].repoName;
           state.myLockerRepos[myCnt] = {
+            id: payload.repos[j].id,
             name: payload.repos[j].name,
             repoName: payload.repos[j].repoName,
             repoUrl: payload.repos[j].repoUrl,
