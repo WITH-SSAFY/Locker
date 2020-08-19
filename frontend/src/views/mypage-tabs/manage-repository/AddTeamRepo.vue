@@ -20,13 +20,13 @@
           <hr />
           <draggable
             class="list-group kanban-colum"
-            :list="teamRepoInfo"
+            :list="teamGitRepos"
             group="tasks"
             style="text-align: center;"
           >
             <a
               class="list-group-item mb-2"
-              v-for="element in teamRepoInfo"
+              v-for="element in teamGitRepos"
               :key="element.repoUrl"
               style="border-radius: 10px;"
             >
@@ -70,7 +70,6 @@ export default {
   created() {
     this.showRepo;
     this.teamRepoInfo;
-    console.log("teamRepoInfo:", this.teamRepoInfo);
   },
   computed: {
     showRepo() {
@@ -79,7 +78,7 @@ export default {
     teamRepoInfo(){
       return this.$store.state.teamRepoInfo;
     },
-    ...mapState(["userInfo"])
+    ...mapState(["userInfo",  "teamGitRepos", "teamLockerRepos"])
   },
   data() {
     return {

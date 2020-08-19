@@ -33,7 +33,6 @@ import { mapState } from 'vuex';
 export default {
   created() {
     this.showRepo;
-    // this.showAction(0);
   },
   computed: {
     showRepo() {

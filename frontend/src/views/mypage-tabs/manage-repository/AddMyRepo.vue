@@ -20,13 +20,13 @@
           <hr />
           <draggable
             class="list-group kanban-colum"
-            :list="myRepoInfo"
+            :list="myGitRepos"
             group="tasks"
             style="text-align: center;"
           >
             <a
               class="list-group-item mb-2"
-              v-for="element in myRepoInfo"
+              v-for="element in myGitRepos"
               :key="element.repoUrl"
               style="border-radius: 10px;"
             >
@@ -71,26 +71,21 @@ export default {
   },
   created() {
     this.showRepo;
-    this.myRepoInfo;
-    console.log("myRepoInfo:", this.myRepoInfo);
 
     // 토큰 값 전달해서 getRepos 실행(Repository 리스트 받아오기)
     // this.userInfo.uid = 'jane399'
-    // this.userInfo.uid = 'junhok82'
+    this.userInfo.uid = 'junhok82'
     // this.userInfo.uid = 'YNNJN'
-    // this.userInfo.provider = 'github'
+    this.userInfo.provider = 'github'
     // this.userInfo.provider = 'google'
     console.log("userInfo.uid: ", this.userInfo.uid)
 
     // locker에 저장된 repository 조회하기
     // this.userInfo.id = 17
-    // this.userInfo.id = 15
+    this.userInfo.id = 15
     // this.userInfo.id = 21
     this.arrMyRepo = this.myLockerRepos;
 
-    // for(var i=0; i < this.myRepoInfo.length; i++){
-
-    // }
   },
   computed: {
     showRepo() {
@@ -99,13 +94,13 @@ export default {
     myRepoInfo() {
       return this.$store.state.myRepoInfo;
     },
-    ...mapState(["userInfo", "myLockerRepos"]),
+    ...mapState(["userInfo", "myGitRepos", "myLockerRepos"]),
   },
   data() {
     return {
       token: "",
       accessToken: "",
-      arrMyRepo: [],
+      arrMyRepo: this.myLockerRepos,
     };
   },
   methods: {
