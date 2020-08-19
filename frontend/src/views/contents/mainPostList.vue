@@ -1,99 +1,88 @@
 <template>
-  <div style="margin-top: 5.5rem;">
+  <div style="margin-top: 3rem; background-color: #222;">
+
     <div class="row">
       <div class="col-md-4">
-        <div style="margin-left: 4.5rem;">
-          <p class="bold" style="font-size: 1.5rem;"><strong>LOCKER </strong>의 공지사항</p>
-          <div class="under-line"></div>
+
+        <v-flex class="logo" style="margin-left: 7rem;">
+          <p class="bolder" style="font-size: 5rem; color: #7C4DFF">LOCKER</p>
+        </v-flex>
+
+        <div style="margin-left: 6.5rem; margin-top: 5rem;">
+          <v-icon color="#7C4DFF">mdi-chevron-right</v-icon>
+          <p class="regular d-inline ml-2" style="font-size: 1.7rem; color: #999">공지사항</p>
         </div>
         <section id="container">
-          <ul id="box" class="medium" style="font-size: 1.1rem;">
-            <li><router-link to="/notice1">[공지사항] - Locker blog 서비스 시작</router-link></li>
-            <li><router-link to="/notice2">[공지사항] - Locker blog 서비스 시작</router-link></li>
-            <li><router-link to="/notice3">[공지사항] - Locker blog 서비스 시작</router-link></li>
-            
+          <ul id="box" class="regular" style="font-size: 1.1rem;">
+            <li class="medium"><router-link to="/notice1">[공지사항] - Locker blog 서비스 시작</router-link></li>
+            <li class="medium"><router-link to="/notice2">[공지사항] - Ver 1.01 업데이트</router-link></li>
+            <li class="medium"><router-link to="/notice3">[공지사항] - Locker 향후 업데이트 방향</router-link></li>
           </ul>
           <router-view></router-view>
         </section>
+
+        <div class="float-right" style="margin-top: 5rem;">
+          <v-icon color="#7C4DFF">mdi-chevron-right</v-icon>
+          <p class="regular d-inline ml-2" style="font-size: 1.7rem; color: #999">이 달의 레포지토리</p>
+        </div>
         
+        <div style="margin-left: 6.5rem; margin-top: 12rem;">
+          <v-icon color="#7C4DFF">mdi-chevron-down</v-icon>
+          <p class="regular d-inline ml-2" style="font-size: 1.7rem; color: #999">유저의 좋아요 컨텐츠</p>
+        </div>
+
       </div>
-      <div class="col-md-8">
-        <div style="margin-left: 4.5rem;">
-          <p class="bold" style="font-size: 1.5rem;"><strong>LOCKER </strong>가 선정한 이 달의 레포지토리</p>
-          <div class="under-line"></div>
-        </div>
+      <div class="col-md-8 mt-5">
+
         <div class="cont s--inactive">
-          <!-- cont inner start -->
           <div class="cont__inner">
+
             <!-- el start -->
-            <div class="el">
-              <div class="el__overflow">
-                <div class="el__inner">
-                  <div class="el__bg"></div>
-                  <div class="el__preview-cont">
-                    <h2 class="el__heading">Section 1</h2>
-                  </div>
-                  <div class="el__content">
-                    <div class="el__text">Whatever</div>
-                    <div class="el__close-btn"></div>
+            <!-- likes, name, repoId, repoName, usrId -->
+            <div>
+              <div
+                class="el"
+                v-for="(repo, i) in repoList"
+                @click="openAni($event, i)"
+                :key="repo.repoId"
+              >
+                <div class="el__overflow">
+                  <div class="el__inner">
+                    <div class="el__bg"></div>
+                    <div class="el__preview-cont">
+                      
+                      <p class="el__heading bolder" style="font-size: 2.7rem; word-wrap: break-word;">{{ repo.repoName }}</p>
+                      <p class="regular text-white" style="font-size: 1.5rem; bottom: 50%;">{{ repo.name }}</p>
+                      <v-icon color="#424242" class="ml-auto">mdi-heart</v-icon>
+                      <span class="text-white ml-1 medium" style="font-size: 0.9rem; color: #424242;">{{ repo.likes }}</span>
+
+                    </div>
+                    <!-- 포스트 내부 -->
+                    <div class="el__content">
+                      <div class="el__text">{{ repo.repoName }}</div>
+                      <div class="el__text">{{ repo.name }}</div>
+                      <v-icon color="#424242" class="ml-auto">mdi-heart</v-icon>
+                      <span class="text-white ml-1 medium" style="font-size: 0.9rem; color: #424242;">{{ repo.likes }}</span>
+                      <div class="el__close-btn" @click="closeAni($btn, i)"></div>
+                    </div>
+
                   </div>
                 </div>
-              </div>
-              <div class="el__index">
-                <div class="el__index-back">1</div>
-                <div class="el__index-front">
-                  <div class="el__index-overlay" data-index="1">1</div>
+
+                <div class="el__index">
+                  <div class="el__index-back">{{ i + 1 }}</div>
+                  <div class="el__index-front">
+                    <div class="el__index-overlay" :data-index="i + 1">{{ i + 1 }}</div>
+                  </div>
                 </div>
+
               </div>
             </div>
             <!-- el end -->
-            <!-- el start -->
-            <div class="el">
-              <div class="el__overflow">
-                <div class="el__inner">
-                  <div class="el__bg"></div>
-                  <div class="el__preview-cont">
-                    <h2 class="el__heading">Section 2</h2>
-                  </div>
-                  <div class="el__content">
-                    <div class="el__text">Whatever</div>
-                    <div class="el__close-btn"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="el__index">
-                <div class="el__index-back">2</div>
-                <div class="el__index-front">
-                  <div class="el__index-overlay" data-index="2">2</div>
-                </div>
-              </div>
-            </div>
-            <!-- el end -->
-            <!-- el start -->
-            <div class="el">
-              <div class="el__overflow">
-                <div class="el__inner">
-                  <div class="el__bg"></div>
-                  <div class="el__preview-cont">
-                    <h2 class="el__heading">Section 3</h2>
-                  </div>
-                  <div class="el__content">
-                    <div class="el__text">Whatever</div>
-                    <div class="el__close-btn"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="el__index">
-                <div class="el__index-back">3</div>
-                <div class="el__index-front">
-                  <div class="el__index-overlay" data-index="3">3</div>
-                </div>
-              </div>
-            </div>
-            <!-- el end -->
+    
           </div>
-          <!-- cont inner end -->
         </div>
+
       </div>
     </div>
   </div>
@@ -105,6 +94,7 @@
 <script>
 import $ from 'jquery'
 import '../../assets/css/main_post.scss'
+import axios from "../../lib/axios-common.js"
 // import notice1 from '../notice/notice-1.vue'
 // import notice2 from '../notice/notice-1.vue'
 // import notice3 from '../notice/notice-1.vue'
@@ -119,47 +109,76 @@ export default {
   },
   data: function () {
     return {
-
+      repoList: [],
     }
   },
-  created() {
+  methods: {
+    hotRepo () {
+      axios
+        .get("/v1/post/hot")
+        .then(response => {
+          this.repoList = response.data.list
+        })
+        .catch(exp => alert("핫 레포 가져오기 실패" + exp))
+    },
 
+    // mounted에서는 실행하고, methods에서는 정의하고
+    openAni: function (ev, i) {
+      console.log(ev, i)
+      var $cont = document.querySelector('.cont');
+      var $elsArr = [].slice.call(document.querySelectorAll('.el'));
+
+      $elsArr.forEach(function($el, i) {
+        $el.addEventListener('click', function() {
+          console.log('해줘어', $el, i)
+          if (this.classList.contains('s--active')) return;
+          $cont.classList.add('s--el-active');
+          this.classList.add('s--active');
+      });
+    });
+    },
+
+    // mounted에서는 실행하고, methods에서는 정의하고
+    closeAni: function (btn, i) {
+      console.log(btn, i)
+      var $cont = document.querySelector('.cont');
+      var $closeBtnsArr = [].slice.call(document.querySelectorAll('.el__close-btn'));
+
+      $closeBtnsArr.forEach(function($btn) {
+        $btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          $cont.classList.remove('s--el-active');
+          document.querySelector('.el.s--active').classList.remove('s--active');
+        });
+      });
+
+    },
   },
+
+  created() {
+    this.hotRepo();
+  },
+
   mounted() {
     var $cont = document.querySelector('.cont');
-    var $elsArr = [].slice.call(document.querySelectorAll('.el'));
-    var $closeBtnsArr = [].slice.call(document.querySelectorAll('.el__close-btn'));
 
     setTimeout(function() {
       $cont.classList.remove('s--inactive');
     }, 200);
 
-    $elsArr.forEach(function($el) {
-      $el.addEventListener('click', function() {
-        if (this.classList.contains('s--active')) return;
-        $cont.classList.add('s--el-active');
-        this.classList.add('s--active');
-      });
-    });
+    this.openAni();
+    this.closeAni();
 
-    $closeBtnsArr.forEach(function($btn) {
-      $btn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        $cont.classList.remove('s--el-active');
-        document.querySelector('.el.s--active').classList.remove('s--active');
-      });
-    });
-
-  var $box = $('ul#box li:first-child');
-  (function toggleBox() {
-    $box.slideToggle();
-    setTimeout(function(){
-      toggleBox();
-    },2250);
-  })();
+    var $box = $('ul#box li:first-child');
+    (function toggleBox() {
+      $box.slideToggle();
+      setTimeout(function(){
+        toggleBox();
+      },2250);
+    })();
+    }
   }
 
-}
 </script>
 
 
@@ -173,12 +192,10 @@ export default {
 
   section#container {
     overflow: hidden;
-    /* border: solid 3px #eceffc; */
-    width: 500px;
-    margin-left: 4rem;
-    padding: 10px 20px;
-    height: 150px;
-
+    width: 27.5rem;
+    margin-top: 0;
+    margin-left: 7rem;
+    height: 6rem;
   }
 
   ul#box {
@@ -199,10 +216,12 @@ export default {
   }
 
   ul#box li a {
+    text-decoration: none;
     color:brown;
   }
 
   ul#box li a:hover {
+    text-decoration: none;
     color:crimson;
   }
 

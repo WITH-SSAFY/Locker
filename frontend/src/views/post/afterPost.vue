@@ -41,10 +41,22 @@
         <div id="repository" style="margin-top: 40px">
           <h5>Repository 선택</h5>
           <v-select
+            v-if="isNewPost"
             :items="myRepoList"
             item-text="repoName"
             item-value="id"
-            label="Solo field"
+            label="Repository를 선택해주세요"
+            solo
+            @change="selectMyRepo"
+          ></v-select>
+
+          <v-select
+            v-else
+            :items="myRepoList"
+            item-text="repoName"
+            item-value="id"
+            v-model="beforeSelectedRepo"
+            label="Repository를 선택해주세요"
             solo
             @change="selectMyRepo"
           ></v-select>
@@ -79,6 +91,7 @@ export default {
   created() {
     this.myPost;
     this.myTags;
+    this.isNewPost;
     this.description;
     this.thumbnail = this.$store.state.myPost.thumbnail;
     this.description = this.$store.state.myPost.description;
@@ -95,7 +108,8 @@ export default {
       bucketRegion: "ap-northeast-2", //s3세팅
       IdentityPoolId: "ap-northeast-2:87ba0e75-43e1-4245-96d4-9027f0c262b8", //s3세팅
       myRepoList: [{ id: 0, repoName: "선택안함" }], //선택안함 창 출력
-      repoId: -1
+      repoId: -1,
+      beforeSelectedRepo: { id: 0, repoName: "선택안함" } //이전에 선택한 레포
     };
   },
   computed: {
@@ -104,6 +118,10 @@ export default {
     },
     myTags() {
       return this.$store.state.myTags;
+    },
+    isNewPost() {
+      //새로운 포스트 인지, 수정하는 포스트 인지
+      return this.$store.state.isNewPost;
     }
   },
   methods: {
@@ -118,7 +136,7 @@ export default {
           this.repoId = null;
         }
 
-        if (this.$store.state.isNewPost) {
+        if (this.isNewPost) {
           //글 새로 작성시
           let response = await axios.post("/v1/post", {
             title: this.myPost.title,
@@ -128,8 +146,10 @@ export default {
             description: this.description,
             thumbnail: this.thumbnail,
             usr_id: this.$store.state.userInfo.id,
-            repo_od: this.repoId
+            repo_id: this.repoId,
+            usr_picture: this.$store.state.userInfo.picture
           });
+          console.log("new repo id: ", this.repoId);
           this.pid = response.data;
           await this.checkDupTag(); //태그 중복 확인
 
@@ -142,13 +162,15 @@ export default {
             title: this.myPost.title,
             content: this.myPost.content,
             description: this.description,
-            thumbnail: this.thumbnail
+            thumbnail: this.thumbnail,
+            repo_id: this.repoId,
+            usr_picture: this.$store.state.userInfo.picture
           });
           this.pid = this.myPost.pid;
           await this.deletePostAllTag(); //포스트가 가자고 있는 모든 태그 삭제
           await this.checkDupTag(); //나머지 로직은 글 생성 과 같음
 
-          this.$store.dispatch("getMyPostList");
+          this.$store.dispatch("getMyPostList", this.$store.state.userInfo.id);
           this.$router.push("/mypage");
         }
       }
@@ -288,14 +310,34 @@ export default {
     getMyRepoList() {
       //내 레포 리스트를 받아옴
       axios
-        .get("/v1/github?pk=" + 15) //일단 준호형 껄로 테스트(this.$store.state.userInfo.id)
+        .get("/v1/github?pk=" + this.$store.state.userInfo.id) //준호형 pk (15)
         .then(response => {
-          console.log("list: ", response.data.list);
-          this.myRepoList = this.myRepoList.concat(response.data.list);
+          //console.log("list: ", response.data.list);
+          let repoList = response.data.list;
+
+          if (repoList != null) {
+            for (let i = 0; i < repoList.length; i++) {
+              const myRepo = repoList[i];
+              console.log("myRepo id: ", myRepo.id);
+              console.log("myPost : ", this.myPost);
+
+              if (myRepo.id == this.myPost.repo_id) {
+                this.repoId = myRepo.id; //초깃값
+                console.log("repoid: " + this.repoId);
+                this.beforeSelectedRepo.id = myRepo.id;
+                this.beforeSelectedRepo.repoName = myRepo.repoName;
+              }
+              this.myRepoList.push({
+                id: myRepo.id,
+                repoName: myRepo.repoName
+              });
+            }
+          }
         });
     },
     selectMyRepo(id) {
       //선택한 레포의 id를 받아옴
+      console.log("repoid: ", id);
       this.repoId = id;
     }
   }

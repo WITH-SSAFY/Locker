@@ -1,5 +1,5 @@
 <template>
-<div>
+<v-container>
   <div v-if="userInfo.provider === 'github'" style="margin-left:20px;">
     <v-row>
       <v-col>
@@ -27,7 +27,7 @@
     </v-row>
     <v-row class="mt-10" v-if="showRepo[0]">
       <v-col cols="8" style="color: white;">
-        <h2>개인 블로그</h2>
+        <h2>내 블로그</h2>
       </v-col>
       <v-col cols="4">
         <v-btn
@@ -39,7 +39,7 @@
     </v-row>
     <v-row class="mt-10" v-if="showRepo[1]">
       <v-col cols="8">
-        <h2 style="color:white;">개인 블로그</h2>
+        <h2 style="color:white;">내 블로그</h2>
       </v-col>
       <v-col cols="4">
         <v-btn style="position:relative; float: right;" depressed @click="showAction(0)">뒤로</v-btn>
@@ -47,7 +47,7 @@
     </v-row>
 
     <v-row class="mt-10" v-if="showRepo[2]">
-      <v-col cols="8">
+      <v-col cols="8" style="color: white;">
         <h2>팀 블로그</h2>
       </v-col>
       <v-col cols="4">
@@ -84,7 +84,7 @@
   <div v-else style="margin-left:20px; color: white;">
     <div style="border-radius: 10px;"><h1>깃헙으로 로그인해주세요!</h1></div>
   </div>
-</div>
+</v-container>
 </template>
 
 <script>
@@ -106,13 +106,6 @@ export default {
   created() {
     this.showRepo;
     this.showAction(0);
-    // 토큰 값 받아오기
-    let token = localStorage.getItem("access_token");
-    this.token = token;
-    // this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNSIsInJvbGVzIjpbXSwiaWF0IjoxNTk3ODAxNzI4LCJleHAiOjE1OTc4MDUzMjh9.wYvyDz9kd5IVNsOeWQyx00hwSzQXi1PvUH4AOd8KZXA"
-    let accessToken = localStorage.getItem("github_token");
-    this.accessToken = accessToken;
-    // this.accessToken = "803eaa870f12e6ab67d1132cca6c6f5503a3c561"
 
     // 토큰 값 전달해서 getRepos 실행(Repository 리스트 받아오기)
     // this.userInfo.uid = 'jane399'
@@ -120,19 +113,18 @@ export default {
     // this.userInfo.uid = 'YNNJN'
     // this.userInfo.provider = 'github'
     // this.userInfo.provider = 'google'
-    console.log("userInfo.uid: ", this.userInfo.uid)
-    this.getRepos({ token: this.token, accessToken: this.accessToken, uid: this.userInfo.uid})
+    // console.log("userInfo.uid: ", this.userInfo.uid)
 
     // locker에 저장된 repository 조회하기
     // this.userInfo.id = 17
     // this.userInfo.id = 15
     // this.userInfo.id = 21
-  },
+},
   computed: {
     showRepo() {
       return this.$store.state.showRepo;
     },
-    ...mapState(["userInfo", "myRepoInfo", "teamRepoInfo"]),
+    ...mapState(["userInfo", "myGitRepo", "teamGitRepo"]),
   },
   data: () => {
     return {

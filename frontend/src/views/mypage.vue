@@ -167,19 +167,29 @@ export default {
     this.$store.dispatch("getMyPostList", this.userInfo.id);
     this.myPostList;
     this.githubId = this.userInfo.login;
-
+    
+    // 토큰 값 받아오기
+    let token = localStorage.getItem("access_token");
+    this.token = token;
+    // this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNyIsInJvbGVzIjpbXSwiaWF0IjoxNTk3ODYxODE2LCJleHAiOjE1OTc4NjU0MTZ9.mk-EsUq514DhYqUNvC7-BWc20cOalFjxwfvCq9rVlRw"
+    let accessToken = localStorage.getItem("github_token");
+    this.accessToken = accessToken;
+    // this.accessToken = "32185db40ac90aa9af99dd417b69e7812c52382f"
+    
     // 토큰 값 전달해서 getRepos 실행(Repository 리스트 받아오기)
+    
     // this.userInfo.uid = 'jane399'
     // this.userInfo.uid = 'junhok82'
     // this.userInfo.uid = 'YNNJN'
     // this.userInfo.provider = 'github'
-    console.log("userInfo.uid: ", this.userInfo.uid);
+    // console.log("userInfo.uid: ", this.userInfo.uid);
 
     // locker에 저장된 repository 조회하기
     // this.userInfo.id = 17
     // this.userInfo.id = 15
     // this.userInfo.id = 21
-    this.getLockerRepos({ id: this.userInfo.id, uid: this.userInfo.uid });
+
+    this.getRepos({ token: this.token, accessToken: this.accessToken, uid: this.userInfo.uid, id: this.userInfo.id})
 
     //likes 배열 초기화 작업
     this.likes.length = this.size;
@@ -223,7 +233,7 @@ export default {
     // SideBar,
   },
   methods: {
-    ...mapActions(["getLockerRepos"]),
+    ...mapActions(["getRepos"]),
     showMyDetail(pid) {
       this.$store.dispatch("showMyDetail", pid);
       //this.$router.push({name: "readPost"});

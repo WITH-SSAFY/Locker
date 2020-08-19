@@ -216,4 +216,19 @@ public class PostController {
         List<HotRepository> hotRepositories = service.getHotRepos();
         return responseService.getListResult(hotRepositories);
     }
+
+    @ApiOperation(value = "유저 프로필 사진 변경시 이미지 경로 수정", notes = "유저 프로필 사진 변경시 이미지 경로 수정한다.")
+    @PutMapping(value = "/picture")
+    public  ResponseEntity<Integer> updatePicture(@RequestBody Post post){
+        int result = service.updatePicture(post);
+        if(result>0) return new ResponseEntity<Integer>(result,HttpStatus.OK);
+        return new ResponseEntity<Integer>(0, HttpStatus.NO_CONTENT);
+    }
+
+    @ApiOperation(value = "특정 repo_id에 연동된 모든 포스트 출력", notes = "특정 repo_id에 연동된 모든 포스트 출력한다.")
+    @GetMapping(value = "/all/list/repo")
+    public  ResponseEntity<List<Post>> getALLRepoPost(@RequestParam Long repo_id){
+        List<Post> list = service.getALLRepoPost(repo_id);
+        return new ResponseEntity<List<Post>>(list,HttpStatus.OK);
+    }
 }

@@ -1,11 +1,11 @@
 <template>
-  <div style="background-color: #eceffc; margin-top: 3.5rem;">
-    <div style="margin-left: 3.5rem;">
-      <p class="bold" style="font-size: 1.5rem;">
-        <strong>LOCKER</strong>유저들이 좋아하는 포스트
+  <div style="background-color: #eceffc; padding: 4.5rem;">
+    <!-- <div style="margin-left: 3.5rem;">
+      <p class="bold" style="font-size: 1.5rem; padding-top: 4rem;">
+        유저들의 like 포스트
       </p>
       <div class="under-line"></div>
-    </div>
+    </div> -->
 
     <!-- TODO: 무한스크롤 적용하기 -->
     <div class="w-75" style="margin-left: 3.5rem;">
@@ -13,22 +13,37 @@
         <v-col v-for="post in postList" :key="post.pid" cols="12" lg="4" md="6">
           <v-card @click="viewPost(post.pid)">
             <!-- 포스트 썸네일 가져오기 -->
-            <v-img v-if="post.thumbnail!=null" :src="post.thumbnail" height="194"></v-img>
+            <v-img v-if="post.thumbnail!=null" :src="post.thumbnail" height="194" style="position: relative;">
+              <!-- <div
+                class="d-flex justify-content-end"
+                style="position: absolute; width: 3rem; height: 3rem; background-color: rgba(0,0,0,0.7); border-radius: 3px;"
+              >
+                <v-icon color="white">mdi-arrow-right</v-icon>
+              </div> -->
+            </v-img>
+
             <v-img
               v-else
               src="https://lh3.googleusercontent.com/EbXw8rOdYxOGdXEFjgNP8lh-YAuUxwhOAe2jhrz3sgqvPeMac6a6tHvT35V6YMbyNvkZL4R_a2hcYBrtfUhLvhf-N2X3OB9cvH4uMw=w1064-v0"
               height="194"
-            ></v-img>
-
+              style="position: relative;"
+            >
+              <!-- <div
+                class="d-flex justify-content-end"
+                style="position: absolute; width: 3rem; height: 3rem; background-color: rgba(0,0,0,0.7); border-radius: 3px;"
+              >
+                <v-icon color="white">mdi-arrow-right</v-icon>
+              </div> -->
+            </v-img>
+            
             <v-list-item>
               <!-- TODO: 글 작성자의 프로필 사진으로 수정 필요 -->
               <v-flex style="position: absolute; top: -23px;">
-                <v-icon
-                  v-if="userInfo.picture==null"
-                  style="border: solid 2px #fff"
-                >mdi-account-circle-outline</v-icon>
+                <v-avatar color="white" v-if="post.usr_picture==null" style="border: solid 2px #fff">
+                  <v-icon size="60">mdi-account-circle-outline</v-icon>
+                </v-avatar>
                 <v-avatar v-else style="border: solid 2px #fff">
-                  <img :src="userInfo.picture" />
+                  <img :src="post.usr_picture" />
                 </v-avatar>
               </v-flex>
 

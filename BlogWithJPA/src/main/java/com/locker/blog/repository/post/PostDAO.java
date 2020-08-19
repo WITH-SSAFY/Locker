@@ -22,4 +22,6 @@ public interface PostDAO {
     public Long getPrevPage(Long pid);
     public Long getNextPage(Long pid);
     public List<HotRepository> getHotRepos();
+    public int updatePicture(Post post);
+    public List<Post> getALLRepoPost(Long repo_id);
 }

@@ -1,9 +1,7 @@
 <template>
   <div id="container">
-
     <div class="row">
       <div class="col-md-6">
-
         <div id="title_container">
           <v-icon small>mdi-chevron-right</v-icon>
           <p class="light d-inline" style="font-size: 1.3rem;">제목</p>
@@ -36,16 +34,27 @@
             <v-icon small right color="#929292">mdi-close</v-icon>
           </v-chip>
         </div>
-
       </div>
       <div class="col-md-6">
         <div style="margin-left: 1.5rem;">
-        <p class="bold" style="font-size: 1.3rem;"><span class="bolder">LOCKER </span>에 글 작성</p>
-        <div class="under-line"></div>
-        <div style="margin-top: 6.5rem;">
-          <v-btn depressed id="temp_save" class="save_button" color="#eceffc"><span class="medium">임시저장</span></v-btn>
-          <v-btn depressed id="save" class="save_button ml-2" color="#7C4DFF" @click="postContent"><span class="medium">작성완료</span></v-btn>
-        </div>
+          <p class="bold" style="font-size: 1.3rem;">
+            <span class="bolder">LOCKER</span>에 글 작성
+          </p>
+          <div class="under-line"></div>
+          <div style="margin-top: 6.5rem;">
+            <v-btn depressed id="temp_save" class="save_button" color="#eceffc">
+              <span class="medium">임시저장</span>
+            </v-btn>
+            <v-btn
+              depressed
+              id="save"
+              class="save_button ml-2"
+              color="#7C4DFF"
+              @click="postContent"
+            >
+              <span class="medium">작성완료</span>
+            </v-btn>
+          </div>
         </div>
       </div>
     </div>
@@ -59,12 +68,11 @@
       <section id="output-html" class="markdown-body" style="display: none;"></section>
       <section id="page" class="markdown-body width: 75%;"></section>
     </div>
-
   </div>
 </template>
 <script>
-import axios from "../../lib/axios-common.js"
-import '@/assets/text_editor/github-md.css'
+import axios from "../../lib/axios-common.js";
+import "@/assets/text_editor/github-md.css";
 //import 'highlight.js/styles/github.css';
 
 export default {
@@ -76,16 +84,14 @@ export default {
     this.description;
     this.getTags();
   },
-  components: {
-
-  },
+  components: {},
   data() {
     return {
       title: "",
       content: "",
       tags: [],
       tag: "",
-      initContent: null,
+      initContent: null
     };
   },
   computed: {
@@ -107,7 +113,7 @@ export default {
       //에디터의 content가 바뀌었을 때
       //자동 저장 구현(나중에)
     },
-    getInitContent () {
+    getInitContent() {
       this.initContent = this.$store.state.myDetail;
     },
     postContent() {
@@ -119,7 +125,8 @@ export default {
         content: this.initContent,
         nickname: this.$store.state.userInfo.nickname,
         thumbnail: this.$store.state.thumbnail,
-        description: this.$store.state.description
+        description: this.$store.state.description,
+        repo_id: this.$store.state.repo_id
       };
 
       this.$store.state.myTags = this.tags;
@@ -156,7 +163,7 @@ export default {
       this.tags.splice(index, 1); //splice(p1,p2,p3) p1: 시작 index, p2: 삭제 or 수정할 요소 개수, p3 바꿀 내용
     }
   },
-updated() {
+  updated() {
     function parseMd(md) {
       //ul
       // md = md.replace(/^\s*\n\-\s/gm, '<ul>\n');
@@ -230,94 +237,92 @@ updated() {
     document.querySelector("#page").innerHTML = document.querySelector(
       "#output-html"
     ).innerText;
-  }  
+  }
 };
 </script>
 
 <style scoped>
+.under-line {
+  height: 0.3rem;
+  width: 3.5rem;
+  margin-bottom: 3rem;
+  background-color: #7c4dff;
+}
 
-  .under-line {
-    height: 0.3rem;
-    width: 3.5rem;
-    margin-bottom: 3rem;
-    background-color: #7C4DFF;
-  }
+#container {
+  margin: 20px auto 0 auto;
+  height: 100%;
+  width: 100%;
+  padding: 0 55px 0 62px;
+}
 
-  #container {
-    margin: 20px auto 0 auto;
-    height: 100%;
-    width: 100%;
-    padding: 0 55px 0 62px;
-  }
+#title_container {
+  width: 40%;
+}
+#title {
+  font-size: 27px;
+  font-weight: 800;
+}
+#tag_container {
+  width: 40%;
+}
+#tag_list {
+  width: 50%;
+}
 
+#tag {
+  font-size: 14px;
+}
+
+.save_button {
+  margin-bottom: 20px;
+  width: 80pgit chx;
+}
+
+/*md 사이즈 */
+@media (max-width: 768px) {
+  /* 제목 너비 크기 조정 */
   #title_container {
-    width: 40%;
-  }
-  #title {
-    font-size: 27px;
-    font-weight: 800;
+    width: 100%;
   }
   #tag_container {
-    width: 40%;
+    width: 100%;
   }
   #tag_list {
-    width: 50%;
+    width: 100%;
   }
-
-  #tag {
-    font-size: 14px;
-  }
-
-  .save_button {
-    margin-bottom: 20px;
-    width: 80pgit chx;
-  }
-
-  /*md 사이즈 */
-  @media (max-width: 768px) {
-    /* 제목 너비 크기 조정 */
-    #title_container {
-      width: 100%;
-    }
-    #tag_container {
-      width: 100%;
-    }
-    #tag_list {
-      width: 100%;
-    }
-
-  }
-  textarea, section {
-    width: 50%;
-    min-height: 60vh;
-    padding: 1rem 1.5rem;
-  }
-  textarea {
-    background: #f1f1f1;
-    white-space: pre-wrap;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    overflow-y: scroll;
-    float: left;
-  }
-  textarea:focus {
-    outline: none;
-  }
-  section {
-    height: 100%;
-    margin-left: 50%;
-    overflow-y: scroll;
-    overflow-x: hidden;
-  }
-  section h1 {
-    font-size: 1.8em;
-  }
-  section b {
-    font-weight: 700;
-  }
-  section pre {
-    overflow-y: scroll;
-  }
-
+}
+textarea,
+section {
+  width: 50%;
+  min-height: 60vh;
+  padding: 1rem 1.5rem;
+}
+textarea {
+  background: #f1f1f1;
+  white-space: pre-wrap;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  overflow-y: scroll;
+  float: left;
+}
+textarea:focus {
+  outline: none;
+}
+section {
+  height: 100%;
+  margin-left: 50%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+section h1 {
+  font-size: 1.8em;
+}
+section b {
+  font-weight: 700;
+}
+section pre {
+  overflow-y: scroll;
+}
 </style>
