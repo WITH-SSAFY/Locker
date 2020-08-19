@@ -3,7 +3,7 @@
     <!-- 저장 버튼 -->
     <v-row>
       <v-col class="py-0">
-        <v-btn style="font-size: 1.5rem; float: right;" text color="#7C4DFF">
+        <v-btn @click="saveTeam(arrTeamReo)" style="font-size: 1.5rem; float: right;" text color="#7C4DFF">
           내용 저장하기
           <v-icon x-large>save</v-icon>
         </v-btn>
@@ -43,10 +43,10 @@
             class="pl-5 pt-2"
           >Locker Team Repository</div>
           <hr />
-          <draggable class="list-group kanban-colum" :list="arrMyRepo" group="tasks" style="text-align: center;">
+          <draggable class="list-group kanban-colum" :list="arrTeamReo" group="tasks" style="text-align: center;">
             <a
               class="list-group-item mb-2"
-              v-for="element in arrMyRepo"
+              v-for="element in arrTeamReo"
               :key="element.repoUrl"
               style="border-radius: 10px;"
             >
@@ -61,6 +61,7 @@
 <script>
 import draggable from "vuedraggable";
 import { mapState } from 'vuex';
+import axios from '../../../lib/axios-common';
 
 export default {
   name: "kanban-board",
@@ -84,7 +85,7 @@ export default {
     return {
       token: "",
       accessToken: "",
-      arrMyRepo: [],
+      arrTeamReo: [],
       myRepoInfo: [],
     };
   },
@@ -97,6 +98,12 @@ export default {
     },
     link(url){
       window.open(url);
+    },
+    async saveTeam(repos){
+      for(var i=0; i<repos.length; i++){
+        await axios.post("/v1/github?name="+repos[i].name+"&repoName="+repos[i].repoName+"&pk="+this.userInfo.id)
+      }
+      alert("저장되었습니다!")
     }
   }
 };

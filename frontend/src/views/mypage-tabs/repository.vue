@@ -1,5 +1,5 @@
 <template>
-<div>
+<v-container>
   <div v-if="userInfo.provider === 'github'" style="margin-left:20px;">
     <v-row>
       <v-col>
@@ -84,7 +84,7 @@
   <div v-else style="margin-left:20px; color: white;">
     <div style="border-radius: 10px;"><h1>깃헙으로 로그인해주세요!</h1></div>
   </div>
-</div>
+</v-container>
 </template>
 
 <script>
@@ -115,15 +115,15 @@ export default {
     // this.accessToken = "f6b356c729bc9afb7ee22ef42c8a1858c666c585"
 
     // 토큰 값 전달해서 getRepos 실행(Repository 리스트 받아오기)
-    // this.userInfo.uid = 'jane399'
+    this.userInfo.uid = 'jane399'
     // this.userInfo.uid = 'junhok82'
     // this.userInfo.uid = 'YNNJN'
-    // this.userInfo.provider = 'github'
+    this.userInfo.provider = 'github'
     // this.userInfo.provider = 'google'
     console.log("userInfo.uid: ", this.userInfo.uid)
 
     // locker에 저장된 repository 조회하기
-    // this.userInfo.id = 17
+    this.userInfo.id = 17
     // this.userInfo.id = 15
     // this.userInfo.id = 21
 },
