@@ -13,17 +13,33 @@
         <v-col v-for="post in postList" :key="post.pid" cols="12" lg="4" md="6">
           <v-card @click="viewPost(post.pid)">
             <!-- 포스트 썸네일 가져오기 -->
-            <v-img v-if="post.thumbnail!=null" :src="post.thumbnail" height="194"></v-img>
+            <v-img v-if="post.thumbnail!=null" :src="post.thumbnail" height="194" style="position: relative;">
+              <!-- <div
+                class="d-flex justify-content-end"
+                style="position: absolute; width: 3rem; height: 3rem; background-color: rgba(0,0,0,0.7); border-radius: 3px;"
+              >
+                <v-icon color="white">mdi-arrow-right</v-icon>
+              </div> -->
+            </v-img>
+
             <v-img
               v-else
               src="https://lh3.googleusercontent.com/EbXw8rOdYxOGdXEFjgNP8lh-YAuUxwhOAe2jhrz3sgqvPeMac6a6tHvT35V6YMbyNvkZL4R_a2hcYBrtfUhLvhf-N2X3OB9cvH4uMw=w1064-v0"
               height="194"
-            ></v-img>
-
+              style="position: relative;"
+            >
+              <!-- <div
+                class="d-flex justify-content-end"
+                style="position: absolute; width: 3rem; height: 3rem; background-color: rgba(0,0,0,0.7); border-radius: 3px;"
+              >
+                <v-icon color="white">mdi-arrow-right</v-icon>
+              </div> -->
+            </v-img>
+            
             <v-list-item>
               <!-- TODO: 글 작성자의 프로필 사진으로 수정 필요 -->
               <v-flex style="position: absolute; top: -23px;">
-                <v-avatar v-if="post.usr_picture==null" style="border: solid 2px #fff">
+                <v-avatar color="white" v-if="post.usr_picture==null" style="border: solid 2px #fff">
                   <v-icon size="60">mdi-account-circle-outline</v-icon>
                 </v-avatar>
                 <v-avatar v-else style="border: solid 2px #fff">
