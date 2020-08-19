@@ -40,7 +40,15 @@
         </div>
         <div id="repository" style="margin-top: 40px">
           <h5>Repository 선택</h5>
-          <v-select :items="items" label="Solo field" solo></v-select>
+          <v-select
+            :items="myRepoList"
+            v-model="repoid"
+            item-value="id"
+            item-text="repoName"
+            label="Repository 선택"
+            solo
+            @change="getRepoId"
+          ></v-select>
         </div>
         <div id="description">
           <h5>Title: {{ myPost.title }}</h5>
@@ -75,6 +83,7 @@ export default {
     this.description;
     this.thumbnail = this.$store.state.myPost.thumbnail;
     this.description = this.$store.state.myPost.description;
+    this.getRepoList();
   },
   data() {
     return {
@@ -86,7 +95,7 @@ export default {
       albumBucketName: "locker-beaver-image", //s3세팅
       bucketRegion: "ap-northeast-2", //s3세팅
       IdentityPoolId: "ap-northeast-2:87ba0e75-43e1-4245-96d4-9027f0c262b8", //s3세팅
-      items: ["Foo", "Bar", "Fizz", "Buzz"]
+      myRepoList: [] //유저의 repolist
     };
   },
   computed: {
@@ -101,6 +110,12 @@ export default {
     async postContent() {
       if (this.$store.state.isNewPost) {
         //글 새로 작성시
+        console.log(this.myPost.title);
+        console.log(this.myPost.email);
+        console.log(this.myPost.content);
+        console.log(this.myPost.nickname);
+        console.log(this.myPost.title);
+
         let response = await axios.post("/v1/post", {
           title: this.myPost.title,
           email: this.myPost.email,
@@ -262,6 +277,17 @@ export default {
         }
       );
       this.thumbnail = null;
+    },
+    getRepoList() {
+      //사용자의 Repository 받아오기
+      axios
+        .get("/v1/github?pk=" + 15) //하드코딩: 준호`s Repo
+        .then(response => {
+          this.myRepoList = response.data.list; //repo의 모든 정보가 들어있는 list;
+        });
+    },
+    getRepoId(id) {
+      console.log("getRepoId: " + id);
     }
   }
 };
