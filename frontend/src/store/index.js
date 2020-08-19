@@ -41,6 +41,7 @@ export default new Vuex.Store({
     email: null, //이메일
     thumbnail: null,
     description: null,
+    repo_id: null,
     isNewPost: true,
     tagname: "", //태그 클릭시 검색용
 
@@ -105,6 +106,7 @@ export default new Vuex.Store({
       state.myDetailTitle = payload.myDetail.title;
       state.nickname = payload.myDetail.nickname;
       state.pid = payload.myDetail.pid;
+      state.repo_id = payload.myDetail.repo_id;
       router.push({ name: "editPost" });
     },
     goreply(state, payload) {
@@ -159,39 +161,58 @@ export default new Vuex.Store({
       var temp = [];
       var cnt = 0;
 
-      for(var m=0; m < myGitCnt; m++){
-        var flag = false; 
-        for(var n=0; n < myLockerCnt; n++){
-          if((state.myGitRepos[m].name === state.myLockerRepos[n].name)&&(state.myGitRepos[m].repoName === state.myLockerRepos[n].repoName)){
+      for (var m = 0; m < myGitCnt; m++) {
+        var flag = false;
+        for (var n = 0; n < myLockerCnt; n++) {
+          if (
+            state.myGitRepos[m].name === state.myLockerRepos[n].name &&
+            state.myGitRepos[m].repoName === state.myLockerRepos[n].repoName
+          ) {
             flag = true;
             break;
-          } 
-        } 
-        if(!flag){
+          }
+        }
+        if (!flag) {
           temp[cnt] = state.myGitRepos[m];
           cnt++;
-        } 
+        }
       }
       state.myGitRepos = temp;
     },
-    getLockerRepos(state, payload){
+    getLockerRepos(state, payload) {
       var myLockerCnt = 0;
       var teamLockerCnt = 0;
       for (var j = 0; j < payload.repos.length; j++) {
         var repoList = payload.repos[j];
-        var imgSrc = "https://github-readme-stats.vercel.app/api/pin/?username="+payload.repos[j].name + "&repo="+payload.repos[j].repoName;
+        var imgSrc =
+          "https://github-readme-stats.vercel.app/api/pin/?username=" +
+          payload.repos[j].name +
+          "&repo=" +
+          payload.repos[j].repoName;
         if (payload.repos[j].name === payload.uid) {
-          state.myLockerRepos[myLockerCnt] = { id: null, name: repoList.name, repoName: repoList.repoName, repoUrl: repoList.repoUrl, src: imgSrc};
+          state.myLockerRepos[myLockerCnt] = {
+            id: null,
+            name: repoList.name,
+            repoName: repoList.repoName,
+            repoUrl: repoList.repoUrl,
+            src: imgSrc,
+          };
           myLockerCnt++;
         } else {
-          state.teamLockerRepos[teamLockerCnt] = { id: null, name: repoList.name, repoName: repoList.repoName, repoUrl: repoList.repoUrl, src: imgSrc};
+          state.teamLockerRepos[teamLockerCnt] = {
+            id: null,
+            name: repoList.name,
+            repoName: repoList.repoName,
+            repoUrl: repoList.repoUrl,
+            src: imgSrc,
+          };
           teamLockerCnt++;
         }
       }
       console.log("mutations - myLockerRepos", state.myLockerRepos);
       console.log("mutations - teamLockerRepos", state.teamLockerRepos);
     },
-    getRepoDetail(state, payload){
+    getRepoDetail(state, payload) {
       console.log("mutations - commitList", payload.commitList);
       console.log("mutations - langList", payload.langList);
       state.commitList = payload.commitList;
@@ -495,34 +516,41 @@ export default new Vuex.Store({
         .then((res) => {
           console.log("res.data", res.data);
           var repoList = res.data.list;
-            // commit("getRepos", { repos: repoList, uid: userInfo.uid});
+          // commit("getRepos", { repos: repoList, uid: userInfo.uid});
 
           axios
-          .get("/v1/github?pk="+userInfo.id)
-          .then((res) => {
-            var lockerRepoList = res.data.list;
-            console.log("getRepos - res", res.data.list);
-            console.log("lockerRepoList를 확인해보아요~~~!!!!", lockerRepoList)
-            commit("getRepos", { repos: repoList, uid: userInfo.uid, lockerRepoList });
+            .get("/v1/github?pk=" + userInfo.id)
+            .then((res) => {
+              var lockerRepoList = res.data.list;
+              console.log("getRepos - res", res.data.list);
+              console.log(
+                "lockerRepoList를 확인해보아요~~~!!!!",
+                lockerRepoList
+              );
+              commit("getRepos", {
+                repos: repoList,
+                uid: userInfo.uid,
+                lockerRepoList,
+              });
             })
             .catch((err) => {
               console.log("getRepos - err", err.data);
-            })
+            });
         })
         .catch((err) => {
           console.log("err", err);
-        })
+        });
     },
-    getLockerRepos({commit}, userInfo){
+    getLockerRepos({ commit }, userInfo) {
       axios
-        .get("/v1/github?pk="+userInfo.id)
-        .then((res)=>{
+        .get("/v1/github?pk=" + userInfo.id)
+        .then((res) => {
           console.log("res", res);
-          commit('getLockerRepos',{id: userInfo.id, repos: res.data.list })
+          commit("getLockerRepos", { id: userInfo.id, repos: res.data.list });
         })
         .catch((err) => {
           console.log("err", err);
-        })
+        });
     },
     getRepoDetail({commit, dispatch}, repoInfo){
       console.log("getRepoDetail - repoInfo:", repoInfo)
@@ -531,48 +559,63 @@ export default new Vuex.Store({
       var langList = null;
       //커밋 정보 얻어오기
       axios
-        .get("/v1/github/commits?name="+repoInfo.name+"&repoName="+repoInfo.repoName)
+        .get(
+          "/v1/github/commits?name=" +
+            repoInfo.name +
+            "&repoName=" +
+            repoInfo.repoName
+        )
         .then((res) => {
           commitList = res.data.list;
           console.log("commitList - res", res.data.list);
           axios
-            .get("/v1/github/lang?name="+repoInfo.name+"&repo="+repoInfo.repoName)
-            .then((res)=>{
+            .get(
+              "/v1/github/lang?name=" +
+                repoInfo.name +
+                "&repo=" +
+                repoInfo.repoName
+            )
+            .then((res) => {
               langList = res.data.data;
               console.log("langList - res", res.data.data);
               dispatch('getRepoPost', repoInfo.id)
               commit('getRepoDetail', { commitList, langList });
             })
-            .catch((err)=>{
+            .catch((err) => {
               console.log("langList - err", err.reponse);
               if(err.response.data.success == false){
                 dispatch('getRepoPost', repoInfo.id)
                 commit('getRepoDetail', { commitList, langList });
               }
-            })
+            });
         })
         .catch((err) => {
           console.log("commitList - err", err.response);
-          if(err.response){
-            if(err.response.data.success == false){
+          if (err.response) {
+            if (err.response.data.success == false) {
               axios
-                .get("/v1/github/lang?name="+repoInfo.name+"&repo="+repoInfo.repoName)
-                .then((res)=>{
+                .get(
+                  "/v1/github/lang?name=" +
+                    repoInfo.name +
+                    "&repo=" +
+                    repoInfo.repoName
+                )
+                .then((res) => {
                   langList = res.data.data;
                   console.log("langList - res", res.data.data);
                   dispatch('getRepoPost', repoInfo.id)
                   commit('getRepoDetail', { commitList, langList });
                 })
-                .catch((err)=>{
+                .catch((err) => {
                   console.log("langList - err", err.response);
                   if(err.response.data.success == false){
                     dispatch('getRepoPost', repoInfo.id)
                     commit('getRepoDetail', { commitList, langList });
                   }
-                })
+                });
             }
           }
-        })
+        });
     },
 
     getRepoPost({commit}, repoInfo){
