@@ -106,13 +106,6 @@ export default {
   created() {
     this.showRepo;
     this.showAction(0);
-    // // 토큰 값 받아오기
-    // // let token = localStorage.getItem("access_token");
-    // // this.token = token;
-    // this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNSIsInJvbGVzIjpbXSwiaWF0IjoxNTk3ODMzMTQyLCJleHAiOjE1OTc4MzY3NDJ9._bMlfpFFbt0orBkz5Md7x3FWGF0YFktQECtTrqJHuWA"
-    // // let accessToken = localStorage.getItem("github_token");
-    // // this.accessToken = accessToken;
-    // this.accessToken = "f6b356c729bc9afb7ee22ef42c8a1858c666c585"
 
     // 토큰 값 전달해서 getRepos 실행(Repository 리스트 받아오기)
     // this.userInfo.uid = 'jane399'

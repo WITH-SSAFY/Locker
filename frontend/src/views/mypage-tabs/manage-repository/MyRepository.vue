@@ -29,7 +29,7 @@
                 dark
                 rounded
                 style="font-weight: bolder;"
-                @click="getDetail(element.name, element.repoName)"
+                @click="getDetail(element.name, element.repoName, element.id)"
               >
                 <!-- router :to="{ name: 'repoDetail' }" -->
               상세보기
@@ -61,12 +61,12 @@ export default {
     this.showRepo;
 
     // 토큰 값 받아오기
-    // let token = localStorage.getItem("access_token");
-    // this.token = token;
-    // this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNyIsInJvbGVzIjpbXSwiaWF0IjoxNTk3ODU1OTg3LCJleHAiOjE1OTc4NTk1ODd9.8jUyqNT1DHx78ivpLfe1VVPjUS_sVoVN3v7Fe5JwQVQ"
-    // let accessToken = localStorage.getItem("github_token");
-    // this.accessToken = accessToken;
-    // this.accessToken = "959a838fe2e736e24a5a902ab5741c11c49172f0"
+    let token = localStorage.getItem("access_token");
+    this.token = token;
+    // this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNyIsInJvbGVzIjpbXSwiaWF0IjoxNTk3ODYxODE2LCJleHAiOjE1OTc4NjU0MTZ9.mk-EsUq514DhYqUNvC7-BWc20cOalFjxwfvCq9rVlRw"
+    let accessToken = localStorage.getItem("github_token");
+    this.accessToken = accessToken;
+    // this.accessToken = "32185db40ac90aa9af99dd417b69e7812c52382f"
     
     // this.userInfo.uid='jane399'
     // this.userInfo.uid='junhok82'
@@ -114,9 +114,9 @@ export default {
           })
       }
     },
-    getDetail(name, repoName){
-      // alert("name: "+name+"/ repoName : "+repoName);
-      this.getRepoDetail({name, repoName});
+    getDetail(name, repoName, id){
+      // alert("name: "+name+"/ repoName : "+repoName+" / id: "+id);
+      this.getRepoDetail({name, repoName, id});
     }
   }
 };
