@@ -17,7 +17,7 @@
             >
             <a
               class="list-group-item mb-2"
-              v-for="(element, index ) in myLockerRepos"
+              v-for="(element, index) in myLockerRepos"
               :key="element.repoUrl"
               style="border-radius: 10px;"
             >
@@ -91,7 +91,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["getRepos"]),
+    ...mapActions(["getRepos", "getRepoDetail"]),
     showAction(num) {
       for (var i in this.showRepo) {
         this.showRepo.splice(i, 1, false);
@@ -115,8 +115,8 @@ export default {
       }
     },
     getDetail(name, repoName){
-      alert("name: "+name+"/ repoName : "+repoName);
-      
+      // alert("name: "+name+"/ repoName : "+repoName);
+      this.getRepoDetail({name, repoName});
     }
   }
 };

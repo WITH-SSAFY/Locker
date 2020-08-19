@@ -14,13 +14,6 @@ export default new Vuex.Store({
     // isLogin: true,
     isLoginError: false,
     showRepo: [true, false, false, false],
-    //locker 내에 저장된 레포 정보
-    // myLockerRepos: [],
-    // teamLockerRepos:[],
-    // github에서 레포 정보 가져올때 사용하는 배열
-    // arrGitRepo: [],
-    // myRepoInfo: [],
-    // teamRepoInfo: [],
 
     //내 레포 정보
     myLockerRepos: [],
@@ -28,6 +21,9 @@ export default new Vuex.Store({
     //팀 레포 정보
     teamLockerRepos: [],
     teamGitRepos: [],
+    //레포 관련 정보
+    commitList: [],
+    langRatio: [],
 
     myPostList: null, //내가 쓴 포스트 목록
     myDetailTitle: "", //상세보기 제목
@@ -193,6 +189,13 @@ export default new Vuex.Store({
       }
       console.log("mutations - myLockerRepos", state.myLockerRepos);
       console.log("mutations - teamLockerRepos", state.teamLockerRepos);
+    },
+    getRepoDetail(state, payload){
+      console.log("mutations - commitList", payload.commitList);
+      console.log("mutations - langList", payload.langList);
+      state.commitList = payload.commitList;
+      state.langRatio = payload.langList;
+      router.push({ name: "repoDetail" });
     }
   },
   //비즈니스 로직
@@ -515,6 +518,34 @@ export default new Vuex.Store({
         .catch((err) => {
           console.log("err", err);
         })
+    },
+    getRepoDetail({commit}, repoInfo){
+      console.log("getRepoDetail - repoInfo:", repoInfo)
+      
+      var commitList = [];
+      var langList = null;
+      //커밋 정보 얻어오기
+      axios
+        .get("/v1/github/commits?name="+repoInfo.name+"&repoName="+repoInfo.repoName)
+        .then((res) => {
+          commitList = res.data.list;
+          console.log("commitList - res", res.data.list);
+          axios
+            .get("/v1/github/lang?name="+repoInfo.name+"&repo="+repoInfo.repoName)
+            .then((res)=>{
+              langList = res.data.data;
+              console.log("langList - res", res.data.data);
+              commit('getRepoDetail', { commitList, langList });
+            })
+            .catch((err)=>{
+              console.log("langList - err", err);
+            })
+        })
+        .catch((err) => {
+          console.log("commitList - err", err);
+        })
+
+
     },
 
     getMyPostList({ commit }, usr_id) {
