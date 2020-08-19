@@ -23,6 +23,19 @@
             >
               <img alt="left" id="stat" :src="element.src">
               <v-btn
+                class="ml-5"
+                depressed
+                color="#7C4DFF"
+                dark
+                rounded
+                style="font-weight: bolder;"
+                @click="getDetail(element.name, element.repoName)"
+              >
+                <!-- router :to="{ name: 'repoDetail' }" -->
+              상세보기
+              </v-btn>
+              <v-btn
+                class="ml-6"
                 depressed
                 color="#7C4DFF"
                 text
@@ -48,22 +61,22 @@ export default {
     this.showRepo;
 
     // 토큰 값 받아오기
-    let token = localStorage.getItem("access_token");
-    this.token = token;
-    // this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNyIsInJvbGVzIjpbXSwiaWF0IjoxNTk3ODQyNDQ1LCJleHAiOjE1OTc4NDYwNDV9.wFfyI0CCXGTOTWz_NlY8bo0ni4G9Ybt6yqTKsl0TGrU"
-    let accessToken = localStorage.getItem("github_token");
-    this.accessToken = accessToken;
-    // this.accessToken = "3397bf60370c85be291256743cf6f6ea86744dba"
+    // let token = localStorage.getItem("access_token");
+    // this.token = token;
+    this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNyIsInJvbGVzIjpbXSwiaWF0IjoxNTk3ODUwMjQ2LCJleHAiOjE1OTc4NTM4NDZ9.PD_UdAA0Z7_Js8TKmbdfPyCoW-_m_-UOg1UuM96_Nos"
+    // let accessToken = localStorage.getItem("github_token");
+    // this.accessToken = accessToken;
+    this.accessToken = "496102b57db83de386a188179fb1819fdd34b864"
     
-    // this.userInfo.uid='jane399'
+    this.userInfo.uid='jane399'
     // this.userInfo.uid='junhok82'
     // this.userInfo.uid = 'YNNJN'
-    // this.userInfo.provider = 'github'
+    this.userInfo.provider = 'github'
     // this.userInfo.provider = 'google'
     // console.log("userInfo.uid: ", this.userInfo.uid)
 
     // locker에 저장된 repository 조회하기
-    // this.userInfo.id = 17
+    this.userInfo.id = 17
     // this.userInfo.id = 15
     // this.userInfo.id = 21
   },
@@ -100,6 +113,10 @@ export default {
             console.log("err", err);
           })
       }
+    },
+    getDetail(name, repoName){
+      alert("name: "+name+"/ repoName : "+repoName);
+      
     }
   }
 };
