@@ -86,4 +86,9 @@ public class PostServiceImpl implements PostService {
         return dao.updatePicture(post);
     }
 
+    @Override
+    public List<Post> getALLRepoPost(Long repo_id) {
+        return dao.getALLRepoPost(repo_id);
+    }
+
 }

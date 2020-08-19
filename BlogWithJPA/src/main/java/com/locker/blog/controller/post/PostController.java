@@ -224,4 +224,11 @@ public class PostController {
         if(result>0) return new ResponseEntity<Integer>(result,HttpStatus.OK);
         return new ResponseEntity<Integer>(0, HttpStatus.NO_CONTENT);
     }
+
+    @ApiOperation(value = "특정 repo_id에 연동된 모든 포스트 출력", notes = "특정 repo_id에 연동된 모든 포스트 출력한다.")
+    @GetMapping(value = "/all/list/repo")
+    public  ResponseEntity<List<Post>> getALLRepoPost(@RequestParam Long repo_id){
+        List<Post> list = service.getALLRepoPost(repo_id);
+        return new ResponseEntity<List<Post>>(list,HttpStatus.OK);
+    }
 }

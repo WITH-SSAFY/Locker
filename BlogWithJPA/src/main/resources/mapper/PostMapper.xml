@@ -92,4 +92,10 @@
         limit 3;
     </select>
 
+    <select id="getALLRepoPost" resultType="Post">
+        select *
+        from post
+        where repo_id=#{repo_id}
+    </select>
+
 </mapper>
