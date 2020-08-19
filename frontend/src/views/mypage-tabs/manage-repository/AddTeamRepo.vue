@@ -86,7 +86,6 @@ export default {
       token: "",
       accessToken: "",
       arrTeamReo: [],
-      myRepoInfo: [],
     };
   },
   methods: {
