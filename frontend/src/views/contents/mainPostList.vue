@@ -28,13 +28,12 @@
 
             <!-- el start -->
             <!-- likes, name, repoId, repoName, usrId -->
-            <div
-            
-            >
+            <div>
               <div
                 class="el"
-                v-for="repo in repoList"
-                :key="repo.repoId"  
+                v-for="(repo, i) in repoList"
+                @click="openAni($event, i)"
+                :key="repo.repoId"
 
               >
                 <div class="el__overflow">
@@ -51,17 +50,19 @@
                     <!-- 포스트 내부 -->
                     <div class="el__content">
                       <div class="el__text">Whatever</div>
-                      <div class="el__close-btn"></div>
+                      <div class="el__close-btn" @click="closeAni($btn, i)"></div>
                     </div>
 
                   </div>
                 </div>
+
                 <div class="el__index">
-                  <div class="el__index-back">1</div>
+                  <div class="el__index-back">{{ i + 1 }}</div>
                   <div class="el__index-front">
-                    <div class="el__index-overlay" data-index="1">1</div>
+                    <div class="el__index-overlay" :data-index="i + 1">{{ i + 1 }}</div>
                   </div>
                 </div>
+
               </div>
             </div>
             <!-- el end -->
@@ -78,7 +79,7 @@
 
 
 <script>
-import $ from 'jquery'
+// import $ from 'jquery'
 import '../../assets/css/main_post.scss'
 import axios from "../../lib/axios-common.js"
 // import notice1 from '../notice/notice-1.vue'
@@ -104,48 +105,56 @@ export default {
         .get("/v1/post/hot")
         .then(response => {
           this.repoList = response.data.list
-          console.log(this.repoList)
         })
         .catch(exp => alert("핫 레포 가져오기 실패" + exp))
+    },
+
+    // mounted에서는 실행하고, methods에서는 정의하고
+    openAni: function (ev, i) {
+      console.log(ev, i)
+      var $cont = document.querySelector('.cont');
+      var $elsArr = [].slice.call(document.querySelectorAll('.el'));
+
+      $elsArr.forEach(function($el, i) {
+        $el.addEventListener('click', function() {
+          console.log('해줘어', $el, i)
+          if (this.classList.contains('s--active')) return;
+          $cont.classList.add('s--el-active');
+          this.classList.add('s--active');
+      });
+    });
+    },
+
+    // mounted에서는 실행하고, methods에서는 정의하고
+    closeAni: function (btn, i) {
+      console.log(btn, i)
+      var $cont = document.querySelector('.cont');
+      var $closeBtnsArr = [].slice.call(document.querySelectorAll('.el__close-btn'));
+
+      $closeBtnsArr.forEach(function($btn) {
+        $btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          $cont.classList.remove('s--el-active');
+          document.querySelector('.el.s--active').classList.remove('s--active');
+        });
+      });
+
     }
   },
+
   created() {
     this.hotRepo();
   },
+
   mounted() {
     var $cont = document.querySelector('.cont');
-    var $elsArr = [].slice.call(document.querySelectorAll('.el'));
-    var $closeBtnsArr = [].slice.call(document.querySelectorAll('.el__close-btn'));
 
     setTimeout(function() {
       $cont.classList.remove('s--inactive');
     }, 200);
 
-    $elsArr.forEach(function($el) {
-      $el.addEventListener('click', function() {
-        // console.log($el, i)
-        if (this.classList.contains('s--active')) return;
-        $cont.classList.add('s--el-active');
-        this.classList.add('s--active');
-      });
-    });
-
-    $closeBtnsArr.forEach(function($btn) {
-      $btn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        $cont.classList.remove('s--el-active');
-        document.querySelector('.el.s--active').classList.remove('s--active');
-      });
-    });
-
-    var $box = $('ul#box li:first-child');
-    (function toggleBox() {
-      $box.slideToggle();
-      setTimeout(function(){
-        toggleBox();
-      },2250);
-    })();
-
+    this.openAni();
+    this.closeAni();
 
   }, 
 
