@@ -17,6 +17,16 @@
       <div>{{langRatio}}</div>
     </div>
   </div>
+  <div>
+    <h2>레포에 걸려있는 포스트 출력</h2>
+    <div style="background-color: skyblue; border-radius: 10px;">
+      <div style="height: 10px;"></div>
+      <div style="background-color: white; margin: 10px;" v-for="(post, index) in repoPost" :key="post.pid">
+        <p>{{index}}. {{post.created}}/{{post.title}}/{{post.nickname}}</p>
+      </div>
+      <div style="height: 10px;"></div>
+    </div>
+  </div>
 </v-container>
 </template>
 <script>
@@ -24,7 +34,7 @@ import { mapState } from "vuex";
 
 export default { 
   computed: {
-    ...mapState(["commitList", "langRatio"])
+    ...mapState(["commitList", "langRatio", "repoPost"])
   },  
 }
 </script>

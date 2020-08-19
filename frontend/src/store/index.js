@@ -24,6 +24,7 @@ export default new Vuex.Store({
     //레포 관련 정보
     commitList: [],
     langRatio: [],
+    repoPost: [], //해당 레포에 걸려있는 post 목록
 
     myPostList: null, //내가 쓴 포스트 목록
     myDetailTitle: "", //상세보기 제목
@@ -126,12 +127,12 @@ export default new Vuex.Store({
       for (var j = 0; j < payload.repos.length; j++) {
         //내 repo 정보들 저장하기: myLockerRepos, myGitRepos
         var repoList = payload.repos[j];
-        var imgSrc = "https://github-readme-stats.vercel.app/api/pin/?username="+payload.repos[j].name + "&repo="+payload.repos[j].repoName;
+        var imgSrc = "https://github-readme-stats.vercel.app/api/pin/?username="+repoList.name + "&repo="+repoList.repoName;
         if (payload.repos[j].name === payload.uid) {
-          state.myGitRepos[myGitCnt] = { id: null, name: repoList.name, repoName: repoList.repoName, repoUrl: repoList.repoUrl, src: imgSrc};
+          state.myGitRepos[myGitCnt] = { id: repoList.id, name: repoList.name, repoName: repoList.repoName, repoUrl: repoList.repoUrl, src: imgSrc};
           myGitCnt++;
         } else {
-          state.teamGitRepos[teamGitCnt] = { id: null, name: repoList.name, repoName: repoList.repoName, repoUrl: repoList.repoUrl, src: imgSrc};
+          state.teamGitRepos[teamGitCnt] = { id: repoList.id , name: repoList.name, repoName: repoList.repoName, repoUrl: repoList.repoUrl, src: imgSrc};
           teamGitCnt++;
         }
       }
@@ -143,12 +144,12 @@ export default new Vuex.Store({
       for (var k = 0; k < payload.lockerRepoList.length; k++) {
         repoList = payload.lockerRepoList[k];
         // console.log("repoList", repoList)
-        imgSrc = "https://github-readme-stats.vercel.app/api/pin/?username="+payload.lockerRepoList[k].name + "&repo="+payload.lockerRepoList[k].repoName;
+        imgSrc = "https://github-readme-stats.vercel.app/api/pin/?username="+repoList.name + "&repo="+repoList.repoName;
         if (payload.lockerRepoList[k].name === payload.uid) {
-          state.myLockerRepos[myLockerCnt] = { id: null, name: repoList.name, repoName: repoList.repoName, repoUrl: repoList.repoUrl, src: imgSrc};
+          state.myLockerRepos[myLockerCnt] = { id: repoList.id, name: repoList.name, repoName: repoList.repoName, repoUrl: repoList.repoUrl, src: imgSrc};
           myLockerCnt++;
         } else {
-          state.teamLockerRepos[teamLockerCnt] = { id: null, name: repoList.name, repoName: repoList.repoName, repoUrl: repoList.repoUrl, src: imgSrc};
+          state.teamLockerRepos[teamLockerCnt] = { id: repoList.id, name: repoList.name, repoName: repoList.repoName, repoUrl: repoList.repoUrl, src: imgSrc};
           teamLockerCnt++;
         }
       }
@@ -196,6 +197,10 @@ export default new Vuex.Store({
       state.commitList = payload.commitList;
       state.langRatio = payload.langList;
       router.push({ name: "repoDetail" });
+    },
+    getRepoPost(state, payload){
+      console.log("mutations: getRepoPost", payload.repoPost);
+      state.repoPost = payload.repoPost;
     }
   },
   //비즈니스 로직
@@ -519,7 +524,7 @@ export default new Vuex.Store({
           console.log("err", err);
         })
     },
-    getRepoDetail({commit}, repoInfo){
+    getRepoDetail({commit, dispatch}, repoInfo){
       console.log("getRepoDetail - repoInfo:", repoInfo)
       
       var commitList = [];
@@ -535,11 +540,13 @@ export default new Vuex.Store({
             .then((res)=>{
               langList = res.data.data;
               console.log("langList - res", res.data.data);
+              dispatch('getRepoPost', repoInfo.id)
               commit('getRepoDetail', { commitList, langList });
             })
             .catch((err)=>{
               console.log("langList - err", err.reponse);
               if(err.response.data.success == false){
+                dispatch('getRepoPost', repoInfo.id)
                 commit('getRepoDetail', { commitList, langList });
               }
             })
@@ -553,16 +560,30 @@ export default new Vuex.Store({
                 .then((res)=>{
                   langList = res.data.data;
                   console.log("langList - res", res.data.data);
+                  dispatch('getRepoPost', repoInfo.id)
                   commit('getRepoDetail', { commitList, langList });
                 })
                 .catch((err)=>{
                   console.log("langList - err", err.response);
                   if(err.response.data.success == false){
+                    dispatch('getRepoPost', repoInfo.id)
                     commit('getRepoDetail', { commitList, langList });
                   }
                 })
             }
           }
+        })
+    },
+
+    getRepoPost({commit}, repoInfo){
+      console.log("getRepoPost - repoInfo", repoInfo);
+      axios
+        .get("/v1/post/all/list/repo?repo_id="+repoInfo)
+        .then((res)=>{
+          commit('getRepoPost', { repoPost: res.data})
+        })
+        .catch((err)=>{
+          console.lot("getRepoPost - err", err.response);
         })
     },
 
