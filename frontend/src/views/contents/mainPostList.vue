@@ -22,33 +22,45 @@
           <p class="bold" style="font-size: 1.5rem;"><strong>LOCKER </strong>가 선정한 이 달의 레포지토리</p>
           <div class="under-line"></div>
         </div>
+
         <div class="cont s--inactive">
           <div class="cont__inner">
 
             <!-- el start -->
             <!-- likes, name, repoId, repoName, usrId -->
             <div
-              class="el"
-              v-for="repo in repoList" :key="repo.repoId"
+            
             >
-              <div class="el__overflow">
-                <div class="el__inner">
-                  <div class="el__bg"></div>
-                  <div class="el__preview-cont">
-                    <h2 class="el__heading">{{ repo.repoName }}</h2>
-                  </div>
-                  <!-- 포스트 내부 -->
-                  <div class="el__content">
-                    <div class="el__text">Whatever</div>
-                    <div class="el__close-btn"></div>
-                  </div>
+              <div
+                class="el"
+                v-for="repo in repoList"
+                :key="repo.repoId"  
 
+              >
+                <div class="el__overflow">
+                  <div class="el__inner">
+                    <div class="el__bg"></div>
+                    <div class="el__preview-cont">
+                      
+                      <p class="el__heading bolder" style="font-size: 2.7rem; word-wrap: break-word;">{{ repo.repoName }}</p>
+                      <p class="regular text-white" style="font-size: 1.5rem; bottom: 50%;">{{ repo.name }}</p>
+                      <v-icon color="#424242" class="ml-auto">mdi-heart</v-icon>
+                      <span class="text-white ml-1 medium" style="font-size: 0.9rem; color: #424242;">{{ repo.likes }}</span>
+
+                    </div>
+                    <!-- 포스트 내부 -->
+                    <div class="el__content">
+                      <div class="el__text">Whatever</div>
+                      <div class="el__close-btn"></div>
+                    </div>
+
+                  </div>
                 </div>
-              </div>
-              <div class="el__index">
-                <div class="el__index-back">1</div>
-                <div class="el__index-front">
-                  <div class="el__index-overlay" data-index="1">1</div>
+                <div class="el__index">
+                  <div class="el__index-back">1</div>
+                  <div class="el__index-front">
+                    <div class="el__index-overlay" data-index="1">1</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -111,6 +123,7 @@ export default {
 
     $elsArr.forEach(function($el) {
       $el.addEventListener('click', function() {
+        // console.log($el, i)
         if (this.classList.contains('s--active')) return;
         $cont.classList.add('s--el-active');
         this.classList.add('s--active');
@@ -125,14 +138,16 @@ export default {
       });
     });
 
-  var $box = $('ul#box li:first-child');
-  (function toggleBox() {
-    $box.slideToggle();
-    setTimeout(function(){
-      toggleBox();
-    },2250);
-  })();
-  }
+    var $box = $('ul#box li:first-child');
+    (function toggleBox() {
+      $box.slideToggle();
+      setTimeout(function(){
+        toggleBox();
+      },2250);
+    })();
+
+
+  }, 
 
 }
 </script>
