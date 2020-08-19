@@ -17,7 +17,7 @@
             >
             <a
               class="list-group-item mb-2"
-              v-for="element in myLockerRepos"
+              v-for="(element, index ) in myLockerRepos"
               :key="element.repoUrl"
               style="border-radius: 10px;"
             >
@@ -27,7 +27,7 @@
                 color="#7C4DFF"
                 text
                 icon
-                @click="del(element.name, element.repoName)"
+                @click="del(index, element.name, element.repoName)"
                 >
                 <v-icon>mdi-trash-can-outline</v-icon>
               </v-btn>
@@ -40,7 +40,7 @@
 </v-container>
 </template>
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState } from 'vuex';
 import axios from '../../../lib/axios-common';
 
 export default {
@@ -76,14 +76,14 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["getRepos", "getLockerRepos"]),
+    // ...mapActions(["getRepos", "getLockerRepos"]),
     showAction(num) {
       for (var i in this.showRepo) {
         this.showRepo.splice(i, 1, false);
       }
       this.showRepo.splice(num, 1, true);
     },
-    del(name, repoName){
+    del(index, name, repoName){
       // alert("name: "+name+" / repoName: "+repoName)
       var result = confirm(repoName+"을/를 삭제 하시겠어요?");
       if (result) {
@@ -91,8 +91,9 @@ export default {
           .delete("/v1/github?name="+name+"&repoName="+repoName)
           .then((res)=> {
             console.log("res", res);
-            // this.getRepos({ token: this.token, accessToken: this.accessToken, uid: this.userInfo.uid, id: this.userInfo.id})
-            // this.getLockerRepos({id: this.userInfo.id})
+            // this.$store.dispatch('getLockerRepos',{id: this.userInfo.id});
+            // console.log("index", index);
+            this.myLockerRepos.splice(index, 1);
           })
           .catch((err)=> {
             console.log("err", err);

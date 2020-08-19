@@ -510,7 +510,7 @@ export default new Vuex.Store({
         .get("/v1/github?pk="+userInfo.id)
         .then((res)=>{
           console.log("res", res);
-          commit('getLockerRepos',{id: userInfo.id, lockerRepoList: res.data.list })
+          commit('getLockerRepos',{id: userInfo.id, repos: res.data.list })
         })
         .catch((err) => {
           console.log("err", err);
