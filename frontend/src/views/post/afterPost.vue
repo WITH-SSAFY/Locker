@@ -133,7 +133,7 @@ export default {
           this.pid = response.data;
           await this.checkDupTag(); //태그 중복 확인
 
-          this.$store.dispatch("getMyPostList");
+          this.$store.dispatch("getMyPostList", this.$store.state.userInfo.id);
           this.$router.push("/mypage");
         } else {
           //글 수정시

@@ -16,7 +16,7 @@ export default new Vuex.Store({
     showRepo: [true, false, false, false],
     //locker 내에 저장된 레포 정보
     myLockerRepos: [],
-    teamLockerRepos:[],
+    teamLockerRepos: [],
     // github에서 레포 정보 가져올때 사용하는 배열
     arrGitRepo: [],
     myRepoInfo: [],
@@ -63,9 +63,9 @@ export default new Vuex.Store({
       state.userInfo = null;
       state.myLockerRepos = [];
       state.teamLockerRepos = [];
-      state.arrGitRepo= [];
-      state.myRepoInfo= [];
-      state.teamRepoInfo= [];
+      state.arrGitRepo = [];
+      state.myRepoInfo = [];
+      state.teamRepoInfo = [];
     },
     getMyPostList(state, payload) {
       state.myPostList = payload.myPostList;
@@ -153,9 +153,9 @@ export default new Vuex.Store({
       // console.log("mutations - myRepoInfo", state.myRepoInfo);
       // console.log("mutations - teamRepoInfo", state.teamRepoInfo);
     },
-    getLockerRepos(state, payload){
+    getLockerRepos(state, payload) {
       // 팀 레포 리스트, 내 레포 리스트 구별하기
-      console.log("getLockerRepos")
+      console.log("getLockerRepos");
       var myCnt = 0;
       var teamCnt = 0;
       var imgSrc = "";
@@ -192,7 +192,7 @@ export default new Vuex.Store({
       }
       console.log("mutations - myLockerRepos", state.myLockerRepos);
       console.log("mutations - teamLockerRepos", state.teamLockerRepos);
-    }
+    },
   },
   //비즈니스 로직
   actions: {
@@ -492,23 +492,23 @@ export default new Vuex.Store({
         });
     },
 
-    getLockerRepos({commit}, userInfo){
+    getLockerRepos({ commit }, userInfo) {
       console.log("lockerRepo - userInfo 값 확인 : ", userInfo);
-      commit
+      commit;
       axios
-        .get("/v1/github?pk="+userInfo.id)
+        .get("/v1/github?pk=" + userInfo.id)
         .then((res) => {
-          commit('getLockerRepos', {repos: res.data.list, uid: userInfo.uid});
+          commit("getLockerRepos", { repos: res.data.list, uid: userInfo.uid });
         })
         .catch((err) => {
           console.log("err", err);
-        })
+        });
     },
 
-    getMyPostList({ commit }, email) {
+    getMyPostList({ commit }, usr_id) {
       // 내가 쓴 포스트 리스트 받아옴
       axios
-        .get("/v1/post/all/" + email)
+        .get("/v1/post/all/" + usr_id)
         .then((response) => {
           commit("getMyPostList", { myPostList: response.data });
         })

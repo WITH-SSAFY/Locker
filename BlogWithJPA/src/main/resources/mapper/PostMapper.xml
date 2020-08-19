@@ -4,10 +4,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="post">
     <select id="selectAllByWriter" resultType="Post">
-        select p.pid, p.email, p.nickname, p.content, p.title, p.created, p.updated, p.likes
-        from post p, user u
-        where p.email=u.email
-        and u.email=#{email}
+        select *
+        from post
+        where post.usr_id=#{usr_id}
     </select>
 
     <insert id="insert" parameterType="Post" useGeneratedKeys="true" keyProperty="pid">
