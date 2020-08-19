@@ -1,11 +1,11 @@
 <template>
-  <div style="background-color: #eceffc; margin-top: 3.5rem;">
-    <div style="margin-left: 3.5rem;">
-      <p class="bold" style="font-size: 1.5rem;">
-        <strong>LOCKER</strong>유저들이 좋아하는 포스트
+  <div style="background-color: #eceffc; padding: 2.7rem;">
+    <!-- <div style="margin-left: 3.5rem;">
+      <p class="bold" style="font-size: 1.5rem; padding-top: 4rem;">
+        유저들의 like 포스트
       </p>
       <div class="under-line"></div>
-    </div>
+    </div> -->
 
     <!-- TODO: 무한스크롤 적용하기 -->
     <div class="w-75" style="margin-left: 3.5rem;">
