@@ -157,7 +157,8 @@ export default new Vuex.Store({
       console.log("mutations - teamLockerRepos", state.teamLockerRepos);
 
       var temp = [];
-      
+      var cnt = 0;
+
       for(var m=0; m < myGitCnt; m++){
         var flag = false; 
         for(var n=0; n < myLockerCnt; n++){
@@ -167,10 +168,11 @@ export default new Vuex.Store({
           } 
         } 
         if(!flag){
-          temp = state.myGitRepos[m];
+          temp[cnt] = state.myGitRepos[m];
+          cnt++;
         } 
       }
-      console.log(temp);
+      state.myGitRepos = temp;
     },
     // getLockerRepos(state, payload){
     //   var myLockerCnt = 0;
