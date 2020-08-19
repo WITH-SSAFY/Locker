@@ -8,10 +8,9 @@
         </div>
         <section id="container">
           <ul id="box" class="medium" style="font-size: 1.1rem;">
-            <li>공지 1. Lorem ipsum dolor sit amet.</li>
-            <li>공지 2. Lorem ipsum dolor sit amet.</li>
-            <li>공지 3. Lorem ipsum dolor sit amet.</li>
-            <li>공지 4. Lorem ipsum dolor sit amet.</li>
+            <li><a href="#">[공지사항] - Locker blog 서비스 시작</a></li>
+            <li><a href="#">[공지사항] - Ver 1.01 업데이트</a></li>
+            <li><a href="#">[공지사항] - Locker 향후 업데이트 방향</a></li>
           </ul>
         </section>
 
@@ -145,17 +144,15 @@ export default {
       });
     });
 
-    // 공지사항
-    function rotator() {
-		
-		$('ul#box li:first-child').slideUp(1000, function() {
-			$(this).appendTo($('ul#box'));
-		});
-		
-	}
+  var $box = $('ul#box li:first-child');
+  (function toggleBox() {
+    $box.slideToggle();
+    setTimeout(function(){
+      toggleBox();
+    },2250);
+  })();
+  }
 
- 	setInterval(rotator, 3000);
-  },
 }
 </script>
 
@@ -187,7 +184,18 @@ export default {
     height: 45px;
     margin: 15px 0;
     border-bottom: solid 1.3px #7C4DFF;
+    margin-left: 10px;
+    margin-right: 10px;
     padding-bottom: 10px;
+
+  }
+
+  ul#box li a {
+    color:brown;
+  }
+
+  ul#box li a:hover {
+    color:crimson;
   }
   
 </style>
