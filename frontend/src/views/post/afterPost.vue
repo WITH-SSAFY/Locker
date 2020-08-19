@@ -128,8 +128,8 @@ export default {
             description: this.description,
             thumbnail: this.thumbnail,
             usr_id: this.$store.state.userInfo.id,
-            repo_id: this.repoId
-            //usr_picture: this.$store.state.userInfo.picture,
+            repo_id: this.repoId,
+            usr_picture: this.$store.state.userInfo.picture
           });
           this.pid = response.data;
           await this.checkDupTag(); //태그 중복 확인
@@ -143,8 +143,9 @@ export default {
             title: this.myPost.title,
             content: this.myPost.content,
             description: this.description,
-            thumbnail: this.thumbnail
-            //usr_picture: this.$store.state.userInfo.picture,
+            thumbnail: this.thumbnail,
+            repo_id: this.repoId,
+            usr_picture: this.$store.state.userInfo.picture
           });
           this.pid = this.myPost.pid;
           await this.deletePostAllTag(); //포스트가 가자고 있는 모든 태그 삭제

@@ -48,4 +48,5 @@ public class Post {
 
     @Column(nullable = false)
     private Long usr_id;
+    private String usr_picture;
 }

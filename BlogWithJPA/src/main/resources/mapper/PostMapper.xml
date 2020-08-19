@@ -10,8 +10,8 @@
     </select>
 
     <insert id="insert" parameterType="Post" useGeneratedKeys="true" keyProperty="pid">
-        insert into post(email,nickname,content,title, created, updated, likes,description,thumbnail,repo_id,usr_id)
-        values(#{email},#{nickname},#{content}, #{title},curdate(), curdate(), 0,#{description},#{thumbnail}, #{repo_id},#{usr_id})
+        insert into post(email,nickname,content,title, created, updated, likes,description,thumbnail,repo_id,usr_id,usr_picture)
+        values(#{email},#{nickname},#{content}, #{title},curdate(), curdate(), 0,#{description},#{thumbnail}, #{repo_id},#{usr_id},#{usr_picture})
     </insert>
 
     <select id="selectAll" resultType="PagingPost">
@@ -28,7 +28,7 @@
 
     <update id="update" parameterType="Post">
         update post
-        set title=#{title}, content=#{content}, description=#{description}, thumbnail=#{thumbnail}, updated=curdate()
+        set title=#{title}, content=#{content}, description=#{description}, thumbnail=#{thumbnail}, updated=curdate(), repo_id=#{repo_id} usr_picture=#{usr_picture}
         where pid=#{pid}
     </update>
 
