@@ -8,9 +8,15 @@
         </div>
         <section id="container">
           <ul id="box" class="medium" style="font-size: 1.1rem;">
-            <li><a href="#">[공지사항] - Locker blog 서비스 시작</a></li>
-            <li><a href="#">[공지사항] - Ver 1.01 업데이트</a></li>
-            <li><a href="#">[공지사항] - Locker 향후 업데이트 방향</a></li>
+            <v-btn depressed text color="white" router :to="{ name: 'notice1' }">
+              <span>[공지사항] - Locker blog 서비스 시작</span>
+            </v-btn>
+            <v-btn depressed text color="white" router :to="{ name: 'notice1' }">
+              <span>[공지사항] - Ver 1.01 업데이트</span>
+            </v-btn>
+            <v-btn depressed text color="white" router :to="{ name: 'notice3' }">
+              <span>[공지사항] - Locker 향후 업데이트 방향</span>
+            </v-btn>
           </ul>
         </section>
 
@@ -144,7 +150,7 @@ export default {
       });
     });
 
-  var $box = $('ul#box li:first-child');
+  var $box = $('ul#box span:first-child');
   (function toggleBox() {
     $box.slideToggle();
     setTimeout(function(){
@@ -179,23 +185,16 @@ export default {
     padding: 0; 
   }
 
-  ul#box li {
-    list-style: none;
-    height: 45px;
-    margin: 15px 0;
+  ul#box span {
+    /* list-style: none; */
+    text-decoration: none;
+    color: #424242;
+    /* height: 45px;
+    margin: 15px 0; */
     border-bottom: solid 1.3px #7C4DFF;
-    margin-left: 10px;
+    /* margin-left: 10px;
     margin-right: 10px;
-    padding-bottom: 10px;
-
-  }
-
-  ul#box li a {
-    color:brown;
-  }
-
-  ul#box li a:hover {
-    color:crimson;
+    padding-bottom: 10px; */
   }
   
 </style>
