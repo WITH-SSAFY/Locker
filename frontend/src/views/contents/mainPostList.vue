@@ -8,96 +8,67 @@
         </div>
         <section id="container">
           <ul id="box" class="medium" style="font-size: 1.1rem;">
-            <v-btn depressed text color="white" router :to="{ name: 'notice1' }">
-              <span>[공지사항] - Locker blog 서비스 시작</span>
-            </v-btn>
-            <v-btn depressed text color="white" router :to="{ name: 'notice1' }">
-              <span>[공지사항] - Ver 1.01 업데이트</span>
-            </v-btn>
-            <v-btn depressed text color="white" router :to="{ name: 'notice3' }">
-              <span>[공지사항] - Locker 향후 업데이트 방향</span>
-            </v-btn>
+            <li><router-link to="/notice1">[공지사항] - Locker blog 서비스 시작</router-link></li>
+            <li><router-link to="/notice2">[공지사항] - Locker blog 서비스 시작</router-link></li>
+            <li><router-link to="/notice3">[공지사항] - Locker blog 서비스 시작</router-link></li>
+            
           </ul>
+          <router-view></router-view>
         </section>
-
+        
       </div>
       <div class="col-md-8">
         <div style="margin-left: 4.5rem;">
           <p class="bold" style="font-size: 1.5rem;"><strong>LOCKER </strong>가 선정한 이 달의 레포지토리</p>
           <div class="under-line"></div>
         </div>
+
         <div class="cont s--inactive">
-          <!-- cont inner start -->
           <div class="cont__inner">
+
             <!-- el start -->
-            <div class="el">
-              <div class="el__overflow">
-                <div class="el__inner">
-                  <div class="el__bg"></div>
-                  <div class="el__preview-cont">
-                    <h2 class="el__heading">Section 1</h2>
-                  </div>
-                  <div class="el__content">
-                    <div class="el__text">Whatever</div>
-                    <div class="el__close-btn"></div>
+            <!-- likes, name, repoId, repoName, usrId -->
+            <div
+            
+            >
+              <div
+                class="el"
+                v-for="repo in repoList"
+                :key="repo.repoId"  
+
+              >
+                <div class="el__overflow">
+                  <div class="el__inner">
+                    <div class="el__bg"></div>
+                    <div class="el__preview-cont">
+                      
+                      <p class="el__heading bolder" style="font-size: 2.7rem; word-wrap: break-word;">{{ repo.repoName }}</p>
+                      <p class="regular text-white" style="font-size: 1.5rem; bottom: 50%;">{{ repo.name }}</p>
+                      <v-icon color="#424242" class="ml-auto">mdi-heart</v-icon>
+                      <span class="text-white ml-1 medium" style="font-size: 0.9rem; color: #424242;">{{ repo.likes }}</span>
+
+                    </div>
+                    <!-- 포스트 내부 -->
+                    <div class="el__content">
+                      <div class="el__text">Whatever</div>
+                      <div class="el__close-btn"></div>
+                    </div>
+
                   </div>
                 </div>
-              </div>
-              <div class="el__index">
-                <div class="el__index-back">1</div>
-                <div class="el__index-front">
-                  <div class="el__index-overlay" data-index="1">1</div>
+                <div class="el__index">
+                  <div class="el__index-back">1</div>
+                  <div class="el__index-front">
+                    <div class="el__index-overlay" data-index="1">1</div>
+                  </div>
                 </div>
               </div>
             </div>
             <!-- el end -->
-            <!-- el start -->
-            <div class="el">
-              <div class="el__overflow">
-                <div class="el__inner">
-                  <div class="el__bg"></div>
-                  <div class="el__preview-cont">
-                    <h2 class="el__heading">Section 2</h2>
-                  </div>
-                  <div class="el__content">
-                    <div class="el__text">Whatever</div>
-                    <div class="el__close-btn"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="el__index">
-                <div class="el__index-back">2</div>
-                <div class="el__index-front">
-                  <div class="el__index-overlay" data-index="2">2</div>
-                </div>
-              </div>
-            </div>
-            <!-- el end -->
-            <!-- el start -->
-            <div class="el">
-              <div class="el__overflow">
-                <div class="el__inner">
-                  <div class="el__bg"></div>
-                  <div class="el__preview-cont">
-                    <h2 class="el__heading">Section 3</h2>
-                  </div>
-                  <div class="el__content">
-                    <div class="el__text">Whatever</div>
-                    <div class="el__close-btn"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="el__index">
-                <div class="el__index-back">3</div>
-                <div class="el__index-front">
-                  <div class="el__index-overlay" data-index="3">3</div>
-                </div>
-              </div>
-            </div>
-            <!-- el end -->
+    
           </div>
-          <!-- cont inner end -->
-        </div>  
+        </div>
+
       </div>
     </div>
   </div>
@@ -105,9 +76,14 @@
 
 </template>
 
+
 <script>
 import $ from 'jquery'
 import '../../assets/css/main_post.scss'
+import axios from "../../lib/axios-common.js"
+// import notice1 from '../notice/notice-1.vue'
+// import notice2 from '../notice/notice-1.vue'
+// import notice3 from '../notice/notice-1.vue'
 
 export default {
   name: 'mainPostList',
@@ -119,11 +95,22 @@ export default {
   },
   data: function () {
     return {
-
+      repoList: [],
+    }
+  },
+  methods: {
+    hotRepo () {
+      axios
+        .get("/v1/post/hot")
+        .then(response => {
+          this.repoList = response.data.list
+          console.log(this.repoList)
+        })
+        .catch(exp => alert("핫 레포 가져오기 실패" + exp))
     }
   },
   created() {
-
+    this.hotRepo();
   },
   mounted() {
     var $cont = document.querySelector('.cont');
@@ -136,6 +123,7 @@ export default {
 
     $elsArr.forEach(function($el) {
       $el.addEventListener('click', function() {
+        // console.log($el, i)
         if (this.classList.contains('s--active')) return;
         $cont.classList.add('s--el-active');
         this.classList.add('s--active');
@@ -150,17 +138,20 @@ export default {
       });
     });
 
-  var $box = $('ul#box span:first-child');
-  (function toggleBox() {
-    $box.slideToggle();
-    setTimeout(function(){
-      toggleBox();
-    },2250);
-  })();
-  }
+    var $box = $('ul#box li:first-child');
+    (function toggleBox() {
+      $box.slideToggle();
+      setTimeout(function(){
+        toggleBox();
+      },2250);
+    })();
+
+
+  }, 
 
 }
 </script>
+
 
 <style scoped>
   .under-line {
@@ -172,7 +163,7 @@ export default {
 
   section#container {
     overflow: hidden;
-    border: solid 3px #eceffc;
+    /* border: solid 3px #eceffc; */
     width: 500px;
     margin-left: 4rem;
     padding: 10px 20px;
@@ -185,16 +176,24 @@ export default {
     padding: 0; 
   }
 
-  ul#box span {
-    /* list-style: none; */
+  ul#box li {
     text-decoration: none;
-    color: #424242;
-    /* height: 45px;
-    margin: 15px 0; */
+    list-style: none;
+    height: 45px;
+    margin: 15px 0;
     border-bottom: solid 1.3px #7C4DFF;
-    /* margin-left: 10px;
+    margin-left: 10px;
     margin-right: 10px;
-    padding-bottom: 10px; */
+    padding-bottom: 10px;
+
   }
-  
+
+  ul#box li a {
+    color:brown;
+  }
+
+  ul#box li a:hover {
+    color:crimson;
+  }
+
 </style>
