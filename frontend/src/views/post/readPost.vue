@@ -64,7 +64,10 @@
           </div>-->
           <div class="row mx-5 py-3 writer_info">
             <div class="col-md-2 col-sm-1">
-              <v-icon size="80">mdi-account-circle-outline</v-icon>
+              <v-icon v-if="userInfo.picture==null" size="80">mdi-account-circle-outline</v-icon>
+              <v-avatar v-else size="80">
+                <img :src="userInfo.picture" />
+              </v-avatar>
             </div>
             <div class="col-md-7 d-flex-wrap">
               <div class="mx-2">
