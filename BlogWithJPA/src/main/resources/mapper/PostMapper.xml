@@ -12,7 +12,7 @@
 
     <insert id="insert" parameterType="Post" useGeneratedKeys="true" keyProperty="pid">
         insert into post(email,nickname,content,title, created, updated, likes,description,thumbnail,repo_id)
-        values(#{email},#{nickname},#{content}, #{title},curdate(), curdate(), 0,#{description},#{thumbnail}, #{repo_id})
+        values(#{email},#{nickname},#{content}, #{title},curdate(), curdate(), 0,#{description},#{thumbnail}, #{repoId})
     </insert>
 
     <select id="selectAll" resultType="PagingPost">
