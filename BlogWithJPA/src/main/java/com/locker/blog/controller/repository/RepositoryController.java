@@ -88,12 +88,10 @@ public class RepositoryController {
 
         User user = userJpaRepo.findById(pk).orElseThrow(CUserNotFoundException::new);
         try {
-            githubService.insert(name, repoName, user);
+            return githubService.insert(name, repoName, user);
         } catch (Exception e) {
             throw new CUserNotFoundException();
         }
-
-        return responseService.getSuccessResult();
     }
 
     @ApiOperation(value = "내 깃헙 레포 삭제", notes = "내 깃헙 레포를 삭제한다.")
