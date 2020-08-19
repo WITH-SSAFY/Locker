@@ -1,5 +1,6 @@
 package com.locker.blog.controller.user;
 
+import com.locker.blog.advice.exception.CCommunicationException;
 import com.locker.blog.advice.exception.CEmailSigninFailedException;
 import com.locker.blog.advice.exception.CUserNotFoundException;
 import com.locker.blog.config.security.JwtTokenProvider;
@@ -169,4 +170,16 @@ public class UserController {
 
         return responseService.getSuccessResult();
     }
+
+    @ApiOperation(value = "회원 이미지 단건 조회", notes = "회원 이미지를 단건 조회한다.")
+    @GetMapping(value = "/user/image")
+    public SingleResult<String> getUserImg(
+            @ApiParam(value="회원 고유 id", required = true) @RequestParam Long id
+    ){
+        String picture = userJpaRepo.findById(id).orElseThrow(CCommunicationException::new).getPicture();
+        logger.info(picture);
+        return responseService.getSingleResult(picture);
+    }
+
+
 }
