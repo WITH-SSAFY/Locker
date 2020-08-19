@@ -28,7 +28,7 @@
 
     <update id="update" parameterType="Post">
         update post
-        set title=#{title}, content=#{content}, description=#{description}, thumbnail=#{thumbnail}, updated=curdate(), repo_id=#{repo_id} usr_picture=#{usr_picture}
+        set title=#{title}, content=#{content}, description=#{description}, thumbnail=#{thumbnail}, updated=curdate(), repo_id=#{repo_id}, usr_picture=#{usr_picture}
         where pid=#{pid}
     </update>
 
