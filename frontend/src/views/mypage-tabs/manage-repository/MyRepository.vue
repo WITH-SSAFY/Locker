@@ -14,7 +14,7 @@
             :list="myLockerRepos"
             group="tasks"
             style="text-align: center;"
-          >
+            >
             <a
               class="list-group-item mb-2"
               v-for="element in myLockerRepos"
@@ -22,6 +22,15 @@
               style="border-radius: 10px;"
             >
               <img alt="left" id="stat" :src="element.src">
+              <v-btn
+                depressed
+                color="#7C4DFF"
+                text
+                icon
+                @click="del(element.name, element.repoName)"
+                >
+                <v-icon>mdi-trash-can-outline</v-icon>
+              </v-btn>
             </a>
           </div>
         </div>
@@ -32,29 +41,63 @@
 </template>
 <script>
 import { mapState, mapActions } from 'vuex';
+import axios from '../../../lib/axios-common';
+
 export default {
   created() {
     this.showRepo;
-    this.myLockerRepos;
+
+    // 토큰 값 받아오기
+    // let token = localStorage.getItem("access_token");
+    // this.token = token;
+    this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE1OTc4MzY5NTUsImV4cCI6MTU5Nzg0MDU1NX0.e8i9KUGIc1y0-RfUaXGWU3f_M1pyDcs-S8gwTl_JnXg"
+    // let accessToken = localStorage.getItem("github_token");
+    // this.accessToken = accessToken;
+    this.accessToken = "8b0949070511750d5a23aa6d9a81c5a85b67c865"
+    
+    this.userInfo.uid = 'YNNJN'
+    this.userInfo.provider = 'github'
+    // this.userInfo.provider = 'google'
+    // console.log("userInfo.uid: ", this.userInfo.uid)
+
+    // locker에 저장된 repository 조회하기
+    // this.userInfo.id = 17
+    // this.userInfo.id = 15
+    this.userInfo.id = 21
   },
-  mounted() {},
   computed: {
     showRepo() {
       return this.$store.state.showRepo;
     },
-    ...mapState(["myLockerRepos"])
+    ...mapState(["myLockerRepos","userInfo"])
   },
   data: () => {
     return {
     };
   },
   methods: {
-    ...mapActions([""]),
+    ...mapActions(["getRepos", "getLockerRepos"]),
     showAction(num) {
       for (var i in this.showRepo) {
         this.showRepo.splice(i, 1, false);
       }
       this.showRepo.splice(num, 1, true);
+    },
+    del(name, repoName){
+      // alert("name: "+name+" / repoName: "+repoName)
+      var result = confirm(repoName+"을/를 삭제 하시겠어요?");
+      if (result) {
+        axios
+          .delete("/v1/github?name="+name+"&repoName="+repoName)
+          .then((res)=> {
+            console.log("res", res);
+            // this.getRepos({ token: this.token, accessToken: this.accessToken, uid: this.userInfo.uid, id: this.userInfo.id})
+            // this.getLockerRepos({id: this.userInfo.id})
+          })
+          .catch((err)=> {
+            console.log("err", err);
+          })
+      }
     }
   }
 };
