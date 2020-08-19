@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -76,8 +77,11 @@ public class RepositoryController {
     public ListResult<MyRepository> getMyRepository(
                                     @ApiParam(value = "유저 pk") @RequestParam Long pk) {
         User user = userJpaRepo.findById(pk).orElseThrow(CUserNotFoundException::new);
-        List<MyRepository> myRepositories = myRepositoryJpaRepo.findAllByUser(user).orElseThrow(CCommunicationException::new);
-        return responseService.getListResult(myRepositories);
+        Optional<List<MyRepository>> myRepositories = myRepositoryJpaRepo.findAllByUser(user);
+        if(myRepositories.isPresent()) {
+            return responseService.getListResult(myRepositories.get());
+        }
+        return responseService.getListResult(myRepositories.orElse(null));
     }
     @ApiOperation(value = "내 깃헙 레포 추가", notes = "내 깃헙 레포를 추가한다.")
     @PostMapping(value = "github")
