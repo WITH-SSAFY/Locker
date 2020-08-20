@@ -4,11 +4,14 @@
     <!-- 커밋 타임라인, 포스트, 언어 비율 -->
     <!-- TODO: 포스팅을 따로 보여줄지에 대한 여부 논의 -->
 
+
     <header>
       <!-- 1. 헤더 : 레포 이름, 디스크립션, 태그, 유저 이름, 리드미, 언어비율 정보 보여줌 -->
       <!-- TODO: GET /api/v1/github, 내 깃헙 레포 조회-->
-      <p class="bold text-white" style="position: fixed;">Vertical Timeline</p>
 
+      <p class="bold text-white" style="font-size: 2rem; position: fixed;">SUB_PJT3</p>
+
+      
       <!-- 언어 비율-->
       <div style="display:flex;flex-direction:column">
         <div style="flex:1 400px;display:flex;">
@@ -16,54 +19,38 @@
             <div>
 
               <div class="progress-project">
-
-                <!-- <div class="dates"> -->
-                  <!-- TODO: repo api에서 created-at 데이터 가져와서 넣어주기 -->
-                  <!-- <div class="start label">
-                    Jan 2016
-                  </div> -->
-
-                  <!-- TODO: repo api에서 updated-at 데이터 가져와서 넣어주기 -->
-                  <!-- <div class="finish label">
-                    Oct 2018
+                <div
+                  v-for="post in repoPost"
+                  :key="post.pid"
+                  class="dates"
+                >
+                  <div class="start label">
+                    {{ post.created }}
                   </div>
-                  <div style="margin-top: 5rem;">
-                    {{ langRatio }}
-                  </div>
-                </div> -->
 
-                <!-- TODO: 언어 사용 비율 그려주기 -->
-                <!-- 해당 언어 바이트코드 * 100 / 전체 언어 바이트코드 합 -->
-                <!-- { "cpp": "0.0", "java": "0.0", "vue": "16.0", "c": "0.0", "css": "0.0", "javascript": "13.0", "html": "66.0", "shell": "0.0", "python": "4.0", "ruby": "0.0", "cppp": "0.0" }-->
+                  <div class="finish label">
+                    {{ post.updated }}
+                  </div>
+
+                </div>
+
+                <!-- 언어 사용 비율 시각화 -->
                 
-
                 <div class="bar">
-                  <!-- 그래프 & 라벨 -->
-                  
-        
+
                   <div
                     v-for="(ratio, lang, idx) in langRatio"
                     :key="idx"
-                  >
-                    
-                    <div class='phase' :class="'phase-' + (idx+1)" :data-phase="'Phase ' + (idx+1)" :style="{ width: ratio + '%' }" title="More phase info"></div>
-                    <div v-if="ratio !== '0.0'" class="current-state label" :class="'phase-' + (idx+1)" :style="{ width : ratio + '%'} ">{{ lang }}</div>
-                
+                    class='phase'
+                    :class="'phase-' + (idx+1)"
+                    :data-phase="lang"
+                    :style="{ width: ratio + '%' }"
+                    title="More phase info">
                   </div>
-
-                  <!-- <div class="phase phase-1" data-phase="Phase 1" style="width: 15.0%" title="More phase info"></div>
-                  <div class="current-state label phase-1" style="width:15%">Phase 1</div>
-
-                  <div class="phase phase-2" data-phase="Phase 2" style="width: 25.0%" title="More phase info"></div>
-                  <div class="current-state label phase-2" style="width:30%">Phase 2</div>
-
-                  <div class="phase phase-3" data-phase="Phase 3" style="width: 30.0%" title="More phase info"></div>
-                  <div class="current-state label phase-3" style="width:60%">Phase 3</div>
-
-                  <div class="phase phase-4" data-phase="Phase 4" style="width: 30.0%" title="More phase info"></div>
-                  <div class="current-state label phase-4" style="width:90%">Phase 4</div> -->
                   
-                
+                  <div class="current-state label" :class="'phase-' + (idx+1)" :style="{ width : ratio*(idx+1) + '%'} ">{{ lang }}</div>
+
+                  <!-- <div :style="{ width : ratio*(idx+1) + '%'} ">{{ ratio }}</div> -->
                 </div>
 
               </div>
@@ -75,6 +62,10 @@
     </header>
   
 
+    <!-- 레포에 걸린 포스트 정보 -->
+    <!-- <div style="background-color: white; margin: 10px;" v-for="(post, index) in repoPost" :key="post.pid">
+      <p>{{ index }}. {{ post.created }} / {{ post.title }} / {{ post.nickname }}</p>
+    </div> -->
 
 
     <!-- 2. 타임라인 영역 : 시간 순 -->
@@ -99,10 +90,57 @@
               <h2>커밋 메세지 어쩌구 저쩌구 </h2>
               <p>넣을게 있다면 더 넣고오오 뭘 넣으면 좋을까??</p>
               <a href="#0" class="cd-read-more">Read more 여기에 해당 커밋 코드 링크걸자</a>
-            <span class="cd-date">Jan 14 날짜를 깃헙보니까 updated 5 days ago 이런식으로 직관적으로했는데 뭐가 좋을까?</span>
+              <span class="cd-date">Jan 14 날짜를 깃헙보니까 updated 5 days ago 이런식으로 직관적으로했는데 뭐가 좋을까?</span>
             </div>
           </div> -->
           <!-- 타임라인 블럭 끝 -->
+
+
+          <!-- 하나의 타임라인 -->
+          <div class="cd-timeline-block">
+            <div class="cd-timeline-img cd-picture">
+              <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/148866/cd-icon-picture.svg" alt="Picture">
+            </div> <!-- cd-timeline-img -->
+      
+            <div class="cd-timeline-content">
+              <h2>커밋 메세지 어쩌구 저쩌구 </h2>
+              <p>넣을게 있다면 더 넣고오오 뭘 넣으면 좋을까??</p>
+              <a href="#0" class="cd-read-more">Read more 여기에 해당 커밋 코드 링크걸자</a>
+            <span class="cd-date">Jan 14 날짜를 깃헙보니까 updated 5 days ago 이런식으로 직관적으로했는데 뭐가 좋을까?</span>
+            </div> <!-- cd-timeline-content -->
+          </div> <!-- cd-timeline-block -->
+      
+
+          <!-- 하나의 타임라인 -->
+          <div class="cd-timeline-block">
+            <div class="cd-timeline-img cd-movie">
+              <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/148866/cd-icon-movie.svg" alt="Movie">
+            </div> <!-- cd-timeline-img -->
+      
+            <div class="cd-timeline-content">
+              <h2>포스트 글 제목을 넣는거지!</h2>
+              <p>포스트 디스크립션을 넣는거야! 그런데 근데 이때 먼저, 이 타임라인이 들어가는 순서는 말그대로 포스팅과 커밋의 생성 순서로 들어가면 좋을듯!</p>
+              <a href="#0" class="cd-read-more">Read more 마찬가지로 누르면 포스트가 들어가지겠지?</a>
+              <span class="cd-date">Jan 18 날짜,</span>
+            </div> <!-- cd-timeline-content -->
+          </div> <!-- cd-timeline-block  -->
+
+
+          <!-- 하나의 타임라인 -->
+          <div class="cd-timeline-block">
+            <div class="cd-timeline-img cd-movie">
+              <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/148866/cd-icon-movie.svg" alt="Movie">
+            </div> <!-- cd-timeline-img -->
+      
+            <div class="cd-timeline-content">
+              <h2>포스트 글 제목을 넣는거지!</h2>
+              <p>섬네일을 넣는 방법도 있어! 바로이렇게</p> <img src="https://avatars1.githubusercontent.com/u/44442605?s=400&u=bc0dc029509429745a79fc3e83769f5d03f1ae2c&v=4" alt="ㅎㅇ" style="height:200px;">
+              <a href="#0" class="cd-read-more">Read more 마찬가지로 누르면 포스트가 들어가지겠지?</a>
+              <span class="cd-date">Jan 18 날짜,</span>
+            </div> <!-- cd-timeline-content -->
+          </div> <!-- cd-timeline-block  -->
+
+
 
         </section>
       </div>
@@ -161,11 +199,6 @@
 
             </v-col>
           </v-row>
-
-          <!-- 레포에 걸린 포스트 정보 -->
-          <!-- <div style="background-color: white; margin: 10px;" v-for="(post, index) in repoPost" :key="post.pid">
-            <p>{{ index }}. {{ post.created }} / {{ post.title }} / {{ post.nickname }}</p>
-          </div> -->
           
         </div>
       </div>
@@ -203,18 +236,7 @@ export default {
     ...mapState(["commitList", "langRatio", "repoPost"])
   },
   created () {
-    // var langArray = Object.values(this.langRatio);
-    // console.log('배열', langArray) // ["0.0", "0.0", "16.0", "0.0", "0.0", "13.0", "66.0", "0.0", "4.0", "0.0", "0.0"]
-    
-    // var langObj = this.langRatio;
-    // var langArray = [];
-    // for (const ele of langObj) {
-    //   console.log('엘레', ele)
-    //   langArray.append(ele)
-    // }
-    // console.log('어레이나와라', this.langArray)
 
-    
   },
   mounted () {
     $(document).ready(function($){
@@ -298,10 +320,11 @@ Main components
 
 -------------------------------- */
 header {
-  height: 200px;
-  line-height: 200px;
+  height: 300px;
+  line-height: 300px;
+  z-index: -1;
   text-align: center;
-  background: #303e49;
+  background: #242b33;
 }
 header h1 {
   color: #ffffff;
