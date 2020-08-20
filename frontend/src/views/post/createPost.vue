@@ -139,60 +139,60 @@ export default {
       //ul
       // md = md.replace(/^\s*\n\-\s/gm, '<ul>\n');
       // md = md.replace(/^(\-.+)\s*([^\-])/gm, '$1\n</ul>\n\n$2');
-      md = md.replace(/^(\-\s)(.+)/gm, "<li>$2</li>");
+      // md = md.replace(/^(\-\s)(.+)/gm, "<li>$2</li>");
 
-      //ol
-      md = md.replace(/^\s*\n\d\./gm, "<ol>\n1.");
-      md = md.replace(/^(\d\..+)\s*\n([^\d\.])/gm, "$1\n</ol>\n\n$2");
-      md = md.replace(/^\d\.(.+)/gm, "<li>$1</li>");
+      // //ol
+      // md = md.replace(/^\s*\n\d\./gm, "<ol>\n1.");
+      // md = md.replace(/^(\d\..+)\s*\n([^\d\.])/gm, "$1\n</ol>\n\n$2");
+      // md = md.replace(/^\d\.(.+)/gm, "<li>$1</li>");
 
-      //blockquote
-      md = md.replace(/^\>(.+)/gm, "<blockquote>$1</blockquote>");
+      // //blockquote
+      // md = md.replace(/^\>(.+)/gm, "<blockquote>$1</blockquote>");
 
-      //h
-      md = md.replace(/[\#]{6}\s(.+)/g, "<h6>$1</h6>");
-      md = md.replace(/[\#]{5}\s(.+)/g, "<h5>$1</h5>");
-      md = md.replace(/[\#]{4}\s(.+)/g, "<h4>$1</h4>");
-      md = md.replace(/[\#]{3}\s(.+)/g, "<h3>$1</h3>");
-      md = md.replace(/[\#]{2}\s(.+)/g, "<h2>$1</h2>");
-      md = md.replace(/[\#]{1}\s(.+)/g, "<h1>$1</h1>");
+      // //h
+      // md = md.replace(/[\#]{6}\s(.+)/g, "<h6>$1</h6>");
+      // md = md.replace(/[\#]{5}\s(.+)/g, "<h5>$1</h5>");
+      // md = md.replace(/[\#]{4}\s(.+)/g, "<h4>$1</h4>");
+      // md = md.replace(/[\#]{3}\s(.+)/g, "<h3>$1</h3>");
+      // md = md.replace(/[\#]{2}\s(.+)/g, "<h2>$1</h2>");
+      // md = md.replace(/[\#]{1}\s(.+)/g, "<h1>$1</h1>");
 
-      //images
-      md = md.replace(
-        /\!\[([^\]]+)\]\(([^\)]+)\)/g,
-        '<p><img src="$2" alt="$1" /></p>'
-      );
+      // //images
+      // md = md.replace(
+      //   /\!\[([^\]]+)\]\(([^\)]+)\)/g,
+      //   '<p><img src="$2" alt="$1" /></p>'
+      // );
 
-      //links
-      md = md.replace(
-        /[\[]{1}([^\]]+)[\]]{1}[\(]{1}([^\)\"]+)(\"(.+)\")?[\)]{1}/g,
-        '<a href="$2" title="$4">$1</a>'
-      );
+      // //links
+      // md = md.replace(
+      //   /[\[]{1}([^\]]+)[\]]{1}[\(]{1}([^\)\"]+)(\"(.+)\")?[\)]{1}/g,
+      //   '<a href="$2" title="$4">$1</a>'
+      // );
 
-      //font styles
-      md = md.replace(/[\*\_]{2}([^\*\_]+)[\*\_]{2}/g, "<b>$1</b>");
-      md = md.replace(/[\*\_]{1}([^\*\_]+)[\*\_]{1}/g, "<i>$1</i>");
-      md = md.replace(/[\~]{2}([^\~]+)[\~]{2}/g, "<del>$1</del>");
+      // //font styles
+      // md = md.replace(/[\*\_]{2}([^\*\_]+)[\*\_]{2}/g, "<b>$1</b>");
+      // md = md.replace(/[\*\_]{1}([^\*\_]+)[\*\_]{1}/g, "<i>$1</i>");
+      // md = md.replace(/[\~]{2}([^\~]+)[\~]{2}/g, "<del>$1</del>");
 
-      //pre
-      md = md.replace(/^\s*\`\`\`\s(([^\s]+))/gm, '<pre class="$2">');
-      md = md.replace(/^\`\`\`/gm, "</pre>\n\n");
+      // //pre
+      // md = md.replace(/^\s*\`\`\`\s(([^\s]+))/gm, '<pre class="$2">');
+      // md = md.replace(/^\`\`\`/gm, "</pre>\n\n");
 
-      //code
-      md = md.replace(/[\`]{1}([^\`]+)[\`]{1}/g, "<code>$1</code>");
+      // //code
+      // md = md.replace(/[\`]{1}([^\`]+)[\`]{1}/g, "<code>$1</code>");
 
-      //hr
-      md = md.replace(/\-\-\-+/gm, "<hr>");
+      // //hr
+      // md = md.replace(/\-\-\-+/gm, "<hr>");
 
-      //p
-      md = md.replace(/^\s*(\n)?(.+)/gm, function(m) {
-        return /\<(\/)?(h\d|ul|ol|li|blockquote|pre|img)/.test(m)
-          ? m
-          : "<p>" + m + "</p>";
-      });
+      // //p
+      // md = md.replace(/^\s*(\n)?(.+)/gm, function(m) {
+      //   return /\<(\/)?(h\d|ul|ol|li|blockquote|pre|img)/.test(m)
+      //     ? m
+      //     : "<p>" + m + "</p>";
+      // });
 
-      //strip p from pre
-      md = md.replace(/(\<pre.+\>)*\<p\>(.+)\<\/p\>/gm, "$1$2");
+      // //strip p from pre
+      // md = md.replace(/(\<pre.+\>)*\<p\>(.+)\<\/p\>/gm, "$1$2");
 
       return md;
     }
