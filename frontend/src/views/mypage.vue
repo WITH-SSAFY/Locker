@@ -171,10 +171,10 @@ export default {
     // 토큰 값 받아오기
     // let token = localStorage.getItem("access_token");
     // this.token = token;
-    this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE1OTc5MDMzOTMsImV4cCI6MTU5NzkwNjk5M30.DpS4YeeBzq-KjJIZ01ePzwcYFQ4KsVb0GHmCuagMQrE"
+    this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE1OTc5MDc5NDcsImV4cCI6MTU5NzkxMTU0N30.r-KtSL5gRpa40HsJpYZKn7vzCKhlAHZFJv2cDE5Z82Y"
     // let accessToken = localStorage.getItem("github_token");
     // this.accessToken = accessToken;
-    this.accessToken = "b45b76b3c3d8dcd4df537fa1b9be61f9f12ad872"
+    this.accessToken = "b474b1f72e7cbfce93bd2828044788a925ddbf21"
     
     // 토큰 값 전달해서 getRepos 실행(Repository 리스트 받아오기)
     
