@@ -57,7 +57,7 @@ export default new Vuex.Store({
       state.isLogin = true;
       state.isLoginError = false;
       state.userInfo = payload;
-      router.push({ name: "home" });
+      //router.push({ name: "home" });
     },
     // 로그인이 실패했을 때
     loginError(state) {
@@ -131,7 +131,12 @@ export default new Vuex.Store({
       for (var j = 0; j < payload.repos.length; j++) {
         //내 repo 정보들 저장하기: myLockerRepos, myGitRepos
         var repoList = payload.repos[j];
-        var imgSrc = "https://github-readme-stats.vercel.app/api/pin/?username="+repoList.name + "&repo="+repoList.repoName+"&theme=nightowl&show_icons=true";
+        var imgSrc =
+          "https://github-readme-stats.vercel.app/api/pin/?username=" +
+          repoList.name +
+          "&repo=" +
+          repoList.repoName +
+          "&theme=nightowl&show_icons=true";
         if (payload.repos[j].name === payload.uid) {
           state.myGitRepos[myGitCnt] = {
             id: repoList.id,
@@ -160,7 +165,12 @@ export default new Vuex.Store({
       for (var k = 0; k < payload.lockerRepoList.length; k++) {
         repoList = payload.lockerRepoList[k];
         // console.log("repoList", repoList)
-        imgSrc = "https://github-readme-stats.vercel.app/api/pin/?username="+repoList.name + "&repo="+repoList.repoName+"&theme=nightowl&show_icons=true";
+        imgSrc =
+          "https://github-readme-stats.vercel.app/api/pin/?username=" +
+          repoList.name +
+          "&repo=" +
+          repoList.repoName +
+          "&theme=nightowl&show_icons=true";
         if (payload.lockerRepoList[k].name === payload.uid) {
           state.myLockerRepos[myLockerCnt] = {
             id: repoList.id,
@@ -236,7 +246,7 @@ export default new Vuex.Store({
           "&repo=" +
           payload.repos[j].repoName +
           "&theme=nightowl&show_icons=true";
-          console.log(imgSrc)
+        console.log(imgSrc);
         if (payload.repos[j].name === payload.uid) {
           state.myLockerRepos[myLockerCnt] = {
             id: null,
@@ -288,6 +298,7 @@ export default new Vuex.Store({
           let token = res.data.data;
           localStorage.setItem("access_token", token); //key, value
           dispatch("getMemberInfo");
+          router.push({ name: "home" });
         })
         .catch((err) => {
           console.log(err);

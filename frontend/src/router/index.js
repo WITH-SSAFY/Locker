@@ -22,11 +22,11 @@ const rejectAuthUser = (to, from, next) => {
 };
 const onlyAuthUser = (to, from, next) => {
   // if(store.state.isLogin === false){
-
+  alert("on1");
   if (localStorage.getItem("X-AUTH-TOKEN") === null) {
     //이미 로그인 안된 유저니까 막아야함.
     //alert('로그인이 필요한 기능입니다!');
-    next();
+    next("/");
   } else {
     next();
   }
@@ -40,14 +40,14 @@ const routes = [
   {
     path: "/login",
     name: "login",
-    beforeEnter: rejectAuthUser,
+    //beforeEnter: rejectAuthUser,
     component: () =>
       import(/* webpackChunkName: "login" */ "../views/Login.vue"),
   },
   {
     path: "/mypage",
     name: "mypage",
-    beforeEnter: onlyAuthUser,
+    //beforeEnter: onlyAuthUser,
     component: mypage,
     children: [
       { path: "/", component: article },
