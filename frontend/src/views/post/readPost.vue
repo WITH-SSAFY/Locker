@@ -347,12 +347,10 @@ export default {
       this.$store.dispatch("deleteDetail", pid);
     },
     goEditComment(pid, rid, text) {
-      // TODO: 본인 댓글만 수정 가능 조건 추가
       this.btnNum = rid;
       this.editComment = text;
     },
     deleteComment(pid, rid) {
-      // TODO: 본인 댓글만 삭제 가능 조건 추가
       axios
         .delete("/v1/comment/" + pid + "/" + rid)
         .then(() => {
