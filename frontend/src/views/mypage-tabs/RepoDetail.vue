@@ -133,7 +133,7 @@
                 </div>
 
                 <!-- 텍스트 섹션 -->
-                <div @click="showMyDetail(post.pid)" class="description" style="cursor: pointer;">
+                <div @click="viewPost(post.pid)" class="description" style="cursor: pointer;">
                   <p class="medium mb-2" style="font-size: 1.5rem;">{{ post.title }}</p>
                   <div class="under-line"></div>
                   <p class="regular" style="font-size: 0.9rem;">{{ post.description }}</p>
@@ -174,7 +174,12 @@ export default {
     async getTags(pid) {
       let response = await axios.get("/v1/tag/all/" + pid);
       this.tags = response.data;
-    }
+    },
+     viewPost(pid) {
+      //포스트 상세보기로 이동
+      this.$store.dispatch("showMyDetail", pid);
+    }   
+
   },
   computed: {
     ...mapState(["commitList", "langRatio", "repoPost"])
