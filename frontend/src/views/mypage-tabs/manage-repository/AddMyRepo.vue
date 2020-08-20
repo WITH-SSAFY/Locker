@@ -3,7 +3,7 @@
     <!-- 저장 버튼 -->
     <v-row>
       <v-col class="py-0">
-        <v-btn @click="saveMine(arrMyRepo)" style="font-size: 1.5rem; float: right;" text color="#EDE7F6">
+        <v-btn @click="saveMine(arrMyRepo)" style="font-size: 1.3rem; float: right;" text color="#EDE7F6">
           <v-icon class="mr-2">save</v-icon>
           <span class="regular">내용 저장하기</span>
         </v-btn>
@@ -81,15 +81,15 @@ export default {
     // 토큰 값 전달해서 getRepos 실행(Repository 리스트 받아오기)
     // this.userInfo.uid = 'jane399'
     // this.userInfo.uid = 'junhok82'
-    // this.userInfo.uid = 'YNNJN'
-    // this.userInfo.provider = 'github'
+    this.userInfo.uid = 'YNNJN'
+    this.userInfo.provider = 'github'
     // this.userInfo.provider = 'google'
     // console.log("userInfo.uid: ", this.userInfo.uid)
 
     // locker에 저장된 repository 조회하기
     // this.userInfo.id = 17
     // this.userInfo.id = 15
-    // this.userInfo.id = 21
+    this.userInfo.id = 21
     this.arrMyRepo = this.myLockerRepos;
 
   },
