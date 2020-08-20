@@ -247,7 +247,6 @@
 </template>
 
 <script>
-// import SideBar from "../SideBar.vue"
 import { mapState } from "vuex";
 import { Viewer } from "@toast-ui/vue-editor";
 import("../../assets/css/read-post.css");
