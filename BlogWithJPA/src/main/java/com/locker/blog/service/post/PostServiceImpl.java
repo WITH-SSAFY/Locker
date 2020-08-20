@@ -42,8 +42,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> selectAllByWriter(Long usr_id) {
-        return dao.selectAllByWriter(usr_id);
+    public List<Post> selectAllByWriter(Long usrId) {
+        return dao.selectAllByWriter(usrId);
     }
 
     @Override

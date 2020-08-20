@@ -13,7 +13,7 @@ public interface PostService {
     public Post selectOne(String post_id);
     public int update(Post post);
     public List<PagingPost> selectAll(Map<String,Long> pageMap);
-    public List<Post> selectAllByWriter(Long usr_id);
+    public List<Post> selectAllByWriter(Long usrId);
     public int addLike(Long pid);
     public List<Post> commonSearch(Map pageMap);
     public List<Post> tagSearch(Map pageMap);

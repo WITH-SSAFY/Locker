@@ -41,9 +41,9 @@ public class PostController {
     final private PostJpaRepo postJpaRepo;
 
     @ApiOperation(value = "특정 사용자가 작성한 모든 글 조회", notes = "특정 id가 작성한 모든 글을 조회한다.")
-    @GetMapping(value = "/all/{usr_id}")
-    public ResponseEntity<List<Post>> selectAllByWriter(@PathVariable Long usr_id) throws Exception {
-        List<Post> list = service.selectAllByWriter(usr_id);
+    @GetMapping(value = "/all/{usrId}")
+    public ResponseEntity<List<Post>> selectAllByWriter(@PathVariable Long usrId) throws Exception {
+        List<Post> list = service.selectAllByWriter(usrId);
         if(list.size() > 0) {
             return new ResponseEntity<List<Post>>(list, HttpStatus.OK);
         }

@@ -33,7 +33,8 @@ export default new Vuex.Store({
     commentList: [],
     nickname: "", //글쓴이
     pid: null, //글 번호
-    usr_id: null, //post에 저장된 userid
+    usrId: null, //post에 저장된 userid
+    repoId: null,
     usr_picture: null,
     created: null, //작성일자
     parentid: null, //댓글 부모번호
@@ -42,7 +43,6 @@ export default new Vuex.Store({
     email: null, //이메일
     thumbnail: null,
     description: null,
-    repo_id: null,
     isNewPost: true,
     tagname: "", //태그 클릭시 검색용
 
@@ -94,14 +94,14 @@ export default new Vuex.Store({
       state.myDetailTitle = payload.myDetail.title;
       state.nickname = payload.myDetail.nickname;
       state.pid = payload.myDetail.pid;
-      state.usr_id = payload.myDetail.usr_id;
+      state.usrId = payload.myDetail.usrId;
+      state.repoId = payload.myDetail.repoId;
       state.created = payload.myDetail.created;
       state.email = payload.myDetail.email;
       state.thumbnail = payload.myDetail.thumbnail;
       state.description = payload.myDetail.description;
       state.usr_picture = payload.myDetail.usr_picture;
-      state.usr_id = payload.myDetail.usr_id;
-      //console.log("userId : ", state.usr_id);
+      console.log("userId : ", state.usr_id);
       router.push({ name: "readPost", params: { pid: state.pid } });
     },
     goEditDetail(state, payload) {
@@ -109,9 +109,9 @@ export default new Vuex.Store({
       state.myDetailTitle = payload.myDetail.title;
       state.nickname = payload.myDetail.nickname;
       state.pid = payload.myDetail.pid;
-      state.repo_id = payload.myDetail.repo_id;
-      (state.usr_picture = payload.myDetail.usr_picture),
-        router.push({ name: "editPost" });
+      state.repoId = payload.myDetail.repoId;
+      state.usr_picture = payload.myDetail.usr_picture;
+      router.push({ name: "editPost" });
     },
     goreply(state, payload) {
       state.parentid = payload.rid;

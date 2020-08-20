@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 // import store from "../store/index.js"
 
 import mypage from "../views/mypage.vue";
+import userpage from "../views/UserPage.vue";
 import article from "../views/mypage-tabs/article.vue";
 import repository from "../views/mypage-tabs/repository.vue";
 import introduce from "../views/mypage-tabs/introduce.vue";
@@ -63,6 +64,11 @@ const routes = [
       },
       { path: "/introduce", component: introduce },
     ],
+  },
+  {
+    path: "/userpage/:usrId",
+    name: "userpage",
+    component: userpage,
   },
   {
     path: "/register",

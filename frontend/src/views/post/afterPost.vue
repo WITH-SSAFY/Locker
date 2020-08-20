@@ -10,14 +10,15 @@
               id="no-image"
               size="200"
               style="z-index: 1; margin-top: 50px"
-            >image</v-icon>
+              >image</v-icon
+            >
             <!-- <v-avatar v-else size="200" style="z-index: 1;"> -->
             <!-- <div style="border-radius: 100%; width: 8rem;" id="picture"> -->
             <v-img
               v-else
               style="z-index: 1; width"
               id="image"
-              :aspect-ratio="16/9"
+              :aspect-ratio="16 / 9"
               max-height="300px"
               :src="thumbnail"
             />
@@ -25,8 +26,16 @@
             <!-- </v-avatar> -->
           </div>
           <div id="buttons1">
-            <v-btn id="upload" color="#EDE7F6" depressed @click="uploadThumnail">썸네일 업로드</v-btn>
-            <v-btn style="margin: 0 5px;" id="delete" depressed @click="removeThumbnail">썸네일 삭제</v-btn>
+            <v-btn id="upload" color="#EDE7F6" depressed @click="uploadThumnail"
+              >썸네일 업로드</v-btn
+            >
+            <v-btn
+              style="margin: 0 5px;"
+              id="delete"
+              depressed
+              @click="removeThumbnail"
+              >썸네일 삭제</v-btn
+            >
           </div>
 
           <input
@@ -74,7 +83,9 @@
           ></v-textarea>
         </div>
         <div id="buttons2">
-          <v-btn style="color: white;" color="#7C4DFF" @click="postContent">출간하기</v-btn>
+          <v-btn style="color: white;" color="#7C4DFF" @click="postContent"
+            >출간하기</v-btn
+          >
         </div>
       </v-col>
     </v-row>
@@ -109,7 +120,7 @@ export default {
       IdentityPoolId: "ap-northeast-2:87ba0e75-43e1-4245-96d4-9027f0c262b8", //s3세팅
       myRepoList: [{ id: 0, repoName: "선택안함" }], //선택안함 창 출력
       repoId: -1,
-      beforeSelectedRepo: { id: 0, repoName: "선택안함" } //이전에 선택한 레포
+      beforeSelectedRepo: { id: 0, repoName: "선택안함" }, //이전에 선택한 레포
     };
   },
   computed: {
@@ -122,7 +133,7 @@ export default {
     isNewPost() {
       //새로운 포스트 인지, 수정하는 포스트 인지
       return this.$store.state.isNewPost;
-    }
+    },
   },
   methods: {
     async postContent() {
@@ -145,9 +156,9 @@ export default {
             nickname: this.myPost.nickname,
             description: this.description,
             thumbnail: this.thumbnail,
-            usr_id: this.$store.state.userInfo.id,
-            repo_id: this.repoId,
-            usr_picture: this.$store.state.userInfo.picture
+            usrId: this.$store.state.userInfo.id,
+            repoId: this.repoId,
+            usr_picture: this.$store.state.userInfo.picture,
           });
           console.log("new repo id: ", this.repoId);
           this.pid = response.data;
@@ -163,8 +174,8 @@ export default {
             content: this.myPost.content,
             description: this.description,
             thumbnail: this.thumbnail,
-            repo_id: this.repoId,
-            usr_picture: this.$store.state.userInfo.picture
+            repoId: this.repoId,
+            usr_picture: this.$store.state.userInfo.picture,
           });
           this.pid = this.myPost.pid;
           await this.deletePostAllTag(); //포스트가 가자고 있는 모든 태그 삭제
@@ -201,7 +212,7 @@ export default {
       //pid와 tagid 연결
       await axios.post("v1/tag/connect", {
         pid: this.pid,
-        tagid: this.tagid
+        tagid: this.tagid,
       });
     },
     async deletePostAllTag() {
@@ -240,15 +251,15 @@ export default {
       AWS.config.update({
         region: this.bucketRegion,
         credentials: new AWS.CognitoIdentityCredentials({
-          IdentityPoolId: this.IdentityPoolId
-        })
+          IdentityPoolId: this.IdentityPoolId,
+        }),
       });
 
       var s3 = new AWS.S3({
         apiVersion: "2006-03-01",
         params: {
-          Bucket: this.albumBucketName
-        }
+          Bucket: this.albumBucketName,
+        },
       });
 
       //s3에 실제로 이미지 업로드
@@ -257,7 +268,7 @@ export default {
         {
           Key: photoKey,
           Body: this.file,
-          ACL: "public-read"
+          ACL: "public-read",
         },
         (err, data) => {
           if (err) {
@@ -285,18 +296,18 @@ export default {
       AWS.config.update({
         region: this.bucketRegion,
         credentials: new AWS.CognitoIdentityCredentials({
-          IdentityPoolId: this.IdentityPoolId
-        })
+          IdentityPoolId: this.IdentityPoolId,
+        }),
       });
       var s3 = new AWS.S3({
-        apiVersion: "2006-03-01"
+        apiVersion: "2006-03-01",
       });
 
       //s3에서 이미지 삭제
       s3.deleteObject(
         {
           Bucket: this.albumBucketName,
-          Key: photoKey
+          Key: photoKey,
         },
         (err, data) => {
           if (err) {
@@ -311,7 +322,7 @@ export default {
       //내 레포 리스트를 받아옴
       axios
         .get("/v1/github?pk=" + this.$store.state.userInfo.id) //준호형 pk (15)
-        .then(response => {
+        .then((response) => {
           //console.log("list: ", response.data.list);
           let repoList = response.data.list;
 
@@ -329,7 +340,7 @@ export default {
               }
               this.myRepoList.push({
                 id: myRepo.id,
-                repoName: myRepo.repoName
+                repoName: myRepo.repoName,
               });
             }
           }
@@ -339,8 +350,8 @@ export default {
       //선택한 레포의 id를 받아옴
       console.log("repoid: ", id);
       this.repoId = id;
-    }
-  }
+    },
+  },
 };
 </script>
 
