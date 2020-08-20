@@ -64,6 +64,13 @@ public class RepositoryController {
         return responseService.getSingleResult(hiddenInfo);
     }
 
+    @ApiOperation(value = "깃헙 리드미 정보", notes = "깃헙 리드미 정보를 가져온다.")
+    @GetMapping(value = "github/readme")
+    public SingleResult<String> getGithubReadme(@ApiParam(value = "유저 이름 or orgs 이름") @RequestParam String name,
+                                                @ApiParam(value = "레파지토리 이름") @RequestParam String repoName) {
+        return responseService.getSingleResult(githubService.getReadme(name,repoName));
+    }
+
     @ApiOperation(value = "깃헙 언어 사용 비율", notes = "깃헙 언어 사용 비율을 가져온다.")
     @GetMapping(value = "github/lang")
     public SingleResult<Languages> languagesListResult(@ApiParam(value = "유저 이름 or orgs 이름") @RequestParam String name,

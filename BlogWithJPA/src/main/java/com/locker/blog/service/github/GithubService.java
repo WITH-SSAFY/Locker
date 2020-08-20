@@ -130,19 +130,30 @@ public class GithubService {
         return null;
     }
 
+    public String getReadme(String name, String repoName) {
+        URI uri = URI.create("https://raw.githubusercontent.com/" + name + "/" + repoName + "/master/README.md");
+        ResponseEntity<String> response = restTemplate.getForEntity(uri,String.class);
+
+        try {
+            if(response.getStatusCode() == HttpStatus.OK) return response.getBody();
+        } catch(Exception e) {
+            throw new CCommunicationException();
+        }
+        throw new CCommunicationException();
+    }
+
     public String getHiddenInfo(String login) {
         URI uri = URI.create("https://raw.githubusercontent.com/" + login + "/" + login + "/master/README.md");
         ResponseEntity<String> response = restTemplate.getForEntity(uri,String.class);
-        //logger.info(response.getBody());
 
         try {
-            // Request profile
+            // Request readme profile
             if (response.getStatusCode() == HttpStatus.OK)
                 return response.getBody();
         } catch (Exception e) {
             throw new CCommunicationException();
         }
-        throw new CCommunicationException();
+        return null;
     }
 
     public Languages getGithubLang(String name, String repo) {
