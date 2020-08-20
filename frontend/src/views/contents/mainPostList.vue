@@ -57,14 +57,73 @@
                       <span class="text-white ml-1 medium" style="font-size: 0.9rem; color: #424242;">{{ repo.likes }}</span>
 
                     </div>
+                    
                     <!-- 포스트 내부 -->
+                    <!-- 해당 레포 소속 포스트 불러오기, 이걸 레포 페이지에서 했고 -->
                     <div class="el__content">
                       <div class="el__text">{{ repo.repoName }}</div>
                       <div class="el__text">{{ repo.name }}</div>
                       <v-icon color="#424242" class="ml-auto">mdi-heart</v-icon>
                       <span class="text-white ml-1 medium" style="font-size: 0.9rem; color: #424242;">{{ repo.likes }}</span>
                       <div class="el__close-btn" @click="closeAni($btn, i)"></div>
+                      
+                      
+                      <!-- GET /api/v1/post/all/list/repo -->
+                      <!-- {{ repo.repoId }} 넘겨서 요청하자-->
+
+
+
+                      <!-- <v-row class="justify-content-center">
+                        <v-col
+                          cols="12"
+                          md="11"
+                        >
+                          
+                          <div class="blog-card" v-for="post in repoPost" :key="post.pid">
+                            <div class="meta">
+
+                              
+                              <div @mouseover="getTags(post.pid)" class="photo">
+                                <img :src="post.thumbnail" align="center" />
+                              </div>
+                              <ul class="details">
+                                <li class="author medium">인덱스 : {{ index }}</li>
+                                <li class="author medium">작성자 : {{ post.nickname }}</li>
+                                <li class="date medium">작성일자 : {{ post.created }}</li>
+                                <li class="tags">
+                    
+                                  <p class="medium">관련 태그</p>
+                                  <v-chip
+                                    v-for="tag in tags"
+                                    :key="tag.tagid"
+                                    class="mr-1"
+                                    label
+                                    color="#eceffc"
+                                  >
+                                    <span class="medium">{{ tag }}</span>
+                                  </v-chip>
+                                </li>
+                              </ul>
+
+                            </div>
+
+                            <div @click="viewPost(post.pid)" class="description" style="cursor: pointer;">
+                              <p class="medium mb-2" style="font-size: 1.5rem;">{{ post.title }}</p>
+                              <div class="under-line"></div>
+                              <p class="regular" style="font-size: 0.9rem;">{{ post.description }}</p>
+                            </div>
+
+                          </div>
+
+                        </v-col>
+                      </v-row>                  -->
+                    
+                    
+                    
+                    
                     </div>
+
+                    
 
                   </div>
                 </div>
@@ -93,6 +152,7 @@
 
 <script>
 // import $ from 'jquery'
+import { mapState, mapActions } from "vuex";
 import '../../assets/css/main_post.scss'
 import axios from "../../lib/axios-common.js"
 // import notice1 from '../notice/notice-1.vue'
@@ -105,7 +165,8 @@ export default {
 
   },
   computed: {
-
+    ...mapState(["repoPost"]),
+    ...mapActions(["getRepoPost"]),
   },
   data: function () {
     return {
@@ -121,6 +182,7 @@ export default {
         })
         .catch(exp => alert("핫 레포 가져오기 실패" + exp))
     },
+
 
     // mounted에서는 실행하고, methods에서는 정의하고
     openAni: function (ev, i) {

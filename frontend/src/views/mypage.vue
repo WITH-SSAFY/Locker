@@ -39,15 +39,26 @@
             </div>
 
             <!-- 스탯 섹션 -->
+
+
+            <!-- 스탯 섹션 -->
             <div class="col-md-5">
+              <a href="https://github.com/anuraghazra/github-readme-stats">
+                <img align="left" src="https://github-readme-stats.vercel.app/api?username=YNNJN&show_icons=true&theme=buefy" />
+              </a>
+            </div>
+
+
+
+            <!-- <div class="col-md-5">
               <div v-if="userInfo.provider === 'github'">
                 <a href="https://github.com/anuraghazra/github-readme-stats">
                   <img align="left" :src="statSrc" />
                 </a>
-              </div>
+              </div> -->
 
               <!-- 깃헙과 연동되지 않았을 때의 화면 디자인 -->
-              <div v-else style="min-height: 10rem; background-color: #eceffc; padding: 2rem;">
+              <!-- <div v-else style="min-height: 10rem; background-color: #eceffc; padding: 2rem;">
                 <div class="text-center">
                   <p class="medium">
                     깃헙과 연동하면 당신의
@@ -69,8 +80,8 @@
                     <span class="bolder" style="font-size: 1rem;">깃헙 연동 바로가기</span>
                   </v-btn>
                 </div>
-              </div>
-            </div>
+              </div> -->
+            <!-- </div> -->
           </div>
           <!-- <hr> -->
         </v-col>
@@ -169,25 +180,25 @@ export default {
     this.githubId = this.userInfo.login;
     
     // 토큰 값 받아오기
-    // let token = localStorage.getItem("access_token");
-    // this.token = token;
-    this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE1OTc5NDM2ODksImV4cCI6MTU5Nzk0NzI4OX0.ujF-jxZdqLZInoh2lA6YzZXQ0GDpinRENaRO41dgpfE"
-    // let accessToken = localStorage.getItem("github_token");
-    // this.accessToken = accessToken;
-    this.accessToken = "6ed8aaaccd188c08646ce94cb4d921ab8eb1d98d"
+    let token = localStorage.getItem("access_token");
+    this.token = token;
+    // this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE1OTc5NTI4MzQsImV4cCI6MTU5Nzk1NjQzNH0.ybyXVqzJstavyGA-BM8rhKe_8_ZBDzZQqX_LKo2AdJU"
+    let accessToken = localStorage.getItem("github_token");
+    this.accessToken = accessToken;
+    // this.accessToken = "7ea2b6343a65d460896f22242b51c4348e19e314"
     
     // 토큰 값 전달해서 getRepos 실행(Repository 리스트 받아오기)
     
     // this.userInfo.uid = 'jane399'
     // this.userInfo.uid = 'junhok82'
-    this.userInfo.uid = 'YNNJN'
-    this.userInfo.provider = 'github'
+    // this.userInfo.uid = 'YNNJN'
+    // this.userInfo.provider = 'github'
     // console.log("userInfo.uid: ", this.userInfo.uid);
 
     // locker에 저장된 repository 조회하기
     // this.userInfo.id = 17
     // this.userInfo.id = 15
-    this.userInfo.id = 21
+    // this.userInfo.id = 21
 
     this.getRepos({ token: this.token, accessToken: this.accessToken, uid: this.userInfo.uid, id: this.userInfo.id})
 
