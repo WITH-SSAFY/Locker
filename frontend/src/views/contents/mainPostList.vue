@@ -4,15 +4,15 @@
     <div class="row">
       <div class="col-md-4">
 
-        <v-flex class="logo" style="margin-left: 7rem;">
+        <v-flex class="logo" style="margin-left: 7rem; margin-top: 2rem;">
           <p class="bolder" style="font-size: 5rem; color: #7C4DFF">LOCKER</p>
         </v-flex>
 
         <div style="margin-left: 6.5rem; margin-top: 5rem;">
           <v-icon color="#7C4DFF">mdi-chevron-right</v-icon>
-          <p class="regular d-inline ml-2" style="font-size: 1.7rem; color: #999">공지사항</p>
+          <p class="regular d-inline ml-2" style="font-size: 1.3rem; color: #999">공지사항</p>
         </div>
-        <section id="container">
+        <section id="container" class="my-3">
           <ul id="box" class="regular" style="font-size: 1.1rem;">
             <li class="medium"><router-link to="/notice1">[공지사항] - Locker blog 서비스 시작</router-link></li>
             <li class="medium"><router-link to="/notice2">[공지사항] - Ver 1.01 업데이트</router-link></li>
@@ -20,19 +20,19 @@
           </ul>
           <router-view></router-view>
         </section>
-
-        <div class="float-right" style="margin-top: 5rem;">
-          <v-icon color="#7C4DFF">mdi-chevron-right</v-icon>
-          <p class="regular d-inline ml-2" style="font-size: 1.7rem; color: #999">이 달의 레포지토리</p>
-        </div>
         
-        <div style="margin-left: 6.5rem; margin-top: 12rem;">
+        <div style="margin-left: 6.5rem; margin-top: 20rem;">
           <v-icon color="#7C4DFF">mdi-chevron-down</v-icon>
-          <p class="regular d-inline ml-2" style="font-size: 1.7rem; color: #999">유저의 좋아요 컨텐츠</p>
+          <p class="regular d-inline ml-2" style="font-size: 1.3rem; color: #999">유저의 좋아요 컨텐츠</p>
         </div>
 
       </div>
       <div class="col-md-8 mt-5">
+
+        <div style="margin-left: 4rem; margin-top: 2.3rem; margin-bottom: 2.3rem;">
+          <v-icon color="#7C4DFF">mdi-chevron-right</v-icon>
+          <p class="regular d-inline ml-2" style="font-size: 1.3rem; color: #999">이 달의 레포지토리</p>
+        </div>
 
         <div class="cont s--inactive">
           <div class="cont__inner">
@@ -92,7 +92,7 @@
 
 
 <script>
-import $ from 'jquery'
+// import $ from 'jquery'
 import '../../assets/css/main_post.scss'
 import axios from "../../lib/axios-common.js"
 // import notice1 from '../notice/notice-1.vue'
@@ -169,13 +169,13 @@ export default {
     this.openAni();
     this.closeAni();
 
-    var $box = $('ul#box li:first-child');
-    (function toggleBox() {
-      $box.slideToggle();
-      setTimeout(function(){
-        toggleBox();
-      },2250);
-    })();
+    // var $box = $('ul#box li:first-child');
+    // (function toggleBox() {
+    //   $box.slideToggle();
+    //   setTimeout(function(){
+    //     toggleBox();
+    //   },2250);
+    // })();
     }
   }
 
@@ -191,7 +191,7 @@ export default {
   }
 
   section#container {
-    overflow: hidden;
+    /* overflow: hidden; */
     width: 27.5rem;
     margin-top: 0;
     margin-left: 7rem;
@@ -206,9 +206,9 @@ export default {
   ul#box li {
     text-decoration: none;
     list-style: none;
-    height: 45px;
-    margin: 15px 0;
-    border-bottom: solid 1.3px #7C4DFF;
+    /* height: 45px;
+    margin: 15px 0; */
+    /* border-bottom: solid 1.3px #7C4DFF; */
     margin-left: 10px;
     margin-right: 10px;
     padding-bottom: 10px;
