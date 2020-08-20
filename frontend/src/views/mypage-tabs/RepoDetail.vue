@@ -2,7 +2,11 @@
 
   <div>
     <!-- 커밋 타임라인, 포스트, 언어 비율 -->
+    <!-- TODO: 포스팅을 따로 보여줄지에 대한 여부 논의 -->
+
     <header>
+      <!-- 헤더 : 레포 이름, 디스크립션, 태그, 유저 이름, 리드미, 언어비율 정보 보여줌 -->
+      <!-- TODO: GET /api/v1/github, 내 깃헙 레포 조회-->
       <p class="bold text-white" style="position: fixed;">Vertical Timeline</p>
 
       <!-- 언어 비율-->
@@ -22,11 +26,15 @@
                   <!-- TODO: repo api에서 updated-at 데이터 가져와서 넣어주기 -->
                   <div class="finish label">
                     Oct 2018
+                    {{ langRatio }}
                   </div>
                 </div>
 
                 <!-- TODO: 언어 사용 비율 그려주기 -->
                 <!-- 해당 언어 바이트코드 * 100 / 전체 언어 바이트코드 합 -->
+
+                
+
                 <div class="bar">
                   <div class="phase phase-1" data-phase="Phase 1" style="width: 10.0%" title="More phase info"></div>
                   <div class="phase phase-2" data-phase="Phase 2" style="width: 25.0%" title="More phase info"></div>
@@ -46,13 +54,21 @@
         </div> 
       </div>
 
-
-
     </header>
   
+
+    <!-- 타임라인 영역 : 시간 순 -->
     <section id="cd-timeline" class="cd-container">
-     
+
+      <!-- 커밋 정보 -->
+      <!-- <div style="background-color: white; margin: 10px;" v-for="(commit, index) in commitList" :key="commit.message">
+        <p>{{ index }}. {{ commit.date }} / {{ commit.message }} / {{ commit.url }}</p>
+      </div> -->
+
+      <!-- 타임라인 블럭 -->
+      <!-- TODO: 레포 아이디를 기준으로 created 또는 updated 순으로 커밋 내역과 포스트 정보를 주는 API 필요 -->
       <div class="cd-timeline-block">
+        
         <div class="cd-timeline-img cd-picture">
           <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/148866/cd-icon-picture.svg" alt="Picture">
         </div>
@@ -64,89 +80,24 @@
         <span class="cd-date">Jan 14 날짜를 깃헙보니까 updated 5 days ago 이런식으로 직관적으로했는데 뭐가 좋을까?</span>
         </div>
       </div>
-  
-
-
-      <div class="cd-timeline-block">
-        <div class="cd-timeline-img cd-movie">
-          <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/148866/cd-icon-movie.svg" alt="Movie">
-        </div>
-  
-        <div class="cd-timeline-content">
-          <h2>포스트 글 제목을 넣는거지!</h2>
-          <p>포스트 디스크립션을 넣는거야! 그런데 근데 이때 먼저, 이 타임라인이 들어가는 순서는 말그대로 포스팅과 커밋의 생성 순서로 들어가면 좋을듯!</p>
-          <a href="#0" class="cd-read-more">Read more 마찬가지로 누르면 포스트가 들어가지겠지?</a>
-          <span class="cd-date">Jan 18 날짜,</span>
-        </div>
-      </div>
-
-
-
-      <div class="cd-timeline-block">
-        <div class="cd-timeline-img cd-movie">
-          <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/148866/cd-icon-movie.svg" alt="Movie">
-        </div>
-  
-        <div class="cd-timeline-content">
-          <h2>포스트 글 제목을 넣는거지!</h2>
-          <p>섬네일을 넣는 방법도 있어! 바로이렇게</p> <img src="https://avatars1.githubusercontent.com/u/44442605?s=400&u=bc0dc029509429745a79fc3e83769f5d03f1ae2c&v=4" alt="ㅎㅇ" style="height:200px;">
-          <a href="#0" class="cd-read-more">Read more 마찬가지로 누르면 포스트가 들어가지겠지?</a>
-          <span class="cd-date">Jan 18 날짜,</span>
-        </div>
-      </div>
-
-
-      <div class="cd-timeline-block">
-        <div class="cd-timeline-img cd-movie">
-          <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/148866/cd-icon-movie.svg" alt="Movie">
-        </div>
-  
-        <div class="cd-timeline-content">
-          <h2>포스트 글 제목을 넣는거지!</h2>
-          <p>섬네일을 넣는 방법도 있어! 바로이렇게</p> <img src="https://avatars1.githubusercontent.com/u/44442605?s=400&u=bc0dc029509429745a79fc3e83769f5d03f1ae2c&v=4" alt="ㅎㅇ" style="height:200px;">
-          <a href="#0" class="cd-read-more">Read more 마찬가지로 누르면 포스트가 들어가지겠지?</a>
-          <span class="cd-date">Jan 18 날짜,</span>
-        </div>
-      </div>
+      <!-- 타임라인 블럭 끝 -->
 
     </section>
+
+
+    <!-- 포스트 내역 : 시간 역순 -->
+    <!-- TODO: GET /api/v1/post/all/list/repo, 레포에 대한 포스트 내역 조회 -->
+    <div>
+      <!-- 레포에 걸린 포스트 정보 -->
+      <!-- <div style="background-color: white; margin: 10px;" v-for="(post, index) in repoPost" :key="post.pid">
+        <p>{{ index }}. {{ post.created }} / {{ post.title }} / {{ post.nickname }}</p>
+      </div> -->
+      
+    </div>
 
   </div>
 
 
-  <!-- <v-container>
-    <div>
-      <h1>repository-detail 화면 입니다...!!</h1>
-
-      <div>
-        <h2>커밋정보들</h2>
-        <div style="background-color: gray; border-radius: 10px;">
-          <div style="height: 10px;"></div>
-          <div style="background-color: white; margin: 10px;" v-for="(commit, index) in commitList" :key="commit.message">
-            <p>{{ index }}. {{ commit.date }} / {{ commit.message }} / {{ commit.url }}</p>
-          </div>
-          <div style="height: 10px;"></div>
-        </div>
-      </div>
-
-      <div>
-        <h2>언어사용비유우울</h2>
-        <div>{{ langRatio }}</div>
-      </div>
-    </div>
-
-    <div>
-      <h2>레포에 걸려있는 포스트 출력</h2>
-      <div style="background-color: skyblue; border-radius: 10px;">
-        <div style="height: 10px;"></div>
-        <div style="background-color: white; margin: 10px;" v-for="(post, index) in repoPost" :key="post.pid">
-          <p>{{ index }}. {{ post.created }} / {{ post.title }} / {{ post.nickname }}</p>
-        </div>
-        <div style="height: 10px;"></div>
-      </div>
-    </div>
-    
-  </v-container> -->
 </template>
 <script>
 import { mapState } from "vuex";
@@ -180,6 +131,7 @@ export default {
   },
 }
 </script>
+
 <style scoped>
 html * {
   -webkit-font-smoothing: antialiased;
@@ -221,9 +173,9 @@ Modules - reusable parts of our design
 -------------------------------- */
 .cd-container {
   /* this class is used to give a max-width to the element it is applied to, and center it horizontally when it reaches that max-width */
-  width: 90%;
+  width: 50%;
   max-width: 1170px;
-  margin: 0 auto;
+  /* margin: 0 auto; */
 }
 .cd-container::after {
   /* clearfix */

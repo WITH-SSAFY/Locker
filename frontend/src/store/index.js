@@ -600,6 +600,7 @@ export default new Vuex.Store({
           console.log("err", err);
         });
     },
+    // 커밋 리스트와 언어 비율 가져오기
     getRepoDetail({ commit, dispatch }, repoInfo) {
       console.log("getRepoDetail - repoInfo:", repoInfo);
 
@@ -666,6 +667,7 @@ export default new Vuex.Store({
         });
     },
 
+    // 레포에 대한 포스트 리스트 가져오기
     getRepoPost({ commit }, repoInfo) {
       console.log("getRepoPost - repoInfo", repoInfo);
       axios
