@@ -10,42 +10,60 @@
       <p class="bold text-white" style="position: fixed;">Vertical Timeline</p>
 
       <!-- 언어 비율-->
-      <div>
-        <div style="">
+      <div style="display:flex;flex-direction:column">
+        <div style="flex:1 400px;display:flex;">
           <div style="flex:0 1 50%;margin:0 auto;padding:0 32px;min-width:320px;max-width:576px;display:flex;flex-direction:column;justify-content:space-around">
             <div>
 
               <div class="progress-project">
 
-                <div class="dates">
+                <!-- <div class="dates"> -->
                   <!-- TODO: repo api에서 created-at 데이터 가져와서 넣어주기 -->
-                  <div class="start label">
+                  <!-- <div class="start label">
                     Jan 2016
-                  </div>
+                  </div> -->
 
                   <!-- TODO: repo api에서 updated-at 데이터 가져와서 넣어주기 -->
-                  <div class="finish label">
+                  <!-- <div class="finish label">
                     Oct 2018
+                  </div>
+                  <div style="margin-top: 5rem;">
                     {{ langRatio }}
                   </div>
-                </div>
+                </div> -->
 
                 <!-- TODO: 언어 사용 비율 그려주기 -->
                 <!-- 해당 언어 바이트코드 * 100 / 전체 언어 바이트코드 합 -->
-
+                <!-- { "cpp": "0.0", "java": "0.0", "vue": "16.0", "c": "0.0", "css": "0.0", "javascript": "13.0", "html": "66.0", "shell": "0.0", "python": "4.0", "ruby": "0.0", "cppp": "0.0" }-->
                 
 
                 <div class="bar">
-                  <div class="phase phase-1" data-phase="Phase 1" style="width: 10.0%" title="More phase info"></div>
+                  <!-- 그래프 & 라벨 -->
+                  
+        
+                  <div
+                    v-for="(ratio, lang, idx) in langRatio"
+                    :key="idx"
+                  >
+                    
+                    <div class='phase' :class="'phase-' + (idx+1)" :data-phase="'Phase ' + (idx+1)" :style="{ width: ratio + '%' }" title="More phase info"></div>
+                    <div v-if="ratio !== '0.0'" class="current-state label" :class="'phase-' + (idx+1)" :style="{ width : ratio + '%'} ">{{ lang }}</div>
+                
+                  </div>
+
+                  <!-- <div class="phase phase-1" data-phase="Phase 1" style="width: 15.0%" title="More phase info"></div>
+                  <div class="current-state label phase-1" style="width:15%">Phase 1</div>
+
                   <div class="phase phase-2" data-phase="Phase 2" style="width: 25.0%" title="More phase info"></div>
-                  <div class="phase phase-3" data-phase="Phase 3" style="width: 30.0%" title="More phase info"></div>
-                  <div class="phase phase-4" data-phase="Phase 4" style="width: 30.0%" title="More phase info"></div>
-
-                  <div class="current-state label phase-1" style="width:10%">Phase 1</div>
                   <div class="current-state label phase-2" style="width:30%">Phase 2</div>
-                  <div class="current-state label phase-3" style="width:60%">Phase 3</div>
-                  <div class="current-state label phase-4" style="width:90%">Phase 4</div>
 
+                  <div class="phase phase-3" data-phase="Phase 3" style="width: 30.0%" title="More phase info"></div>
+                  <div class="current-state label phase-3" style="width:60%">Phase 3</div>
+
+                  <div class="phase phase-4" data-phase="Phase 4" style="width: 30.0%" title="More phase info"></div>
+                  <div class="current-state label phase-4" style="width:90%">Phase 4</div> -->
+                  
+                
                 </div>
 
               </div>
@@ -71,7 +89,7 @@
 
           <!-- 타임라인 블럭 -->
           <!-- TODO: 레포 아이디를 기준으로 created 또는 updated 순으로 커밋 내역과 포스트 정보를 주는 API 필요 -->
-          <div class="cd-timeline-block">
+          <!-- <div class="cd-timeline-block">
             
             <div class="cd-timeline-img cd-picture">
               <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/148866/cd-icon-picture.svg" alt="Picture">
@@ -83,7 +101,7 @@
               <a href="#0" class="cd-read-more">Read more 여기에 해당 커밋 코드 링크걸자</a>
             <span class="cd-date">Jan 14 날짜를 깃헙보니까 updated 5 days ago 이런식으로 직관적으로했는데 뭐가 좋을까?</span>
             </div>
-          </div>
+          </div> -->
           <!-- 타임라인 블럭 끝 -->
 
         </section>
@@ -183,6 +201,20 @@ export default {
   },
   computed: {
     ...mapState(["commitList", "langRatio", "repoPost"])
+  },
+  created () {
+    // var langArray = Object.values(this.langRatio);
+    // console.log('배열', langArray) // ["0.0", "0.0", "16.0", "0.0", "0.0", "13.0", "66.0", "0.0", "4.0", "0.0", "0.0"]
+    
+    // var langObj = this.langRatio;
+    // var langArray = [];
+    // for (const ele of langObj) {
+    //   console.log('엘레', ele)
+    //   langArray.append(ele)
+    // }
+    // console.log('어레이나와라', this.langArray)
+
+    
   },
   mounted () {
     $(document).ready(function($){

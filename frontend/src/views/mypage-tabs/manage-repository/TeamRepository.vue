@@ -65,10 +65,10 @@ export default {
     // 토큰 값 받아오기
     // let token = localStorage.getItem("access_token");
     // this.token = token;
-    this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE1OTc5MjMwOTgsImV4cCI6MTU5NzkyNjY5OH0.Q7MGkKSrtLatp0_P3dkPnonIDtTmDKBQsOwBO32ERgA"
+    this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE1OTc5Mzk4NTcsImV4cCI6MTU5Nzk0MzQ1N30.u1PefR7YcW5kRELL3EES4Rcc5CO-TRuhTRzjyrgKBPs"
     // let accessToken = localStorage.getItem("github_token");
     // this.accessToken = accessToken;
-    this.accessToken = "cc0cc3f2d7e3fe43d851db386842e186927ce4e5"
+    this.accessToken = "a8929bf3a2e3c4ebb45394c071d719edbeb67179"
     
     // this.userInfo.uid='jane399'
     // this.userInfo.uid='junhok82'

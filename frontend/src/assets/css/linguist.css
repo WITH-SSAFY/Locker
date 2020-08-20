@@ -268,7 +268,7 @@ aside, .secondary {
 .progress-project .bar {
   height: 10px;
   position: relative;
-  background-image: linear-gradient(to right, #0aa0c2, #0ac2bf);
+  background-image: linear-gradient(to right, #CFBBF8, #986BFF);
   background-color: #94949e;
   background-clip: content-box;
   padding: 1px 0px;
@@ -292,7 +292,7 @@ aside, .secondary {
   border-color: #0c0c0d;
 }
 .progress-project .bar .phase {
-  color: #0ab3c2;
+  color: #eceffc;
   box-sizing: content-box;
   height: 100%;
   padding: 2px 0;
@@ -387,6 +387,25 @@ aside, .secondary {
 .progress-project .phase-5 {
   color: darkblue !important;
 }
+.progress-project .phase-6 {
+  color: #074F57 !important;
+}
+.progress-project .phase-7 {
+  color: #7C4DFF !important;
+}
+.progress-project .phase-8 {
+  color: #986BFF !important;
+}
+.progress-project .phase-9 {
+  color: #CFBBF8 !important;
+}
+.progress-project .phase-10 {
+  color: #077187 !important;
+}
+.progress-project .phase-11 {
+  color: #9ECE9A !important;
+}
+
 .progress-project .current-state {
   color: #0ab3c2;
   left: 0;
