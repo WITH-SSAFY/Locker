@@ -4,12 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.locker.blog.advice.exception.CCommunicationException;
 import com.locker.blog.advice.exception.CUserNotFoundException;
+import com.locker.blog.domain.post.Post;
 import com.locker.blog.domain.repository.*;
 import com.locker.blog.domain.response.CommonResult;
 import com.locker.blog.domain.social.GithubRetAuth;
 import com.locker.blog.domain.social.Languages;
 import com.locker.blog.domain.user.*;
 import com.locker.blog.repository.github.MyRepositoryJpaRepo;
+import com.locker.blog.repository.post.PostJpaRepo;
 import com.locker.blog.service.response.ResponseService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -23,6 +25,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +40,7 @@ public class GithubService {
     private final MyRepositoryJpaRepo myRepositoryJpaRepo;
     private final Environment env;
     private final Gson gson;
+    private final PostJpaRepo postJpaRepo;
 
     @Value("${spring.security.oauth2.client.registration.github.clientId}")
     private String githubClientId;
@@ -253,5 +257,96 @@ public class GithubService {
 
     private String apiUrl2Url(String url) {
         return url.replace("commits","commit").replace("api.","").replace("repos/","");
+    }
+
+    public List<Timeline> getTimelines(List<CommitCompactInfo> commitCompactInfos, Long repoId) {
+        Optional<List<Post>> posts = postJpaRepo.findAllByRepoIdOrderByCreated(repoId);
+        List<Timeline> timelines = new ArrayList<>();
+
+        if(!posts.isPresent()) {
+            for (int i = 0; i < commitCompactInfos.size(); i++) {
+                Timeline timeline = new Timeline();
+                timeline.setDate(commitCompactInfos.get(i).getDate());
+                timeline.setMessage(commitCompactInfos.get(i).getMessage());
+                timeline.setUrl(commitCompactInfos.get(i).getUrl());
+                timeline.setThumbnail(null);
+                timelines.add(timeline);
+            }
+            return timelines;
+        }
+
+        int idx = 0;
+        List<Post> postList = posts.get();
+
+        for (int i = 0; i < commitCompactInfos.size(); i++) {
+            Timeline timeline = new Timeline();
+            String date = commitCompactInfos.get(i).getDate();
+            String[] dates = date.split("-");
+
+            int year = Integer.parseInt(dates[0]);
+            int month = Integer.parseInt(dates[1]);
+            int day = Integer.parseInt(dates[2].substring(0,2));
+
+            String postDate = null;
+            int postYear = 0;
+            int postMonth = 0;
+            int postDay = 0;
+
+            logger.info("idx : " + idx + " Postsize : " + postList.size() + " now commitIdx : " + i + " max size : " + commitCompactInfos.size());
+
+            if(idx != postList.size()) {
+                postDate = String.valueOf(postList.get(idx).getCreated());
+                String[] postDates = postDate.split("-");
+
+                postYear = Integer.parseInt(postDates[0]);
+                postMonth = Integer.parseInt(postDates[1]);
+                postDay = Integer.parseInt(postDates[2].substring(0,2));
+            }
+
+            logger.info(" commit : " + year + " " + month + " " + day);
+            logger.info(" post : " + postYear + " " + postMonth + " " + postDay + " ");
+
+            if(year < postYear || idx == postList.size()) {
+                timeline.setDate(date);
+                timeline.setThumbnail(null);
+                timeline.setUrl(commitCompactInfos.get(i).getUrl());
+                timeline.setMessage(commitCompactInfos.get(i).getMessage());
+            }
+            else {
+                if(month < postMonth) {
+                    timeline.setDate(date);
+                    timeline.setThumbnail(null);
+                    timeline.setUrl(commitCompactInfos.get(i).getUrl());
+                    timeline.setMessage(commitCompactInfos.get(i).getMessage());
+                }
+                else {
+                    if(day <= postDay) {
+                        timeline.setDate(date);
+                        timeline.setThumbnail(null);
+                        timeline.setUrl(commitCompactInfos.get(i).getUrl());
+                        timeline.setMessage(commitCompactInfos.get(i).getMessage());
+                    }
+                    else {
+                        timeline.setDate(postDate);
+                        timeline.setThumbnail(postList.get(i).getThumbnail());
+                        timeline.setUrl("http://i3a606.p.ssafy.io/readPost/" + postList.get(i).getPid());
+                        timeline.setMessage(postList.get(i).getTitle());
+                        idx++;
+                    }
+                }
+            }
+            timelines.add(timeline);
+        }
+
+        for(int i = idx; i < postList.size(); ++i) {
+            Timeline timeline = new Timeline();
+            timeline.setDate(String.valueOf(postList.get(i).getCreated()));
+            timeline.setThumbnail(postList.get(i).getThumbnail());
+            timeline.setUrl("http://i3a606.p.ssafy.io/readPost/" + postList.get(i).getPid());
+            timeline.setMessage(postList.get(i).getTitle());
+            timelines.add(timeline);
+        }
+
+        return timelines;
     }
 }

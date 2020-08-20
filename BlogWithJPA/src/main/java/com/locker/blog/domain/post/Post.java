@@ -44,9 +44,9 @@ public class Post {
 
     private String thumbnail;
     private String description;
-    private Long repo_id;
+    private Long repoId;
 
     @Column(nullable = false)
-    private Long usr_id;
+    private Long usrId;
     private String usr_picture;
 }
