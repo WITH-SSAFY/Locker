@@ -84,7 +84,7 @@
             <div class="under-line"></div>
             <div class="my-6">
               <div id="nick">
-                <a @click="viewUserPage(usrId)">{{ nickname }}</a>
+                {{ nickname }}
               </div>
               <div id="dash">/</div>
               <div id="wdate">{{ created }}</div>
@@ -157,7 +157,7 @@
             <div class="col-md-7 d-flex-wrap">
               <div class="mx-2">
                 <p class="d-inline" style="font-size: 1.8rem">
-                  <a @click="viewUserPage(usrId)">{{ nickname }}</a>
+                  {{ nickname }}
                   <v-icon size="30" class="ml-1" color="#7C4DFF"
                     >mdi-arm-flex</v-icon
                   >
@@ -597,10 +597,6 @@ export default {
           this.$store.dispatch("showMyDetail", prevPid);
         })
         .catch(() => alert("첫 페이지 입니다."));
-    },
-    viewUserPage(usrId) {
-      console.log("userId : ", usrId);
-      this.$router.push({ name: "userpage", params: { usrId: usrId } });
     },
   },
   updated() {
