@@ -83,7 +83,9 @@
             <div class="row post_title ml-1">{{ title }}</div>
             <div class="under-line"></div>
             <div class="my-6">
-              <div id="nick">{{ nickname }}</div>
+              <div id="nick">
+                <a @click="viewUserPage(usrId)">{{ nickname }}</a>
+              </div>
               <div id="dash">/</div>
               <div id="wdate">{{ created }}</div>
               <v-btn
@@ -101,14 +103,14 @@
             </div>
             <div class="float-right">
               <button
-                v-if="this.userInfo.id === usr_id"
+                v-if="this.userInfo.id === usrId"
                 class="btn btn-light badge-pill mr-2"
                 @click="goEditDetail(pid)"
               >
                 <span>edit</span>
               </button>
               <button
-                v-if="this.userInfo.id === usr_id"
+                v-if="this.userInfo.id === usrId"
                 class="btn btn-light badge-pill"
                 @click="deleteDetail(pid)"
               >
@@ -155,7 +157,7 @@
             <div class="col-md-7 d-flex-wrap">
               <div class="mx-2">
                 <p class="d-inline" style="font-size: 1.8rem">
-                  {{ nickname }}
+                  <a @click="viewUserPage(usrId)">{{ nickname }}</a>
                   <v-icon size="30" class="ml-1" color="#7C4DFF"
                     >mdi-arm-flex</v-icon
                   >
@@ -380,7 +382,7 @@ export default {
     this.userInfo;
     this.pid;
     this.$store.dispatch("showMyDetail", this.pid);
-    this.usr_id;
+    this.usrId;
     this.usr_picture;
     this.flag = false;
     this.viewerText;
@@ -419,8 +421,8 @@ export default {
     nickname() {
       return this.$store.state.nickname;
     },
-    usr_id() {
-      return this.$store.state.usr_id;
+    usrId() {
+      return this.$store.state.usrId;
     },
     usr_picture() {
       return this.$store.state.usr_picture;
@@ -441,21 +443,6 @@ export default {
     viewerComment() {
       return this.$store.state.commentList;
     },
-  },
-
-  async beforeRouteUpdate(from, to, next) {
-    this.flag = false;
-    this.userInfo;
-    this.usr_picture;
-    this.pid;
-    await this.viewerText;
-    this.$store.dispatch("getCommentList", this.pid);
-    this.viewerComment;
-    this.getTags();
-    this.getLikes();
-    this.checkUserLiked();
-    this.flag = true;
-    next();
   },
 
   methods: {
@@ -610,6 +597,10 @@ export default {
           this.$store.dispatch("showMyDetail", prevPid);
         })
         .catch(() => alert("첫 페이지 입니다."));
+    },
+    viewUserPage(usrId) {
+      console.log("userId : ", usrId);
+      this.$router.push({ name: "userpage", params: { usrId: usrId } });
     },
   },
   updated() {

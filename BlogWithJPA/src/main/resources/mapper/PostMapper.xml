@@ -6,12 +6,12 @@
     <select id="selectAllByWriter" resultType="Post">
         select *
         from post
-        where usr_id=#{usr_id}
+        where usr_id=#{usrId}
     </select>
 
     <insert id="insert" parameterType="Post" useGeneratedKeys="true" keyProperty="pid">
         insert into post(email,nickname,content,title, created, updated, likes,description,thumbnail,repo_id,usr_id,usr_picture)
-        values(#{email},#{nickname},#{content}, #{title},curdate(), curdate(), 0,#{description},#{thumbnail}, #{repo_id},#{usr_id},#{usr_picture})
+        values(#{email},#{nickname},#{content}, #{title},curdate(), curdate(), 0,#{description},#{thumbnail}, #{repoId},#{usrId},#{usr_picture})
     </insert>
 
     <select id="selectAll" resultType="PagingPost">
@@ -20,22 +20,22 @@
         limit #{startPage}, #{endPage}
     </select>
 
-    <select id="selectOne" parameterType="String" resultType="Post">
-        select *
-        from post
+    <select id="selectOne" resultType="Post">
+        select p.pid, p.email, p.nickname, p.title, p.content, p.created, p.updated, p.likes, p.thumbnail, p.description, p.repo_id as repoId, p.usr_id as usrId, p.usr_picture
+        from post p
         where pid=#{pid}
     </select>
 
     <update id="update" parameterType="Post">
         update post
-        set title=#{title}, content=#{content}, description=#{description}, thumbnail=#{thumbnail}, updated=curdate(), repo_id=#{repo_id}, usr_picture=#{usr_picture}
+        set title=#{title}, content=#{content}, description=#{description}, thumbnail=#{thumbnail}, updated=curdate(), repo_id=#{repoId}, usr_picture=#{usr_picture}
         where pid=#{pid}
     </update>
 
     <update id="updatePicture" >
         update post
         set usr_picture=#{usr_picture}
-        where usr_id=#{usr_id}
+        where usr_id=#{usrId}
     </update>
 
     <update id="addLike">
@@ -95,7 +95,7 @@
     <select id="getALLRepoPost" resultType="Post">
         select *
         from post
-        where repo_id=#{repo_id}
+        where repo_id=#{repoId}
     </select>
 
 </mapper>
