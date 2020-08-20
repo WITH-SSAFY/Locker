@@ -272,7 +272,6 @@ export default {
   },
   components: {
     Viewer
-    // SideBar
   },
   data() {
     return {
