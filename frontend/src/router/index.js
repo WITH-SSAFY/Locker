@@ -10,28 +10,28 @@ import introduce from "../views/mypage-tabs/introduce.vue";
 
 Vue.use(VueRouter);
 
-const rejectAuthUser = (to, from, next) => {
-  // if(store.state.isLogin === true){
+// const rejectAuthUser = (to, from, next) => {
+//   // if(store.state.isLogin === true){
 
-  if (localStorage.getItem("X-AUTH-TOKEN") !== null) {
-    //이미 로그인된 유저니까 막아야함.
-    alert("이미 로그인 되었습니다!");
-    next();
-  } else {
-    next();
-  }
-};
-const onlyAuthUser = (to, from, next) => {
-  // if(store.state.isLogin === false){
-  alert("on1");
-  if (localStorage.getItem("X-AUTH-TOKEN") === null) {
-    //이미 로그인 안된 유저니까 막아야함.
-    //alert('로그인이 필요한 기능입니다!');
-    next("/");
-  } else {
-    next();
-  }
-};
+//   if (localStorage.getItem("X-AUTH-TOKEN") !== null) {
+//     //이미 로그인된 유저니까 막아야함.
+//     alert("이미 로그인 되었습니다!");
+//     next();
+//   } else {
+//     next();
+//   }
+// };
+// const onlyAuthUser = (to, from, next) => {
+//   // if(store.state.isLogin === false){
+//   alert("on1");
+//   if (localStorage.getItem("X-AUTH-TOKEN") === null) {
+//     //이미 로그인 안된 유저니까 막아야함.
+//     //alert('로그인이 필요한 기능입니다!');
+//     next("/");
+//   } else {
+//     next();
+//   }
+// };
 const routes = [
   {
     path: "/",
