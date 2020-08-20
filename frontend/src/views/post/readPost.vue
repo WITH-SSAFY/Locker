@@ -415,13 +415,6 @@ export default {
       let response = await axios.get("/v1/tag/allitem?pid=" + this.pid);
       this.tags = response.data;
       console.log("getTags pid: ", this.tags);
-
-      // axios
-      //   .get("/v1/tag/all/" + this.$store.state.pid)
-      //   .then(response => {
-      //     this.tags = response.data;
-      //   })
-      //   .catch(exp => alert("태그 불러오기 실패" + exp));
     },
     async getLikes() {
       //서버로 부터 해당 포스트의 좋아요 수 받아옴
