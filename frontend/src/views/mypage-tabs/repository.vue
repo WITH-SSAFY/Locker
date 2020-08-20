@@ -81,8 +81,31 @@
       <add-team-repo></add-team-repo>
     </v-row>
   </div>
-  <div v-else style="margin-left:20px; color: white;">
-    <div style="border-radius: 10px;"><h1>깃헙으로 로그인해주세요!</h1></div>
+
+  <div v-else style="margin-left:20px; color: white; min-height: 25vh;">
+    <!-- <div style="border-radius: 10px;"><h1>깃헙으로 로그인해주세요!</h1></div> -->
+    <!-- <p class="medium" style="font-size: 1.5rem;">깃헙과 연동해주세요 !</p> -->
+    <div class="text-center mt-5" style="font-size: 1.3rem;">
+      <p class="thin" style="padding: 2rem 0;">깃헙과 연동해주세요 !</p>
+      <p class="medium">깃헙과 연동하면 당신의 <strong style="color: #7C4DFF">레포지토리</strong>를</p>
+      <p class="medium"><strong style="color: #7C4DFF;">LOCKER</strong>에서 관리할 수 있어요</p>
+      <v-icon color="#7C4DFF" class="mr-2">mdi-menu-up</v-icon>
+      <v-btn
+        depressed
+        text
+        color="#252525"
+        router
+        :to="{ name: 'register' }"
+        style="text-decoration: none; padding: 2rem 0;"
+      >
+        <v-icon size="23" style="color: black; padding-right: 1.1rem;">mdi-github</v-icon>
+        <span class="bolder text-white py-5" style="font-size: 1.1rem;">깃헙 연동 바로가기</span>
+      </v-btn>
+
+    </div>
+
+
+
   </div>
 </v-container>
 </template>
