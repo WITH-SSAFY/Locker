@@ -11,6 +11,7 @@ import com.locker.blog.domain.social.Languages;
 import com.locker.blog.domain.user.GithubProfile;
 import com.locker.blog.domain.user.User;
 import com.locker.blog.repository.github.MyRepositoryJpaRepo;
+import com.locker.blog.repository.post.PostJpaRepo;
 import com.locker.blog.repository.user.UserJpaRepo;
 import com.locker.blog.service.github.GithubService;
 import com.locker.blog.service.response.ResponseService;
@@ -117,4 +118,15 @@ public class RepositoryController {
         return responseService.getListResult(commitCompactInfos);
     }
 
+    @ApiOperation(value = "타임라인 데이터 조회", notes = "내 타임라인 정보를 조회한다.")
+    @GetMapping(value = "github/timeline")
+    public ListResult<Timeline> getCommitInfo(
+                                                @ApiParam(value = "레파지토리 아이디") @RequestParam Long repoId,
+                                                @ApiParam(value = "유저 or 팀 이름") @RequestParam String name,
+                                                @ApiParam(value = "레포 이름") @RequestParam String repoName) {
+        List<CommitInfo> commitInfos = githubService.getCommitInfo(name,repoName);
+        List<CommitCompactInfo> commitCompactInfos = githubService.getCommitCompactInfo(commitInfos);
+        List<Timeline> timelines = githubService.getTimelines(commitCompactInfos, repoId);
+        return responseService.getListResult(timelines);
+    }
 }

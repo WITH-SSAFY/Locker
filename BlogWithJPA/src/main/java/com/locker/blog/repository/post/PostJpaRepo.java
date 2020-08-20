@@ -9,5 +9,6 @@ import java.util.Optional;
 
 public interface PostJpaRepo extends JpaRepository<Post,Long> {
     Optional<List<Post>> findAllByOrderByLikesDesc();
+    Optional<List<Post>> findAllByRepoIdOrderByCreated(Long repoId);
     //Optional<List<Post>> findAllByMyRepository(MyRepository myRepository);
  }
