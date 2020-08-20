@@ -10,7 +10,7 @@
       <p class="bold text-white" style="position: fixed;">Vertical Timeline</p>
 
       <!-- 언어 비율-->
-      <div style="display:flex;flex-direction:column">
+      <div style="width:100rem;min-height:100rem;display:flex;flex-direction:column">
         <div style="flex:1 400px;display:flex;">
           <div style="flex:0 1 50%;margin:0 auto;padding:0 32px;min-width:320px;max-width:576px;display:flex;flex-direction:column;justify-content:space-around">
             <div>
@@ -38,32 +38,18 @@
                 
 
                 <div class="bar">
-                  <!-- 그래프 & 라벨 -->
-                  
-        
+
+                  <!-- 언어 사용 비율 그래프 -->
                   <div
                     v-for="(ratio, lang, idx) in langRatio"
                     :key="idx"
-                  >
-                    
-                    <div class='phase' :class="'phase-' + (idx+1)" :data-phase="'Phase ' + (idx+1)" :style="{ width: ratio + '%' }" title="More phase info"></div>
-                    <div v-if="ratio !== '0.0'" class="current-state label" :class="'phase-' + (idx+1)" :style="{ width : ratio + '%'} ">{{ lang }}</div>
-                
+                    class='phase'
+                    :class="'phase-' + (idx+1)"
+                    :data-phase="'Phase ' + (idx+1)"
+                    :style="{ width: ratio + '%' }"
+                    title="More phase info">
                   </div>
-
-                  <!-- <div class="phase phase-1" data-phase="Phase 1" style="width: 15.0%" title="More phase info"></div>
-                  <div class="current-state label phase-1" style="width:15%">Phase 1</div>
-
-                  <div class="phase phase-2" data-phase="Phase 2" style="width: 25.0%" title="More phase info"></div>
-                  <div class="current-state label phase-2" style="width:30%">Phase 2</div>
-
-                  <div class="phase phase-3" data-phase="Phase 3" style="width: 30.0%" title="More phase info"></div>
-                  <div class="current-state label phase-3" style="width:60%">Phase 3</div>
-
-                  <div class="phase phase-4" data-phase="Phase 4" style="width: 30.0%" title="More phase info"></div>
-                  <div class="current-state label phase-4" style="width:90%">Phase 4</div> -->
-                  
-                
+                  <div class="current-state label" :class="'phase-' + (idx+1)" :style="{ width : ratio*(idx+1) + '%'} ">{{ lang }}</div>                
                 </div>
 
               </div>
