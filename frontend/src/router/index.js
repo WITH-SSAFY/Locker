@@ -15,7 +15,7 @@ const rejectAuthUser = (to, from, next) => {
   if (localStorage.getItem("X-AUTH-TOKEN") !== null) {
     //이미 로그인된 유저니까 막아야함.
     alert("이미 로그인 되었습니다!");
-    next("/");
+    next();
   } else {
     next();
   }
@@ -179,12 +179,10 @@ const routes = [
         /* webpackChunkName: "repoDetail" */ "../views/mypage-tabs/RepoDetail.vue"
       ),
   },
-
 ];
 
 const router = new VueRouter({
   mode: "history",
-  base: process.env.BASE_URL,
   routes,
 });
 
