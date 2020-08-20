@@ -1,57 +1,115 @@
 <template>
 
   <div>
+    <!-- 커밋 타임라인, 포스트, 언어 비율 -->
     <header>
-      <p class="bold text-white">Vertical Timeline</p>
+      <p class="bold text-white" style="position: fixed;">Vertical Timeline</p>
+
+      <!-- 언어 비율-->
+      <div>
+        <div style="">
+          <div style="flex:0 1 50%;margin:0 auto;padding:0 32px;min-width:320px;max-width:576px;display:flex;flex-direction:column;justify-content:space-around">
+            <div>
+
+              <div class="progress-project">
+
+                <div class="dates">
+                  <!-- TODO: repo api에서 created-at 데이터 가져와서 넣어주기 -->
+                  <div class="start label">
+                    Jan 2016
+                  </div>
+
+                  <!-- TODO: repo api에서 updated-at 데이터 가져와서 넣어주기 -->
+                  <div class="finish label">
+                    Oct 2018
+                  </div>
+                </div>
+
+                <!-- TODO: 언어 사용 비율 그려주기 -->
+                <!-- 해당 언어 바이트코드 * 100 / 전체 언어 바이트코드 합 -->
+                <div class="bar">
+                  <div class="phase phase-1" data-phase="Phase 1" style="width: 10.0%" title="More phase info"></div>
+                  <div class="phase phase-2" data-phase="Phase 2" style="width: 25.0%" title="More phase info"></div>
+                  <div class="phase phase-3" data-phase="Phase 3" style="width: 30.0%" title="More phase info"></div>
+                  <div class="phase phase-4" data-phase="Phase 4" style="width: 30.0%" title="More phase info"></div>
+
+                  <div class="current-state label phase-1" style="width:10%">Phase 1</div>
+                  <div class="current-state label phase-2" style="width:30%">Phase 2</div>
+                  <div class="current-state label phase-3" style="width:60%">Phase 3</div>
+                  <div class="current-state label phase-4" style="width:90%">Phase 4</div>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div> 
+      </div>
+
+
+
     </header>
   
     <section id="cd-timeline" class="cd-container">
-
-      <!-- 하나의 타임라인 -->
+     
       <div class="cd-timeline-block">
         <div class="cd-timeline-img cd-picture">
           <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/148866/cd-icon-picture.svg" alt="Picture">
-        </div> <!-- cd-timeline-img -->
+        </div>
   
         <div class="cd-timeline-content">
           <h2>커밋 메세지 어쩌구 저쩌구 </h2>
           <p>넣을게 있다면 더 넣고오오 뭘 넣으면 좋을까??</p>
           <a href="#0" class="cd-read-more">Read more 여기에 해당 커밋 코드 링크걸자</a>
         <span class="cd-date">Jan 14 날짜를 깃헙보니까 updated 5 days ago 이런식으로 직관적으로했는데 뭐가 좋을까?</span>
-        </div> <!-- cd-timeline-content -->
-      </div> <!-- cd-timeline-block -->
+        </div>
+      </div>
   
 
-      <!-- 하나의 타임라인 -->
+
       <div class="cd-timeline-block">
         <div class="cd-timeline-img cd-movie">
           <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/148866/cd-icon-movie.svg" alt="Movie">
-        </div> <!-- cd-timeline-img -->
+        </div>
   
         <div class="cd-timeline-content">
           <h2>포스트 글 제목을 넣는거지!</h2>
           <p>포스트 디스크립션을 넣는거야! 그런데 근데 이때 먼저, 이 타임라인이 들어가는 순서는 말그대로 포스팅과 커밋의 생성 순서로 들어가면 좋을듯!</p>
           <a href="#0" class="cd-read-more">Read more 마찬가지로 누르면 포스트가 들어가지겠지?</a>
           <span class="cd-date">Jan 18 날짜,</span>
-        </div> <!-- cd-timeline-content -->
-      </div> <!-- cd-timeline-block  -->
+        </div>
+      </div>
 
 
-      <!-- 하나의 타임라인 -->
+
       <div class="cd-timeline-block">
         <div class="cd-timeline-img cd-movie">
           <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/148866/cd-icon-movie.svg" alt="Movie">
-        </div> <!-- cd-timeline-img -->
+        </div>
   
         <div class="cd-timeline-content">
           <h2>포스트 글 제목을 넣는거지!</h2>
           <p>섬네일을 넣는 방법도 있어! 바로이렇게</p> <img src="https://avatars1.githubusercontent.com/u/44442605?s=400&u=bc0dc029509429745a79fc3e83769f5d03f1ae2c&v=4" alt="ㅎㅇ" style="height:200px;">
           <a href="#0" class="cd-read-more">Read more 마찬가지로 누르면 포스트가 들어가지겠지?</a>
           <span class="cd-date">Jan 18 날짜,</span>
-        </div> <!-- cd-timeline-content -->
-      </div> <!-- cd-timeline-block  -->
+        </div>
+      </div>
 
-    </section> <!-- cd-timeline -->
+
+      <div class="cd-timeline-block">
+        <div class="cd-timeline-img cd-movie">
+          <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/148866/cd-icon-movie.svg" alt="Movie">
+        </div>
+  
+        <div class="cd-timeline-content">
+          <h2>포스트 글 제목을 넣는거지!</h2>
+          <p>섬네일을 넣는 방법도 있어! 바로이렇게</p> <img src="https://avatars1.githubusercontent.com/u/44442605?s=400&u=bc0dc029509429745a79fc3e83769f5d03f1ae2c&v=4" alt="ㅎㅇ" style="height:200px;">
+          <a href="#0" class="cd-read-more">Read more 마찬가지로 누르면 포스트가 들어가지겠지?</a>
+          <span class="cd-date">Jan 18 날짜,</span>
+        </div>
+      </div>
+
+    </section>
 
   </div>
 
@@ -93,6 +151,7 @@
 <script>
 import { mapState } from "vuex";
 import $ from 'jquery'
+import("../../assets/css/linguist.css");
 
 export default { 
   computed: {
