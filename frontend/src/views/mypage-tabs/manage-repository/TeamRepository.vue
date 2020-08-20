@@ -1,27 +1,29 @@
 <template>
-  <div class="mt-10" style="width: 100%;">
+  <div style="width: 100%;">
     <v-row style="min-height: 300px;">
       <v-col>
-        <div class="p-2 alert-secondary" style="border-radius: 3px;">
+        <div class="p-2 alert-secondary" style="background-color: #12161A; border-radius: 3px; border: 1px solid #7C4DFF;">
+          
+          <div style="font-size: 1.5rem; padding: 3%;">
+            <span class="light text-white">우리 팀 LOCKER의 레포지토리</span>
+          </div>
+          
           <div
-            style="font-size: 1.5rem; font-weight: bold;"
-            class="pl-5 pt-2"
-          >Team Blog Repository</div>
-          <hr />
-          <div
-            class="list-group kanban-colum"
+            class="list-group kanban-colum p-0 m-0"
             :list="teamLockerRepos"
             group="tasks"
-            style="text-align: center;"
+            style="text-align: center; background-color: #12161A;"
           >
             <a
-              class="list-group-item mb-2"
+              class="list-group-item p-0 m-0"
               v-for="element in teamLockerRepos"
               :key="element.repoUrl"
-              style="border-radius: 3px;"
+              style="border-radius: 3px; background-color: #12161A;"
             >
-              <img alt="left" id="stat" :src="element.src">
-              <v-btn
+
+              <img alt="left" id="stat" :src="element.src" @click="getDetail(element.name, element.repoName, element.id)">
+
+              <!-- <v-btn
                 class="ml-5"
                 depressed
                 color="#7C4DFF"
@@ -30,21 +32,23 @@
                 style="font-weight: bolder;"
                 @click="getDetail(element.name, element.repoName, element.id)"
               >
-                <!-- router :to="{ name: 'repoDetail' }" -->
               상세보기
-              </v-btn>
+              </v-btn> -->
+
               <v-btn
                 class="ml-6"
                 depressed
-                color="#7C4DFF"
+                color="#424242"
                 text
                 icon
                 @click="del(index, element.name, element.repoName)"
                 >
                 <v-icon>mdi-trash-can-outline</v-icon>
               </v-btn>
+
             </a>
           </div>
+          
         </div>
       </v-col>
     </v-row>
