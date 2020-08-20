@@ -64,10 +64,7 @@
             <section id="output-html" class="markdown-body" style="display: none;"></section>
             <div id="page" class="markdown-body width: 75%;"></div>
           </div>
-          <!-- <div>
-            <v-btn @click="goPrevPage">이전</v-btn>
-            <v-btn @click="goNextPage">다음</v-btn>
-          </div>-->
+          
           <div class="row mx-5 py-3 writer_info">
             <div class="col-md-2 col-sm-1">
               <v-icon v-if="usr_picture==null" size="80">mdi-account-circle-outline</v-icon>
