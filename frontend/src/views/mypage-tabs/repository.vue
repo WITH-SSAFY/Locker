@@ -23,7 +23,7 @@
           @click="showAction(0)"
           style="font-size: 1.3rem; border-radius: 3px;"
         >
-          <mark> 내 블로그 </mark>
+          <mark> 내 블로그로 함께하기 </mark>
         </v-btn>
 
         <div class="slash"></div>
@@ -36,7 +36,7 @@
           x-large
           style="font-size: 1.3rem; border-radius: 3px;"
         >
-          <mark> 팀 블로그 </mark>
+          <mark> 팀 블로그 함께하기 </mark>
         </v-btn>
 
         <div class="slash"></div>
@@ -45,50 +45,82 @@
     </v-row>
 
     <!-- 내 블로그 탭 -->
-    <v-row class="mt-10" v-if="showRepo[0]">
-      <v-col cols="8" style="color: white;">
-        <h2>내 블로그</h2>
-      </v-col>
-      <v-col cols="4">
-        <v-btn
-          style="position:relative; float: right;"
-          depressed
-          @click="showAction(1)"
-        >Github에서 가져오기</v-btn>
+    <v-row v-if="showRepo[0]">
+      <v-col cols="8" style="margin-top: 3rem;">
+        <v-icon large color="#7C4DFF">mdi-chevron-right</v-icon>
+        <p class="thin" style="color: #7C4DFF; font-size: 3rem;">내 블로그</p>
       </v-col>
     </v-row>
 
-    <v-row class="mt-10" v-if="showRepo[1]">
-      <v-col cols="8">
-        <h2 style="color:white;">내 블로그</h2>
-      </v-col>
-      <v-col cols="4">
-        <v-btn style="position:relative; float: right;" depressed @click="showAction(0)">뒤로</v-btn>
+    <v-row v-if="showRepo[1]">
+      <v-col cols="8" style="margin-top: 3rem;">
+        <v-icon large color="#7C4DFF">mdi-chevron-right</v-icon>
+        <p class="thin" style="color: #7C4DFF; font-size: 3rem;">내 블로그</p>
       </v-col>
     </v-row>
+
+    <v-btn
+      style="position:relative; color: #7C4DFF; padding: 0;"
+      text
+      v-if="showRepo[0]"
+      depressed
+      @click="showAction(1)"
+    >
+      <v-icon>mdi-chevron-right</v-icon>
+      <span style="font-size: 1.5rem;">Github에서 가져오기</span>
+      <span class="thin ml-5" style="color: #EDE7F6">click</span>
+    </v-btn>
+
+    <v-btn
+      v-if="showRepo[1]"
+      style="position:relative; color: #7C4DFF; padding: 0;"
+      text
+      depressed
+      @click="showAction(0)"
+    >
+      <v-icon>mdi-chevron-left</v-icon>
+      <span style="font-size: 1.5rem;">뒤로</span>
+      <span class="thin ml-5" style="color: #EDE7F6">click</span>
+    </v-btn>
 
     <!-- 팀 블로그 탭 -->
-    <v-row class="mt-10" v-if="showRepo[2]">
-      <v-col cols="8" style="color: white;">
-        <h2>팀 블로그</h2>
-      </v-col>
-      <v-col cols="4">
-        <v-btn
-          style="position:relative; float: right;"
-          depressed
-          @click="showAction(3)"
-        >Github에서 가져오기</v-btn>
+    <v-row v-if="showRepo[2]">
+      <v-col cols="8" style="margin-top: 3rem;">
+        <v-icon large color="#7C4DFF">mdi-chevron-right</v-icon>
+        <p class="thin" style="color: #7C4DFF; font-size: 3rem;">팀 블로그</p>
       </v-col>
     </v-row>
 
-    <v-row class="mt-10" v-if="showRepo[3]">
-      <v-col cols="8">
-        <h2>팀 블로그</h2>
-      </v-col>
-      <v-col cols="4">
-        <v-btn style="position:relative; float: right;" depressed @click="showAction(2)">뒤로</v-btn>
+    <v-row v-if="showRepo[3]">
+      <v-col cols="8" style="margin-top: 3rem;">
+        <v-icon large color="#7C4DFF">mdi-chevron-right</v-icon>
+        <p class="thin" style="color: #7C4DFF; font-size: 3rem;">팀 블로그</p>
       </v-col>
     </v-row>
+
+    <v-btn
+      style="position:relative; color: #7C4DFF; padding: 0;"
+      text
+      v-if="showRepo[2]"
+      depressed
+      @click="showAction(3)"
+    >
+      <v-icon>mdi-chevron-right</v-icon>
+      <span style="font-size: 1.5rem;">Github에서 가져오기</span>
+      <span class="thin ml-5" style="color: #EDE7F6">click</span>
+    </v-btn>
+
+    <v-btn
+      v-if="showRepo[3]"
+      style="position:relative; color: #7C4DFF; padding: 0;"
+      text
+      depressed
+      @click="showAction(2)"
+    >
+      <v-icon>mdi-chevron-left</v-icon>
+      <span style="font-size: 1.5rem;">뒤로</span>
+      <span class="thin ml-5" style="color: #EDE7F6">click</span>
+    </v-btn>
 
     <!-- 깃헙과 연동 되었을 경우 => 레포 선택 -->
     <hr style="margin:5px;" />
