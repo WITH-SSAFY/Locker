@@ -12,31 +12,32 @@ import BlogHeader from "./views/Header.vue";
 export default {
   name: "header",
   components: {
-    BlogHeader
+    BlogHeader,
   },
   created() {
     // let url = this.$route.name;
-    // this.route
-    // alert("created url : " + url);
+    // this.route;
     // this.checkUrl(url);
   },
   computed: {
-    ...mapState(["isLogin"])
+    ...mapState(["isLogin"]),
   },
   props: {
-    source: String
+    source: String,
   },
   data: function() {
     return {
       drawer: null,
       isNotMain: true,
-      testUrl: this.$route.name
+      testUrl: this.$route.name,
     };
   },
   watch: {
     $route(to) {
+      console.log("to");
+      alert("to: " + to.name);
       this.checkUrl(to.name);
-    }
+    },
   },
   methods: {
     checkUrl(url) {
@@ -45,8 +46,8 @@ export default {
       } else {
         this.isNotMain = true;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style>
