@@ -1,7 +1,7 @@
 <template>
   <div class="back d-flex justify-content-center mb-5">
     <!-- 깃헙 소개글 없을 경우 -->
-    <div v-if="!intro">
+    <!-- <div v-if="!intro">
       <p class="medium" style="font-size: 1.5rem;">깃헙에서 소개글을 등록해주세요</p>
       <div class="text-center">
         <p class="medium">깃헙에서 소개글을 등록하면 당신의 <strong style="color: #7C4DFF">소개글</strong>을</p>
@@ -12,7 +12,7 @@
           <span class="bolder" style="font-size: 1rem; color: #7C4DFF;">깃헙 페이지 바로가기</span>
         </a>
       </div>
-    </div>
+    </div> -->
     <!-- 깃헙 소개글 있는 경우 -->
     <div v-if="intro">
       <aside id="markdown" contenteditable style="display: none;">{{ intro }}</aside>
