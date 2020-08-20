@@ -440,7 +440,7 @@ export default {
       this.isUserLiked = true;
     },
     async addLikePost() {
-      //포스트에 좋아요수 +1 해줌
+      //포스트에 좋아요수 +1 해줌 ///
       await axios.put("/v1/postlike/add?pid=" + this.pid);
     },
     async addUserLikePost() {
