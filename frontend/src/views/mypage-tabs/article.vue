@@ -11,8 +11,6 @@
       <v-col
         cols="12"
         md="11"
-        v-for="myPost in myPostList"
-        :key="myPost.pid"
       >
 
         <!-- post list -->
@@ -44,8 +42,8 @@
           </div>
 
           <!-- 텍스트 섹션 -->
-          <div @click="showMyDetail(myPost.pid)" class="description" style="cursor: pointer;">
-            <p class="medium mb-2" style="font-size: 1.5rem;">{{ myPost.title }}</p>
+          <div @click="showMyDetail(post.pid)" class="description" style="cursor: pointer;">
+            <p class="medium mb-2" style="font-size: 1.5rem;">{{ post.title }}</p>
             <div class="under-line"></div>
             <p class="regular" style="font-size: 0.9rem;">{{ post.description }}</p>
           </div>
