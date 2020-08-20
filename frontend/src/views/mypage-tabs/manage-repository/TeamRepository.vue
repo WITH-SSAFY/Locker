@@ -63,17 +63,17 @@ export default {
     this.showRepo;
 
     // 토큰 값 받아오기
-    // let token = localStorage.getItem("access_token");
-    // this.token = token;
-    this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE1OTc5MDMzOTMsImV4cCI6MTU5NzkwNjk5M30.DpS4YeeBzq-KjJIZ01ePzwcYFQ4KsVb0GHmCuagMQrE"
-    // let accessToken = localStorage.getItem("github_token");
-    // this.accessToken = accessToken;
-    this.accessToken = "b45b76b3c3d8dcd4df537fa1b9be61f9f12ad872"
+    let token = localStorage.getItem("access_token");
+    this.token = token;
+    // this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE1OTc5MDMzOTMsImV4cCI6MTU5NzkwNjk5M30.DpS4YeeBzq-KjJIZ01ePzwcYFQ4KsVb0GHmCuagMQrE"
+    let accessToken = localStorage.getItem("github_token");
+    this.accessToken = accessToken;
+    // this.accessToken = "b45b76b3c3d8dcd4df537fa1b9be61f9f12ad872"
     
     // this.userInfo.uid='jane399'
     // this.userInfo.uid='junhok82'
-    this.userInfo.uid = 'YNNJN'
-    this.userInfo.provider = 'github'
+    // this.userInfo.uid = 'YNNJN'
+    // this.userInfo.provider = 'github'
     // this.userInfo.provider = 'google'
     // console.log("userInfo.uid: ", this.userInfo.uid)
 

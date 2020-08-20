@@ -1,11 +1,11 @@
 <template>
 <v-container class="p-5">
 
-    <div style="margin-left: 3.5rem; padding-top: 5rem;">
-      <v-icon small color="white">mdi-chevron-right</v-icon>
-      <p class="medium d-inline text-white" style="font-size: 1.5rem;">레포지토리</p>
-      <p class="light text-white ml-4" style="font-size: 1.1rem;">개인 또는 팀으로 LOCKER와 함께해보세요</p>
-    </div>
+  <div style="margin-left: 3.5rem; padding-top: 5rem;">
+    <v-icon small color="white">mdi-chevron-right</v-icon>
+    <p class="medium d-inline text-white" style="font-size: 1.5rem;">레포지토리</p>
+    <p class="light text-white ml-4" style="font-size: 1.1rem;">개인 또는 팀으로 LOCKER와 함께해보세요</p>
+  </div>
 
   <div v-if="userInfo.provider === 'github'" style="margin-left:20px;">
 
@@ -185,15 +185,15 @@ export default {
     // 토큰 값 전달해서 getRepos 실행(Repository 리스트 받아오기)
     // this.userInfo.uid = 'jane399'
     // this.userInfo.uid = 'junhok82'
-    this.userInfo.uid = 'YNNJN'
-    this.userInfo.provider = 'github'
+    // this.userInfo.uid = 'YNNJN'
+    // this.userInfo.provider = 'github'
     // this.userInfo.provider = 'google'
     // console.log("userInfo.uid: ", this.userInfo.uid)
 
     // locker에 저장된 repository 조회하기
     // this.userInfo.id = 17
     // this.userInfo.id = 15
-    this.userInfo.id = 21
+    // this.userInfo.id = 21
 },
   computed: {
     showRepo() {
