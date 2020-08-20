@@ -1,7 +1,7 @@
 <template>
   <div class="container p-5">
 
-    <div style="margin-left: 3.5rem;">
+    <div style="margin-left: 3.5rem; padding-top: 5rem;">
       <v-icon small color="white">mdi-chevron-right</v-icon>
       <p class="medium d-inline text-white" style="font-size: 1.5rem;">포스트</p>
       <p class="light text-white ml-4" style="font-size: 1.1rem;">내가 작성한 포스트를 모아서 볼 수 있어요</p>

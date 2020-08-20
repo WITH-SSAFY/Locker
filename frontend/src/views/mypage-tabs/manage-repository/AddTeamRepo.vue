@@ -12,7 +12,7 @@
     <!-- drag and drop : github에서 가져온 리스트 -->
     <v-row>
       <v-col>
-        <div class="p-2 alert-secondary" style="border-radius: 10px;">
+        <div class="p-2 alert-secondary" style="border-radius: 3px;">
           <div
             style="font-size: 1.5rem; font-weight: bold;"
             class="pl-5 pt-2"
@@ -28,7 +28,7 @@
               class="list-group-item mb-2"
               v-for="element in teamGitRepos"
               :key="element.repoUrl"
-              style="border-radius: 10px;"
+              style="border-radius: 3px;"
             >
               <img alt="left" id="stat" :src="element.src" @click="link(element.repoUrl)">
             </a>
@@ -37,7 +37,7 @@
       </v-col>
       <!-- drag and drop : locker에 저장된 레포지토리 -->
       <v-col>
-        <div class="p-2" style="background-color: #EDE7F6; border-radius: 10px;">
+        <div class="p-2" style="background-color: #EDE7F6; border-radius: 3px;">
           <div
             style="font-size: 1.5rem; font-weight: bold;"
             class="pl-5 pt-2"
@@ -48,7 +48,7 @@
               class="list-group-item mb-2"
               v-for="element in arrTeamRepo"
               :key="element.repoUrl"
-              style="border-radius: 10px;"
+              style="border-radius: 3px;"
             >
               <img alt="left" id="stat" :src="element.src">
             </a>

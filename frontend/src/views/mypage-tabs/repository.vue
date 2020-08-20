@@ -1,7 +1,7 @@
 <template>
 <v-container class="p-5">
 
-    <div style="margin-left: 3.5rem;">
+    <div style="margin-left: 3.5rem; padding-top: 5rem;">
       <v-icon small color="white">mdi-chevron-right</v-icon>
       <p class="medium d-inline text-white" style="font-size: 1.5rem;">레포지토리</p>
       <p class="light text-white ml-4" style="font-size: 1.1rem;">개인 또는 팀으로 LOCKER와 함께해보세요</p>
@@ -123,17 +123,16 @@
     </v-btn>
 
     <!-- 깃헙과 연동 되었을 경우 => 레포 선택 -->
-    <hr style="margin:5px;" />
-    <v-row v-if="showRepo[0]" style="min-height: 70vh;">
+    <v-row v-if="showRepo[0]" style="min-height: 60vh;">
       <my-repository></my-repository>
     </v-row>
-    <v-row v-if="showRepo[1]" style="min-height: 70vh;">
+    <v-row v-if="showRepo[1]" style="min-height: 60vh;">
       <add-my-repo></add-my-repo>
     </v-row>
-    <v-row v-if="showRepo[2]" style="min-height: 70vh;">
+    <v-row v-if="showRepo[2]" style="min-height: 60vh;">
       <team-repository></team-repository>
     </v-row>
-    <v-row v-if="showRepo[3]" style="min-height: 70vh;">
+    <v-row v-if="showRepo[3]" style="min-height: 60vh;">
       <add-team-repo></add-team-repo>
     </v-row>
   </div>
@@ -159,9 +158,6 @@
       </v-btn>
 
     </div>
-
-
-
   </div>
 </v-container>
 </template>
@@ -244,8 +240,8 @@ export default {
 <style scoped>
 
 mark {
-  --color1: #eceffc;;
-  --color2: #eceffc;;
+  --color1: #EDE7F6;
+  --color2: #EDE7F6;
   --bg-height: 100%;
     
   all: unset;

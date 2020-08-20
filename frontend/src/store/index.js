@@ -129,7 +129,7 @@ export default new Vuex.Store({
       for (var j = 0; j < payload.repos.length; j++) {
         //내 repo 정보들 저장하기: myLockerRepos, myGitRepos
         var repoList = payload.repos[j];
-        var imgSrc = "https://github-readme-stats.vercel.app/api/pin/?username="+repoList.name + "&repo="+repoList.repoName;
+        var imgSrc = "https://github-readme-stats.vercel.app/api/pin/?username="+repoList.name + "&repo="+repoList.repoName+"&theme=nightowl&show_icons=true";
         if (payload.repos[j].name === payload.uid) {
           state.myGitRepos[myGitCnt] = { id: repoList.id, name: repoList.name, repoName: repoList.repoName, repoUrl: repoList.repoUrl, src: imgSrc};
           myGitCnt++;
@@ -146,7 +146,7 @@ export default new Vuex.Store({
       for (var k = 0; k < payload.lockerRepoList.length; k++) {
         repoList = payload.lockerRepoList[k];
         // console.log("repoList", repoList)
-        imgSrc = "https://github-readme-stats.vercel.app/api/pin/?username="+repoList.name + "&repo="+repoList.repoName;
+        imgSrc = "https://github-readme-stats.vercel.app/api/pin/?username="+repoList.name + "&repo="+repoList.repoName+"&theme=nightowl&show_icons=true";
         if (payload.lockerRepoList[k].name === payload.uid) {
           state.myLockerRepos[myLockerCnt] = { id: repoList.id, name: repoList.name, repoName: repoList.repoName, repoUrl: repoList.repoUrl, src: imgSrc};
           myLockerCnt++;
@@ -208,7 +208,9 @@ export default new Vuex.Store({
           "https://github-readme-stats.vercel.app/api/pin/?username=" +
           payload.repos[j].name +
           "&repo=" +
-          payload.repos[j].repoName;
+          payload.repos[j].repoName +
+          "&theme=nightowl&show_icons=true";
+          console.log(imgSrc)
         if (payload.repos[j].name === payload.uid) {
           state.myLockerRepos[myLockerCnt] = {
             id: null,
