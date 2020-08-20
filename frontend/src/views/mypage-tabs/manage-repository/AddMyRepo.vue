@@ -3,59 +3,65 @@
     <!-- 저장 버튼 -->
     <v-row>
       <v-col class="py-0">
-        <v-btn @click="saveMine(arrMyRepo)" style="font-size: 1.5rem; float: right;" text color="#7C4DFF">
-          내용 저장하기
-          <v-icon x-large>save</v-icon>
+        <v-btn @click="saveMine(arrMyRepo)" style="font-size: 1.5rem; float: right;" text color="#EDE7F6">
+          <v-icon class="mr-2">save</v-icon>
+          <span class="regular">내용 저장하기</span>
         </v-btn>
       </v-col>
     </v-row>
     <!-- drag and drop : github에서 가져온 리스트 -->
     <v-row>
       <v-col>
-        <div class="p-2 alert-secondary" style="border-radius: 10px;">
-          <div
-            style="font-size: 1.5rem; font-weight: bold;"
-            class="pl-5 pt-2"
-          >My Github Repository</div>
-          <hr />
+        <div class="p-2" style="background-color: #12161A; border-radius: 3px; border: 2px solid #000;">
+
+          <div style="font-size: 1.5rem; padding: 3%;">
+            <span class="light text-white">Github의 레포지토리</span>
+          </div>
+
           <draggable
-            class="list-group kanban-colum"
+            class="list-group kanban-colum p-0 m-0"
             :list="myGitRepos"
             group="tasks"
-            style="text-align: center;"
+            style="text-align: center; background-color: #12161A;"
           >
             <a
-              class="list-group-item mb-2"
+              class="list-group-item p-0 m-0"
               v-for="element in myGitRepos"
               :key="element.repoUrl"
-              style="border-radius: 10px;"
+              style="border-radius: 3px; background-color: #12161A;"
             >
-              <h1>{{element.id}}</h1>
               <img alt="left" id="stat" :src="element.src" @click="link(element.repoUrl)">
             </a>
           </draggable>
         </div>
       </v-col>
+
       <!-- drag and drop : locker에 저장된 레포지토리 -->
       <v-col>
-        <div class="p-2" style="background-color: #EDE7F6; border-radius: 10px;">
-          <div
-            style="font-size: 1.5rem; font-weight: bold;"
-            class="pl-5 pt-2"
-          >Want To Add</div>
-          <hr />
-          <draggable class="list-group kanban-colum" :list="arrMyRepo" group="tasks" style="text-align: center;">
+        
+        <div class="p-2" style="background-color: #12161A; border-radius: 3px; border: 1px solid #7C4DFF;">
+
+          <div style="font-size: 1.5rem; padding: 3%;">
+            <span class="light text-white">LOCKER에 저장된 레포지토리</span>
+          </div>
+          
+          <draggable
+            class="list-group kanban-colum p-0 m-0"
+            :list="arrMyRepo" group="tasks"
+            style="text-align: center; background-color: #12161A;"
+          >
             <a
-              class="list-group-item mb-2"
+              class="list-group-item p-0 m-0"
               v-for="element in arrMyRepo"
               :key="element.repoUrl"
-              style="border-radius: 10px;"
+              style="border-radius: 3px; background-color: #12161A;"
             >
               <img alt="left" id="stat" :src="element.src">
             </a>
           </draggable>
         </div>
       </v-col>
+
     </v-row>
   </div>
 </template>
@@ -75,15 +81,15 @@ export default {
     // 토큰 값 전달해서 getRepos 실행(Repository 리스트 받아오기)
     // this.userInfo.uid = 'jane399'
     // this.userInfo.uid = 'junhok82'
-    // this.userInfo.uid = 'YNNJN'
-    // this.userInfo.provider = 'github'
+    this.userInfo.uid = 'YNNJN'
+    this.userInfo.provider = 'github'
     // this.userInfo.provider = 'google'
     // console.log("userInfo.uid: ", this.userInfo.uid)
 
     // locker에 저장된 repository 조회하기
     // this.userInfo.id = 17
     // this.userInfo.id = 15
-    // this.userInfo.id = 21
+    this.userInfo.id = 21
     this.arrMyRepo = this.myLockerRepos;
 
   },
