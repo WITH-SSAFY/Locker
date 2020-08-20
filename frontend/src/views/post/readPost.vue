@@ -64,7 +64,7 @@
             <section id="output-html" class="markdown-body" style="display: none;"></section>
             <div id="page" class="markdown-body width: 75%;"></div>
           </div>
-          
+
           <div class="row mx-5 py-3 writer_info">
             <div class="col-md-2 col-sm-1">
               <v-icon v-if="usr_picture==null" size="80">mdi-account-circle-outline</v-icon>
@@ -242,11 +242,6 @@
       </v-row>
 
       <!-- 사이드바 -->
-      <!-- <v-col
-        cols="2"
-      >
-        <side-bar class="side" text-align="left"></side-bar>
-      </v-col>-->
     </v-container>
   </div>
 </template>
