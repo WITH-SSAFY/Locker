@@ -70,15 +70,15 @@ export default {
     
     // this.userInfo.uid='jane399'
     // this.userInfo.uid='junhok82'
-    // this.userInfo.uid = 'YNNJN'
-    // this.userInfo.provider = 'github'
+    this.userInfo.uid = 'YNNJN'
+    this.userInfo.provider = 'github'
     // this.userInfo.provider = 'google'
     // console.log("userInfo.uid: ", this.userInfo.uid)
 
     // locker에 저장된 repository 조회하기
     // this.userInfo.id = 17
     // this.userInfo.id = 15
-    // this.userInfo.id = 21
+    this.userInfo.id = 21
   },
   computed: {
     showRepo() {
