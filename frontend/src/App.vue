@@ -34,8 +34,6 @@ export default {
   },
   watch: {
     $route(to) {
-      console.log("to");
-      alert("to: " + to.name);
       this.checkUrl(to.name);
     },
   },
