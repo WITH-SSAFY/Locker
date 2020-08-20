@@ -328,6 +328,7 @@ export default new Vuex.Store({
               let token = response.data.data;
               localStorage.setItem("access_token", token); //key, value
               dispatch("getMemberInfo");
+              router.push({ name: "home" });
             })
             .catch((err) => {
               if (err.response) {
@@ -369,6 +370,7 @@ export default new Vuex.Store({
             localStorage.removeItem("temp");
           }
           dispatch("getMemberInfo");
+          router.push({ name: "home" });
         })
         .catch((err) => {
           if (err.response) {
@@ -394,6 +396,7 @@ export default new Vuex.Store({
         .then((response) => {
           console.log("response.data", response.data);
           commit;
+          console.log("signupwithsocial");
           router.push({ name: "home" });
         })
         .catch((err) => {

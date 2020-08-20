@@ -8,7 +8,9 @@
 
           <div class="row">
             <div class="col-md-6">
-              <p class="bold py-3" style="font-size: 1.3rem;"><span style="color: #7C4DFF;">LOCKER </span>계정으로 로그인하기</p>
+              <p class="bold py-3" style="font-size: 1.3rem;">
+                <span style="color: #7C4DFF;">LOCKER </span>계정으로 로그인하기
+              </p>
               <div class="form-inline form-group">
                 <v-icon>mdi-email</v-icon>
                 <v-text-field
@@ -40,9 +42,12 @@
                 <span class="bolder" style="font-size: 1rem;">로그인</span>
               </v-btn>
             </div>
-              
+
             <div class="col-md-6">
-              <p class="bold py-3" style="font-size: 1.3rem;"><span style="color: #7C4DFF;">소셜로그인</span>으로 간편하게 시작하기</p>
+              <p class="bold py-3" style="font-size: 1.3rem;">
+                <span style="color: #7C4DFF;">소셜로그인</span>으로 간편하게
+                시작하기
+              </p>
               <div>
                 <!-- 깃헙 로그인 -->
                 <button
@@ -53,9 +58,11 @@
                   <v-icon dark size="25" class="mr-2">mdi-github</v-icon>
                   <strong>Continue with github</strong>
                 </button>
-                
+
                 <v-icon color="#7C4DFF" class="mr-2">mdi-menu-up</v-icon>
-                <p class="regular mb-5 d-inline" style="font-size: 0.8rem;"><strong>LOCKER</strong>를 가장 효과적으로 이용할 수 있는 방법!</p>
+                <p class="regular mb-5 d-inline" style="font-size: 0.8rem;">
+                  <strong>LOCKER</strong>를 가장 효과적으로 이용할 수 있는 방법!
+                </p>
 
                 <!-- 카카오 로그인 -->
                 <button
@@ -88,13 +95,13 @@
               </div>
             </div>
           </div>
-
         </v-card>
-        
       </v-layout>
 
       <div style="margin-top: 7rem;">
-        <p class="bold" style="color: #424242">아직 LOCKER의 회원이 아니라면?</p>
+        <p class="bold" style="color: #424242">
+          아직 LOCKER의 회원이 아니라면?
+        </p>
         <v-btn router :to="{ name: 'register' }" color="#424242" class="mb-5">
           <v-icon size="25" class="mr-2">mdi-arrow-right-thick</v-icon>
           <strong style="color: #fff;">회원가입 하기</strong>
@@ -124,7 +131,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["isLogin", "isLoginError"])
+    ...mapState(["isLogin", "isLoginError"]),
   },
   methods: {
     //state에 있는 action을 가져다 쓸 수 있게 해줌
@@ -132,7 +139,7 @@ export default {
       "login",
       "signinWithKakao",
       "handleClickLogin",
-      "signinWithSocial"
+      "signinWithSocial",
     ]),
 
     async handleClickSignIn() {
@@ -154,7 +161,8 @@ export default {
     loginWithGithub() {
       window.location.href =
         "http://i3a606.p.ssafy.io:8000/oauth2/authorization/github";
-    }
+      window.location.href = "http://i3a606.p.ssafy.io/";
+    },
   },
   created() {
     let that = this;
@@ -174,7 +182,7 @@ export default {
 
     /* 설정정보를 초기화하고 연동을 준비 */
     // naverLogin.init();
-  }
+  },
 };
 </script>
 <style scoped>
@@ -182,10 +190,10 @@ export default {
   height: 0.3rem;
   width: 3.5rem;
   margin-bottom: 3rem;
-  background-color: #7C4DFF;
+  background-color: #7c4dff;
 }
 
 .body {
-  background-color: #EDE7F6;
+  background-color: #ede7f6;
 }
 </style>
