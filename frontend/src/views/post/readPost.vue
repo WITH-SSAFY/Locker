@@ -660,6 +660,7 @@ export default {
           : "<p>" + m + "</p>";
       });
 
+
       //strip p from pre
       md = md.replace(/(\<pre.+\>)*\<p\>(.+)\<\/p\>/gm, "$1$2");
 
