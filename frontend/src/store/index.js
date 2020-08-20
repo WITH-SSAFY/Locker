@@ -99,6 +99,8 @@ export default new Vuex.Store({
       state.email = payload.myDetail.email;
       state.thumbnail = payload.myDetail.thumbnail;
       state.description = payload.myDetail.description;
+      state.usr_picture = payload.myDetail.usr_picture;
+      state.usr_id = payload.myDetail.usr_id;
       //console.log("userId : ", state.usr_id);
       router.push({ name: "readPost", params: { pid: state.pid } });
     },
