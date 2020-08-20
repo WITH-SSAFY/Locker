@@ -161,7 +161,8 @@ export default {
     loginWithGithub() {
       window.location.href =
         "http://i3a606.p.ssafy.io:8000/oauth2/authorization/github";
-      window.location.href = "http://i3a606.p.ssafy.io/";
+      this.$store.dispatch("getMemberInfo");
+      this.$router.push({ name: "home" });
     },
   },
   created() {
