@@ -1,7 +1,7 @@
 <template>
   <div class="back d-flex justify-content-center mb-5">
     <!-- 깃헙 소개글 없을 경우 -->
-    <!-- <div v-if="!intro">
+    <div v-if="intro == null">
       <p class="medium" style="font-size: 1.5rem;">깃헙에서 소개글을 등록해주세요</p>
       <div class="text-center">
         <p class="medium">깃헙에서 소개글을 등록하면 당신의 <strong style="color: #7C4DFF">소개글</strong>을</p>
@@ -12,9 +12,9 @@
           <span class="bolder" style="font-size: 1rem; color: #7C4DFF;">깃헙 페이지 바로가기</span>
         </a>
       </div>
-    </div> -->
+    </div>
     <!-- 깃헙 소개글 있는 경우 -->
-    <div v-if="intro">
+    <div v-else>
       <aside id="markdown" contenteditable style="display: none;">{{ intro }}</aside>
       <section id="output-html" class="markdown-body" style="display: none;"></section>
       <div id="page" class="markdown-body width: 75%;"></div>
@@ -24,8 +24,7 @@
 
 <script>
 import axios from "../../lib/axios-common.js";
-// import '@/assets/text_editor/md.css'
-import '@/assets/text_editor/github-md.css'
+import '@/assets/text_editor/github-md.css';
 
 export default {
   name: 'introduce',
@@ -38,15 +37,17 @@ export default {
 
   },
   components: {
-    // Viewer,
+  
   },
   methods: {
     // access token을 로컬스토리지에서 가져와서 넘겨주기
     getIntro () {
       let accessToken = localStorage.getItem("github_token");
+      console.log('accessToken', accessToken)
       if (acceessToken != null) {
         axios.get("/v1/github/hidden?accessToken=" + accessToken)
           .then((response) => {
+            console.log('response', response)
             this.intro = response.data.data
           })
           .catch((err) => console.log(err.data))

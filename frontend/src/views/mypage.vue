@@ -41,22 +41,14 @@
 
             <!-- 스탯 섹션 -->
             <div class="col-md-5">
-              <a href="https://github.com/anuraghazra/github-readme-stats">
-                <img align="left" src="https://github-readme-stats.vercel.app/api?username=junhok82&show_icons=true&theme=buefy" />
-              </a>
-            </div>
-
-
-
-            <!-- <div class="col-md-5">
               <div v-if="userInfo.provider === 'github'">
                 <a href="https://github.com/anuraghazra/github-readme-stats">
                   <img align="left" :src="statSrc" />
                 </a>
-              </div> -->
+              </div>
 
               <!-- 깃헙과 연동되지 않았을 때의 화면 디자인 -->
-              <!-- <div v-else style="min-height: 10rem; background-color: #eceffc; padding: 2rem;">
+              <div v-else style="min-height: 10rem; background-color: #eceffc; padding: 2rem;">
                 <div class="text-center">
                   <p class="medium">
                     깃헙과 연동하면 당신의
@@ -78,8 +70,9 @@
                     <span class="bolder" style="font-size: 1rem;">깃헙 연동 바로가기</span>
                   </v-btn>
                 </div>
-              </div> -->
-            <!-- </div> -->
+              </div>
+
+            </div>
           </div>
           <!-- <hr> -->
         </v-col>
@@ -165,7 +158,6 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
-// import SideBar from "./SideBar.vue"
 import("../assets/css/side-style.css");
 import("../assets/css/jandi.css");
 import("../assets/css/tab.scss");
@@ -228,7 +220,7 @@ export default {
     statSrc() {
       return (
         "https://github-readme-stats.vercel.app/api?username=" +
-        this.githubId +
+        this.userInfo.uid +
         "&show_icons=true&theme=buefy"
       );
     }
