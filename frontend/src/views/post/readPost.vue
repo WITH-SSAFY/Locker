@@ -4,22 +4,16 @@
       <nav class="toc">
         <ul>
           <li>
-            <a href="#[공지사항] - Locker blog 서비스 시작 ❗️"
-              >[공지사항] - Locker blog 서비스 시작 ❗️</a
-            >
+            <a href="#[공지사항] - Locker blog 서비스 시작 ❗️">[공지사항] - Locker blog 서비스 시작 ❗️</a>
           </li>
           <li>
-            <a href="#블로그 기본 기능들 ">블로그 기본 기능들 </a>
+            <a href="#블로그 기본 기능들 ">블로그 기본 기능들</a>
             <ul>
               <li>
-                <a href="#<i><b>✔︎ 마크다운 에디터</b></i>"
-                  >✔︎ 마크다운 에디터</a
-                >
+                <a href="#<i><b>✔︎ 마크다운 에디터</b></i>">✔︎ 마크다운 에디터</a>
               </li>
               <li>
-                <a href="#<i><b>✔︎ 좋아요, 태그, 검색 기능</b></i>"
-                  >✔︎ 좋아요, 태그, 검색 기능</a
-                >
+                <a href="#<i><b>✔︎ 좋아요, 태그, 검색 기능</b></i>">✔︎ 좋아요, 태그, 검색 기능</a>
               </li>
             </ul>
           </li>
@@ -29,13 +23,15 @@
               <li>
                 <a href="#<i><b>✔︎ 레파지토리</b></i>">✔︎︎︎ 레파지토리</a>
               </li>
-              <li><a href="#<i><b>✔︎ 타임라인</b></i>">✔︎ 타임라인</a></li>
               <li>
-                <a href="#<i><b>✔︎ 언어비율 및 스텟</b></i>"
-                  >✔︎ 언어비율 및 스텟</a
-                >
+                <a href="#<i><b>✔︎ 타임라인</b></i>">✔︎ 타임라인</a>
               </li>
-              <li><a href="#<i><b>✔︎ 소개글</b></i>">✔︎ 소개글</a></li>
+              <li>
+                <a href="#<i><b>✔︎ 언어비율 및 스텟</b></i>">✔︎ 언어비율 및 스텟</a>
+              </li>
+              <li>
+                <a href="#<i><b>✔︎ 소개글</b></i>">✔︎ 소개글</a>
+              </li>
             </ul>
           </li>
           <!-- <li>
@@ -45,19 +41,14 @@
           <li><a href="#css-developer-mode">Developer Mode</a></li>
           <li><a href="#css-examples">Examples</a></li>
         </ul>
-      </li> -->
+          </li>-->
         </ul>
-        <svg
-          class="toc-marker"
-          width="200"
-          height="200"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+        <svg class="toc-marker" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
           <path
             stroke="#7C4DFF"
             stroke-width="3"
             fill="transparent"
-            stroke-dasharray="0, 0, 0, 1000"
+            stroke-dasharray="0 0 0 1000"
             stroke-linecap="round"
             stroke-linejoin="round"
             transform="translate(-0.5, -0.5)"
@@ -83,17 +74,10 @@
             <div class="row post_title ml-1">{{ title }}</div>
             <div class="under-line"></div>
             <div class="my-6">
-              <div id="nick">
-                {{ nickname }}
-              </div>
+              <div id="nick">{{ nickname }}</div>
               <div id="dash">/</div>
               <div id="wdate">{{ created }}</div>
-              <v-btn
-                v-if="isUserLiked"
-                icon
-                @click="deleteLike()"
-                style="margin-left: 5px;"
-              >
+              <v-btn v-if="isUserLiked" icon @click="deleteLike()" style="margin-left: 5px;">
                 <v-icon color="red">mdi-heart</v-icon>
               </v-btn>
               <v-btn v-else icon @click="addLike()" style="margin-left: 5px;">
@@ -125,8 +109,7 @@
                 color="#EDE7F6"
                 small
                 @click="searchTag(tag.tagname)"
-                >{{ tag.tagname }}</v-chip
-              >
+              >{{ tag.tagname }}</v-chip>
             </div>
           </div>
 
@@ -134,22 +117,14 @@
 
           <div class="row mx-5 py-3">
             <!-- 마크다운 뷰어 -->
-            <aside id="markdown" contenteditable style="display: none;">
-              {{ viewerText }}
-            </aside>
-            <section
-              id="output-html"
-              class="markdown-body"
-              style="display: none;"
-            ></section>
+            <aside id="markdown" contenteditable style="display: none;">{{ viewerText }}</aside>
+            <section id="output-html" class="markdown-body" style="display: none;"></section>
             <div id="page" class="markdown-body width: 75%;"></div>
           </div>
 
           <div class="row mx-5 py-3 writer_info">
             <div class="col-md-2 col-sm-1">
-              <v-icon v-if="usr_picture == null" size="80"
-                >mdi-account-circle-outline</v-icon
-              >
+              <v-icon v-if="usr_picture == null" size="80">mdi-account-circle-outline</v-icon>
               <v-avatar v-else size="80">
                 <img :src="usr_picture" />
               </v-avatar>
@@ -158,9 +133,7 @@
               <div class="mx-2">
                 <p class="d-inline" style="font-size: 1.8rem">
                   {{ nickname }}
-                  <v-icon size="30" class="ml-1" color="#7C4DFF"
-                    >mdi-arm-flex</v-icon
-                  >
+                  <v-icon size="30" class="ml-1" color="#7C4DFF">mdi-arm-flex</v-icon>
                 </p>
               </div>
               <p class="ml-2">{{ userInfo.introduction }}</p>
@@ -168,18 +141,10 @@
           </div>
 
           <v-row>
-            <v-col
-              cols="12"
-              md="10"
-              v-for="comment in viewerComment"
-              :key="comment.rid"
-            >
+            <v-col cols="12" md="10" v-for="comment in viewerComment" :key="comment.rid">
               <v-card flat>
                 <!-- 대댓글 없는 경우 -->
-                <div
-                  v-if="!comment.depth"
-                  class="d-flex justify-content-between"
-                >
+                <div v-if="!comment.depth" class="d-flex justify-content-between">
                   <div>
                     <!-- 댓글 보기 왼쪽 -->
                     <span class="mr-5">
@@ -199,8 +164,7 @@
                       dark
                       elevation="0"
                       @click="fetchComment(pid, comment.rid, editComment)"
-                      >수정</v-btn
-                    >
+                    >수정</v-btn>
                   </div>
 
                   <!-- 댓글 보기 오른쪽 -->
@@ -212,26 +176,16 @@
                       @click="
                         goEditComment(pid, comment.rid, comment.replytext)
                       "
-                    >
-                      edit
-                    </button>
+                    >edit</button>
                     <button
                       v-if="comment.userid === userInfo.id"
                       class="btn btn-sm btn-light mr-2"
                       @click="deleteComment(pid, comment.rid)"
-                    >
-                      delete
-                    </button>
-                    <button
-                      v-if="!comment.depth"
-                      @click="goReply(comment.rid, comment.depth)"
-                    >
+                    >delete</button>
+                    <button v-if="!comment.depth" @click="goReply(comment.rid, comment.depth)">
                       <v-icon>mdi-reply</v-icon>
                     </button>
-                    <button
-                      v-if="comment.depth"
-                      @click="showReply(comment.rid)"
-                    >
+                    <button v-if="comment.depth" @click="showReply(comment.rid)">
                       <v-icon>mdi-chevron-up</v-icon>
                     </button>
                   </div>
@@ -239,10 +193,7 @@
 
                 <!-- 대댓글 있는 경우 -->
 
-                <div
-                  v-if="comment.depth"
-                  class="pl-5 d-flex justify-content-between"
-                >
+                <div v-if="comment.depth" class="pl-5 d-flex justify-content-between">
                   <div>
                     <!-- 댓글 보기 왼쪽 -->
                     <span class="mr-5">
@@ -262,8 +213,7 @@
                       dark
                       elevation="0"
                       @click="fetchComment(pid, comment.rid, editComment)"
-                      >수정</v-btn
-                    >
+                    >수정</v-btn>
                   </div>
 
                   <!-- 댓글 보기 오른쪽 -->
@@ -275,16 +225,12 @@
                       @click="
                         goEditComment(pid, comment.rid, comment.replytext)
                       "
-                    >
-                      edit
-                    </button>
+                    >edit</button>
                     <button
                       v-if="comment.userid === userInfo.id"
                       class="btn btn-sm btn-light mr-2"
                       @click="deleteComment(pid, comment.rid)"
-                    >
-                      delete
-                    </button>
+                    >delete</button>
                     <button>
                       <div
                         v-if="!comment.depth"
@@ -315,12 +261,7 @@
                     </div>
                     <div class="input-group-append ml-5">
                       <div>
-                        <v-btn
-                          dark
-                          @click="postReply(pid, comment.rid)"
-                          height="65%"
-                          >작성</v-btn
-                        >
+                        <v-btn dark @click="postReply(pid, comment.rid)" height="65%">작성</v-btn>
                       </div>
                     </div>
                   </div>
@@ -335,18 +276,11 @@
               <!-- 댓글 작성 창 -->
               <div class="d-flex">
                 <div class="input-group">
-                  <v-text-field
-                    label="댓글"
-                    outlined
-                    v-model="text"
-                    @keyup.enter="postComment(pid)"
-                  ></v-text-field>
+                  <v-text-field label="댓글" outlined v-model="text" @keyup.enter="postComment(pid)"></v-text-field>
                 </div>
                 <div class="input-group-append ml-5">
                   <div>
-                    <v-btn dark @click="postComment(pid)" height="65%"
-                      >작성</v-btn
-                    >
+                    <v-btn dark @click="postComment(pid)" height="65%">작성</v-btn>
                   </div>
                 </div>
               </div>
@@ -380,7 +314,7 @@ import axios from "../../lib/axios-common.js";
 export default {
   created() {
     this.userInfo;
-    this.pid;
+    this.getPid(this.$route.params.pid);
     this.$store.dispatch("showMyDetail", this.pid);
     this.usrId;
     this.usr_picture;
@@ -393,11 +327,28 @@ export default {
     this.checkUserLiked();
     this.flag = true;
   },
+  beforeRouteUpdate(to, from, next) {
+    this.userInfo;
+    this.getPid(to.params.pid);
+    this.$store.dispatch("showMyDetail", to.params.pid);
+    this.usrId;
+    this.usr_picture;
+    this.flag = false;
+    this.viewerText;
+    this.$store.dispatch("getCommentList", to.params.pid);
+    this.viewerComment;
+    this.getTags();
+    this.getLikes();
+    this.checkUserLiked();
+    this.flag = true;
+    next();
+  },
   components: {
-    Viewer,
+    Viewer
   },
   data() {
     return {
+      pid: 0,
       tags: [],
       flag: false,
       btnNum: null,
@@ -410,7 +361,7 @@ export default {
       reply: "",
       parentid: null,
       likes: 0, //좋아요 수
-      isUserLiked: false, //유저가 좋아요를 표시 했는가
+      isUserLiked: false //유저가 좋아요를 표시 했는가
     };
   },
   computed: {
@@ -442,10 +393,13 @@ export default {
     },
     viewerComment() {
       return this.$store.state.commentList;
-    },
+    }
   },
 
   methods: {
+    getPid(pid) {
+      this.pid = pid;
+    },
     goEditDetail(pid) {
       this.$store.dispatch("goEditDetail", pid);
       //this.$router.push({name: "editPost"});
@@ -463,7 +417,7 @@ export default {
         .then(() => {
           this.$store.dispatch("getCommentList", pid);
         })
-        .catch((exp) => alert("내 댓글 삭제에 실패했습니다" + exp));
+        .catch(exp => alert("내 댓글 삭제에 실패했습니다" + exp));
     },
     fetchComment(pid, rid, editComment) {
       axios
@@ -474,7 +428,7 @@ export default {
           this.$router.push("/readPost");
           this.$store.dispatch("getCommentList", pid);
         })
-        .catch((exp) => alert("내 댓글 수정에 실패했습니다 " + exp));
+        .catch(exp => alert("내 댓글 수정에 실패했습니다 " + exp));
     },
     goReply(rid, depth) {
       this.inputNum = rid;
@@ -489,13 +443,13 @@ export default {
           replyemail: this.$store.state.userInfo.email,
           replynickname: this.$store.state.userInfo.nickname,
           pid,
-          userid: this.userInfo.id,
+          userid: this.userInfo.id
         })
         .then(() => {
           this.$store.dispatch("getCommentList", pid);
           this.text = "";
         })
-        .catch((exp) => alert("댓글 작성에 실패했습니다" + exp));
+        .catch(exp => alert("댓글 작성에 실패했습니다" + exp));
     },
 
     postReply(pid, rid) {
@@ -507,14 +461,14 @@ export default {
           replynickname: this.$store.state.userInfo.nickname,
           pid,
           userid: this.userInfo.id,
-          parentid: this.parentid,
+          parentid: this.parentid
         })
         .then(() => {
           this.$store.dispatch("getCommentList", pid);
           this.reply = "";
           this.inputNum = -1;
         })
-        .catch((exp) => alert("댓글 작성에 실패했습니다" + exp));
+        .catch(exp => alert("댓글 작성에 실패했습니다" + exp));
     },
     async getTags() {
       //서버로 부터 해당 포스트에 등록된 태그 받아옴
@@ -536,6 +490,8 @@ export default {
 
       if (response.data == 1) {
         this.isUserLiked = true;
+      } else {
+        this.isUserLiked = false;
       }
     },
     addLike() {
@@ -582,22 +538,25 @@ export default {
     goNextPage() {
       axios
         .get("/v1/post/nextPage?pid=" + this.pid)
-        .then((response) => {
+        .then(response => {
           let nextPid = response.data;
           console.log("nextPid: ", nextPid);
-          this.$store.dispatch("showMyDetail", nextPid);
+          //this.$store.dispatch("showMyDetail", nextPid);
+          this.$store.state.pid = nextPid;
+          this.$router.push({ name: "readPost", params: { pid: nextPid } });
         })
         .catch(() => alert("마지막 페이지 입니다."));
     },
     goPrevPage() {
       axios
         .get("/v1/post/prevPage?pid=" + this.pid)
-        .then((response) => {
+        .then(response => {
           let prevPid = response.data;
-          this.$store.dispatch("showMyDetail", prevPid);
+          this.$store.state.pid = prevPid;
+          this.$router.push({ name: "readPost", params: { pid: prevPid } });
         })
         .catch(() => alert("첫 페이지 입니다."));
-    },
+    }
   },
   updated() {
     function parseMd(md) {
@@ -615,12 +574,12 @@ export default {
       md = md.replace(/^\>(.+)/gm, "<blockquote>$1</blockquote>");
 
       //h
-      md = md.replace(/[\#]{6}\s(.+)/g, "<h6 id=\"$1\">$1</h6>");
-      md = md.replace(/[\#]{5}\s(.+)/g, "<h5 id=\"$1\">$1</h5>");
-      md = md.replace(/[\#]{4}\s(.+)/g, "<h4 id=\"$1\">$1</h4>");
-      md = md.replace(/[\#]{3}\s(.+)/g, "<h3 id=\"$1\">$1</h3>");
-      md = md.replace(/[\#]{2}\s(.+)/g, "<h2 id=\"$1\">$1</h2>");
-      md = md.replace(/[\#]{1}\s(.+)/g, "<h1 id=\"$1\">$1</h1>");
+      md = md.replace(/[\#]{6}\s(.+)/g, '<h6 id="$1">$1</h6>');
+      md = md.replace(/[\#]{5}\s(.+)/g, '<h5 id="$1">$1</h5>');
+      md = md.replace(/[\#]{4}\s(.+)/g, '<h4 id="$1">$1</h4>');
+      md = md.replace(/[\#]{3}\s(.+)/g, '<h3 id="$1">$1</h3>');
+      md = md.replace(/[\#]{2}\s(.+)/g, '<h2 id="$1">$1</h2>');
+      md = md.replace(/[\#]{1}\s(.+)/g, '<h1 id="$1">$1</h1>');
 
       //images
       md = md.replace(
@@ -656,7 +615,6 @@ export default {
           : "<p>" + m + "</p>";
       });
 
-
       //strip p from pre
       md = md.replace(/(\<pre.+\>)*\<p\>(.+)\<\/p\>/gm, "$1$2");
 
@@ -674,35 +632,33 @@ export default {
       "#output-html"
     ).innerText;
 
-   var toc = document.querySelector( '.toc' );
-    var tocPath = document.querySelector( '.toc-marker path' );
+    var toc = document.querySelector(".toc");
+    var tocPath = document.querySelector(".toc-marker path");
     var tocItems;
 
     // Factor of screen size that the element must cross
     // before it's considered visible
     var TOP_MARGIN = 0.1,
-        BOTTOM_MARGIN = 0.2;
+      BOTTOM_MARGIN = 0.2;
 
     var pathLength;
 
-    var lastPathStart,
-        lastPathEnd;
+    var lastPathStart, lastPathEnd;
 
-    window.addEventListener( 'resize', drawPath, false );
-    window.addEventListener( 'scroll', sync, false );
+    window.addEventListener("resize", drawPath, false);
+    window.addEventListener("scroll", sync, false);
 
     drawPath();
 
     function drawPath() {
-      
-      tocItems = [].slice.call( toc.querySelectorAll( 'li' ) );
+      tocItems = [].slice.call(toc.querySelectorAll("li"));
 
       // Cache element references and measurements
-      tocItems = tocItems.map( function( item ) {
-        console.log("item : ",item);
+      tocItems = tocItems.map(function(item) {
+        console.log("item : ", item);
 
-        var anchor = item.querySelector( 'a' );
-        var temp = anchor.getAttribute( 'href' ).slice( 1 );
+        var anchor = item.querySelector("a");
+        var temp = anchor.getAttribute("href").slice(1);
         var target = document.getElementById(temp);
 
         return {
@@ -710,99 +666,94 @@ export default {
           anchor: anchor,
           target: target
         };
-      } );
+      });
 
       // Remove missing targets
-      tocItems = tocItems.filter( function( item ) {
+      tocItems = tocItems.filter(function(item) {
         return !!item.target;
-      } );
+      });
 
       var path = [];
       var pathIndent;
 
-      tocItems.forEach( function( item, i ) {
-
+      tocItems.forEach(function(item, i) {
         var x = item.anchor.offsetLeft - 5,
-            y = item.anchor.offsetTop,
-            height = item.anchor.offsetHeight;
+          y = item.anchor.offsetTop,
+          height = item.anchor.offsetHeight;
 
-        if( i === 0 ) {
-          path.push( 'M', x, y, 'L', x, y + height );
+        if (i === 0) {
+          path.push("M", x, y, "L", x, y + height);
           item.pathStart = 0;
-        }
-        else {
+        } else {
           // Draw an additional line when there's a change in
           // indent levels
-          if( pathIndent !== x ) path.push( 'L', pathIndent, y );
+          if (pathIndent !== x) path.push("L", pathIndent, y);
 
-          path.push( 'L', x, y );
-          
+          path.push("L", x, y);
+
           // Set the current path so that we can measure it
-          tocPath.setAttribute( 'd', path.join( ' ' ) );
+          tocPath.setAttribute("d", path.join(" "));
           item.pathStart = tocPath.getTotalLength() || 0;
-          
-          path.push( 'L', x, y + height );
-        }
-        
-        pathIndent = x;
-        
-        tocPath.setAttribute( 'd', path.join( ' ' ) );
-        item.pathEnd = tocPath.getTotalLength();
 
-      } );
-      
+          path.push("L", x, y + height);
+        }
+
+        pathIndent = x;
+
+        tocPath.setAttribute("d", path.join(" "));
+        item.pathEnd = tocPath.getTotalLength();
+      });
+
       pathLength = tocPath.getTotalLength();
-      
+
       sync();
-      
     }
 
     function sync() {
-      
       var windowHeight = window.innerHeight;
-      
-      var pathStart = pathLength,
-          pathEnd = 0;
-      
-      var visibleItems = 0;
-      
-      tocItems.forEach( function( item ) {
 
+      var pathStart = pathLength,
+        pathEnd = 0;
+
+      var visibleItems = 0;
+
+      tocItems.forEach(function(item) {
         var targetBounds = item.target.getBoundingClientRect();
-        
-        if( targetBounds.bottom > windowHeight * TOP_MARGIN && targetBounds.top < windowHeight * ( 1 - BOTTOM_MARGIN ) ) {
-          pathStart = Math.min( item.pathStart, pathStart );
-          pathEnd = Math.max( item.pathEnd, pathEnd );
-          
+
+        if (
+          targetBounds.bottom > windowHeight * TOP_MARGIN &&
+          targetBounds.top < windowHeight * (1 - BOTTOM_MARGIN)
+        ) {
+          pathStart = Math.min(item.pathStart, pathStart);
+          pathEnd = Math.max(item.pathEnd, pathEnd);
+
           visibleItems += 1;
-          
-          item.listItem.classList.add( 'visible' );
+
+          item.listItem.classList.add("visible");
+        } else {
+          item.listItem.classList.remove("visible");
         }
-        else {
-          item.listItem.classList.remove( 'visible' );
-        }
-        
-      } );
-      
+      });
+
       // Specify the visible path or hide the path altogether
       // if there are no visible items
-      if( visibleItems > 0 && pathStart < pathEnd ) {
-        if( pathStart !== lastPathStart || pathEnd !== lastPathEnd ) {
-          tocPath.setAttribute( 'stroke-dashoffset', '1' );
-          tocPath.setAttribute( 'stroke-dasharray', '1, '+ pathStart +', '+ ( pathEnd - pathStart ) +', ' + pathLength );
-          tocPath.setAttribute( 'opacity', 1 );
+      if (visibleItems > 0 && pathStart < pathEnd) {
+        if (pathStart !== lastPathStart || pathEnd !== lastPathEnd) {
+          tocPath.setAttribute("stroke-dashoffset", "1");
+          tocPath.setAttribute(
+            "stroke-dasharray",
+            "1, " + pathStart + ", " + (pathEnd - pathStart) + ", " + pathLength
+          );
+          tocPath.setAttribute("opacity", 1);
         }
+      } else {
+        tocPath.setAttribute("opacity", 0);
       }
-      else {
-        tocPath.setAttribute( 'opacity', 0 );
-      }
-      
+
       lastPathStart = pathStart;
       lastPathEnd = pathEnd;
-
     }
-
-  },
+  }
 };
 </script>
 
