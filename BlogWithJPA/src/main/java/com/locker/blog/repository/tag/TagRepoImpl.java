@@ -44,5 +44,10 @@ public class TagRepoImpl implements TagRepo{
         return sqlSession.delete("tag.deleteTag",pid);
     }
 
+    @Override
+    public List<Tag> getRepoTags(Long repo_id) {
+        return sqlSession.selectList("tag.getRepoTags", repo_id);
+    }
+
 
 }

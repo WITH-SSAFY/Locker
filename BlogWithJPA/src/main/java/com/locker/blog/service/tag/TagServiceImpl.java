@@ -44,4 +44,9 @@ public class TagServiceImpl implements TagService{
         return tagRepo.deleteTag(pid);
     }
 
+    @Override
+    public List<Tag> getRepoTags(Long repoId) {
+        return tagRepo.getRepoTags(repoId);
+    }
+
 }

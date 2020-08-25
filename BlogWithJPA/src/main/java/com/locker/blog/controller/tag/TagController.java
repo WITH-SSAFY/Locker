@@ -1,12 +1,13 @@
 package com.locker.blog.controller.tag;
 
-import com.locker.blog.controller.post.PostController;
-import com.locker.blog.domain.post.Post;
+import com.locker.blog.domain.response.ListResult;
 import com.locker.blog.domain.tag.PostTag;
 import com.locker.blog.domain.tag.Tag;
+import com.locker.blog.service.response.ResponseService;
 import com.locker.blog.service.tag.TagService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,10 @@ public class TagController {
     private static final String FAIL = "fail";
     private static  final Logger logger = LoggerFactory.getLogger(TagController.class);
 
+    @Autowired private ResponseService responseService;
+
     @Autowired
-    TagService tagService;
+    private TagService tagService;
 
 //    public Long isDuptag(String name);//중복된 태그 인가(중복인 경우 해당 tagid)
 //    public int insertNewTag(String name);//(중복이 아닐떄) 새로운 태그 추가
@@ -92,5 +95,13 @@ public class TagController {
     public ResponseEntity<Integer> deleteTag(@RequestParam Long pid) throws Exception {
         int result = tagService.deleteTag(pid);
         return new ResponseEntity<Integer>(result, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "레파지토리의 태그", notes = "해당 레파지토리 포스트의 태그들을 조회한다.")
+    @GetMapping(value = "/repos")
+    public ListResult<Tag> getReposTag(
+            @ApiParam(value = "레파지토리 아이디") @RequestParam Long repoId) {
+        List<Tag> tags = tagService.getRepoTags(repoId);
+        return responseService.getListResult(tags);
     }
 }
