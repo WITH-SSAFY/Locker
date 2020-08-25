@@ -43,11 +43,9 @@ export default {
     // access token을 로컬스토리지에서 가져와서 넘겨주기
     getIntro () {
       let accessToken = localStorage.getItem("github_token");
-      console.log('accessToken', accessToken)
       if (accessToken != null) {
         axios.get("/v1/github/hidden?accessToken=" + accessToken)
           .then((response) => {
-            console.log('response', response)
             this.intro = response.data.data
           })
           .catch((err) => console.log(err.data))
