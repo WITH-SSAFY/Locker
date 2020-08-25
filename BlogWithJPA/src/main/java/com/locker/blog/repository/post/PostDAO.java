@@ -3,6 +3,7 @@ package com.locker.blog.repository.post;
 import com.locker.blog.domain.post.PagingPost;
 import com.locker.blog.domain.post.Post;
 import com.locker.blog.domain.repository.HotRepository;
+import com.locker.blog.domain.tag.Tag;
 
 import java.util.ArrayList;
 import java.util.List;

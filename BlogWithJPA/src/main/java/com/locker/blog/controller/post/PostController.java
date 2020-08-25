@@ -6,6 +6,7 @@ import com.locker.blog.domain.post.Post;
 import com.locker.blog.domain.repository.HotRepository;
 import com.locker.blog.domain.repository.MyRepository;
 import com.locker.blog.domain.response.ListResult;
+import com.locker.blog.domain.tag.Tag;
 import com.locker.blog.repository.post.PostJpaRepo;
 import com.locker.blog.service.post.PostService;
 import com.locker.blog.service.response.ResponseService;
