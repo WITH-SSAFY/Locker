@@ -102,7 +102,7 @@ export default new Vuex.Store({
       state.description = payload.myDetail.description;
       state.usr_picture = payload.myDetail.usr_picture;
       console.log("userId : ", state.usr_id);
-      router.push({ name: "readPost", params: { pid: state.pid } });
+      //router.push({ name: "readPost", params: { pid: state.pid } });
     },
     goEditDetail(state, payload) {
       state.myDetail = payload.myDetail.content;
