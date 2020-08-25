@@ -167,7 +167,6 @@ export default {
     this.userInfo;
     this.$store.dispatch("getMyPostList", this.userInfo.id);
     this.myPostList;
-    this.githubId = this.userInfo.login;
     
     // 토큰 값 받아오기
     let token = localStorage.getItem("access_token");
@@ -227,7 +226,7 @@ export default {
   },
   data() {
     return {
-      githubId: null
+      
     };
   },
   components: {
