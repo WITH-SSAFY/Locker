@@ -90,4 +90,9 @@ public class PostDAOImpl implements PostDAO {
     public List<Post> getALLRepoPost(Long repo_id) {
         return session.selectList("post.getALLRepoPost",repo_id);
     }
+
+    @Override
+    public List<Post> getHotRepoPosts(Long repo_id) {
+        return session.selectList("post.getHotRepoPosts",repo_id);
+    }
 }

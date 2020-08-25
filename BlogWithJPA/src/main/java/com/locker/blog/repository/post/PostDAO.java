@@ -24,4 +24,5 @@ public interface PostDAO {
     public List<HotRepository> getHotRepos();
     public int updatePicture(Post post);
     public List<Post> getALLRepoPost(Long repo_id);
+    public List<Post> getHotRepoPosts(Long repo_id);
 }

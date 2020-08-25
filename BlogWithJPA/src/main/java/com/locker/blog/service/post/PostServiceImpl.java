@@ -91,4 +91,9 @@ public class PostServiceImpl implements PostService {
         return dao.getALLRepoPost(repo_id);
     }
 
+    @Override
+    public List<Post> getHotRepoPosts(Long repo_id) {
+        return dao.getHotRepoPosts(repo_id);
+    }
+
 }

@@ -21,10 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Api(tags = {"3. Post"})
 @RestController
@@ -34,7 +31,7 @@ import java.util.Map;
 public class PostController {
     private static final String SUCCESS = "success";
     private static final String FAIL = "fail";
-    private static  final Logger logger = LoggerFactory.getLogger(PostController.class);
+    private static final Logger logger = LoggerFactory.getLogger(PostController.class);
 
     final private PostService service;
     final private ResponseService responseService;
@@ -44,7 +41,7 @@ public class PostController {
     @GetMapping(value = "/all/{usrId}")
     public ResponseEntity<List<Post>> selectAllByWriter(@PathVariable Long usrId) throws Exception {
         List<Post> list = service.selectAllByWriter(usrId);
-        if(list.size() > 0) {
+        if (list.size() > 0) {
             return new ResponseEntity<List<Post>>(list, HttpStatus.OK);
         }
         return new ResponseEntity<List<Post>>(list, HttpStatus.NO_CONTENT);
@@ -55,16 +52,16 @@ public class PostController {
     @GetMapping(value = "/all/page/{page}")
     public ResponseEntity<List<PagingPost>> selectAll(@ApiParam(value = "페이지 번호", required = true) @PathVariable Long page) throws Exception {
         Long sizePerPage = 5L;
-        Long startPage = (page-1)*sizePerPage;
+        Long startPage = (page - 1) * sizePerPage;
         Long endPage = sizePerPage;
 
-        Map<String,Long> pageMap = new HashMap<>();
-        pageMap.put("startPage",startPage);
-        pageMap.put("endPage",endPage);
+        Map<String, Long> pageMap = new HashMap<>();
+        pageMap.put("startPage", startPage);
+        pageMap.put("endPage", endPage);
 
         List<PagingPost> list = service.selectAll(pageMap);
         //System.out.println(list.toString());
-        if(list.size() > 0) {
+        if (list.size() > 0) {
             return new ResponseEntity<List<PagingPost>>(list, HttpStatus.OK);
         }
         return new ResponseEntity<List<PagingPost>>(list, HttpStatus.NO_CONTENT);
@@ -82,7 +79,7 @@ public class PostController {
     @PutMapping
     public ResponseEntity<String> update(@RequestBody Post post) {
 
-        if(service.update(post) == 0) { //insert 실패
+        if (service.update(post) == 0) { //insert 실패
             return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
         }
 
@@ -94,7 +91,7 @@ public class PostController {
     @DeleteMapping(value = "/{pid}")
     public ResponseEntity<String> delete(@ApiParam(value = "글 번호", required = true) @PathVariable Long pid) {
 
-        if(service.delete(pid.toString()) == 0) {
+        if (service.delete(pid.toString()) == 0) {
             return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
         }
 
@@ -105,7 +102,7 @@ public class PostController {
     @PostMapping
     public ResponseEntity<String> insert(
             @ApiParam(value = "글", required = true) @RequestBody Post post) {
-        if(service.insert(post) == 0) { //insert 실패
+        if (service.insert(post) == 0) { //insert 실패
             return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
         }
         //insert 성공
@@ -117,7 +114,7 @@ public class PostController {
     @PutMapping("/like/{pid}")
     public ResponseEntity<String> addLike(@ApiParam(value = "글 번호", required = true) @PathVariable Long pid) {
 
-        if(service.addLike(pid) == 0) { //insert 실패
+        if (service.addLike(pid) == 0) { //insert 실패
             return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
         }
         //insert 성공
@@ -127,20 +124,20 @@ public class PostController {
     @ApiOperation(value = "일반 검색", notes = "해당 검색어를 가진 모든 포스트를 조회한다.")
     @GetMapping("/search/common")
     public ResponseEntity<List<Post>> commonSearch(@ApiParam(value = "검색어", required = true) @RequestParam String q,
-                                                   @ApiParam(value="페이지",required=true) @RequestParam Long page) {
+                                                   @ApiParam(value = "페이지", required = true) @RequestParam Long page) {
         Long sizePerPage = 10L;
-        Long startPage = (page-1)*sizePerPage;
+        Long startPage = (page - 1) * sizePerPage;
         Long endPage = sizePerPage;
 
         Map pageMap = new HashMap<>();
-        pageMap.put("q",q);
-        pageMap.put("startPage",startPage);
-        pageMap.put("endPage",endPage);
+        pageMap.put("q", q);
+        pageMap.put("startPage", startPage);
+        pageMap.put("endPage", endPage);
 
         List<Post> list = service.commonSearch(pageMap);
-        if(list.size()>0){
+        if (list.size() > 0) {
             return new ResponseEntity<List<Post>>(list, HttpStatus.OK);
-        }else{
+        } else {
             return new ResponseEntity<List<Post>>(list, HttpStatus.NO_CONTENT);
         }
     }
@@ -148,32 +145,32 @@ public class PostController {
     @ApiOperation(value = "태그 검색", notes = "해당 태그를 가진 모든 포스트를 조회한다.")
     @GetMapping("/search/tag")
     public ResponseEntity<List<Post>> tagSearch(@ApiParam(value = "검색어", required = true) @RequestParam String tagname,
-                                                @ApiParam(value="페이지",required=true) @RequestParam Long page) {
+                                                @ApiParam(value = "페이지", required = true) @RequestParam Long page) {
         Long sizePerPage = 10L;
-        Long startPage = (page-1)*sizePerPage;
+        Long startPage = (page - 1) * sizePerPage;
         Long endPage = sizePerPage;
 
         Map pageMap = new HashMap<>();
-        pageMap.put("tagname",tagname);
-        pageMap.put("startPage",startPage);
-        pageMap.put("endPage",endPage);
+        pageMap.put("tagname", tagname);
+        pageMap.put("startPage", startPage);
+        pageMap.put("endPage", endPage);
 
         List<Post> list = service.tagSearch(pageMap);
-        if(list.size()>0){
+        if (list.size() > 0) {
             return new ResponseEntity<List<Post>>(list, HttpStatus.OK);
-        }else{
+        } else {
             return new ResponseEntity<List<Post>>(list, HttpStatus.NO_CONTENT);
         }
     }
 
     @ApiOperation(value = "다음 포스트 번호", notes = "다음 포스트 번호를 조회한다.")
     @GetMapping("/nextpid")
-    public ResponseEntity<Long> getNextpid () {
-        Long pid = service.getNextpid()+1;
-        System.out.println("nextPid: "+pid);
-        if(pid>0){
+    public ResponseEntity<Long> getNextpid() {
+        Long pid = service.getNextpid() + 1;
+        System.out.println("nextPid: " + pid);
+        if (pid > 0) {
             return new ResponseEntity<Long>(pid, HttpStatus.OK);
-        }else{
+        } else {
             return new ResponseEntity<Long>(0L, HttpStatus.NO_CONTENT);
         }
     }
@@ -188,24 +185,24 @@ public class PostController {
 
     @ApiOperation(value = "다음 페이지 포스트 번호", notes = "다음 페이지 포스트 번호를 조회한다.")
     @GetMapping("/nextPage")
-    public ResponseEntity<Long> getNextPage (@RequestParam Long pid) {
+    public ResponseEntity<Long> getNextPage(@RequestParam Long pid) {
         System.out.println("getNextPage");
         Long nextpid = service.getNextPage(pid);
         System.out.println(nextpid);
-        if(nextpid>0){
+        if (nextpid > 0) {
             return new ResponseEntity<Long>(nextpid, HttpStatus.OK);
-        }else{
+        } else {
             return new ResponseEntity<Long>(0L, HttpStatus.NO_CONTENT);
         }
     }
 
     @ApiOperation(value = "이전 페이지 포스트 번호", notes = "이전 페이지 포스트 번호를 조회한다.")
     @GetMapping("/prevPage")
-    public ResponseEntity<Long> getPrevPage (@RequestParam Long pid) {
+    public ResponseEntity<Long> getPrevPage(@RequestParam Long pid) {
         Long prevpid = service.getPrevPage(pid);
-        if(prevpid>0){
+        if (prevpid > 0) {
             return new ResponseEntity<Long>(prevpid, HttpStatus.OK);
-        }else{
+        } else {
             return new ResponseEntity<Long>(0L, HttpStatus.NO_CONTENT);
         }
     }
@@ -219,16 +216,30 @@ public class PostController {
 
     @ApiOperation(value = "유저 프로필 사진 변경시 이미지 경로 수정", notes = "유저 프로필 사진 변경시 이미지 경로 수정한다.")
     @PutMapping(value = "/picture")
-    public  ResponseEntity<Integer> updatePicture(@RequestBody Post post){
+    public ResponseEntity<Integer> updatePicture(@RequestBody Post post) {
         int result = service.updatePicture(post);
-        if(result>0) return new ResponseEntity<Integer>(result,HttpStatus.OK);
+        if (result > 0) return new ResponseEntity<Integer>(result, HttpStatus.OK);
         return new ResponseEntity<Integer>(0, HttpStatus.NO_CONTENT);
     }
 
     @ApiOperation(value = "특정 repo_id에 연동된 모든 포스트 출력", notes = "특정 repo_id에 연동된 모든 포스트 출력한다.")
     @GetMapping(value = "/all/list/repo")
-    public  ResponseEntity<List<Post>> getALLRepoPost(@RequestParam Long repo_id){
+    public ResponseEntity<List<Post>> getALLRepoPost(@RequestParam Long repo_id) {
         List<Post> list = service.getALLRepoPost(repo_id);
-        return new ResponseEntity<List<Post>>(list,HttpStatus.OK);
+        return new ResponseEntity<List<Post>>(list, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "핫 레파지토리의 포스트 출력", notes = "핫 레파지토리의 포스트들을 출력한다.")
+    @GetMapping(value = "/hot/post")
+    public ListResult<List<Post>> getHotRepoPostList() {
+        List<HotRepository> hotRepositories = service.getHotRepos();
+        List<List<Post>> posts = new ArrayList<>();
+        for (int i = 0; i < hotRepositories.size(); i++) {
+            Long repoId = hotRepositories.get(i).getRepoId();
+            logger.info("repoId : " + repoId);
+            List<Post> list = service.getHotRepoPosts(repoId);
+            posts.add(list);
+        }
+        return responseService.getListResult(posts);
     }
 }
