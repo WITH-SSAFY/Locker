@@ -4,12 +4,11 @@
     <!-- 커밋 타임라인, 포스트, 언어 비율 -->
     <!-- TODO: 포스팅을 따로 보여줄지에 대한 여부 논의 -->
 
-
     <header>
       <!-- 1. 헤더 : 레포 이름, 디스크립션, 태그, 유저 이름, 리드미, 언어비율 정보 보여줌 -->
       <!-- TODO: GET /api/v1/github, 내 깃헙 레포 조회-->
 
-      <p class="bold text-white" style="font-size: 2rem; position: fixed;">SUB_PJT3</p>
+      <p class="bold text-white" style="font-size: 2rem; position: fixed;">{{ curRepo.repoName }}</p>
 
       
       <!-- 언어 비율-->
@@ -95,53 +94,43 @@
           </div> -->
           <!-- 타임라인 블럭 끝 -->
 
-
           <!-- 하나의 타임라인 -->
-          <div class="cd-timeline-block">
-            <div class="cd-timeline-img cd-picture">
-              <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/148866/cd-icon-picture.svg" alt="Picture">
-            </div> <!-- cd-timeline-img -->
-      
-            <div class="cd-timeline-content">
-              <h2>커밋 메세지 어쩌구 저쩌구 </h2>
-              <p>넣을게 있다면 더 넣고오오 뭘 넣으면 좋을까??</p>
-              <a href="#0" class="cd-read-more">Read more 여기에 해당 커밋 코드 링크걸자</a>
-            <span class="cd-date">Jan 14 날짜를 깃헙보니까 updated 5 days ago 이런식으로 직관적으로했는데 뭐가 좋을까?</span>
-            </div> <!-- cd-timeline-content -->
+          <div class="cd-timeline-block" v-for="ele in timeline" :key="ele">
+            <!-- commit인 경우 -->
+            <div v-if="ele.url.substring(0,19) === 'https://github.com/'">
+              <div class="cd-timeline-img cd-picture">
+                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/148866/cd-icon-picture.svg" alt="Picture">
+              </div> <!-- cd-timeline-img -->
+              
+              <!-- {{timeline[0].url.substring(0,19)}} -->
+              <!-- {{timeline[0]}} -->
+        
+              <div class="cd-timeline-content">
+                <h2>{{ele.message}}</h2>
+                <p>{{ele.date}}</p>
+                <!-- <span class="cd-date">{{ele.date}}</span> -->
+                <a @click="openCommit(ele.url)" class="cd-read-more">Read more - commit 코드 확인하기</a>
+              <!-- <span class="cd-date">Jan 14 날짜를 깃헙보니까 updated 5 days ago 이런식으로 직관적으로했는데 뭐가 좋을까?</span> -->
+              </div> <!-- cd-timeline-content -->
+            </div>
+
+            <!-- 포스트인 경우 -->
+            <div v-else>
+              <div class="cd-timeline-img cd-movie">
+                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/148866/cd-icon-movie.svg" alt="Movie">
+              </div> <!-- cd-timeline-img -->
+        
+              <div class="cd-timeline-content">
+                <h2>{{ele.message}}</h2>
+                <p>{{ele.date}}</p> 
+                <img :src="ele.thumbnail" style="height:200px;">
+                <a :href="ele.url" class="cd-read-more">Read more</a>
+                <!-- <span class="cd-date">{{ele.date}}</span> -->
+              </div> <!-- cd-timeline-content -->
+            </div>
+          
           </div> <!-- cd-timeline-block -->
       
-
-          <!-- 하나의 타임라인 -->
-          <div class="cd-timeline-block">
-            <div class="cd-timeline-img cd-movie">
-              <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/148866/cd-icon-movie.svg" alt="Movie">
-            </div> <!-- cd-timeline-img -->
-      
-            <div class="cd-timeline-content">
-              <h2>포스트 글 제목을 넣는거지!</h2>
-              <p>포스트 디스크립션을 넣는거야! 그런데 근데 이때 먼저, 이 타임라인이 들어가는 순서는 말그대로 포스팅과 커밋의 생성 순서로 들어가면 좋을듯!</p>
-              <a href="#0" class="cd-read-more">Read more 마찬가지로 누르면 포스트가 들어가지겠지?</a>
-              <span class="cd-date">Jan 18 날짜,</span>
-            </div> <!-- cd-timeline-content -->
-          </div> <!-- cd-timeline-block  -->
-
-
-          <!-- 하나의 타임라인 -->
-          <div class="cd-timeline-block">
-            <div class="cd-timeline-img cd-movie">
-              <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/148866/cd-icon-movie.svg" alt="Movie">
-            </div> <!-- cd-timeline-img -->
-      
-            <div class="cd-timeline-content">
-              <h2>포스트 글 제목을 넣는거지!</h2>
-              <p>섬네일을 넣는 방법도 있어! 바로이렇게</p> <img src="https://avatars1.githubusercontent.com/u/44442605?s=400&u=bc0dc029509429745a79fc3e83769f5d03f1ae2c&v=4" alt="ㅎㅇ" style="height:200px;">
-              <a href="#0" class="cd-read-more">Read more 마찬가지로 누르면 포스트가 들어가지겠지?</a>
-              <span class="cd-date">Jan 18 날짜,</span>
-            </div> <!-- cd-timeline-content -->
-          </div> <!-- cd-timeline-block  -->
-
-
-
         </section>
       </div>
 
@@ -152,7 +141,6 @@
       <!-- TODO: GET /api/v1/post/all/list/repo, 레포에 대한 포스트 내역 조회 -->
       <div class="col-md-6">
         <div>
-
           <v-row class="justify-content-center">
             <v-col
               cols="12"
@@ -210,7 +198,7 @@
 
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 import $ from 'jquery'
 import axios from "../../lib/axios-common.js"
 import("../../assets/css/linguist.css");
@@ -219,9 +207,11 @@ export default {
   data() {
     return {
       tags: [],
+      timelineInfo: [],
     }
   },
   methods: {
+    ...mapActions(["getRepoDetail"]),
     async getTags(pid) {
       let response = await axios.get("/v1/tag/all/" + pid);
       this.tags = response.data;
@@ -229,16 +219,26 @@ export default {
      viewPost(pid) {
       //포스트 상세보기로 이동
       this.$store.dispatch("showMyDetail", pid);
-    }   
+    },
+    openCommit(url){
+      window.open(url);
+    },   
 
   },
   computed: {
-    ...mapState(["commitList", "langRatio", "repoPost"])
+    ...mapState(["timeline", "langRatio", "repoPost", "curRepo"])
   },
   created () {
-
+    console.log("timeline: ", this.timeline);
+    this.timelineInfo = this.timeline
+    console.log("langRatio: ", this.langRatio);
+    console.log("repoPost: ", this.repoPost);
+    console.log("curRepo: ", this.curRepo);
+    this.getRepoDetail(this.curRepo);
+    // console.log("timeline[0] : ", this.timeline[0]);
   },
   mounted () {
+    
     $(document).ready(function($){
       var $timeline_block = $('.cd-timeline-block');
 

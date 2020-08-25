@@ -21,10 +21,14 @@ export default new Vuex.Store({
     //팀 레포 정보
     teamLockerRepos: [],
     teamGitRepos: [],
+    
+    curRepo: null, //조회하고 싶은 repository의 정보
+    
     //레포 관련 정보
     commitList: [],
     langRatio: [],
     repoPost: [], //해당 레포에 걸려있는 post 목록
+    timeline: [], //타임라인에 띄워줄 목록
 
     myPostList: null, //내가 쓴 포스트 목록
     myDetailTitle: "", //상세보기 제목
@@ -273,16 +277,18 @@ export default new Vuex.Store({
       console.log("mutations - teamLockerRepos", state.teamLockerRepos);
     },
     getRepoDetail(state, payload) {
-      console.log("mutations - commitList", payload.commitList);
-      console.log("mutations - langList", payload.langList);
-      state.commitList = payload.commitList;
-      state.langRatio = payload.langList;
-      router.push({ name: "repoDetail" });
+      console.log("mutations - getRepoDetail : ",payload.timeline);
+      state.timeline = payload.timeline;
     },
     getRepoPost(state, payload) {
-      console.log("mutations: getRepoPost", payload.repoPost);
+      console.log("mutations - getRepoPost", payload.repoPost);
       state.repoPost = payload.repoPost;
     },
+    getLangRatio(state, payload){
+      console.log("mutations - getLangRatio", payload.langRatio);
+      state.langRatio = payload.langRatio;
+      // router.push({name: "repoDetail"})
+    }
   },
   //비즈니스 로직
   actions: {
@@ -619,66 +625,52 @@ export default new Vuex.Store({
     // 커밋 리스트와 언어 비율 가져오기
     getRepoDetail({ commit, dispatch }, repoInfo) {
       console.log("getRepoDetail - repoInfo:", repoInfo);
+      // commit
+      dispatch
 
-      var commitList = [];
-      var langList = null;
+      var timeline = [];
+      // var langList = null;
       //커밋 정보 얻어오기
       axios
+        .get("/v1/github/timeline?repoId="+repoInfo.id+"&name="+repoInfo.name+"&repoName="+repoInfo.repoName)
+        .then((res)=> {
+          timeline = res.data.list;
+          console.log("timeline!! - ", timeline);
+          dispatch('getLangRatio', repoInfo);
+          dispatch('getRepoPost', repoInfo);
+          commit('getRepoDetail', { timeline, name: repoInfo.id, repoName: repoInfo.repoName });
+        })
+        .catch((err)=>{
+          console.log("timeline 오류!!",err.response);
+            if (err.response.data.success == false) {
+              dispatch('getLangRatio', repoInfo);
+              dispatch('getRepoPost', repoInfo);
+              commit('getRepoDetail', { timeline, name: repoInfo.id, repoName: repoInfo.repoName });
+            }
+        })
+    },
+
+    //해당 레포에 대한 언어비율 정보 가지고 오기
+    getLangRatio({commit}, repoInfo){
+      console.log("getLangRatio : ", repoInfo.name)
+      console.log("getLangRatio : ", repoInfo.repoName)
+      var langRatio = [];
+      axios
         .get(
-          "/v1/github/commits?name=" +
-            repoInfo.name +
-            "&repoName=" +
-            repoInfo.repoName
+          "/v1/github/lang?name=" +
+          repoInfo.name +
+          "&repo=" +
+          repoInfo.repoName
         )
         .then((res) => {
-          commitList = res.data.list;
-          console.log("commitList - res", res.data.list);
-          axios
-            .get(
-              "/v1/github/lang?name=" +
-                repoInfo.name +
-                "&repo=" +
-                repoInfo.repoName
-            )
-            .then((res) => {
-              langList = res.data.data;
-              console.log("langList - res", res.data.data);
-              dispatch("getRepoPost", repoInfo.id);
-              commit("getRepoDetail", { commitList, langList });
-            })
-            .catch((err) => {
-              console.log("langList - err", err.reponse);
-              if (err.response.data.success == false) {
-                dispatch("getRepoPost", repoInfo.id);
-                commit("getRepoDetail", { commitList, langList });
-              }
-            });
+          // console.log("langList - res", res.data.data);
+          langRatio = res.data.data;
+          commit('getLangRatio', {langRatio})
         })
         .catch((err) => {
-          console.log("commitList - err", err.response);
-          if (err.response) {
-            if (err.response.data.success == false) {
-              axios
-                .get(
-                  "/v1/github/lang?name=" +
-                    repoInfo.name +
-                    "&repo=" +
-                    repoInfo.repoName
-                )
-                .then((res) => {
-                  langList = res.data.data;
-                  console.log("langList - res", res.data.data);
-                  dispatch("getRepoPost", repoInfo.id);
-                  commit("getRepoDetail", { commitList, langList });
-                })
-                .catch((err) => {
-                  console.log("langList - err", err.response);
-                  if (err.response.data.success == false) {
-                    dispatch("getRepoPost", repoInfo.id);
-                    commit("getRepoDetail", { commitList, langList });
-                  }
-                });
-            }
+          console.log("langList - err", err.response);
+          if (err.response.data.success == false) {
+            commit('getLangRatio', {langRatio})
           }
         });
     },
@@ -687,7 +679,7 @@ export default new Vuex.Store({
     getRepoPost({ commit }, repoInfo) {
       console.log("getRepoPost - repoInfo", repoInfo);
       axios
-        .get("/v1/post/all/list/repo?repo_id=" + repoInfo)
+        .get("/v1/post/all/list/repo?repo_id=" + repoInfo.id)
         .then((res) => {
           commit("getRepoPost", { repoPost: res.data });
         })
