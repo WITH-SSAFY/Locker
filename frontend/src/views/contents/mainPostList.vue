@@ -38,7 +38,6 @@
           <div class="cont__inner">
 
             <!-- el start -->
-            <!-- likes, name, repoId, repoName, usrId -->
             <div>
               <div
                 class="el"
@@ -59,40 +58,40 @@
                     </div>
                     
                     <!-- 포스트 내부 -->
-                    <!-- 해당 레포 소속 포스트 불러오기, 이걸 레포 페이지에서 했고 -->
                     <div class="el__content">
-                      <div class="el__text">{{ repo.repoName }}</div>
-                      <div class="el__text">{{ repo.name }}</div>
-                      <v-icon color="#424242" class="ml-auto">mdi-heart</v-icon>
-                      <span class="text-white ml-1 medium" style="font-size: 0.9rem; color: #424242;">{{ repo.likes }}</span>
+                      <div class="el__text bolder" style="font-size: 2.7rem; color: #EDE7F6;">{{ repo.repoName }}</div>
+                      <div class="el__text regular" style="font-size: 1.5rem; color: #EDE7F6;">{{ repo.name }}</div>
+                      <div class="mb-5 py-3">
+                        <v-icon color="#424242" class="ml-auto">mdi-heart</v-icon>
+                        <span class="text-white ml-1 medium" style="font-size: 0.9rem; color: #424242;">{{ repo.likes }}</span>
+                      </div>
                       <div class="el__close-btn" @click="closeAni($btn, i)"></div>
-                      
-                      
-                      <!-- GET /api/v1/post/all/list/repo -->
-                      <!-- {{ repo.repoId }} 넘겨서 요청하자-->
+                                    
+                      <div class="py-3">
+                        <v-icon color="#7C4DFF">mdi-chevron-right</v-icon>
+                        <p class="regular d-inline ml-2" style="font-size: 1.3rem; color: #999">관련 포스트 보기</p>
+                      </div>
 
+                      <!-- 포스트 리스트 출력 -->
                       <v-row>
                         <v-col
                           cols="12"
                           md="6"
                           v-for="repoPost in repoPostList[i]"
                           :key="repoPost.pid"
-                          style="padding: 2% 8%;"
                         >
-                          <v-card>
-                            <v-card-title>{{ repoPost.title }}</v-card-title>
-                            
-                            <v-card-actions>
-                              <v-spacer></v-spacer>
-                              <v-btn icon><v-icon>mdi-bookmark</v-icon></v-btn>
-                              <v-btn icon><v-icon>mdi-share-variant</v-icon></v-btn>
+                          <v-card style="border: solid 1.3px #7C4DFF;">
+                            <v-card-title style="color: #7C4DFF;">{{ repoPost.title }}</v-card-title>
+                            <v-flex class="ml-5">{{ repoPost.description }}</v-flex>
+                            <v-card-actions class="d-flex justify-content-between ml-3">
+                              <v-flex class="bold">{{ repoPost.nickname }}</v-flex>
+                              <v-flex class="ml-auto">{{ repoPost.created }}</v-flex>
                             </v-card-actions>
                           </v-card>
                         </v-col>
                       </v-row>
-                    </div>
 
-                    
+                    </div>
 
                   </div>
                 </div>
@@ -124,9 +123,6 @@
 import { mapState, mapActions } from "vuex";
 import '../../assets/css/main_post.scss'
 import axios from "../../lib/axios-common.js"
-// import notice1 from '../notice/notice-1.vue'
-// import notice2 from '../notice/notice-1.vue'
-// import notice3 from '../notice/notice-1.vue'
 
 export default {
   name: 'mainPostList',
@@ -152,7 +148,6 @@ export default {
         })
         .catch(exp => alert("핫 레포 가져오기 실패" + exp))
     },
-    // 핫레포 포스트에 리스트로 저장해서 인덱스 별로 꺼내 써야함
     hotRepoPost () {
       axios
         .get("/v1/post/hot/post")
@@ -160,7 +155,6 @@ export default {
           this.repoPostList = response.data.list
         })
     },
-    // mounted에서는 실행하고, methods에서는 정의하고
     openAni: function (ev, i) {
       console.log(ev, i)
       var $cont = document.querySelector('.cont');
@@ -174,8 +168,6 @@ export default {
       });
     });
     },
-
-    // mounted에서는 실행하고, methods에서는 정의하고
     closeAni: function (btn, i) {
       console.log(btn, i)
       var $cont = document.querySelector('.cont');
@@ -207,13 +199,6 @@ export default {
     this.openAni();
     this.closeAni();
 
-    // var $box = $('ul#box li:first-child');
-    // (function toggleBox() {
-    //   $box.slideToggle();
-    //   setTimeout(function(){
-    //     toggleBox();
-    //   },2250);
-    // })();
     }
   }
 
@@ -244,9 +229,6 @@ export default {
   ul#box li {
     text-decoration: none;
     list-style: none;
-    /* height: 45px;
-    margin: 15px 0; */
-    /* border-bottom: solid 1.3px #7C4DFF; */
     margin-left: 10px;
     margin-right: 10px;
     padding-bottom: 10px;
