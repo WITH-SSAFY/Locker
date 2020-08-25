@@ -38,7 +38,6 @@
           <div class="cont__inner">
 
             <!-- el start -->
-            <!-- likes, name, repoId, repoName, usrId -->
             <div>
               <div
                 class="el"
@@ -59,71 +58,40 @@
                     </div>
                     
                     <!-- 포스트 내부 -->
-                    <!-- 해당 레포 소속 포스트 불러오기, 이걸 레포 페이지에서 했고 -->
                     <div class="el__content">
-                      <div class="el__text">{{ repo.repoName }}</div>
-                      <div class="el__text">{{ repo.name }}</div>
-                      <v-icon color="#424242" class="ml-auto">mdi-heart</v-icon>
-                      <span class="text-white ml-1 medium" style="font-size: 0.9rem; color: #424242;">{{ repo.likes }}</span>
+                      <div class="el__text bolder" style="font-size: 2.7rem; color: #EDE7F6;">{{ repo.repoName }}</div>
+                      <div class="el__text regular" style="font-size: 1.5rem; color: #EDE7F6;">{{ repo.name }}</div>
+                      <div class="mb-5 py-3">
+                        <v-icon color="#424242" class="ml-auto">mdi-heart</v-icon>
+                        <span class="text-white ml-1 medium" style="font-size: 0.9rem; color: #424242;">{{ repo.likes }}</span>
+                      </div>
                       <div class="el__close-btn" @click="closeAni($btn, i)"></div>
-                      
-                      
-                      <!-- GET /api/v1/post/all/list/repo -->
-                      <!-- {{ repo.repoId }} 넘겨서 요청하자-->
+                                    
+                      <div class="py-3">
+                        <v-icon color="#7C4DFF">mdi-chevron-right</v-icon>
+                        <p class="regular d-inline ml-2" style="font-size: 1.3rem; color: #999">관련 포스트 보기</p>
+                      </div>
 
-
-
-                      <!-- <v-row class="justify-content-center">
+                      <!-- 포스트 리스트 출력 -->
+                      <v-row>
                         <v-col
                           cols="12"
-                          md="11"
+                          md="6"
+                          v-for="repoPost in repoPostList[i]"
+                          :key="repoPost.pid"
                         >
-                          
-                          <div class="blog-card" v-for="post in repoPost" :key="post.pid">
-                            <div class="meta">
-
-                              
-                              <div @mouseover="getTags(post.pid)" class="photo">
-                                <img :src="post.thumbnail" align="center" />
-                              </div>
-                              <ul class="details">
-                                <li class="author medium">인덱스 : {{ index }}</li>
-                                <li class="author medium">작성자 : {{ post.nickname }}</li>
-                                <li class="date medium">작성일자 : {{ post.created }}</li>
-                                <li class="tags">
-                    
-                                  <p class="medium">관련 태그</p>
-                                  <v-chip
-                                    v-for="tag in tags"
-                                    :key="tag.tagid"
-                                    class="mr-1"
-                                    label
-                                    color="#eceffc"
-                                  >
-                                    <span class="medium">{{ tag }}</span>
-                                  </v-chip>
-                                </li>
-                              </ul>
-
-                            </div>
-
-                            <div @click="viewPost(post.pid)" class="description" style="cursor: pointer;">
-                              <p class="medium mb-2" style="font-size: 1.5rem;">{{ post.title }}</p>
-                              <div class="under-line"></div>
-                              <p class="regular" style="font-size: 0.9rem;">{{ post.description }}</p>
-                            </div>
-
-                          </div>
-
+                          <v-card style="border: solid 1.3px #7C4DFF;">
+                            <v-card-title style="color: #7C4DFF;">{{ repoPost.title }}</v-card-title>
+                            <v-flex class="ml-5">{{ repoPost.description }}</v-flex>
+                            <v-card-actions class="d-flex justify-content-between ml-3">
+                              <v-flex class="bold">{{ repoPost.nickname }}</v-flex>
+                              <v-flex class="ml-auto">{{ repoPost.created }}</v-flex>
+                            </v-card-actions>
+                          </v-card>
                         </v-col>
-                      </v-row>                  -->
-                    
-                    
-                    
-                    
-                    </div>
+                      </v-row>
 
-                    
+                    </div>
 
                   </div>
                 </div>
@@ -155,9 +123,6 @@
 import { mapState, mapActions } from "vuex";
 import '../../assets/css/main_post.scss'
 import axios from "../../lib/axios-common.js"
-// import notice1 from '../notice/notice-1.vue'
-// import notice2 from '../notice/notice-1.vue'
-// import notice3 from '../notice/notice-1.vue'
 
 export default {
   name: 'mainPostList',
@@ -171,6 +136,7 @@ export default {
   data: function () {
     return {
       repoList: [],
+      repoPostList: [],
     }
   },
   methods: {
@@ -182,25 +148,26 @@ export default {
         })
         .catch(exp => alert("핫 레포 가져오기 실패" + exp))
     },
-
-
-    // mounted에서는 실행하고, methods에서는 정의하고
+    hotRepoPost () {
+      axios
+        .get("/v1/post/hot/post")
+        .then(response => {
+          this.repoPostList = response.data.list
+        })
+    },
     openAni: function (ev, i) {
       console.log(ev, i)
       var $cont = document.querySelector('.cont');
       var $elsArr = [].slice.call(document.querySelectorAll('.el'));
 
-      $elsArr.forEach(function($el, i) {
+      $elsArr.forEach(function($el) {
         $el.addEventListener('click', function() {
-          console.log('해줘어', $el, i)
           if (this.classList.contains('s--active')) return;
           $cont.classList.add('s--el-active');
           this.classList.add('s--active');
       });
     });
     },
-
-    // mounted에서는 실행하고, methods에서는 정의하고
     closeAni: function (btn, i) {
       console.log(btn, i)
       var $cont = document.querySelector('.cont');
@@ -219,6 +186,7 @@ export default {
 
   created() {
     this.hotRepo();
+    this.hotRepoPost();
   },
 
   mounted() {
@@ -231,13 +199,6 @@ export default {
     this.openAni();
     this.closeAni();
 
-    // var $box = $('ul#box li:first-child');
-    // (function toggleBox() {
-    //   $box.slideToggle();
-    //   setTimeout(function(){
-    //     toggleBox();
-    //   },2250);
-    // })();
     }
   }
 
@@ -268,9 +229,6 @@ export default {
   ul#box li {
     text-decoration: none;
     list-style: none;
-    /* height: 45px;
-    margin: 15px 0; */
-    /* border-bottom: solid 1.3px #7C4DFF; */
     margin-left: 10px;
     margin-right: 10px;
     padding-bottom: 10px;

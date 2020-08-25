@@ -3,6 +3,7 @@ package com.locker.blog.repository.post;
 import com.locker.blog.domain.post.PagingPost;
 import com.locker.blog.domain.post.Post;
 import com.locker.blog.domain.repository.HotRepository;
+import com.locker.blog.domain.tag.Tag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,4 +25,5 @@ public interface PostDAO {
     public List<HotRepository> getHotRepos();
     public int updatePicture(Post post);
     public List<Post> getALLRepoPost(Long repo_id);
+    public List<Post> getHotRepoPosts(Long repo_id);
 }

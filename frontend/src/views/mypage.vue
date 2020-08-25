@@ -41,22 +41,14 @@
 
             <!-- 스탯 섹션 -->
             <div class="col-md-5">
-              <a href="https://github.com/anuraghazra/github-readme-stats">
-                <img align="left" src="https://github-readme-stats.vercel.app/api?username=junhok82&show_icons=true&theme=buefy" />
-              </a>
-            </div>
-
-
-
-            <!-- <div class="col-md-5">
               <div v-if="userInfo.provider === 'github'">
                 <a href="https://github.com/anuraghazra/github-readme-stats">
                   <img align="left" :src="statSrc" />
                 </a>
-              </div> -->
+              </div>
 
               <!-- 깃헙과 연동되지 않았을 때의 화면 디자인 -->
-              <!-- <div v-else style="min-height: 10rem; background-color: #eceffc; padding: 2rem;">
+              <div v-else style="min-height: 10rem; background-color: #eceffc; padding: 2rem;">
                 <div class="text-center">
                   <p class="medium">
                     깃헙과 연동하면 당신의
@@ -78,8 +70,9 @@
                     <span class="bolder" style="font-size: 1rem;">깃헙 연동 바로가기</span>
                   </v-btn>
                 </div>
-              </div> -->
-            <!-- </div> -->
+              </div>
+
+            </div>
           </div>
           <!-- <hr> -->
         </v-col>
@@ -165,7 +158,6 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
-// import SideBar from "./SideBar.vue"
 import("../assets/css/side-style.css");
 import("../assets/css/jandi.css");
 import("../assets/css/tab.scss");
@@ -175,15 +167,14 @@ export default {
     this.userInfo;
     this.$store.dispatch("getMyPostList", this.userInfo.id);
     this.myPostList;
-    this.githubId = this.userInfo.login;
     
     // 토큰 값 받아오기
-    // let token = localStorage.getItem("access_token");
-    // this.token = token;
-    this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNyIsInJvbGVzIjpbXSwiaWF0IjoxNTk4MzQ2NzQ0LCJleHAiOjE1OTgzNTAzNDR9.-iQ-w1LjJxRpDvdYmscmkpJZEh59kdD6hTtydiXXPbI"
-    // let accessToken = localStorage.getItem("github_token");
-    // this.accessToken = accessToken;
-    this.accessToken = "93f85828b6c2d1667555e9e0070dcf3448c721bd"
+    let token = localStorage.getItem("access_token");
+    this.token = token;
+    // this.token = ""
+    let accessToken = localStorage.getItem("github_token");
+    this.accessToken = accessToken;
+    // this.accessToken = ""
     
     // 토큰 값 전달해서 getRepos 실행(Repository 리스트 받아오기)
     
@@ -228,14 +219,14 @@ export default {
     statSrc() {
       return (
         "https://github-readme-stats.vercel.app/api?username=" +
-        this.githubId +
+        this.userInfo.uid +
         "&show_icons=true&theme=buefy"
       );
     }
   },
   data() {
     return {
-      githubId: null
+      
     };
   },
   components: {

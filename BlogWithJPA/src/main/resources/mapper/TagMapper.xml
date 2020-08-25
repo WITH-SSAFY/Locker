@@ -32,4 +32,13 @@
     <delete id="deleteTag">
         delete from posttag where pid=#{pid}
     </delete>
+
+    <select id="getRepoTags" resultType="Tag">
+        select t.tagname
+        from post p, posttag pt, tag t
+        where p.repo_id = #{repo_id}
+        and p.pid = pt.pid
+        and pt.tagid = t.tagid
+    </select>
+
 </mapper>

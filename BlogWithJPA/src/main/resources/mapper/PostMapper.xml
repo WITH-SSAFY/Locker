@@ -98,4 +98,11 @@
         where repo_id=#{repoId}
     </select>
 
+    <select id="getHotRepoPosts" resultType="Post">
+        select p.pid, p.email, p.nickname, p.title, p.content, p.created, p.updated, p.likes, p.thumbnail, p.description, p.repo_id as repoId, p.usr_id as usrId, p.usr_picture
+        from post p
+        where repo_id=#{repoId}
+        limit 4
+    </select>
+
 </mapper>
