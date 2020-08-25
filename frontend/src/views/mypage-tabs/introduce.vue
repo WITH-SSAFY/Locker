@@ -56,7 +56,6 @@ export default {
   },
   created () {
     this.getIntro();
-
   },
   mounted () {
     // hljs.initHighlightingOnLoad();
