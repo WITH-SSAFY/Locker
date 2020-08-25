@@ -44,7 +44,7 @@ export default {
     getIntro () {
       let accessToken = localStorage.getItem("github_token");
       console.log('accessToken', accessToken)
-      if (acceessToken != null) {
+      if (accessToken != null) {
         axios.get("/v1/github/hidden?accessToken=" + accessToken)
           .then((response) => {
             console.log('response', response)
