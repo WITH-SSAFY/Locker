@@ -71,56 +71,25 @@
                       <!-- GET /api/v1/post/all/list/repo -->
                       <!-- {{ repo.repoId }} 넘겨서 요청하자-->
 
-
-
-                      <!-- <v-row class="justify-content-center">
+                      <v-row>
                         <v-col
                           cols="12"
-                          md="11"
+                          md="6"
+                          v-for="repoPost in repoPostList[i]"
+                          :key="repoPost.pid"
+                          style="padding: 2% 8%;"
                         >
-                          
-                          <div class="blog-card" v-for="post in repoPost" :key="post.pid">
-                            <div class="meta">
-
-                              
-                              <div @mouseover="getTags(post.pid)" class="photo">
-                                <img :src="post.thumbnail" align="center" />
-                              </div>
-                              <ul class="details">
-                                <li class="author medium">인덱스 : {{ index }}</li>
-                                <li class="author medium">작성자 : {{ post.nickname }}</li>
-                                <li class="date medium">작성일자 : {{ post.created }}</li>
-                                <li class="tags">
-                    
-                                  <p class="medium">관련 태그</p>
-                                  <v-chip
-                                    v-for="tag in tags"
-                                    :key="tag.tagid"
-                                    class="mr-1"
-                                    label
-                                    color="#eceffc"
-                                  >
-                                    <span class="medium">{{ tag }}</span>
-                                  </v-chip>
-                                </li>
-                              </ul>
-
-                            </div>
-
-                            <div @click="viewPost(post.pid)" class="description" style="cursor: pointer;">
-                              <p class="medium mb-2" style="font-size: 1.5rem;">{{ post.title }}</p>
-                              <div class="under-line"></div>
-                              <p class="regular" style="font-size: 0.9rem;">{{ post.description }}</p>
-                            </div>
-
-                          </div>
-
+                          <v-card>
+                            <v-card-title>{{ repoPost.title }}</v-card-title>
+                            
+                            <v-card-actions>
+                              <v-spacer></v-spacer>
+                              <v-btn icon><v-icon>mdi-bookmark</v-icon></v-btn>
+                              <v-btn icon><v-icon>mdi-share-variant</v-icon></v-btn>
+                            </v-card-actions>
+                          </v-card>
                         </v-col>
-                      </v-row>                  -->
-                    
-                    
-                    
-                    
+                      </v-row>
                     </div>
 
                     
@@ -171,6 +140,7 @@ export default {
   data: function () {
     return {
       repoList: [],
+      repoPostList: [],
     }
   },
   methods: {
@@ -182,17 +152,22 @@ export default {
         })
         .catch(exp => alert("핫 레포 가져오기 실패" + exp))
     },
-
-
+    // 핫레포 포스트에 리스트로 저장해서 인덱스 별로 꺼내 써야함
+    hotRepoPost () {
+      axios
+        .get("/v1/post/hot/post")
+        .then(response => {
+          this.repoPostList = response.data.list
+        })
+    },
     // mounted에서는 실행하고, methods에서는 정의하고
     openAni: function (ev, i) {
       console.log(ev, i)
       var $cont = document.querySelector('.cont');
       var $elsArr = [].slice.call(document.querySelectorAll('.el'));
 
-      $elsArr.forEach(function($el, i) {
+      $elsArr.forEach(function($el) {
         $el.addEventListener('click', function() {
-          console.log('해줘어', $el, i)
           if (this.classList.contains('s--active')) return;
           $cont.classList.add('s--el-active');
           this.classList.add('s--active');
@@ -219,6 +194,7 @@ export default {
 
   created() {
     this.hotRepo();
+    this.hotRepoPost();
   },
 
   mounted() {
