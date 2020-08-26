@@ -2,59 +2,64 @@
 
   <div>
     <!-- 커밋 타임라인, 포스트, 언어 비율 -->
-    <!-- TODO: 포스팅을 따로 보여줄지에 대한 여부 논의 -->
-
     <header>
       <!-- 1. 헤더 : 레포 이름, 디스크립션, 태그, 유저 이름, 리드미, 언어비율 정보 보여줌 -->
-      <!-- TODO: GET /api/v1/github, 내 깃헙 레포 조회-->
+      <div class="row" style="background-color: #242b33;">
 
-      <p class="bold text-white" style="font-size: 2rem; position: fixed;">{{ curRepo.repoName }}</p>
-
-      
-      <!-- 언어 비율-->
-      <div style="display:flex;flex-direction:column">
-        <div style="flex:1 400px;display:flex;">
-          <div style="flex:0 1 50%;margin:0 auto;padding:0 32px;min-width:320px;max-width:576px;display:flex;flex-direction:column;justify-content:space-around">
-            <div>
-
-              <div class="progress-project">
-                <div
-                  v-for="post in repoPost"
-                  :key="post.pid"
-                  class="dates"
-                >
-                  <div class="start label">
-                    {{ post.created }}
-                  </div>
-
-                  <div class="finish label">
-                    {{ post.updated }}
-                  </div>
-
-                </div>
-
-                <!-- 언어 사용 비율 시각화 -->
-                
-                <div class="bar">
-
-                  <div
-                    v-for="(ratio, lang, idx) in langRatio"
-                    :key="idx"
-                    class='phase'
-                    :class="'phase-' + (idx+1)"
-                    :data-phase="lang"
-                    :style="{ width: ratio + '%' }"
-                    title="More phase info">
-                  </div>
-                  
-                  <div class="current-state label" :class="'phase-' + (idx+1)" :style="{ width : ratio*(idx+1) + '%'} ">{{ lang }}</div>
-
-                  <!-- <div :style="{ width : ratio*(idx+1) + '%'} ">{{ ratio }}</div> -->
-                </div>
-
-              </div>
-            </div>
+        <!-- 레포 정보 -->
+        <div class="col-md-4" style="margin-left: 3rem;">
+          <div class="mb-5">
+            <v-icon color="#7C4DFF">mdi-chevron-right</v-icon>
+            <p class="regular d-inline ml-2" style="font-size: 1.3rem; color: #999">레포지토리 상세</p>
           </div>
+          <p class="bold text-white" style="font-size: 2rem;">{{ curRepo.repoName }}</p>
+          <img :src="curRepo.src">
+        </div>
+        
+        <!-- 언어 비율-->
+
+        <div class="col-md-8">
+
+            
+
+          <div class="progress-project">
+            <div
+              v-for="post in repoPost"
+              :key="post.pid"
+              class="dates"
+            >
+              <div class="start label">
+                {{ post.created }}
+              </div>
+
+              <div class="finish label">
+                {{ post.updated }}
+              </div>
+
+            </div>
+
+            <!-- 언어 사용 비율 시각화 -->
+            
+            <div class="bar">
+
+              <div
+                v-for="(ratio, lang, idx) in langRatio"
+                :key="idx"
+                class='phase'
+                :class="'phase-' + (idx+1)"
+                :data-phase="lang"
+                :style="{ width: ratio + '%' }"
+                title="More phase info">
+              </div>
+              
+              <div class="current-state label" :class="'phase-' + (idx+1)" :style="{ width : ratio*(idx+1) + '%'} ">{{ lang }}</div>
+
+              <!-- <div :style="{ width : ratio*(idx+1) + '%'} ">{{ ratio }}</div> -->
+            </div>
+
+          </div>
+
+
         </div> 
       </div>
 
@@ -319,28 +324,6 @@ Modules - reusable parts of our design
 Main components 
 
 -------------------------------- */
-header {
-  height: 300px;
-  line-height: 300px;
-  z-index: -1;
-  text-align: center;
-  background: #242b33;
-}
-header h1 {
-  color: #ffffff;
-  font-size: 18px;
-  font-size: 1.125rem;
-}
-@media only screen and (min-width: 1170px) {
-  header {
-    height: 300px;
-    line-height: 300px;
-  }
-  header h1 {
-    font-size: 24px;
-    font-size: 1.5rem;
-  }
-}
 
 #cd-timeline {
   position: relative;
