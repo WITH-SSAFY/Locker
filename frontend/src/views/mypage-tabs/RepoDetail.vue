@@ -64,53 +64,31 @@
             v-for="(ratio, lang, idx) in langRatio"
             :key="idx"
             class="text-white mt-5"
+            :class="'phase-' + (idx+1)"
           >
             <p v-if="ratio != 0">
-              {{ lang }} : {{ ratio }}
+              {{ lang }} : {{ ratio }} %
             </p>
           </div>
-          
+
         </div>
+
+        <!-- 리드미, 태그 불러오기 -->
 
 
       </div> 
     </div>
 
-
-  
-
-    <!-- 레포에 걸린 포스트 정보 -->
-    <!-- <div style="background-color: white; margin: 10px;" v-for="(post, index) in repoPost" :key="post.pid">
-      <p>{{ index }}. {{ post.created }} / {{ post.title }} / {{ post.nickname }}</p>
-    </div> -->
-
-
     <!-- 2. 타임라인 영역 : 시간 순 -->
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-6 p-5">
+
+        <div class="mb-5" style="margin-left: 3rem;">
+          <v-icon color="#7C4DFF">mdi-chevron-right</v-icon>
+          <p class="regular d-inline ml-2" style="font-size: 1.3rem; color: #242b33;">커밋 / 포스팅 기록</p>
+        </div>
+
         <section id="cd-timeline" class="cd-container">
-
-          <!-- 커밋 정보 -->
-          <!-- <div style="background-color: white; margin: 10px;" v-for="(commit, index) in commitList" :key="commit.message">
-            <p>{{ index }}. {{ commit.date }} / {{ commit.message }} / {{ commit.url }}</p>
-          </div> -->
-
-          <!-- 타임라인 블럭 -->
-          <!-- TODO: 레포 아이디를 기준으로 created 또는 updated 순으로 커밋 내역과 포스트 정보를 주는 API 필요 -->
-          <!-- <div class="cd-timeline-block">
-            
-            <div class="cd-timeline-img cd-picture">
-              <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/148866/cd-icon-picture.svg" alt="Picture">
-            </div>
-      
-            <div class="cd-timeline-content">
-              <h2>커밋 메세지 어쩌구 저쩌구 </h2>
-              <p>넣을게 있다면 더 넣고오오 뭘 넣으면 좋을까??</p>
-              <a href="#0" class="cd-read-more">Read more 여기에 해당 커밋 코드 링크걸자</a>
-              <span class="cd-date">Jan 14 날짜를 깃헙보니까 updated 5 days ago 이런식으로 직관적으로했는데 뭐가 좋을까?</span>
-            </div>
-          </div> -->
-          <!-- 타임라인 블럭 끝 -->
 
           <!-- 하나의 타임라인 -->
           <div class="cd-timeline-block" v-for="ele in timeline" :key="ele">
@@ -153,11 +131,15 @@
       </div>
 
 
-
-
       <!-- 3. 포스트 내역 : 시간 역순 -->
       <!-- TODO: GET /api/v1/post/all/list/repo, 레포에 대한 포스트 내역 조회 -->
-      <div class="col-md-6">
+      <div class="col-md-6 p-5">
+
+        <div class="mb-5" style="margin-left: 3rem;">
+          <v-icon color="#7C4DFF">mdi-chevron-right</v-icon>
+          <p class="regular d-inline ml-2" style="font-size: 1.3rem; color: #242b33;">레포지토리의 포스트</p>
+        </div>
+
         <div>
           <v-row class="justify-content-center">
             <v-col
