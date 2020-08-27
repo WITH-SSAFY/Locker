@@ -2,68 +2,81 @@
 
   <div>
     <!-- 커밋 타임라인, 포스트, 언어 비율 -->
-    <header>
-      <!-- 1. 헤더 : 레포 이름, 디스크립션, 태그, 유저 이름, 리드미, 언어비율 정보 보여줌 -->
-      <div class="row" style="background-color: #242b33;">
 
-        <!-- 레포 정보 -->
-        <div class="col-md-4" style="margin-left: 3rem;">
+    <!-- 1. 헤더 : 레포 이름, 디스크립션, 태그, 유저 이름, 리드미, 언어비율 정보 보여줌 -->
+    <div class="row" style="background-color: #242b33; padding: 2rem;">
+
+      <!-- 레포 정보 -->
+      <div class="col-md-4" style="margin-left: 3rem;">
+        <div class="mb-5">
+          <v-icon color="#7C4DFF">mdi-chevron-right</v-icon>
+          <p class="regular d-inline ml-2" style="font-size: 1.3rem; color: #999">레포지토리 상세</p>
+        </div>
+        <p class="bold text-white" style="font-size: 2rem;">{{ curRepo.repoName }}</p>
+        <img :src="curRepo.src">
+      </div>
+      
+      <!-- 언어 비율-->
+      <div class="col-md-6" style="margin-left: 3rem;">
+
+        <!-- 포스트 생성 / 업데이트 날짜 -->
+        <div class="progress-project">
           <div class="mb-5">
             <v-icon color="#7C4DFF">mdi-chevron-right</v-icon>
-            <p class="regular d-inline ml-2" style="font-size: 1.3rem; color: #999">레포지토리 상세</p>
+            <p class="regular d-inline ml-2" style="font-size: 1.3rem; color: #999">언어 사용 비율</p>
           </div>
-          <p class="bold text-white" style="font-size: 2rem;">{{ curRepo.repoName }}</p>
-          <img :src="curRepo.src">
-        </div>
-        
-        <!-- 언어 비율-->
 
-        <div class="col-md-8">
+          <!-- <div
+            v-for="post in repoPost"
+            :key="post.pid"
+            class="dates"
+          >
 
-            
+            <div class="start label">
+              {{ repoPost[0].created }}
+            </div>
 
-          <div class="progress-project">
+            <div class="finish label">
+              {{ repoPost[0].updated }}
+            </div>
+
+          </div> -->
+
+          <!-- 언어 사용 비율 시각화 -->
+          <div class="bar">
+
             <div
-              v-for="post in repoPost"
-              :key="post.pid"
-              class="dates"
-            >
-              <div class="start label">
-                {{ post.created }}
-              </div>
-
-              <div class="finish label">
-                {{ post.updated }}
-              </div>
-
+              v-for="(ratio, lang, idx) in langRatio"
+              :key="idx"
+              class='phase'
+              :class="'phase-' + (idx+1)"
+              :data-phase="lang"
+              :style="{ width: ratio + '%' }"
+              title="More phase info">
             </div>
-
-            <!-- 언어 사용 비율 시각화 -->
             
-            <div class="bar">
-
-              <div
-                v-for="(ratio, lang, idx) in langRatio"
-                :key="idx"
-                class='phase'
-                :class="'phase-' + (idx+1)"
-                :data-phase="lang"
-                :style="{ width: ratio + '%' }"
-                title="More phase info">
-              </div>
-              
-              <div class="current-state label" :class="'phase-' + (idx+1)" :style="{ width : ratio*(idx+1) + '%'} ">{{ lang }}</div>
-
-              <!-- <div :style="{ width : ratio*(idx+1) + '%'} ">{{ ratio }}</div> -->
-            </div>
+            <div class="current-state label" :class="'phase-' + (idx+1)" :style="{ width : ratio*(idx+1) + '%'} ">{{ lang }}</div>
 
           </div>
+          
+          <!-- 언어 사용 비율 텍스트 -->
+          <div
+            v-for="(ratio, lang, idx) in langRatio"
+            :key="idx"
+            class="text-white mt-5"
+          >
+            <p v-if="ratio != 0">
+              {{ lang }} : {{ ratio }}
+            </p>
+          </div>
+          
+        </div>
 
 
-        </div> 
-      </div>
+      </div> 
+    </div>
 
-    </header>
+
   
 
     <!-- 레포에 걸린 포스트 정보 -->
