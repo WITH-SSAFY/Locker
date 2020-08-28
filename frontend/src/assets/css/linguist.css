@@ -129,7 +129,7 @@ aside, .secondary {
   border-color: #55555e;
 }
 .progress-project {
-  padding: calc(1em + 6px) 0;
+  padding: 4.5rem;
   position: relative;
 }
 .progress-project:hover .label::before, .progress-project:hover .label::after {

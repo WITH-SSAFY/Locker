@@ -2,97 +2,121 @@
 
   <div>
     <!-- 커밋 타임라인, 포스트, 언어 비율 -->
-    <!-- TODO: 포스팅을 따로 보여줄지에 대한 여부 논의 -->
 
-    <header>
-      <!-- 1. 헤더 : 레포 이름, 디스크립션, 태그, 유저 이름, 리드미, 언어비율 정보 보여줌 -->
-      <!-- TODO: GET /api/v1/github, 내 깃헙 레포 조회-->
+    <!-- 1. 헤더 : 레포 이름, 디스크립션, 태그, 유저 이름, 리드미, 언어비율 정보 보여줌 -->
+    <div class="row" style="background-color: #242b33; padding: 2rem;">
 
-      <p class="bold text-white" style="font-size: 2rem; position: fixed;">{{ curRepo.repoName }}</p>
-
+      <!-- 레포 정보 -->
+      <div class="col-md-4" style="margin-left: 3rem;">
+        <div class="mb-5">
+          <v-icon color="#7C4DFF">mdi-chevron-right</v-icon>
+          <p class="regular d-inline ml-2" style="font-size: 1.3rem; color: #999">레포지토리 상세</p>
+        </div>
+        <p class="bold text-white" style="font-size: 2rem;">{{ curRepo.repoName }}</p>
+        <img :src="curRepo.src">
+      </div>
       
       <!-- 언어 비율-->
-      <div style="display:flex;flex-direction:column">
-        <div style="flex:1 400px;display:flex;">
-          <div style="flex:0 1 50%;margin:0 auto;padding:0 32px;min-width:320px;max-width:576px;display:flex;flex-direction:column;justify-content:space-around">
-            <div>
+      <div class="col-md-6" style="margin-left: 3rem;">
 
-              <div class="progress-project">
-                <div
-                  v-for="post in repoPost"
-                  :key="post.pid"
-                  class="dates"
-                >
-                  <div class="start label">
-                    {{ post.created }}
-                  </div>
-
-                  <div class="finish label">
-                    {{ post.updated }}
-                  </div>
-
-                </div>
-
-                <!-- 언어 사용 비율 시각화 -->
-                
-                <div class="bar">
-
-                  <div
-                    v-for="(ratio, lang, idx) in langRatio"
-                    :key="idx"
-                    class='phase'
-                    :class="'phase-' + (idx+1)"
-                    :data-phase="lang"
-                    :style="{ width: ratio + '%' }"
-                    title="More phase info">
-                  </div>
-                  
-                  <div class="current-state label" :class="'phase-' + (idx+1)" :style="{ width : ratio*(idx+1) + '%'} ">{{ lang }}</div>
-
-                  <!-- <div :style="{ width : ratio*(idx+1) + '%'} ">{{ ratio }}</div> -->
-                </div>
-
-              </div>
-            </div>
+        <!-- 포스트 생성 / 업데이트 날짜 -->
+        <div class="progress-project">
+          <div class="mb-5">
+            <v-icon color="#7C4DFF">mdi-chevron-right</v-icon>
+            <p class="regular d-inline ml-2" style="font-size: 1.3rem; color: #999">언어 사용 비율</p>
           </div>
-        </div> 
+
+          <!-- <div
+            v-for="post in repoPost"
+            :key="post.pid"
+            class="dates"
+          >
+
+            <div class="start label">
+              {{ repoPost[0].created }}
+            </div>
+
+            <div class="finish label">
+              {{ repoPost[0].updated }}
+            </div>
+
+          </div> -->
+
+          <!-- 언어 사용 비율 시각화 -->
+          <div class="bar">
+
+            <div
+              v-for="(ratio, lang, idx) in langRatio"
+              :key="idx"
+              class='phase'
+              :class="'phase-' + (idx+1)"
+              :data-phase="lang"
+              :style="{ width: ratio + '%' }"
+              title="More phase info">
+            </div>
+            
+            <div class="current-state label" :class="'phase-' + (idx+1)" :style="{ width : ratio*(idx+1) + '%'} ">{{ lang }}</div>
+
+          </div>
+          
+          <!-- 언어 사용 비율 텍스트 -->
+          <div
+            v-for="(ratio, lang, idx) in langRatio"
+            :key="idx"
+            class="text-white mt-5"
+            :class="'phase-' + (idx+1)"
+          >
+            <p v-if="ratio != 0">
+              {{ lang }} : {{ ratio }} %
+            </p>
+          </div>
+
+        </div>
+
+        <!-- 레포지토리의 리드미 -->
+        <v-row style="margin-left: 4.5rem;">
+          <v-dialog v-model="dialog" width="600px">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                color="#7C4DFF"
+                dark
+                v-bind="attrs"
+                v-on="on"
+              >
+                <span class="bold">README 보기</span>
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-title>
+                <span class="headline">{{ curRepo.repoName }}</span>
+              </v-card-title>
+              <v-card-text>{{ readme }}</v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="green darken-1" text @click="dialog = false">Disagree</v-btn>
+                <v-btn color="green darken-1" text @click="dialog = false">Agree</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-row>
+
       </div>
 
-    </header>
-  
 
-    <!-- 레포에 걸린 포스트 정보 -->
-    <!-- <div style="background-color: white; margin: 10px;" v-for="(post, index) in repoPost" :key="post.pid">
-      <p>{{ index }}. {{ post.created }} / {{ post.title }} / {{ post.nickname }}</p>
-    </div> -->
 
+      <!-- 레포지토리 내 포스트의 태그 -->
+    </div>
 
     <!-- 2. 타임라인 영역 : 시간 순 -->
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-6 p-5">
+
+        <div class="mb-5" style="margin-left: 3rem;">
+          <v-icon color="#7C4DFF">mdi-chevron-right</v-icon>
+          <p class="bold d-inline ml-2" style="font-size: 1.3rem; color: #242b33;">커밋 / 포스팅 기록</p>
+        </div>
+
         <section id="cd-timeline" class="cd-container">
-
-          <!-- 커밋 정보 -->
-          <!-- <div style="background-color: white; margin: 10px;" v-for="(commit, index) in commitList" :key="commit.message">
-            <p>{{ index }}. {{ commit.date }} / {{ commit.message }} / {{ commit.url }}</p>
-          </div> -->
-
-          <!-- 타임라인 블럭 -->
-          <!-- TODO: 레포 아이디를 기준으로 created 또는 updated 순으로 커밋 내역과 포스트 정보를 주는 API 필요 -->
-          <!-- <div class="cd-timeline-block">
-            
-            <div class="cd-timeline-img cd-picture">
-              <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/148866/cd-icon-picture.svg" alt="Picture">
-            </div>
-      
-            <div class="cd-timeline-content">
-              <h2>커밋 메세지 어쩌구 저쩌구 </h2>
-              <p>넣을게 있다면 더 넣고오오 뭘 넣으면 좋을까??</p>
-              <a href="#0" class="cd-read-more">Read more 여기에 해당 커밋 코드 링크걸자</a>
-              <span class="cd-date">Jan 14 날짜를 깃헙보니까 updated 5 days ago 이런식으로 직관적으로했는데 뭐가 좋을까?</span>
-            </div>
-          </div> -->
-          <!-- 타임라인 블럭 끝 -->
 
           <!-- 하나의 타임라인 -->
           <div class="cd-timeline-block" v-for="ele in timeline" :key="ele">
@@ -135,11 +159,15 @@
       </div>
 
 
-
-
       <!-- 3. 포스트 내역 : 시간 역순 -->
       <!-- TODO: GET /api/v1/post/all/list/repo, 레포에 대한 포스트 내역 조회 -->
-      <div class="col-md-6">
+      <div class="col-md-6 p-5">
+
+        <div class="mb-5" style="margin-left: 3rem;">
+          <v-icon color="#7C4DFF">mdi-chevron-right</v-icon>
+          <p class="bold d-inline ml-2" style="font-size: 1.3rem; color: #242b33;">레포지토리의 포스트</p>
+        </div>
+
         <div>
           <v-row class="justify-content-center">
             <v-col
@@ -208,6 +236,7 @@ export default {
     return {
       tags: [],
       timelineInfo: [],
+      readme: null,
     }
   },
   methods: {
@@ -216,25 +245,34 @@ export default {
       let response = await axios.get("/v1/tag/all/" + pid);
       this.tags = response.data;
     },
-     viewPost(pid) {
+    viewPost(pid) {
       //포스트 상세보기로 이동
       this.$store.dispatch("showMyDetail", pid);
     },
     openCommit(url){
       window.open(url);
     },   
+    getRepoReadme() {
+      axios
+        .get(
+          "/v1/github/readme?name=" +
+          this.curRepo.name +
+          "&repoName=" +
+          this.curRepo.repoName
+        )
+        .then(response => {
+          this.readme = response.data.data
+        })
+    },
 
   },
   computed: {
     ...mapState(["timeline", "langRatio", "repoPost", "curRepo"])
   },
   created () {
-    console.log("timeline: ", this.timeline);
     this.timelineInfo = this.timeline
-    console.log("langRatio: ", this.langRatio);
-    console.log("repoPost: ", this.repoPost);
-    console.log("curRepo: ", this.curRepo);
     this.getRepoDetail(this.curRepo);
+    this.getRepoReadme();
     // console.log("timeline[0] : ", this.timeline[0]);
   },
   mounted () {
@@ -319,28 +357,6 @@ Modules - reusable parts of our design
 Main components 
 
 -------------------------------- */
-header {
-  height: 300px;
-  line-height: 300px;
-  z-index: -1;
-  text-align: center;
-  background: #242b33;
-}
-header h1 {
-  color: #ffffff;
-  font-size: 18px;
-  font-size: 1.125rem;
-}
-@media only screen and (min-width: 1170px) {
-  header {
-    height: 300px;
-    line-height: 300px;
-  }
-  header h1 {
-    font-size: 24px;
-    font-size: 1.5rem;
-  }
-}
 
 #cd-timeline {
   position: relative;
