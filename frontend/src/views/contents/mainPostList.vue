@@ -14,9 +14,9 @@
         </div>
         <section id="container" class="my-3">
           <ul id="box" class="regular" style="font-size: 1.1rem;">
-            <li class="medium"><router-link to="/notice1">[공지사항] - Locker blog 서비스 시작</router-link></li>
-            <li class="medium"><router-link to="/notice2">[공지사항] - Ver 1.01 업데이트</router-link></li>
-            <li class="medium"><router-link to="/notice3">[공지사항] - Locker 향후 업데이트 방향</router-link></li>
+            <li class="medium"><router-link to="/notice/1">[공지사항] - Locker blog 서비스 시작</router-link></li>
+            <li class="medium"><router-link to="/notice/2">[공지사항] - Ver 1.01 업데이트</router-link></li>
+            <li class="medium"><router-link to="/notice/3">[공지사항] - Locker 향후 업데이트 방향</router-link></li>
           </ul>
           <router-view></router-view>
         </section>
