@@ -73,10 +73,38 @@
 
         </div>
 
-        <!-- 리드미, 태그 불러오기 -->
+        <!-- 레포지토리의 리드미 -->
+        <v-row style="margin-left: 4.5rem;">
+          <v-dialog v-model="dialog" width="600px">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                color="#7C4DFF"
+                dark
+                v-bind="attrs"
+                v-on="on"
+              >
+                <span class="bold">README 보기</span>
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-title>
+                <span class="headline">{{ curRepo.repoName }}</span>
+              </v-card-title>
+              <v-card-text>{{ readme }}</v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="green darken-1" text @click="dialog = false">Disagree</v-btn>
+                <v-btn color="green darken-1" text @click="dialog = false">Agree</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-row>
+
+      </div>
 
 
-      </div> 
+
+      <!-- 레포지토리 내 포스트의 태그 -->
     </div>
 
     <!-- 2. 타임라인 영역 : 시간 순 -->
@@ -85,7 +113,7 @@
 
         <div class="mb-5" style="margin-left: 3rem;">
           <v-icon color="#7C4DFF">mdi-chevron-right</v-icon>
-          <p class="regular d-inline ml-2" style="font-size: 1.3rem; color: #242b33;">커밋 / 포스팅 기록</p>
+          <p class="bold d-inline ml-2" style="font-size: 1.3rem; color: #242b33;">커밋 / 포스팅 기록</p>
         </div>
 
         <section id="cd-timeline" class="cd-container">
@@ -137,7 +165,7 @@
 
         <div class="mb-5" style="margin-left: 3rem;">
           <v-icon color="#7C4DFF">mdi-chevron-right</v-icon>
-          <p class="regular d-inline ml-2" style="font-size: 1.3rem; color: #242b33;">레포지토리의 포스트</p>
+          <p class="bold d-inline ml-2" style="font-size: 1.3rem; color: #242b33;">레포지토리의 포스트</p>
         </div>
 
         <div>
@@ -208,6 +236,7 @@ export default {
     return {
       tags: [],
       timelineInfo: [],
+      readme: null,
     }
   },
   methods: {
@@ -216,25 +245,34 @@ export default {
       let response = await axios.get("/v1/tag/all/" + pid);
       this.tags = response.data;
     },
-     viewPost(pid) {
+    viewPost(pid) {
       //포스트 상세보기로 이동
       this.$store.dispatch("showMyDetail", pid);
     },
     openCommit(url){
       window.open(url);
     },   
+    getRepoReadme() {
+      axios
+        .get(
+          "/v1/github/readme?name=" +
+          this.curRepo.name +
+          "&repoName=" +
+          this.curRepo.repoName
+        )
+        .then(response => {
+          this.readme = response.data.data
+        })
+    },
 
   },
   computed: {
     ...mapState(["timeline", "langRatio", "repoPost", "curRepo"])
   },
   created () {
-    console.log("timeline: ", this.timeline);
     this.timelineInfo = this.timeline
-    console.log("langRatio: ", this.langRatio);
-    console.log("repoPost: ", this.repoPost);
-    console.log("curRepo: ", this.curRepo);
     this.getRepoDetail(this.curRepo);
+    this.getRepoReadme();
     // console.log("timeline[0] : ", this.timeline[0]);
   },
   mounted () {
