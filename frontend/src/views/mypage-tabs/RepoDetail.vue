@@ -73,38 +73,38 @@
 
         </div>
 
-        <!-- 레포지토리의 리드미 -->
-        <v-row style="margin-left: 4.5rem;">
-          <v-dialog v-model="dialog" width="600px">
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                color="#7C4DFF"
-                dark
-                v-bind="attrs"
-                v-on="on"
-              >
-                <span class="bold">README 보기</span>
-              </v-btn>
-            </template>
-            <v-card>
-              <v-card-title>
-                <span class="headline">{{ curRepo.repoName }}</span>
-              </v-card-title>
-              <v-card-text>{{ readme }}</v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="green darken-1" text @click="dialog = false">Disagree</v-btn>
-                <v-btn color="green darken-1" text @click="dialog = false">Agree</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        </v-row>
+        <!-- 레포지토리의 리드미 모달 -->
 
+        <v-dialog v-model="dialog" width="600px">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              color="#7C4DFF"
+              dark
+              v-bind="attrs"
+              v-on="on"
+            >
+              <span class="bold">README 보기</span>
+            </v-btn>
+          </template>
+
+          <v-card>
+            <v-card-title>
+              <span class="headline">{{ curRepo.repoName }}</span>
+            </v-card-title>
+
+            <v-card-text>
+              <aside id="markdown" contenteditable style="display: none;">{{ readme }}</aside>
+              <section id="output-html" class="markdown-body" style="display: none;"></section>
+              <div id="page" class="markdown-body"></div>
+            </v-card-text>
+
+          </v-card>
+        </v-dialog>
       </div>
 
-
-
       <!-- 레포지토리 내 포스트의 태그 -->
+
+
     </div>
 
     <!-- 2. 타임라인 영역 : 시간 순 -->
@@ -132,10 +132,8 @@
               <div class="cd-timeline-content">
                 <h2>{{ele.message}}</h2>
                 <p>{{ele.date}}</p>
-                <!-- <span class="cd-date">{{ele.date}}</span> -->
                 <a @click="openCommit(ele.url)" class="cd-read-more">Read more - commit 코드 확인하기</a>
-              <!-- <span class="cd-date">Jan 14 날짜를 깃헙보니까 updated 5 days ago 이런식으로 직관적으로했는데 뭐가 좋을까?</span> -->
-              </div> <!-- cd-timeline-content -->
+              </div>
             </div>
 
             <!-- 포스트인 경우 -->
@@ -230,6 +228,7 @@ import { mapState, mapActions } from "vuex";
 import $ from 'jquery'
 import axios from "../../lib/axios-common.js"
 import("../../assets/css/linguist.css");
+import "@/assets/text_editor/github-md.css";
 
 export default { 
   data() {
@@ -276,7 +275,6 @@ export default {
     // console.log("timeline[0] : ", this.timeline[0]);
   },
   mounted () {
-    
     $(document).ready(function($){
       var $timeline_block = $('.cd-timeline-block');
 
@@ -297,6 +295,75 @@ export default {
       });
     });
   },
+  updated () {
+    function parseMd(md){
+
+      //ul
+      // md = md.replace(/^\s*\n\-\s/gm, '<ul>\n');
+      // md = md.replace(/^(\-.+)\s*([^\-])/gm, '$1\n</ul>\n\n$2');
+      md = md.replace(/^(\-\s)(.+)/gm, '<li>$2</li>');
+      
+      //ol
+      md = md.replace(/^\s*\n\d\./gm, '<ol>\n1.');
+      md = md.replace(/^(\d\..+)\s*\n([^\d\.])/gm, '$1\n</ol>\n\n$2');
+      md = md.replace(/^\d\.(.+)/gm, '<li>$1</li>');
+      
+      //blockquote
+      md = md.replace(/^\>(.+)/gm, '<blockquote>$1</blockquote>');
+      
+      //h
+      md = md.replace(/[\#]{6}\s(.+)/g, '<h6>$1</h6>');
+      md = md.replace(/[\#]{5}\s(.+)/g, '<h5>$1</h5>');
+      md = md.replace(/[\#]{4}\s(.+)/g, '<h4>$1</h4>');
+      md = md.replace(/[\#]{3}\s(.+)/g, '<h3>$1</h3>');
+      md = md.replace(/[\#]{2}\s(.+)/g, '<h2>$1</h2>');
+      md = md.replace(/[\#]{1}\s(.+)/g, '<h1>$1</h1>');
+      
+      //images
+      md = md.replace(/\!\[([^\]]+)\]\(([^\)]+)\)/g, '<img src="$2" alt="$1" />');
+      
+      //links
+      md = md.replace(/[\[]{1}([^\]]+)[\]]{1}[\(]{1}([^\)\"]+)(\"(.+)\")?[\)]{1}/g, '<a href="$2" title="$4">$1</a>');
+      
+      //font styles
+      md = md.replace(/[\*\_]{2}([^\*\_]+)[\*\_]{2}/g, '<b>$1</b>');
+      md = md.replace(/[\*\_]{1}([^\*\_]+)[\*\_]{1}/g, '<i>$1</i>');
+      md = md.replace(/[\~]{2}([^\~]+)[\~]{2}/g, '<del>$1</del>');
+      
+      //pre
+      md = md.replace(/^\s*\n\`\`\`\s(([^\s]+))?/gm, '<pre class="$2">');
+      md = md.replace(/^\`\`\`\s*\n/gm, '</pre>\n\n');
+      
+      //code
+      md = md.replace(/[\`]{1}([^\`]+)[\`]{1}/g, '<code>$1</code>');
+      
+      //hr
+      md = md.replace(/\-\-\-+/gm, '<hr>')
+
+      //p
+      md = md.replace(/^\s*(\n)?(.+)/gm, function(m){
+        return  /\<(\/)?(h\d|ul|ol|li|blockquote|pre|img)/.test(m) ? m : '<p>'+m+'</p>';
+      });
+      
+      //strip p from pre
+      md = md.replace(/(\<pre.+\>)*\<p\>(.+)\<\/p\>/gm, '$1$2');
+      
+      return md;
+
+    }
+
+    var mdEl = document.querySelector('#markdown')
+    var outputEl = document.querySelector('#output-html')
+    var parse = function () {
+      outputEl["innerText"] = parseMd(mdEl.innerText);
+
+    };
+
+    parse();
+    document.querySelector('#page').innerHTML = document.querySelector('#output-html').innerText
+    
+  },  
+
 }
 </script>
 
