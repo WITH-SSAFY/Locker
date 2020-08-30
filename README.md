@@ -48,25 +48,27 @@
 
 ### 메인페이지 📌
 
+<br>
+
 #### 핫 레포지토리
 
->LOCKER에 등록된 레포지토리 중 좋아요 수가 가장 많은 TOP3 레포지토리를 보여줍니다
+> LOCKER에 등록된 레포지토리 중 좋아요 수가 가장 많은 TOP3 레포지토리를 보여줍니다
 
-<p align="center"> <img src="./img/hot_repo.gif" style="width:60%;"/> </p>
+<p align="center"> <img src="./img/hot_repo.gif" width="65%"/> </p>
 
 
 #### 인기 포스트 보기
 
 > 좋아요가 많은 순으로 포스트를 보여줍니다
 
-<p align="center"> <img src="./img/post_list.gif" style="width:60%;"/> </p>
+<p align="center"> <img src="./img/post_list.gif" width="65%"/> </p>
 
 
 #### 공지사항
 
 > 공지사항을 볼 수 있습니다
 
-<p align="center"> <img src="./img/information.gif" style="width:60%;"/> </p>
+<p align="center"> <img src="./img/information.gif" width="60%"/> </p>
 
 <br>
 
@@ -77,7 +79,7 @@
 > 포스팅하는 글과 관련된 태그를 달 수 있습니다.
 > 커스텀된 마크다운을 이용하여 글을 작성할 수 있습니다.
 
-<p align="center"> <img src="./img/포스트_작성.gif" style="width:60%;"/> </p>
+<p align="center"> <img src="./img/포스트_작성.gif" width="65%"/> </p>
 
 
 #### 글 작성 이후
@@ -85,7 +87,7 @@
 > 해당 글의 썸네일을 설정할 수 있습니다.
 > 내 깃허브 레파지토리와 연동할 수 있습니다. 
 
-<p align="center"> <img src="./img/섬네일_레포연동.gif" style="width:60%;"/> </p>
+<p align="center"> <img src="./img/섬네일_레포연동.gif" width="65%"/> </p>
 
 
 #### 글 읽기
@@ -93,12 +95,12 @@
 > 커스텀한 마크다운을 이용하여 글 내용을 확인 가능합니다.
 > 글을 읽어내려가면, 왼쪽 타임라인 부분에 어느 부분을 읽고 있는지 표시됩니다.
 
-<p align="center"> <img src="./img/포스트_읽기.gif" style="width:60%;"/> </p>
+<p align="center"> <img src="./img/포스트_읽기.gif" width="65%"/> </p>
 
 > 맘에 드는 글에 좋아요를 누를 수 있습니다.
 > 댓글을 달 수 있고, 다른 사람 댓글에 대댓글을 달 수 있습니다.
 
-<p align="center"> <img src="./img/댓글_좋아요.gif" style="width:60%;"/> </p>
+<p align="center"> <img src="./img/댓글_좋아요.gif" width="65%"/> </p>
 
 <br>
 
@@ -107,7 +109,7 @@
 
 > 제목이나 내용에서 검색어가 포함된 포스팅들을 보여줍니다
 
-<p align="center"> <img src="./img/search.gif" style="width:60%;"/> </p>
+<p align="center"> <img src="./img/search.gif" width="65%"/> </p>
 
 
 #### 태그 검색
@@ -115,13 +117,13 @@
 > 검색어 앞에 #을 붙이면 태그 검색이 됩니다
 > 검색한 태그를 포함하는 포스트들을 보여줍니다
 
-<p align="center"> <img src="./img/tag_search1.gif" style="width:60%;"/> </p>
+<p align="center"> <img src="./img/tag_search1.gif" width="65%"/> </p>
 
 #### 태그 클릭 검색
 
 > 포스트에 등록된 태그를 클릭하면 태그 검색이 됩니다
 
-<p align="center"> <img src="./img/tag_search2.gif" style="width:60%;"/> </p>
+<p align="center"> <img src="./img/tag_search2.gif" width="65%"/> </p>
 
 <br>
 
