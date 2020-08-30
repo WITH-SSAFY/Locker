@@ -133,7 +133,6 @@
               <div class="mx-2">
                 <p class="d-inline" style="font-size: 1.8rem">
                   {{ nickname }}
-                  <v-icon size="30" class="ml-1" color="#7C4DFF">mdi-arm-flex</v-icon>
                 </p>
               </div>
               <p class="ml-2">{{ userInfo.introduction }}</p>
