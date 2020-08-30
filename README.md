@@ -10,7 +10,7 @@
 <h2 align="center"> 목차 📜 </h2>
 
 ### ✔︎ 소개
-  - [X] Contributors
+  - [X] 멤버
   - [X] 프로젝트
 ### ✔︎ 서비스
   - [X] 로그인
@@ -31,14 +31,38 @@
 
 <h2 align="center"> 소개 🏷 </h2>
 
-### 팀원 👋
+### 멤버 👋
+
+#### Frontend
+
+- [김윤진](https://github.com/YNNJN) Front Carry
+- [배현석](https://github.com/beaverbae2) 팀장
+- [윤제원](https://github.com/jane399) 개발천재
+
+#### Backend
+
+- [김준호](https://github.com/junhok82) slave
+- [배현석](https://github.com/beaverbae2) 팀장
+
 <br>
 
 ### 프로젝트 📌
+- Github과 긴밀하게 연결된 개발자 블로그
+- 블로그의 기본기능은 물론
+- 깃허브의 **`레파지토리 별로 추가해서 포스트관리`** 가능
+- 그 외에 포스팅을 유발하는 시각화 요소들까지!
+
+<p align="center"> <img src="./img/Getting_Started.gif" width="65%"/> </p>
+
+<br>
 
 <h2 align="center"> 서비스 🔑 </h2>
 
 ### 로그인 📌
+
+> 소셜로그인을 통해 쉽게 로그인할 수 있습니다.
+
+<p align="center"> <img src="./img/소셜로그인.gif" width="65%"/> </p>
 
 <br>
 
@@ -47,8 +71,6 @@
 <br>
 
 ### 메인페이지 📌
-
-<br>
 
 #### 핫 레포지토리
 
