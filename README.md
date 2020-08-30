@@ -119,6 +119,7 @@
 - [JPA 도입 계기]()
 - [우리가 도커를 사용한 이유]()
 - [로그인 기능을 구현하며 마주한 이슈]()
+- [Vue axios 동기화 이슈](https://www.notion.so/async-await-js-98c8f4edfc064d61a1ba665adbea5d6a)
 
 <h2 align="center"> 회고 ❓ </h2>
 
