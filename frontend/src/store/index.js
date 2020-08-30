@@ -29,6 +29,7 @@ export default new Vuex.Store({
     langRatio: [],
     repoPost: [], //해당 레포에 걸려있는 post 목록
     timeline: [], //타임라인에 띄워줄 목록
+    repoTags: [], // 레포디테일에서 띄워줄 태그 목록들
 
     myPostList: null, //내가 쓴 포스트 목록
     myDetailTitle: "", //상세보기 제목
@@ -126,9 +127,9 @@ export default new Vuex.Store({
       router.push({ name: "afterPost" }); //글 작성 후 화면으로 이동
     },
     getRepos(state, payload) {
-      console.log("mutations - gitRepos", payload.repos);
-      console.log("mutations uid 확인:", payload.uid);
-      console.log("mutations - lockerRepoList 확인 : ", payload.lockerRepoList);
+      // console.log("mutations - gitRepos", payload.repos);
+      // console.log("mutations uid 확인:", payload.uid);
+      // console.log("mutations - lockerRepoList 확인 : ", payload.lockerRepoList);
 
       // 팀 레포 리스트, 내 레포 리스트 구별하기
       var myGitCnt = 0;
@@ -163,8 +164,8 @@ export default new Vuex.Store({
           teamGitCnt++;
         }
       }
-      console.log("mutations - myGitRepos", state.myGitRepos);
-      console.log("mutations - teamGitRepos", state.teamGitRepos);
+      // console.log("mutations - myGitRepos", state.myGitRepos);
+      // console.log("mutations - teamGitRepos", state.teamGitRepos);
 
       var myLockerCnt = 0;
       var teamLockerCnt = 0;
@@ -197,8 +198,8 @@ export default new Vuex.Store({
           teamLockerCnt++;
         }
       }
-      console.log("mutations - myLockerRepos", state.myLockerRepos);
-      console.log("mutations - teamLockerRepos", state.teamLockerRepos);
+      // console.log("mutations - myLockerRepos", state.myLockerRepos);
+      // console.log("mutations - teamLockerRepos", state.teamLockerRepos);
 
       var temp = [];
       var cnt = 0;
@@ -273,21 +274,25 @@ export default new Vuex.Store({
           teamLockerCnt++;
         }
       }
-      console.log("mutations - myLockerRepos", state.myLockerRepos);
-      console.log("mutations - teamLockerRepos", state.teamLockerRepos);
+      // console.log("mutations - myLockerRepos", state.myLockerRepos);
+      // console.log("mutations - teamLockerRepos", state.teamLockerRepos);
     },
     getRepoDetail(state, payload) {
-      console.log("mutations - getRepoDetail : ",payload.timeline);
+      // console.log("mutations - getRepoDetail : "payload.timeline);
       state.timeline = payload.timeline;
     },
     getRepoPost(state, payload) {
-      console.log("mutations - getRepoPost", payload.repoPost);
+      // console.log("mutations - getRepoPost", payload.repoPost);
       state.repoPost = payload.repoPost;
     },
     getLangRatio(state, payload){
-      console.log("mutations - getLangRatio", payload.langRatio);
+      // console.log("mutations - getLangRatio", payload.langRatio);
       state.langRatio = payload.langRatio;
       // router.push({name: "repoDetail"})
+    },
+    getRepoTags(state, payload){
+      // console.log("mutations - getRepoTags: ", payload);
+      state.repoTags = payload;
     }
   },
   //비즈니스 로직
@@ -575,7 +580,7 @@ export default new Vuex.Store({
     },
 
     getRepos({ commit }, userInfo) {
-      console.log("getRepos - userInfo 값 확인", userInfo);
+      // console.log("getRepos - userInfo 값 확인", userInfo);
       axios
         .get(
           "/v1/github/repos?token=" +
@@ -584,7 +589,7 @@ export default new Vuex.Store({
             userInfo.accessToken
         )
         .then((res) => {
-          console.log("res.data", res.data);
+          // console.log("res.data", res.data);
           var repoList = res.data.list;
           // commit("getRepos", { repos: repoList, uid: userInfo.uid});
 
@@ -592,11 +597,11 @@ export default new Vuex.Store({
             .get("/v1/github?pk=" + userInfo.id)
             .then((res) => {
               var lockerRepoList = res.data.list;
-              console.log("getRepos - res", res.data.list);
-              console.log(
-                "lockerRepoList를 확인해보아요~~~!!!!",
-                lockerRepoList
-              );
+              // console.log("getRepos - res", res.data.list);
+              // console.log(
+              //   "lockerRepoList를 확인해보아요~~~!!!!",
+              //   lockerRepoList
+              // );
               commit("getRepos", {
                 repos: repoList,
                 uid: userInfo.uid,
@@ -615,7 +620,7 @@ export default new Vuex.Store({
       axios
         .get("/v1/github?pk=" + userInfo.id)
         .then((res) => {
-          console.log("res", res);
+          // console.log("res", res);
           commit("getLockerRepos", { id: userInfo.id, repos: res.data.list });
         })
         .catch((err) => {
@@ -624,7 +629,7 @@ export default new Vuex.Store({
     },
     // 커밋 리스트와 언어 비율 가져오기
     getRepoDetail({ commit, dispatch }, repoInfo) {
-      console.log("getRepoDetail - repoInfo:", repoInfo);
+      // console.log("getRepoDetail - repoInfo:", repoInfo);
       // commit
       dispatch
 
@@ -635,7 +640,7 @@ export default new Vuex.Store({
         .get("/v1/github/timeline?repoId="+repoInfo.id+"&name="+repoInfo.name+"&repoName="+repoInfo.repoName)
         .then((res)=> {
           timeline = res.data.list;
-          console.log("timeline!! - ", timeline);
+          // console.log("timeline!! - ", timeline);
           dispatch('getLangRatio', repoInfo);
           dispatch('getRepoPost', repoInfo);
           commit('getRepoDetail', { timeline, name: repoInfo.id, repoName: repoInfo.repoName });
@@ -652,8 +657,8 @@ export default new Vuex.Store({
 
     //해당 레포에 대한 언어비율 정보 가지고 오기
     getLangRatio({commit}, repoInfo){
-      console.log("getLangRatio : ", repoInfo.name)
-      console.log("getLangRatio : ", repoInfo.repoName)
+      // console.log("getLangRatio : ", repoInfo.name)
+      // console.log("getLangRatio : ", repoInfo.repoName)
       var langRatio = [];
       axios
         .get(
@@ -668,7 +673,7 @@ export default new Vuex.Store({
           commit('getLangRatio', {langRatio})
         })
         .catch((err) => {
-          console.log("langList - err", err.response);
+          // console.log("langList - err", err.response);
           if (err.response.data.success == false) {
             commit('getLangRatio', {langRatio})
           }
@@ -686,6 +691,19 @@ export default new Vuex.Store({
         .catch((err) => {
           console.lot("getRepoPost - err", err.response);
         });
+    },
+
+    getRepoTags({commit}, repoInfo){
+      axios
+        .get("/v1/tag/repos?repoId="+repoInfo.id)
+        .then((res) => {
+          // console.log("!!!!!!!!!!!!!!!!!!!!",res);
+          commit('getRepoTags', res.data.list);
+        })
+        .catch((err) => {
+          console.log(err.response);
+        })
+
     },
 
     getMyPostList({ commit }, usr_id) {

@@ -14,6 +14,18 @@
         </div>
         <p class="bold text-white" style="font-size: 2rem;">{{ curRepo.repoName }}</p>
         <img :src="curRepo.src">
+        
+        <!-- 레포지토리 내 포스트의 태그 -->
+        <div id="tag_list" style="margin-top: 2.5rem;">
+          <a
+            class="tag"
+            style="" 
+            @click="searchTag(tag.tagname)"
+            v-for="tag in repoTags" :key="tag.tagname"
+          >
+            #{{tag.tagname}}
+          </a>
+        </div>
       </div>
       
       <!-- 언어 비율-->
@@ -72,40 +84,35 @@
           </div>
 
         </div>
+        
+        
 
-        <!-- 레포지토리의 리드미 모달 -->
-
-        <v-dialog v-model="dialog" width="600px">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              color="#7C4DFF"
-              dark
-              v-bind="attrs"
-              v-on="on"
-            >
-              <span class="bold">README 보기</span>
-            </v-btn>
-          </template>
-
-          <v-card>
-            <v-card-title>
-              <span class="headline">{{ curRepo.repoName }}</span>
-            </v-card-title>
-
-            <v-card-text>
-              <aside id="markdown" contenteditable style="display: none;">{{ readme }}</aside>
-              <section id="output-html" class="markdown-body" style="display: none;"></section>
-              <div id="page" class="markdown-body"></div>
-            </v-card-text>
-
-          </v-card>
-        </v-dialog>
+        <!-- 레포지토리의 리드미 -->
+        <v-row style="margin-left: 4.5rem;">
+          <v-dialog v-model="dialog" width="600px">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                color="#7C4DFF"
+                dark
+                v-bind="attrs"
+                v-on="on"
+              >
+                <span class="bold">README 보기</span>
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-title>
+                <span class="headline">README</span>
+              </v-card-title>
+              <v-card-text class="mt-5">
+                <Viewer v-if="axiosFlag" :initialValue="readme" height="100%" />
+              </v-card-text>
+            </v-card>
+          </v-dialog>
+        </v-row>
       </div>
-
-      <!-- 레포지토리 내 포스트의 태그 -->
-
-
     </div>
+
 
     <!-- 2. 타임라인 영역 : 시간 순 -->
     <div class="row">
@@ -132,8 +139,10 @@
               <div class="cd-timeline-content">
                 <h2>{{ele.message}}</h2>
                 <p>{{ele.date}}</p>
+                <!-- <span class="cd-date">{{ele.date}}</span> -->
                 <a @click="openCommit(ele.url)" class="cd-read-more">Read more - commit 코드 확인하기</a>
-              </div>
+              <!-- <span class="cd-date">Jan 14 날짜를 깃헙보니까 updated 5 days ago 이런식으로 직관적으로했는데 뭐가 좋을까?</span> -->
+              </div> <!-- cd-timeline-content -->
             </div>
 
             <!-- 포스트인 경우 -->
@@ -227,8 +236,10 @@
 import { mapState, mapActions } from "vuex";
 import $ from 'jquery'
 import axios from "../../lib/axios-common.js"
+import { Viewer } from '@toast-ui/vue-editor';
 import("../../assets/css/linguist.css");
-import "@/assets/text_editor/github-md.css";
+import '@toast-ui/editor/dist/toastui-editor-viewer.css';
+
 
 export default { 
   data() {
@@ -236,10 +247,14 @@ export default {
       tags: [],
       timelineInfo: [],
       readme: null,
+      axiosFlag: false,
     }
   },
+  components: {
+    Viewer,
+  },
   methods: {
-    ...mapActions(["getRepoDetail"]),
+    ...mapActions(["getRepoDetail", "getRepoTags"]),
     async getTags(pid) {
       let response = await axios.get("/v1/tag/all/" + pid);
       this.tags = response.data;
@@ -261,20 +276,27 @@ export default {
         )
         .then(response => {
           this.readme = response.data.data
+          this.axiosFlag = true
         })
     },
-
+    searchTag(tagname) {
+      tagname;
+      this.$store.state.tagname = tagname;
+      this.$router.push({ name: "search" });
+    },
   },
   computed: {
-    ...mapState(["timeline", "langRatio", "repoPost", "curRepo"])
+    ...mapState(["timeline", "langRatio", "repoPost", "curRepo", "repoTags"])
   },
   created () {
     this.timelineInfo = this.timeline
     this.getRepoDetail(this.curRepo);
     this.getRepoReadme();
+    this.getRepoTags(this.curRepo);
     // console.log("timeline[0] : ", this.timeline[0]);
   },
   mounted () {
+    
     $(document).ready(function($){
       var $timeline_block = $('.cd-timeline-block');
 
@@ -295,75 +317,6 @@ export default {
       });
     });
   },
-  updated () {
-    function parseMd(md){
-
-      //ul
-      // md = md.replace(/^\s*\n\-\s/gm, '<ul>\n');
-      // md = md.replace(/^(\-.+)\s*([^\-])/gm, '$1\n</ul>\n\n$2');
-      md = md.replace(/^(\-\s)(.+)/gm, '<li>$2</li>');
-      
-      //ol
-      md = md.replace(/^\s*\n\d\./gm, '<ol>\n1.');
-      md = md.replace(/^(\d\..+)\s*\n([^\d\.])/gm, '$1\n</ol>\n\n$2');
-      md = md.replace(/^\d\.(.+)/gm, '<li>$1</li>');
-      
-      //blockquote
-      md = md.replace(/^\>(.+)/gm, '<blockquote>$1</blockquote>');
-      
-      //h
-      md = md.replace(/[\#]{6}\s(.+)/g, '<h6>$1</h6>');
-      md = md.replace(/[\#]{5}\s(.+)/g, '<h5>$1</h5>');
-      md = md.replace(/[\#]{4}\s(.+)/g, '<h4>$1</h4>');
-      md = md.replace(/[\#]{3}\s(.+)/g, '<h3>$1</h3>');
-      md = md.replace(/[\#]{2}\s(.+)/g, '<h2>$1</h2>');
-      md = md.replace(/[\#]{1}\s(.+)/g, '<h1>$1</h1>');
-      
-      //images
-      md = md.replace(/\!\[([^\]]+)\]\(([^\)]+)\)/g, '<img src="$2" alt="$1" />');
-      
-      //links
-      md = md.replace(/[\[]{1}([^\]]+)[\]]{1}[\(]{1}([^\)\"]+)(\"(.+)\")?[\)]{1}/g, '<a href="$2" title="$4">$1</a>');
-      
-      //font styles
-      md = md.replace(/[\*\_]{2}([^\*\_]+)[\*\_]{2}/g, '<b>$1</b>');
-      md = md.replace(/[\*\_]{1}([^\*\_]+)[\*\_]{1}/g, '<i>$1</i>');
-      md = md.replace(/[\~]{2}([^\~]+)[\~]{2}/g, '<del>$1</del>');
-      
-      //pre
-      md = md.replace(/^\s*\n\`\`\`\s(([^\s]+))?/gm, '<pre class="$2">');
-      md = md.replace(/^\`\`\`\s*\n/gm, '</pre>\n\n');
-      
-      //code
-      md = md.replace(/[\`]{1}([^\`]+)[\`]{1}/g, '<code>$1</code>');
-      
-      //hr
-      md = md.replace(/\-\-\-+/gm, '<hr>')
-
-      //p
-      md = md.replace(/^\s*(\n)?(.+)/gm, function(m){
-        return  /\<(\/)?(h\d|ul|ol|li|blockquote|pre|img)/.test(m) ? m : '<p>'+m+'</p>';
-      });
-      
-      //strip p from pre
-      md = md.replace(/(\<pre.+\>)*\<p\>(.+)\<\/p\>/gm, '$1$2');
-      
-      return md;
-
-    }
-
-    var mdEl = document.querySelector('#markdown')
-    var outputEl = document.querySelector('#output-html')
-    var parse = function () {
-      outputEl["innerText"] = parseMd(mdEl.innerText);
-
-    };
-
-    parse();
-    document.querySelector('#page').innerHTML = document.querySelector('#output-html').innerText
-    
-  },  
-
 }
 </script>
 
@@ -390,6 +343,18 @@ a {
   color: #acb7c0;
   text-decoration: none;
   font-family: "Open Sans", sans-serif;
+}
+
+.tag {
+  margin: 0.3rem;
+  font-size: 1rem;
+  text-decoration: underline;
+  color: #999;
+}
+
+.tag:hover {
+  text-decoration: underline;
+  color: #e9f0f5;
 }
 
 img {
