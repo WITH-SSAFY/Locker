@@ -286,7 +286,6 @@ export default {
     this.getRepoDetail(this.curRepo);
     this.getRepoReadme();
     this.getRepoTags(this.curRepo);
-    this.repoTags = [{tagId: 1, tagname: "tag_tag1"}, {tagId: 2, tagname: "tag_tag2"}]
     // console.log("timeline[0] : ", this.timeline[0]);
   },
   mounted () {
