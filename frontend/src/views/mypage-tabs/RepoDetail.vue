@@ -84,6 +84,8 @@
           </div>
 
         </div>
+        
+        
 
         <!-- 레포지토리의 리드미 -->
         <v-row style="margin-left: 4.5rem;">
@@ -100,14 +102,11 @@
             </template>
             <v-card>
               <v-card-title>
-                <span class="headline">{{ curRepo.repoName }}</span>
+                <span class="headline">README</span>
               </v-card-title>
-              <v-card-text>{{ readme }}</v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="green darken-1" text @click="dialog = false">Disagree</v-btn>
-                <v-btn color="green darken-1" text @click="dialog = false">Agree</v-btn>
-              </v-card-actions>
+              <v-card-text class="mt-5">
+                <Viewer v-if="axiosFlag" :initialValue="readme" height="100%" />
+              </v-card-text>
             </v-card>
           </v-dialog>
         </v-row>
@@ -237,7 +236,10 @@
 import { mapState, mapActions } from "vuex";
 import $ from 'jquery'
 import axios from "../../lib/axios-common.js"
+import { Viewer } from '@toast-ui/vue-editor';
 import("../../assets/css/linguist.css");
+import '@toast-ui/editor/dist/toastui-editor-viewer.css';
+
 
 export default { 
   data() {
@@ -245,7 +247,11 @@ export default {
       tags: [],
       timelineInfo: [],
       readme: null,
+      axiosFlag: false,
     }
+  },
+  components: {
+    Viewer,
   },
   methods: {
     ...mapActions(["getRepoDetail", "getRepoTags"]),
@@ -270,6 +276,7 @@ export default {
         )
         .then(response => {
           this.readme = response.data.data
+          this.axiosFlag = true
         })
     },
     searchTag(tagname) {
