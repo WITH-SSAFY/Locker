@@ -14,6 +14,18 @@
         </div>
         <p class="bold text-white" style="font-size: 2rem;">{{ curRepo.repoName }}</p>
         <img :src="curRepo.src">
+        
+        <!-- 레포지토리 내 포스트의 태그 -->
+        <div id="tag_list" style="margin-top: 2.5rem;">
+          <a
+            class="tag"
+            style="" 
+            @click="searchTag(tag.tagname)"
+            v-for="tag in repoTags" :key="tag.tagname"
+          >
+            #{{tag.tagname}}
+          </a>
+        </div>
       </div>
       
       <!-- 언어 비율-->
@@ -99,13 +111,9 @@
             </v-card>
           </v-dialog>
         </v-row>
-
       </div>
-
-
-
-      <!-- 레포지토리 내 포스트의 태그 -->
     </div>
+
 
     <!-- 2. 타임라인 영역 : 시간 순 -->
     <div class="row">
@@ -240,7 +248,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["getRepoDetail"]),
+    ...mapActions(["getRepoDetail", "getRepoTags"]),
     async getTags(pid) {
       let response = await axios.get("/v1/tag/all/" + pid);
       this.tags = response.data;
@@ -264,15 +272,21 @@ export default {
           this.readme = response.data.data
         })
     },
-
+    searchTag(tagname) {
+      tagname;
+      this.$store.state.tagname = tagname;
+      this.$router.push({ name: "search" });
+    },
   },
   computed: {
-    ...mapState(["timeline", "langRatio", "repoPost", "curRepo"])
+    ...mapState(["timeline", "langRatio", "repoPost", "curRepo", "repoTags"])
   },
   created () {
     this.timelineInfo = this.timeline
     this.getRepoDetail(this.curRepo);
     this.getRepoReadme();
+    this.getRepoTags(this.curRepo);
+    this.repoTags = [{tagId: 1, tagname: "tag_tag1"}, {tagId: 2, tagname: "tag_tag2"}]
     // console.log("timeline[0] : ", this.timeline[0]);
   },
   mounted () {
@@ -323,6 +337,18 @@ a {
   color: #acb7c0;
   text-decoration: none;
   font-family: "Open Sans", sans-serif;
+}
+
+.tag {
+  margin: 0.3rem;
+  font-size: 1rem;
+  text-decoration: underline;
+  color: #999;
+}
+
+.tag:hover {
+  text-decoration: underline;
+  color: #e9f0f5;
 }
 
 img {
