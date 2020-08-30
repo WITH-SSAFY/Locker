@@ -37,7 +37,7 @@
 
 - [김윤진](https://github.com/YNNJN) Front Carry
 - [배현석](https://github.com/beaverbae2) 팀장
-- [윤제원](https://github.com/jane399) 개발천재
+- [윤재원](https://github.com/jane399) 개발천재
 
 #### Backend
 
