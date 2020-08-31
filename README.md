@@ -20,7 +20,7 @@
   - [X] 검색기능  
   - [X] 레파지토리 소개
 ### ✔︎ 마주했던 이슈들
-  - [ ] 우리는 이렇게 협업한다
+  - [X] 우리는 이렇게 협업한다
   - [ ] JPA 도입 계기
   - [ ] 우리가 도커를 사용한 이유
   - [ ] 로그인 기능을 구현하며 마주한 이슈
@@ -43,6 +43,9 @@
 
 - [김준호](https://github.com/junhok82) slave
 - [배현석](https://github.com/beaverbae2) 팀장
+
+#### 인프라
+- [김준호](https://github.com/junhok82) slave
 
 <br>
 
@@ -155,7 +158,7 @@
 
 <h2 align="center"> 마주했던 이슈들 ❗️ </h2>
 
-- [우리는 이렇게 협업한다]()
+- [우리는 이렇게 협업한다](https://velog.io/@junhok82/Wecollaboratelikethis)
 - [JPA 도입 계기]()
 - [우리가 도커를 사용한 이유]()
 - [로그인 기능을 구현하며 마주한 이슈]()
