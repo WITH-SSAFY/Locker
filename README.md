@@ -1,4 +1,4 @@
-<h1 align="center"> 📦 Locker 📦 </h1>
+<h1 align="center"> Locker 📦 </h1>
 
 <p align="center">Spring Boot & Vue를 이용한 Restful 웹 프로젝트</p>
 <p align="center"><a href="http://i3a606.p.ssafy.io/">Locker</a> is a high quality elegant developer blog. It is crafted from scratch, with love.</p>
@@ -7,7 +7,7 @@
 
 <br>
 
-<h2 align="center"> 📜 목차 📜 </h2>
+<h2 align="center"> 목차 📜 </h2>
 
 ### ✔︎ 소개
   - [X] 멤버
@@ -59,7 +59,7 @@
 
 <br>
 
-<h2 align="center"> ⭐️ 서비스 ⭐️ </h2>
+<h2 align="center"> 서비스 ⭐️ </h2>
 
 ### 로그인 
 
@@ -156,7 +156,7 @@
 
 <br>
 
-<h2 align="center"> ❗️ 회고 ❗️ </h2>
+<h2 align="center"> 회고 ❗️ </h2>
 
 ### 공통프로젝트 회고 
 - [x] [우리는 이렇게 협업한다](https://velog.io/@junhok82/Wecollaboratelikethis)
