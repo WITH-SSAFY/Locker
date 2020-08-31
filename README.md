@@ -1,4 +1,4 @@
-<h1 align="center"> Locker 📦 </h1>
+<h1 align="center"> 📦 Locker 📦 </h1>
 
 <p align="center">Spring Boot & Vue를 이용한 Restful 웹 프로젝트</p>
 <p align="center"><a href="http://i3a606.p.ssafy.io/">Locker</a> is a high quality elegant developer blog. It is crafted from scratch, with love.</p>
@@ -7,7 +7,7 @@
 
 <br>
 
-<h2 align="center"> 목차 📜 </h2>
+<h2 align="center"> 📜 목차 📜 </h2>
 
 ### ✔︎ 소개
   - [X] 멤버
@@ -19,17 +19,17 @@
   - [X] 포스팅
   - [X] 검색기능  
   - [X] 레파지토리 소개
-### ✔︎ 마주했던 이슈들
-  - [X] 우리는 이렇게 협업한다
-  - [ ] JPA 도입 계기
-  - [ ] 우리가 도커를 사용한 이유
-  - [ ] 로그인 기능을 구현하며 마주한 이슈
 ### ✔︎ 회고
-  - [ ] SSAFY 2학기 공통프로젝트 회고
+  - [X] SSAFY 2학기 공통프로젝트 회고
+    - [X] 우리는 이렇게 협업한다
+  - [ ] 마주했던 이슈들
+    - [ ] JPA 도입 계기
+    - [ ] 우리가 도커를 사용한 이유
+    - [ ] 로그인 기능을 구현하며 마주한 이슈
 
 <br>
 
-<h2 align="center"> 소개 🏷 </h2>
+<h2 align="center"> 🏷 소개 🏷 </h2>
 
 ### 멤버 👋
 
@@ -49,7 +49,7 @@
 
 <br>
 
-### 프로젝트 📌
+### 프로젝트
 - Github과 긴밀하게 연결된 개발자 블로그
 - 블로그의 기본기능은 물론
 - 깃허브의 **`레파지토리 별로 추가해서 포스트관리`** 가능
@@ -59,9 +59,9 @@
 
 <br>
 
-<h2 align="center"> 서비스 🔑 </h2>
+<h2 align="center"> ⭐️ 서비스 ⭐️ </h2>
 
-### 로그인 📌
+### 로그인 
 
 > 소셜로그인을 통해 쉽게 로그인할 수 있습니다.
 
@@ -69,11 +69,11 @@
 
 <br>
 
-### 마이페이지 📌
+### 마이페이지
 
 <br>
 
-### 메인페이지 📌
+### 메인페이지
 
 #### 핫 레포지토리
 
@@ -97,7 +97,7 @@
 
 <br>
 
-### 포스팅 📌
+### 포스팅
 
 #### 글 작성
 
@@ -129,7 +129,7 @@
 
 <br>
 
-### 검색기능 📌
+### 검색기능
 #### 일반 검색
 
 > 제목이나 내용에서 검색어가 포함된 포스팅들을 보여줍니다
@@ -156,15 +156,14 @@
 
 <br>
 
-<h2 align="center"> 마주했던 이슈들 ❗️ </h2>
+<h2 align="center"> ❗️ 회고 ❗️ </h2>
 
-- [우리는 이렇게 협업한다](https://velog.io/@junhok82/Wecollaboratelikethis)
-- [JPA 도입 계기]()
-- [우리가 도커를 사용한 이유]()
-- [로그인 기능을 구현하며 마주한 이슈]()
+### 공통프로젝트 회고 
+- [x] [우리는 이렇게 협업한다](https://velog.io/@junhok82/Wecollaboratelikethis)
 
 <br>
 
-<h2 align="center"> 회고 ❓ </h2>
-
-- [SSAFY 2학기 공통프로젝트 회고]()
+### 우리가 마주했던 이슈들
+- [ ] JPA 도입 계기
+- [ ] 우리가 도커를 사용한 이유
+- [ ] 로그인 기능을 구현하며 마주한 이슈
