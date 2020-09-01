@@ -171,10 +171,10 @@ export default {
     // 토큰 값 받아오기
     let token = localStorage.getItem("access_token");
     this.token = token;
-    // this.token = ""
+    // this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE1OTg4MzkxODgsImV4cCI6MTU5ODg0Mjc4OH0.07_q4HdUjtbqT5UN474nrtrha1XgJE6VJ5YrPKZkS2U"
     let accessToken = localStorage.getItem("github_token");
     this.accessToken = accessToken;
-    // this.accessToken = ""
+    // this.accessToken = "fc08a9dc6f568989f3d78b1d05eab7f1d800dae9"
     
     // 토큰 값 전달해서 getRepos 실행(Repository 리스트 받아오기)
     
@@ -182,7 +182,7 @@ export default {
     // this.userInfo.uid = 'junhok82'
     // this.userInfo.uid = 'YNNJN'
     // this.userInfo.provider = 'github'
-    console.log("userInfo.uid: ", this.userInfo.uid);
+    // console.log("userInfo.uid: ", this.userInfo.uid);
 
     // locker에 저장된 repository 조회하기
     // this.userInfo.id = 17
