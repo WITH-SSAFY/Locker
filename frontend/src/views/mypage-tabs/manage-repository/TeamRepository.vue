@@ -21,7 +21,7 @@
               style="border-radius: 3px; background-color: #12161A;"
             >
 
-              <img alt="left" id="stat" :src="element.src" @click="getDetail(element.name, element.repoName, element.id)">
+              <img alt="left" id="stat" :src="element.src" @click="getDetail(element)">
 
               <!-- <v-btn
                 class="ml-5"
@@ -65,10 +65,10 @@ export default {
     // 토큰 값 받아오기
     let token = localStorage.getItem("access_token");
     this.token = token;
-    // this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE1OTg0MjUzMjAsImV4cCI6MTU5ODQyODkyMH0.fWYAgx6_8qdZW65NmiVsbfOoNHlcCfUAlCLyhSj3bNA"
+    // this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE1OTg4MzkxODgsImV4cCI6MTU5ODg0Mjc4OH0.07_q4HdUjtbqT5UN474nrtrha1XgJE6VJ5YrPKZkS2U"
     let accessToken = localStorage.getItem("github_token");
     this.accessToken = accessToken;
-    // this.accessToken = "c259da8189985d4fde5526b9079b9f10f32c519a"
+    // this.accessToken = "fc08a9dc6f568989f3d78b1d05eab7f1d800dae9"
     
     // this.userInfo.uid='jane399'
     // this.userInfo.uid='junhok82'
@@ -115,9 +115,13 @@ export default {
           })
       }
     },
-    getDetail(name, repoName, id){
-      // alert("name: "+name+"/ repoName : "+repoName);
-      this.getRepoDetail({name, repoName, id});
+    // getDetail(name, repoName, id){
+    //   // alert("name: "+name+"/ repoName : "+repoName);
+    //   this.getRepoDetail({name, repoName, id});
+    // }
+    getDetail(repo){
+      this.$store.state.curRepo = repo;
+      this.$router.push({name: "repoDetail"})
     }
   }
 };

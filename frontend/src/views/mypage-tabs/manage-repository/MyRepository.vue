@@ -55,10 +55,10 @@ export default {
     // 토큰 값 받아오기
     let token = localStorage.getItem("access_token");
     this.token = token;
-    // this.token = ""
+    // this.token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE1OTg4MzkxODgsImV4cCI6MTU5ODg0Mjc4OH0.07_q4HdUjtbqT5UN474nrtrha1XgJE6VJ5YrPKZkS2U"
     let accessToken = localStorage.getItem("github_token");
     this.accessToken = accessToken;
-    // this.accessToken = ""
+    // this.accessToken = "fc08a9dc6f568989f3d78b1d05eab7f1d800dae9"
     
     // this.userInfo.uid='jane399'
     // this.userInfo.uid='junhok82'
