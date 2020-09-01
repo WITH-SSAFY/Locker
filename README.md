@@ -22,7 +22,7 @@
 ### ✔︎ 회고
   - [X] SSAFY 2학기 공통프로젝트 회고
     - [X] 우리는 이렇게 협업한다
-    - [X] 코드에 대한 고찰
+    - [X] 코드에 대한 고찰 | TMI 주의 ⚠️
   - [ ] 마주했던 이슈들
     - [ ] JPA 도입 계기
     - [ ] 우리가 도커를 사용한 이유
@@ -161,7 +161,7 @@
 
 ### 공통프로젝트 회고 
 - [X] [우리는 이렇게 협업한다](https://velog.io/@junhok82/Wecollaboratelikethis)
-- [X] [코드에 대한 고찰](https://velog.io/@junhok82/SSAFY-%EA%B3%B5%ED%86%B5%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%9A%8C%EA%B3%A0-%EC%BD%94%EB%93%9C%EC%97%90-%EB%8C%80%ED%95%9C-%EA%B3%A0%EC%B0%B0-TMI-%EC%A3%BC%EC%9D%98)
+- [X] [코드에 대한 고찰 | TMI 주의 ⚠️](https://velog.io/@junhok82/SSAFY-%EA%B3%B5%ED%86%B5%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%9A%8C%EA%B3%A0-%EC%BD%94%EB%93%9C%EC%97%90-%EB%8C%80%ED%95%9C-%EA%B3%A0%EC%B0%B0-TMI-%EC%A3%BC%EC%9D%98)
 
 <br>
 
