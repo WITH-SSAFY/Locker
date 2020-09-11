@@ -15,12 +15,12 @@
   - [X] 멤버
   - [X] 프로젝트
 ### ✔︎ 서비스
+  - [X] 레포지토리 소개
   - [X] 로그인
   - [X] 마이페이지
   - [X] 메인페이지
   - [X] 포스팅
-  - [X] 검색기능  
-  - [X] 레포지토리 소개
+  - [X] 검색기능
 ### ✔︎ 회고
   - [X] SSAFY 2학기 공통프로젝트 회고
     - [X] 우리는 이렇게 협업한다
@@ -37,36 +37,42 @@
 
 <h2 align="center"> 소개 🏷 </h2>
 
+### LOCKER
+
+> [LOCKER 바로가기](http://i3a606.p.ssafy.io/)
+
+- 팀명 & 서비스 이름 : LOCKER
+
+- 팀장 : 배현석
+
+- 팀원 : 김윤진, 김준호, 윤재원
+
+- 프로젝트 기간 : 2020.7.13 ~ 2020.08.30 (7주)
+
+
+
 ### 멤버 👋
 
-#### Frontend
+| 이름                 | 역할             | 내용                                                        |
+| -------------------- | ---------------- | ----------------------------------------------------------- |
+| 김윤진 [Front Carry] | FE, 기획, 디자인 | 포스트/댓글 CRUD(FE), github 데이터 연동(FE), 디자인 마무리 |
+| 김준호 [프로 일꾼]   | BE, 인프라, 기획 | 회원관리(BE), 소셜로그인(BE), github 데이터 연동(BE)        |
+| 배현석 [풀스택 팀장] | BE, FE           | 포스트/댓글 CRUD(BE), 검색/태그/좋아요/사진등록(BE&FE)      |
+| 윤재원 [개발천재]    | FE               | 회원관리(FE), 소셜로그인(FE), 레포추가/삭제(FE), 영상 제작  |
 
-- [김윤진](https://github.com/YNNJN) Front Carry
-- [배현석](https://github.com/beaverbae2) 팀장
-- [윤재원](https://github.com/jane399) 개발천재
-
-#### Backend
-
-- [김준호](https://github.com/junhok82) slave
-- [배현석](https://github.com/beaverbae2) 팀장
-
-#### 인프라
-- [김준호](https://github.com/junhok82) slave
-
-#### 기획
-
-- [김윤진](https://github.com/YNNJN) Front Carry
-- [김준호](https://github.com/junhok82) slave
-
-#### 디자인
-
-- [김윤진](https://github.com/YNNJN) Front Carry
+<br>
 
 <br>
 
 ### 프로젝트
 
->  Github과 가장 긴밀하게 연결되는 개발자 블로그, LOCKER
+>  Github과 가장 긴밀하게 연결되는 개발자 블로그, **LOCKER**
+>
+>  - 개발자가 만든 개발자 블로그
+>  - 개발자로서 가장 불편한 지점에 대한 문제의식에서 시작했습니다
+>  - 개발자, 일단 넌 다 때려 넣어봐. 정리는 우리가 할게 :)
+
+<br>
 
 1. 블로그의 기본 기능은 물론
 
@@ -134,25 +140,10 @@
 
 ### 메인페이지
 
-#### 핫 레포지토리
+> 레포지토리와 전체 포스트를 좋아요 수를 기준으로 정렬하여 보여줍니다.
+> Infinity Scroll을 적용하였고, Scroll to Top 기능을 이용할 수 있습니다.
 
-> 좋아요 수가 가장 많은 TOP3 레포지토리를 보여줍니다.
-
-<p align="center"> <img src="./img/hot_repo.gif" width="65%"/> </p>
-
-
-#### 인기 포스트 보기
-
-> 좋아요가 많은 순으로 포스트를 보여줍니다.
-
-<p align="center"> <img src="./img/post_list.gif" width="65%"/> </p>
-
-
-#### 공지사항
-
-> 공지사항을 볼 수 있습니다.
-
-<p align="center"> <img src="./img/information.gif" width="60%"/> </p>
+<p align="center"> <img src="./img/핫레포_포스트열고_스크롤투탑.gif" width="65%"/> </p>
 
 <br>
 
@@ -161,7 +152,7 @@
 #### 포스트 작성
 
 > 포스트와 관련된 태그를 등록할 수 있습니다.
-> 포스트 작성 시 마크다운의 적용을 미리보기로 확인할 수 있습니다.
+> 포스트 작성 시 마크다운 문법의 적용을 미리보기로 확인할 수 있습니다.
 
 <p align="center"> <img src="./img/포스트_작성.gif" width="65%"/> </p>
 
