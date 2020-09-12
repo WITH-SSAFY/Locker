@@ -40,6 +40,8 @@
 ### LOCKER
 
 > [LOCKER 바로가기](http://i3a606.p.ssafy.io/)
+>
+> [스크럼 기록 바로가기](https://www.notion.so/LOCKER-23e10fa8c4cb42d29c3f6719823be559)
 
 - 팀명 & 서비스 이름 : LOCKER
 
@@ -59,6 +61,8 @@
 | [김준호](https://github.com/junhok82) [프로 일꾼]     | BE, 인프라, 기획 | 회원관리(BE), 소셜로그인(BE), github 데이터 연동(BE), 인프라 구축 |
 | [배현석](https://github.com/beaverbae2) [풀스택 팀장] | BE, FE           | 포스트/댓글 CRUD(BE), 검색/태그/좋아요/사진등록(BE&FE)       |
 | [윤재원](https://github.com/jane399) [개발천재]       | FE, 영상         | 회원관리(FE), 소셜로그인(FE), 레포지토리 추가/삭제(FE), 영상 제작 |
+
+> Special thanks to 수재 컨설턴트님 and 윤재 코치님 for valuable tips as always..!
 
 <br>
 
@@ -88,6 +92,8 @@
 <h2 align="center"> 서비스 ⭐️ </h2>
 
 ## 핵심 기능
+
+### 레포지토리 탭
 
 #### 깃헙 레포와 연동
 
@@ -155,14 +161,14 @@
 
 ### 포스팅
 
-#### 포스트 작성
+#### 포스트 작성/수정
 
 > 포스트와 관련된 태그를 등록할 수 있습니다.  
 > 포스트 작성 시 마크다운 문법의 적용을 미리보기로 확인할 수 있습니다.
 
 <p align="center"> <img src="./img/포스트_작성.gif" width="65%"/> </p>
 
-#### 포스트 읽기
+#### 포스트 읽기/삭제
 
 > 포스트의 내용을 확인할 수 있습니다. 커스텀한 마크다운 UI가 적용되어 보여집니다.  
 > 또한 왼쪽의 라벨을 통해 포스트의 목차와 진행 정도를 확인할 수 있습니다.
@@ -199,13 +205,9 @@
 <h2 align="center"> 성과 ❗️ </h2>
 
 - 🥉 SSAFY(삼성청년SW아카데미) 공통PJT 3등상 수상
-- 공통PJT 3주차 베스트 팀 선정(LOCKER)
-- 공통PJT 4주차 베스트 멤버 선정(배현석)
-- 공통PJT 6주차 베스트 멤버 선정(김윤진)
-
-<br>
-
-- Special thanks to 수재 컨설턴트님 and 윤재 코치님 for valuable tips as always..!
+- SSAFY 공통PJT 3주차 베스트 팀 선정(LOCKER)
+- SSAFY 공통PJT 4주차 베스트 멤버 선정(배현석)
+- SSAFY 공통PJT 6주차 베스트 멤버 선정(김윤진)
 
 <br>
 
